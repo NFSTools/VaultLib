@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)nupkgs</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Message Importance="High" Text="Package file generated for $(MSBuildProjectName)! Make sure to copy it to your repository."/>
+  </Target>
+</Project>

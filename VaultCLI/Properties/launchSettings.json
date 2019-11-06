@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VaultCLI": {
+      "commandName": "Project",
+      "commandLineArgs": "-g WORLD -i test-data/nfsw/attributes.bin test-data/nfsw/commerce.bin test-data/nfsw/fe_attrib.bin -o test-export/nfsw"
+    }
+  }
+}

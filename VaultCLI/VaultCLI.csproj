@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Platforms>x86</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RunCommand>$(MSBuildProgramFiles32)\dotnet\dotnet</RunCommand>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="hashes.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="hashes.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.6.0" />
+    <PackageReference Include="VaultLib.Support.Carbon" Version="1.0.7" />
+    <PackageReference Include="VaultLib.Support.MostWanted" Version="1.0.8" />
+    <PackageReference Include="VaultLib.Support.ProStreet" Version="1.0.6" />
+    <PackageReference Include="VaultLib.Support.Undercover" Version="1.0.8" />
+    <PackageReference Include="VaultLib.Support.World" Version="1.0.7" />
+  </ItemGroup>
+
+</Project>
