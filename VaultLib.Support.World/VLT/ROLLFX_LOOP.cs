@@ -1,6 +1,6 @@
 ﻿namespace VaultLib.Support.World.VLT
 {
-    public enum ROLLFX_LOOP_W
+    public enum ROLLFX_LOOP
     {
         ROLLFX_NONE = 0x0,
         ROLLFX_ASPHALT = 0x1,

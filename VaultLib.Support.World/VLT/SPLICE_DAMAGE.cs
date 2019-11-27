@@ -1,6 +1,6 @@
 ﻿namespace VaultLib.Support.World.VLT
 {
-    public enum SPLICE_DAMAGE_W
+    public enum SPLICE_DAMAGE
     {
         dmg_hood_lit_01 = 0x0,
         dmg_hood_lit_02 = 0x1,

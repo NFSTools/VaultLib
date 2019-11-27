@@ -4,6 +4,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <Target Name="AfterBuild">
+    <Exec Command="dotnet pack --configuration $(Configuration) --no-build"/>
+  </Target>
   <Target Name="CopyPackage" AfterTargets="Pack">
     <Message Importance="High" Text="Package file generated for $(MSBuildProjectName)! Make sure to copy it to your repository."/>
   </Target>

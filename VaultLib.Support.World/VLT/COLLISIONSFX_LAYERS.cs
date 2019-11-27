@@ -4,7 +4,7 @@
 
 namespace VaultLib.Support.World.VLT
 {
-    public enum COLLISIONSFX_LAYERS_W : uint
+    public enum COLLISIONSFX_LAYERS : uint
     {
         LAYER_NONE = 0xFFFFFFFF,
         LAYER_CORE = 0x1,

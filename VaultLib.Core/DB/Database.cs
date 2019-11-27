@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using CoreLibraries.Data;
 using CoreLibraries.GameUtilities;
 using CoreLibraries.IO;
 using VaultLib.Core.Chunks;
@@ -18,7 +19,7 @@ namespace VaultLib.Core.DB
     /// <summary>
     /// The <see cref="Database"/> is the powerhouse of the library. It keeps track of all data that is loaded.
     /// </summary>
-    public class Database
+    public class Database : IDataEntity
     {
         public RowManager RowManager { get; }
 
@@ -200,5 +201,18 @@ namespace VaultLib.Core.DB
         }
 
         #endregion
+
+        public ICollection<IDataEntity> GetChildren()
+        {
+            return new List<IDataEntity>();
+        }
+
+        public void AddChild(IDataEntity child)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string TypeName => "AttribSysDB";
+        public string Name => "VLT Database";
     }
 }

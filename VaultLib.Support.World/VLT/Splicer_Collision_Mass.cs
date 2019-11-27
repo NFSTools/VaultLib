@@ -1,7 +1,7 @@
 ﻿namespace VaultLib.Support.World.VLT
 {
     // TODO: figure this out
-    public enum Splicer_Collision_Mass_W
+    public enum Splicer_Collision_Mass
     {
     }
 }

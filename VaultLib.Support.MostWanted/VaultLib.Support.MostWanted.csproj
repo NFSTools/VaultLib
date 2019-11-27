@@ -6,7 +6,7 @@
     <Company>NFSTools</Company>
     <Description>Implements VLT support for Need for Speed: Most Wanted</Description>
     <Platforms>x86</Platforms>
-    <Version>1.0.8</Version>
+    <Version>1.0.14</Version>
   </PropertyGroup>
 
   <ItemGroup>

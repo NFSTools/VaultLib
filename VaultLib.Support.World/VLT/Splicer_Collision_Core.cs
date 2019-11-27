@@ -1,6 +1,6 @@
 ﻿namespace VaultLib.Support.World.VLT
 {
-    public enum Splicer_Collision_Core_W
+    public enum Splicer_Collision_Core
     {
         Cor_Side_Lit_01 = 0x0,
         Cor_Side_Lit_02 = 0x1,

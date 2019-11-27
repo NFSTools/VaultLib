@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.ExceptionServices;
 using CoreLibraries.GameUtilities;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -22,21 +21,21 @@ namespace VaultLib.Core
     public static class TypeRegistry
     {
         private static readonly Dictionary<string, Dictionary<string, Type>> TypeDictionary = new Dictionary<string, Dictionary<string, Type>>();
-        private static bool _initialized;
+        private static readonly bool _initialized;
 
         private static readonly HashSet<string> UnknownTypes = new HashSet<string>();
 
         /// <summary>
         /// Initializes the type registry. Registers some default types.
         /// </summary>
-        public static void Init()
+        static TypeRegistry()
         {
-            if (_initialized)
-                throw new InvalidOperationException("TypeRegistry already initialized!");
+            if (!_initialized)
+            {
+                RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TypeRegistry)));
 
-            RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TypeRegistry)));
-
-            _initialized = true;
+                _initialized = true;
+            }
         }
 
         /// <summary>

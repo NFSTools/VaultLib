@@ -23,9 +23,8 @@ namespace VaultLib.Core.Chunks
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            var numExports = br.ReadUInt32();
-
-            for (int i = 0; i < numExports; i++)
+            ulong numExports = vault.Database.Is64Bit ? br.ReadUInt64() : br.ReadUInt32();
+            for (ulong i = 0; i < numExports; i++)
             {
                 var exportEntry = ExportFactory.BuildExportEntry(vault);
 

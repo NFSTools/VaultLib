@@ -1,6 +1,6 @@
 ﻿namespace VaultLib.Support.World.VLT
 {
-    public enum Splicer_Collision_Object_W
+    public enum Splicer_Collision_Object
     {
         bbq_00 = 0x0,
         bbq_01 = 0x1,

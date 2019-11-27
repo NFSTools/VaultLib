@@ -1,6 +1,6 @@
 ﻿namespace VaultLib.Support.World.VLT
 {
-    public enum RUMBLEFX_W
+    public enum RUMBLEFX
     {
         RUMBLEFX_NONE = 0x0,
         RUMBLEFX_ROUGH = 0x1,

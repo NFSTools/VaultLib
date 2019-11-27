@@ -1,6 +1,6 @@
-﻿namespace VaultLib.Core.Types.Enums
+﻿namespace VaultLib.Support.World.VLT
 {
-    public enum SURFACE_SFX_W
+    public enum SURFACE_SFX
     {
         SURFACE_SFX_NONE = 0x0,
         SURFACE_SFX_LIGHT_CRACK = 0x1,

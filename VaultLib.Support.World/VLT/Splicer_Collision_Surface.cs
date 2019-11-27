@@ -1,6 +1,6 @@
 ﻿namespace VaultLib.Support.World.VLT
 {
-    public enum Splicer_Collision_Surface_W
+    public enum Splicer_Collision_Surface
     {
         srf_car_front_lit_01 = 0x0,
         srf_car_front_lit_02 = 0x1,

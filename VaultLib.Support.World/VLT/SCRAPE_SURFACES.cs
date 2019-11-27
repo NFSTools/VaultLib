@@ -1,6 +1,6 @@
 ﻿namespace VaultLib.Support.World.VLT
 {
-    public enum SCRAPE_SURFACES_W
+    public enum SCRAPE_SURFACES
     {
         SCRAPE_NONE = 0x0,
         SCRAPE_CONCRETE = 0x1,

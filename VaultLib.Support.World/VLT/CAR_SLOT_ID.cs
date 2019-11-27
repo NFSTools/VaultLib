@@ -4,7 +4,7 @@
 
 namespace VaultLib.Support.World.VLT
 {
-    public enum CAR_SLOT_ID_W
+    public enum CAR_SLOT_ID
     {
         CARSLOTID_INVALID = -1,
         CARSLOTID_BADGING_BUMPER_SET_FRONT = 0x0,

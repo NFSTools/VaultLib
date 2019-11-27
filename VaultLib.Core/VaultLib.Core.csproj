@@ -10,7 +10,7 @@
     <Company>NFSTools</Company>
     <Product>NFSTools.VaultLib.Core</Product>
     <Description>Core library for processing VLT files - requires supplemental game modules</Description>
-    <Version>1.0.12</Version>
+    <Version>1.0.17</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <PackageReference Include="MvvmCross" Version="6.4.1" />
+    <PackageReference Include="NFSTools.Core.Data" Version="1.0.2" />
     <PackageReference Include="NFSTools.Core.GameUtilities" Version="1.0.3" />
     <PackageReference Include="NFSTools.Core.IO" Version="1.0.3" />
     <PackageReference Include="NFSTools.Core.ModuleSystem" Version="1.0.3" />
