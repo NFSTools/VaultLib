@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
+    [VLTTypeInfo(nameof(FEPartCamera))]
     public class FEPartCamera : VLTBaseType, IPointerObject, IReferencesStrings
     {
         public string SlotName { get; set; }

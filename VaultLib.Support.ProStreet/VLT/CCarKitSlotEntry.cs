@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
+    [VLTTypeInfo(nameof(CCarKitSlotEntry))]
     public class CCarKitSlotEntry : VLTBaseType, IReferencesStrings
     {
         public RefSpec Part { get; set; }

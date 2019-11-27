@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
+    [VLTTypeInfo(nameof(SlotStats))]
     public class SlotStats : VLTBaseType, IReferencesStrings
     {
         public enum StatsModeFlag

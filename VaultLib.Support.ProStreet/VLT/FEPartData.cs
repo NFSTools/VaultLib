@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
+    [VLTTypeInfo(nameof(FEPartData))]
     public class FEPartData : VLTBaseType, IPointerObject, IReferencesStrings
     {
         public uint HAL_ID { get; set; }
