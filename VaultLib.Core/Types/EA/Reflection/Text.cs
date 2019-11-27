@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Core.Types.EA.Reflection
 {
     [VLTTypeInfo("EA::Reflection::Text")]
+    [PrimitiveInfo(typeof(string))]
     public class Text : PrimitiveTypeBase, IReferencesStrings, IStringValue, ICanBootstrap
     {
         public string Value { get; set; }

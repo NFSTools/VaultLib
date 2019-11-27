@@ -11,6 +11,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(GMapRegionInfo))]
     public class GMapRegionInfo : VLTBaseType, IReferencesStrings
     {
         public string Name { get; set; }

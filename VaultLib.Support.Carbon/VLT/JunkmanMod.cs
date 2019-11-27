@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(JunkmanMod))]
     public class JunkmanMod : VLTBaseType
     {
         public uint ClassKey { get; set; }

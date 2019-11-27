@@ -9,13 +9,14 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
-    public enum GMapCurveRefFlags : ushort
-    {
-        kFlag_Reversed = 1,
-    }
-
+    [VLTTypeInfo(nameof(GMapCurveRef))]
     public class GMapCurveRef : VLTBaseType
     {
+        public enum GMapCurveRefFlags : ushort
+        {
+            kFlag_Reversed = 1,
+        }
+        
         public ushort mCurveIndex { get; set; }
         public GMapCurveRefFlags Flags { get; set; }
 

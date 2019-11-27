@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(CopCountRecord))]
     public class CopCountRecord : VLTBaseType, IReferencesStrings
     {
         private Text _copType;

@@ -9,6 +9,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(EmittedGeometryRecord))]
     public class EmittedGeometryRecord : VLTBaseType
     {
         public enum EmittedGeo : uint

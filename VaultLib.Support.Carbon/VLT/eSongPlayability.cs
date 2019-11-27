@@ -2,8 +2,11 @@
 // 
 // Created: 10/09/2019 @ 9:47 AM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(eSongPlayability))]
     public enum eSongPlayability
     {
         ePLAY_OFF = 0x0,

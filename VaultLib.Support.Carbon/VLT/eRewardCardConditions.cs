@@ -2,8 +2,11 @@
 // 
 // Created: 10/09/2019 @ 9:44 AM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(eRewardCardConditions))]
     public enum eRewardCardConditions
     {
         REWARD_CARD_UNSPECIFIED = -1,

@@ -73,13 +73,15 @@ namespace VaultLib.Core
 
             foreach (var type in assembly.GetTypes())
             {
-                if (type.IsGenericType || type.IsAbstract ||
+                if (type.IsGenericType || type.IsAbstract || type.IsNested ||
                     (!type.DescendsFrom(typeof(VLTBaseType)) && !type.IsEnum)) continue;
 
                 VLTTypeInfoAttribute typeInfoAttribute = type.GetCustomAttribute<VLTTypeInfoAttribute>();
 
                 if (typeInfoAttribute == null)
                 {
+                    Debug.WriteLine("WARN: skipping registering type {0} because it doesn't have VLTTypeInfo",
+                        new object[] { type.FullName });
                     continue;
                 }
 

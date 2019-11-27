@@ -4,6 +4,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(type_bStringHash))]
     public class type_bStringHash : VLTBaseType
     {
         public uint Hash { get; set; }

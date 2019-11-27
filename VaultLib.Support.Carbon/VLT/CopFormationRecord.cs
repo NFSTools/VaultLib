@@ -5,6 +5,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(CopFormationRecord))]
     public class CopFormationRecord : VLTBaseType
     {
         public FormationType FormationType { get; set; }

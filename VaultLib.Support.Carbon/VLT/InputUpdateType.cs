@@ -2,8 +2,11 @@
 // 
 // Created: 11/03/2019 @ 11:27 AM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(InputUpdateType))]
     public enum InputUpdateType
     {
         kUpdate = 0x0,

@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(AUDENGLOOPVOLUMESst))]
     public class AUDENGLOOPVOLUMESst : VLTBaseType
     {
         public int IDLE_VOL { get; set; }

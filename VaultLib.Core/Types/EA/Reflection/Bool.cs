@@ -8,6 +8,7 @@ using System.IO;
 namespace VaultLib.Core.Types.EA.Reflection
 {
     [VLTTypeInfo("EA::Reflection::Bool")]
+    [PrimitiveInfo(typeof(bool))]
     public class Bool : PrimitiveTypeBase
     {
         public bool Value { get; set; }

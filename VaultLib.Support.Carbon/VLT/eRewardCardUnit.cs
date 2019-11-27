@@ -2,8 +2,11 @@
 // 
 // Created: 10/09/2019 @ 9:43 AM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(eRewardCardUnit))]
     public enum eRewardCardUnit
     {
         UNIT_NONE = 0x0,

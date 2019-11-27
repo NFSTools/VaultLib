@@ -8,6 +8,7 @@ using System.IO;
 namespace VaultLib.Core.Types.EA.Reflection
 {
     [VLTTypeInfo("EA::Reflection::Int64")]
+    [PrimitiveInfo(typeof(long))]
     public class Int64 : PrimitiveTypeBase
     {
         public long Value { get; set; }

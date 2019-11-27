@@ -8,6 +8,7 @@ using System.IO;
 namespace VaultLib.Core.Types.EA.Reflection
 {
     [VLTTypeInfo("EA::Reflection::UInt8")]
+    [PrimitiveInfo(typeof(byte))]
     public class UInt8 : PrimitiveTypeBase
     {
         public byte Value { get; set; }

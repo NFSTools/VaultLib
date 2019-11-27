@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(FFBWaveRecord))]
     public class FFBWaveRecord : VLTBaseType
     {
         public float Frequency_A { get; set; }

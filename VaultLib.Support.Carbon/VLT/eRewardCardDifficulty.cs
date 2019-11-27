@@ -2,8 +2,11 @@
 // 
 // Created: 10/09/2019 @ 9:44 AM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(eRewardCardDifficulty))]
     public enum eRewardCardDifficulty
     {
         DIFFICULTY_UNSPECIFIED = -1,

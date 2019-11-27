@@ -9,6 +9,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(HeavySupport))]
     public class HeavySupport : VLTBaseType
     {
         public enum HeavySupportStrategy

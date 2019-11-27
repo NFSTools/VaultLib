@@ -12,6 +12,7 @@ using VaultLib.ModernBase;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(ControllerDataRecord))]
     public class ControllerDataRecord : VLTBaseType, IReferencesStrings
     {
         public string DeviceID { get; set; }

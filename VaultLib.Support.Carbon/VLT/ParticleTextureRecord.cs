@@ -7,6 +7,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(ParticleTextureRecord))]
     public class ParticleTextureRecord : VLTBaseType
     {
         public enum eTEG_ParticleTextures : uint

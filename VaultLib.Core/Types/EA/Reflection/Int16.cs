@@ -8,6 +8,7 @@ using System.IO;
 namespace VaultLib.Core.Types.EA.Reflection
 {
     [VLTTypeInfo("EA::Reflection::Int16")]
+    [PrimitiveInfo(typeof(short))]
     public class Int16 : PrimitiveTypeBase
     {
         public short Value { get; set; }

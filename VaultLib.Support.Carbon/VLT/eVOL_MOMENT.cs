@@ -1,5 +1,8 @@
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(eVOL_MOMENT))]
     public enum eVOL_MOMENT
     {
         eAZI_MOMENT_3DPOS = 0x0,

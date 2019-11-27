@@ -13,6 +13,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(EffectLinkageRecord))]
     public class EffectLinkageRecord : VLTBaseType, IReferencesCollections
     {
         public RefSpec Surface { get; set; }

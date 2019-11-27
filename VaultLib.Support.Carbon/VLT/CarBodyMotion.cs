@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
 {
+    [VLTTypeInfo(nameof(CarBodyMotion))]
     public class CarBodyMotion : VLTBaseType
     {
         public float DegPerG { get; set; }
