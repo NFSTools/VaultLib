@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.MostWanted.VLT
 {
+    [VLTTypeInfo(nameof(SPCHType_1_EventID))]
     public enum SPCHType_1_EventID
     {
         kSPCH1_EventID_Acknowledge = 0x39,

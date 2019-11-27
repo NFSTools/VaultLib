@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.MostWanted.VLT.Csis
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.MostWanted.VLT.Csis
 {
+    [VLTTypeInfo("Csis::Type_SoundFX_Param")]
     public enum Type_SoundFX_Param
     {
         Invalid_Type_SoundFX_Param = 0x0,

@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.MostWanted.VLT
 {
+    [VLTTypeInfo(nameof(eENGINE_GROUP))]
     public enum eENGINE_GROUP
     {
         eENGINE_V4 = 0x0,

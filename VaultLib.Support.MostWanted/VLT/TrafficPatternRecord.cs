@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.MostWanted.VLT
 {
+    [VLTTypeInfo(nameof(TrafficPatternRecord))]
     public class TrafficPatternRecord : VLTBaseType, IReferencesCollections
     {
         public RefSpec Vehicle { get; set; }

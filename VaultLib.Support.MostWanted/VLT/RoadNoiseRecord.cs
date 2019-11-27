@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.MostWanted.VLT
 {
+    [VLTTypeInfo(nameof(RoadNoiseRecord))]
     public class RoadNoiseRecord : VLTBaseType
     {
         public float Frequency { get; set; }
