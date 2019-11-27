@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using VaultLib.Core;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Loading;
@@ -79,10 +78,10 @@ namespace VaultCLI
             stopwatch.Stop();
 
             Debug.WriteLine("Loaded in {0}ms", stopwatch.ElapsedMilliseconds);
-            Debug.WriteLine(new VaultClassToCodeConverter(database, database.FindClass("pvehicle"))
-                .GenerateCode());
+            //Debug.WriteLine(new VaultClassToCodeConverter(database, database.FindClass("pvehicle"))
+            //    .GenerateCode());
 
-            WORLD_pvehicle test = new WORLD_pvehicle(database.RowManager.FindCollectionByName("pvehicle", "bmwm3gtre46"));
+            //WORLD_pvehicle test = new WORLD_pvehicle(database.RowManager.FindCollectionByName("pvehicle", "bmwm3gtre46"));
         }
 
         private static void LoadFileToDB(Database database, string file)
