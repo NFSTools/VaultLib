@@ -2,9 +2,12 @@
 // 
 // Created: 10/09/2019 @ 9:54 AM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT.GRace
 {
-    public enum Tier_C
+    [VLTTypeInfo("GRace::Tier")]
+    public enum Tier
     {
         kRaceTier_None = 0x0,
         kRaceTier_1 = 0x1,

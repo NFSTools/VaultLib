@@ -34,7 +34,7 @@ namespace VaultLib.ModernBase.Exports
             var mNumEntries = br.ReadUInt32();
             var mNumTypes = br.ReadUInt16();
             var mTypesLen = br.ReadUInt16();
-            _layoutPointer = br.ReadPointer(vault, true);
+            _layoutPointer = br.ReadPointer();
 
             Debug.Assert(mTableReserve == mNumEntries);
 

@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT.GameCore
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT.GameCore
 {
+    [VLTTypeInfo("GameCore::MilestoneType")]
     public enum MilestoneType
     {
         kMilestone_None,

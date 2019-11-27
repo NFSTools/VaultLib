@@ -1,6 +1,9 @@
-﻿namespace VaultLib.Support.World.VLT.GRace
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT.GRace
 {
-    public enum RaceCarClass_W
+    [VLTTypeInfo("GRace::RaceCarClass")]
+    public enum RaceCarClass
     {
         kRaceCar_ClassNone,
         kRaceCar_ClassExotic,

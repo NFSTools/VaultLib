@@ -2,9 +2,12 @@
 // 
 // Created: 09/27/2019 @ 3:32 PM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT.Sound
 {
-    public enum EMomentChokeGroup_W
+    [VLTTypeInfo("Sound::EMomentChokeGroup")]
+    public enum EMomentChokeGroup
     {
         eMOMENT_CHOKE_NONE = 0x0,
         eMOMENT_CHOKE_PURSUIT_BREAKER = 0x1,

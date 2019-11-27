@@ -1,6 +1,9 @@
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT.NIS
 {
-    public enum ePLATFORM_CLASS_W
+    [VLTTypeInfo("NIS::ePLATFORM_CLASS")]
+    public enum ePLATFORM_CLASS
     {
         COMMON_PLATFORM = 0x0,
         CURRENT_GEN = 0x1,

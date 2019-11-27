@@ -25,8 +25,6 @@ namespace VaultLib.Support.World.VLT.PowerUps
             RefSpec rs = new RefSpec();
             rs.Read(vault, br);
 
-            Debug.Assert(rs.ClassKey == "emittergroup");
-
             EmitterKey = rs.CollectionKey;
             Type = br.ReadUInt32();
             Intensity = br.ReadSingle();

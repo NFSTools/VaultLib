@@ -1,6 +1,9 @@
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT.NIS
 {
-    public enum eCAR_COUNT_CATEGORY_W
+    [VLTTypeInfo("NIS::eCAR_COUNT_CATEGORY")]
+    public enum eCAR_COUNT_CATEGORY
     {
         ONE = 0x0,
         TWO = 0x1,

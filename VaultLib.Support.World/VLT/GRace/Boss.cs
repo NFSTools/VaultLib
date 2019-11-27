@@ -1,6 +1,9 @@
-﻿namespace VaultLib.Support.World.VLT.GRace
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT.GRace
 {
-    public enum Boss_W
+    [VLTTypeInfo("GRace::Boss")]
+    public enum Boss
     {
         kRaceBoss_None,
         kRaceBoss_Angie,

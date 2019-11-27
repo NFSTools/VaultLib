@@ -1,6 +1,9 @@
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT.NIS
 {
-    public enum ePIP_EVENT_CATEGORY_W
+    [VLTTypeInfo("NIS::ePIP_EVENT_CATEGORY")]
+    public enum ePIP_EVENT_CATEGORY
     {
         UNCATEGORIZED = 0x0,
         CRASH_EVENT = 0x1,

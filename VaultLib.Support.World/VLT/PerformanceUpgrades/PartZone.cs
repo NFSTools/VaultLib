@@ -2,9 +2,12 @@
 // 
 // Created: 10/07/2019 @ 4:02 PM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT.PerformanceUpgrades
 {
-    public enum PartZone_W
+    [VLTTypeInfo("PerformanceUpgrades::PartZone")]
+    public enum PartZone
     {
         PERFSLOT_ENGINE,
         PERFSLOT_FORCED_INDUCTION,

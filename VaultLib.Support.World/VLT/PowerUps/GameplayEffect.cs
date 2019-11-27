@@ -1,6 +1,9 @@
-﻿namespace VaultLib.Support.World.VLT.PowerUps
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT.PowerUps
 {
-    public enum GameplayEffect_W
+    [VLTTypeInfo("PowerUps::GameplayEffect")]
+    public enum GameplayEffect
     {
         kGameplayEffect_None,
         kGameplayEffect_NOS,

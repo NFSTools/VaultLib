@@ -131,7 +131,7 @@ namespace VaultLib.Core.Types.Attrib
             // proper length was not worth its due CPU instructions and execution time.
             // Great work, pipeline. Great work.
             Length = br.ReadUInt32();
-            _dataOffset = br.ReadPointer(vault, false);
+            _dataOffset = br.ReadPointer();
             Data = new CompressedBlob();
         }
 

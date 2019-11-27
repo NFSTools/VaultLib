@@ -19,7 +19,7 @@ namespace VaultLib.Core.Types
 
         public void Read(Vault vault, BinaryReader br)
         {
-            _mArray = br.ReadPointer(vault, false);
+            _mArray = br.ReadPointer();
             Debug.Assert(_mArray != 0);
             uint mLength = br.ReadUInt32();
 

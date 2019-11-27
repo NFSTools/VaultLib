@@ -19,7 +19,7 @@ namespace VaultLib.Core.Types
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Offset = br.ReadPointer(vault, true);
+            Offset = br.ReadPointer();
         }
 
         public override void Write(Vault vault, BinaryWriter bw)

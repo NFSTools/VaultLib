@@ -27,7 +27,7 @@ namespace VaultLib.LegacyBase.Exports
             uint cr = br.ReadUInt32(); // collection reserve
             NumDefinitions = br.ReadInt32();
 
-            _definitionsPtr = br.ReadPointer(vault, true);
+            _definitionsPtr = br.ReadPointer();
             if (_definitionsPtr == 0)
             {
                 throw new InvalidDataException("Definitions pointer is NULL, this is not good!");

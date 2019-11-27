@@ -30,9 +30,9 @@ namespace VaultLib.ModernBase.Exports
             ClassHash = br.ReadUInt32();
             br.ReadUInt32(); // Collection reserve
             int mNumDefinitions = br.ReadInt32(); // Number of fields
-            _definitionsPtr = br.ReadPointer(vault, true);
+            _definitionsPtr = br.ReadPointer();
             br.ReadUInt32(); // static size
-            _staticDataPtr = br.ReadPointer(vault, true);
+            _staticDataPtr = br.ReadPointer();
             uint layoutSize = br.ReadUInt32(); // Total size of required fields
             br.ReadUInt16(); // can be 0
             br.ReadUInt16(); // Number of required fields

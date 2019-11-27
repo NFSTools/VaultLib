@@ -27,7 +27,7 @@ namespace VaultLib.Core.Types.EA.Reflection
             // NOTE 11.01.19: since Text can be in static data, we cannot require a collection
             //Debug.Assert(this.Collection != null, "this.Collection != null");
             Debug.Assert(this.Field != null, "this.Field != null");
-            Pointer = br.ReadPointer(vault, IsInVLT);
+            Pointer = br.ReadPointer();
         }
 
         public override void Write(Vault vault, BinaryWriter bw)

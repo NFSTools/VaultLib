@@ -2,9 +2,12 @@
 // 
 // Created: 10/07/2019 @ 3:38 PM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT.GameCore.Collision
 {
-    public enum TriggerType_W
+    [VLTTypeInfo("GameCore::Collision::TriggerType")]
+    public enum TriggerType
     {
         Unknown,
         Cylinder,

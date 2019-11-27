@@ -1,6 +1,9 @@
-﻿namespace VaultLib.Support.World.VLT.PowerUps
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT.PowerUps
 {
-    public enum Restriction_W
+    [VLTTypeInfo("PowerUps::Restriction")]
+    public enum Restriction
     {
         kPowerupRestriction_None,
         kPowerupRestriction_NobodyHasFinishedEvent,

@@ -1,6 +1,9 @@
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT.Victory.DataLayer.Serialization
 {
-    public enum enumPowerUpType_W
+    [VLTTypeInfo("Victory::DataLayer::Serialization::enumPowerUpType")]
+    public enum enumPowerUpType
     {
         None,
         EmergencyEvade,

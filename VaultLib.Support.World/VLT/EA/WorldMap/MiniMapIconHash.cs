@@ -2,19 +2,20 @@
 // 
 // Created: 10/07/2019 @ 3:28 PM.
 
-using System.Diagnostics;
 using System.IO;
+using VaultLib.Core;
+using VaultLib.Core.Types;
 
-namespace VaultLib.Core.Types.EA.WorldMap
+namespace VaultLib.Support.World.VLT.EA.WorldMap
 {
-    public class MiniMapIconHash_W : VLTBaseType
+    [VLTTypeInfo("EA::WorldMap::MiniMapIconHash")]
+    public class MiniMapIconHash : VLTBaseType
     {
         public uint Hash { get; set; }
 
         public override void Read(Vault vault, BinaryReader br)
         {
             Hash = br.ReadUInt32();
-            Debug.WriteLine(Hash);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)

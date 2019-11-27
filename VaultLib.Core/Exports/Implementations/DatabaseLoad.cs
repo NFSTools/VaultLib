@@ -25,7 +25,7 @@ namespace VaultLib.Core.Exports.Implementations
             uint mNumClasses = br.ReadUInt32();
             uint mDefaultDataSize = br.ReadUInt32();
             _numTypes = br.ReadUInt32();
-            _typeNames = br.ReadPointer(vault, true); // Pointer
+            _typeNames = br.ReadPointer(); // Pointer
 
             Debug.WriteLine(
                 "Database Load: {0} classes | DefaultData: {1} bytes | {2} types | type names @ bin+0x{3:X}",

@@ -25,9 +25,6 @@ namespace VaultLib.Support.World.VLT.PowerUps
             rs.Read(vault, br);
             uint type = br.ReadUInt32();
 
-            Debug.Assert(rs.ClassKey == "powerup_gamegroup");
-            Debug.WriteLine("{0}->{1} ({2})", rs.ClassKey, rs.CollectionKey, type);
-
             GroupKey = rs.CollectionKey;
             Type = type;
         }

@@ -1,6 +1,9 @@
-﻿namespace VaultLib.Support.World.VLT.Interop
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT.Interop
 {
-    public enum FEState_W
+    [VLTTypeInfo("Interop::FEState")]
+    public enum FEState
     {
         FESTATE_INITIAL,
         FESTATE_FREEROAM,

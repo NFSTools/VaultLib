@@ -1,6 +1,9 @@
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT.NIS
 {
-    public enum ePIPTrigger_W
+    [VLTTypeInfo("NIS::ePIPTrigger")]
+    public enum ePIPTrigger
     {
         NONE = 0x0,
         PLAYER_HIT_BOSS = 0x1,

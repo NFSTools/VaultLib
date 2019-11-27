@@ -36,7 +36,7 @@ namespace VaultLib.LegacyBase.Exports
             br.ReadUInt32();
             var mNumEntries = br.ReadUInt32();
             var mNumTypes = br.ReadUInt32();
-            _layoutPointer = br.ReadPointer(vault, true);
+            _layoutPointer = br.ReadPointer();
 
             Debug.Assert(mTableReserve == mNumEntries);
 
