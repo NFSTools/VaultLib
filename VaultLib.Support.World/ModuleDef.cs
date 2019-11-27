@@ -2,16 +2,14 @@
 // 
 // Created: 11/02/2019 @ 1:32 PM.
 
-using System.ComponentModel.Composition;
-using System.Reflection;
 using CoreLibraries.GameUtilities;
 using CoreLibraries.ModuleSystem;
+using System.ComponentModel.Composition;
+using System.Reflection;
 using VaultLib.Core;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
 using VaultLib.Core.ModuleHelper;
-using VaultLib.Core.Types.Attrib;
-using VaultLib.ModernBase;
 using VaultLib.ModernBase.Exports;
 using VaultLib.ModernBase.Structures;
 
