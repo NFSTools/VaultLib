@@ -67,7 +67,6 @@ namespace VaultCLI
             Debug.WriteLine("Loading database");
 
             HashManager.LoadDictionary("hashes.txt");
-            TypeRegistry.Init();
             Database database = new Database(args.GameID);
             Stopwatch stopwatch = Stopwatch.StartNew();
 
@@ -80,6 +79,10 @@ namespace VaultCLI
             stopwatch.Stop();
 
             Debug.WriteLine("Loaded in {0}ms", stopwatch.ElapsedMilliseconds);
+            Debug.WriteLine(new VaultClassToCodeConverter(database, database.FindClass("pvehicle"))
+                .GenerateCode());
+
+            WORLD_pvehicle test = new WORLD_pvehicle(database.RowManager.FindCollectionByName("pvehicle", "bmwm3gtre46"));
         }
 
         private static void LoadFileToDB(Database database, string file)

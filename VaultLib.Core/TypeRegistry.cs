@@ -2,15 +2,16 @@
 // 
 // Created: 09/23/2019 @ 8:51 PM.
 
+using CoreLibraries.GameUtilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using CoreLibraries.GameUtilities;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Core
 {
@@ -68,10 +69,14 @@ namespace VaultLib.Core
                 ? new List<string>(GameIdHelper.GetIdList())
                 : new List<string>(gameIds);
 
-            foreach (var type in (from t in assembly.GetTypes()
-                                  where t.IsClass && t.BaseType == typeof(VLTBaseType) && !t.IsGenericTypeDefinition && !t.IsAbstract || t.IsEnum
-                                  select t))
+            Debug.WriteLine("RegisterAssemblyTypes({0})", new object[] { assembly.FullName });
+
+            foreach (var type in assembly.GetTypes())
             {
+                if (type.IsGenericType || type.IsAbstract || !type.DescendsFrom(typeof(VLTBaseType))) continue;
+
+                //Debug.WriteLine(type.FullName);
+
                 VLTTypeInfoAttribute typeInfoAttribute = type.GetCustomAttribute<VLTTypeInfoAttribute>();
 
                 if (typeInfoAttribute == null)
@@ -89,6 +94,28 @@ namespace VaultLib.Core
                     RegisterType(gameId, typeInfoAttribute.Name, finalType);
                 }
             }
+
+            //foreach (var type in (from t in assembly.GetTypes()
+            //                      where t.IsClass && t.IsAssignableFrom(typeof(VLTBaseType)) && !t.IsGenericTypeDefinition && !t.IsAbstract || t.IsEnum
+            //                      select t))
+            //{
+            //    VLTTypeInfoAttribute typeInfoAttribute = type.GetCustomAttribute<VLTTypeInfoAttribute>();
+
+            //    if (typeInfoAttribute == null)
+            //    {
+            //        Debug.WriteLine("Warning: {0} does not have VLTTypeInfoAttribute. Skipping...", type);
+            //        continue;
+            //    }
+
+            //    foreach (var gameId in games)
+            //    {
+            //        Debug.WriteLine("[{2}] {0}: {1}", type, typeInfoAttribute.Name, gameId);
+
+            //        Type finalType = type.IsEnum ? typeof(VLTEnumType<>).MakeGenericType(type) : type;
+
+            //        RegisterType(gameId, typeInfoAttribute.Name, finalType);
+            //    }
+            //}
         }
 
         /// <summary>
@@ -162,7 +189,7 @@ namespace VaultLib.Core
             TypeDictionary[gameId][typeId] = type;
         }
 
-        private static Type ResolveType(string gameId, string typeId)
+        public static Type ResolveType(string gameId, string typeId)
         {
             if (TypeDictionary.TryGetValue(gameId, out var typeDict)
                 && typeDict.TryGetValue(typeId, out var type))

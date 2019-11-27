@@ -47,5 +47,10 @@ namespace VaultLib.Core.Data
         }
 
         public bool FieldExists(ulong key) => Fields.Any(f => f.Value.Key == key);
+
+        public VLTClassField GetField(string name)
+        {
+            return Fields.Values.First(f => f.Name == name);
+        }
     }
 }

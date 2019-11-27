@@ -2,6 +2,7 @@
 // 
 // Created: 09/26/2019 @ 8:33 PM.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Core.Types.EA.Reflection
 {
     [VLTTypeInfo("EA::Reflection::Text")]
-    public class Text : VLTBaseType, IReferencesStrings, IStringValue, ICanBootstrap
+    public class Text : PrimitiveTypeBase, IReferencesStrings, IStringValue, ICanBootstrap
     {
         public string Value { get; set; }
 
@@ -72,6 +73,16 @@ namespace VaultLib.Core.Types.EA.Reflection
         public void Bootstrap()
         {
             Value = string.Empty;
+        }
+
+        public override IConvertible GetValue()
+        {
+            return GetString();
+        }
+
+        public override void SetValue(IConvertible value)
+        {
+            SetString((string)value);
         }
     }
 }

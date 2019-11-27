@@ -10,6 +10,8 @@ using VaultLib.Core;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
 using VaultLib.Core.ModuleHelper;
+using VaultLib.Core.Types.Attrib;
+using VaultLib.ModernBase;
 using VaultLib.ModernBase.Exports;
 using VaultLib.ModernBase.Structures;
 
