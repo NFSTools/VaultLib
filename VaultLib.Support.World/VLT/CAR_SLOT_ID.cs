@@ -2,8 +2,11 @@
 // 
 // Created: 10/06/2019 @ 6:37 PM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(CAR_SLOT_ID))]
     public enum CAR_SLOT_ID
     {
         CARSLOTID_INVALID = -1,

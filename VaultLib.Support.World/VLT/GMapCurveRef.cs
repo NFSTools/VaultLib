@@ -14,6 +14,7 @@ namespace VaultLib.Support.World.VLT
         kFlag_Reversed = 1,
     }
 
+    [VLTTypeInfo(nameof(GMapCurveRef))]
     public class GMapCurveRef : VLTBaseType
     {
         public ushort mCurveIndex { get; set; }

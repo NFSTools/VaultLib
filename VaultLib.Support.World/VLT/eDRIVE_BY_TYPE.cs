@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(eDRIVE_BY_TYPE))]
     public enum eDRIVE_BY_TYPE
     {
         DRIVE_BY_UNKNOWN = 0x0,

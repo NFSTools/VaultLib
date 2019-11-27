@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(Splicer_Collision_Object))]
     public enum Splicer_Collision_Object
     {
         bbq_00 = 0x0,

@@ -2,8 +2,11 @@
 // 
 // Created: 09/29/2019 @ 9:40 AM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(EffectParticleConstraint))]
     public enum EffectParticleConstraint
     {
         CONSTRAIN_PARTICLE_NONE = 0x0,

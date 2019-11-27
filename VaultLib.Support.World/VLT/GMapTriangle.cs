@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(GMapTriangle))]
     public class GMapTriangle : VLTBaseType
     {
         public ushort mPoint1 { get; set; }

@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(AICollisionReactionRecord))]
     public class AICollisionReactionRecord : VLTBaseType, IReferencesCollections
     {
         public uint Goal { get; set; }

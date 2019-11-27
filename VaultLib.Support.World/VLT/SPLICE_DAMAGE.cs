@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(SPLICE_DAMAGE))]
     public enum SPLICE_DAMAGE
     {
         dmg_hood_lit_01 = 0x0,

@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(EngineLFOParams))]
     public class EngineLFOParams : VLTBaseType
     {
         public float frequency_start { get; set; }

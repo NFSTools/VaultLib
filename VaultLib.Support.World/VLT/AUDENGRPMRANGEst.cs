@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(AUDENGRPMRANGEst))]
     public class AUDENGRPMRANGEst : VLTBaseType
     {
         public int IDLE_RPM { get; set; }

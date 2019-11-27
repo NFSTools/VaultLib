@@ -9,6 +9,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(ParticleAnimationInfo))]
     public class ParticleAnimationInfo : VLTBaseType
     {
         public enum EffectParticleAnimation

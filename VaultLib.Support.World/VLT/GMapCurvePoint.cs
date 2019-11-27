@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(GMapCurvePoint))]
     public class GMapCurvePoint : VLTBaseType
     {
         public float X { get; set; }

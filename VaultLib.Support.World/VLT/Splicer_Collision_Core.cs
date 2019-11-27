@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(Splicer_Collision_Core))]
     public enum Splicer_Collision_Core
     {
         Cor_Side_Lit_01 = 0x0,

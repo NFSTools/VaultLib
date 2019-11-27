@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(Splicer_Collision_Surface))]
     public enum Splicer_Collision_Surface
     {
         srf_car_front_lit_01 = 0x0,

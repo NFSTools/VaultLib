@@ -4,6 +4,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(RPMLOOPPOINTSst))]
     public class RPMLOOPPOINTSst : VLTBaseType
     {
         public int RPM_LD_LOW_PEAK { get; set; }

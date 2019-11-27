@@ -5,6 +5,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(MovieVolume))]
     public class MovieVolume : VLTBaseType
     {
         public uint Hash { get; set; }

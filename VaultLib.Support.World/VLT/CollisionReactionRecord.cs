@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(CollisionReactionRecord))]
     public class CollisionReactionRecord : VLTBaseType
     {
         public float Elasticity { get; set; }

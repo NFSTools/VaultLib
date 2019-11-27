@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(IntegratedKitWheelOffset))]
     public class IntegratedKitWheelOffset : VLTBaseType, IReferencesStrings
     {
         //private Text _text;

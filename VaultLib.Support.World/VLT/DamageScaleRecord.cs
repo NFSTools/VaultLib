@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(DamageScaleRecord))]
     public class DamageScaleRecord : VLTBaseType
     {
         public float VisualScale { get; set; }

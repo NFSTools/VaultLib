@@ -6,10 +6,12 @@ using System.IO;
 using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Hashing;
+using VaultLib.Core.Types;
 using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(GCollectionKey))]
     public class GCollectionKey : BaseRefSpec
     {
         public override void Read(Vault vault, BinaryReader br)

@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(STICH_COLLISION_TYPE))]
     public enum STICH_COLLISION_TYPE
     {
         CRSH_CAR_2_CAR_FRNT_VLIT1 = 0x0,

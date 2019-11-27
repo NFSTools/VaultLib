@@ -5,6 +5,7 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(UpgradeSpecs))]
     public class UpgradeSpecs : VLTBaseType
     {
         public RefSpec ReferencedRow { get; set; }

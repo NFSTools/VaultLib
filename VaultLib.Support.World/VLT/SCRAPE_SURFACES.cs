@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(SCRAPE_SURFACES))]
     public enum SCRAPE_SURFACES
     {
         SCRAPE_NONE = 0x0,

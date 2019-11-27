@@ -2,8 +2,11 @@
 // 
 // Created: 09/27/2019 @ 3:26 PM.
 
+using VaultLib.Core.Types;
+
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(COLLISIONSFX_LAYERS))]
     public enum COLLISIONSFX_LAYERS : uint
     {
         LAYER_NONE = 0xFFFFFFFF,

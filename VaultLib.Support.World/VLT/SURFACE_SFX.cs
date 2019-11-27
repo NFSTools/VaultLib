@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(SURFACE_SFX))]
     public enum SURFACE_SFX
     {
         SURFACE_SFX_NONE = 0x0,

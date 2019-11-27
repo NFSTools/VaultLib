@@ -78,10 +78,15 @@ namespace VaultCLI
             stopwatch.Stop();
 
             Debug.WriteLine("Loaded in {0}ms", stopwatch.ElapsedMilliseconds);
-            //Debug.WriteLine(new VaultClassToCodeConverter(database, database.FindClass("pvehicle"))
-            //    .GenerateCode());
 
-            //WORLD_pvehicle test = new WORLD_pvehicle(database.RowManager.FindCollectionByName("pvehicle", "bmwm3gtre46"));
+            var codeGenDirectory = Path.Combine("gen-code", database.Game);
+            Directory.CreateDirectory(codeGenDirectory);
+
+            foreach (var databaseClass in database.Classes)
+            {
+                VaultClassToCodeConverter ctc = new VaultClassToCodeConverter(database, databaseClass);
+                ctc.WriteCodeToFile(codeGenDirectory);
+            }
         }
 
         private static void LoadFileToDB(Database database, string file)

@@ -8,6 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(AxlePair))]
     public class AxlePair : VLTBaseType
     {
         public float Front { get; set; }

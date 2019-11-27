@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(ROLLFX_LOOP))]
     public enum ROLLFX_LOOP
     {
         ROLLFX_NONE = 0x0,

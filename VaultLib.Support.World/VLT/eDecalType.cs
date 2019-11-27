@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(eDecalType))]
     public enum eDecalType
     {
         DECAL_TYPE_NONE = 0xFF,

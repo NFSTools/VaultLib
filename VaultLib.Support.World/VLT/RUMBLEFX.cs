@@ -1,5 +1,8 @@
-﻿namespace VaultLib.Support.World.VLT
+﻿using VaultLib.Core.Types;
+
+namespace VaultLib.Support.World.VLT
 {
+    [VLTTypeInfo(nameof(RUMBLEFX))]
     public enum RUMBLEFX
     {
         RUMBLEFX_NONE = 0x0,

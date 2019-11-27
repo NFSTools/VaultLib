@@ -3,6 +3,8 @@
 // Created: 11/27/2019 @ 11:05 AM.
 
 using System;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using VaultLib.Core;
@@ -29,6 +31,15 @@ namespace VaultCLI
         }
 
         /// <summary>
+        /// Generates C# code and writes it to a file in the given directory
+        /// </summary>
+        /// <param name="directory">The directory to create the code file in</param>
+        public void WriteCodeToFile(string directory)
+        {
+            File.WriteAllText(Path.Combine(directory, $"{GetClassName()}.cs"), GenerateCode());
+        }
+
+        /// <summary>
         /// Generates the code
         /// </summary>
         /// <returns></returns>
@@ -36,7 +47,7 @@ namespace VaultCLI
         {
             StringBuilder stringBuilder = new StringBuilder(1024);
 
-            string className = $"{_database.Game}_{_vltClass.Name}";
+            string className = GetClassName();
 
             stringBuilder.AppendLine("using VaultLib.Core.Data;");
             stringBuilder.AppendFormat("public class {0} : CollectionWrapperBase {{", className);
@@ -44,7 +55,7 @@ namespace VaultCLI
             stringBuilder.AppendFormat("\tpublic {0}(VLTCollection collection) : base(collection) {{}}", className)
                 .AppendLine();
 
-            foreach (var vltClassField in _vltClass.Fields.Values)
+            foreach (var vltClassField in _vltClass.Fields.Values.OrderBy(GetAPIFieldName))
             {
                 Type type = TypeRegistry.ResolveType(_database.Game, vltClassField.TypeName);
                 //string typeName = type?.FullName ?? "object";
@@ -60,9 +71,7 @@ namespace VaultCLI
                 }
 
                 typeName = type?.FullName ?? "object";
-                string fieldName = vltClassField.Name.StartsWith("0x")
-                    ? $"field_{vltClassField.Name}"
-                    : vltClassField.Name;
+                string fieldName = GetAPIFieldName(vltClassField);
 
                 if (type == typeof(VLTUnknown))
                 {
@@ -81,32 +90,50 @@ namespace VaultCLI
             return stringBuilder.ToString();
         }
 
-        private Type PrimitiveToRealPrimitive(MemberInfo type)
+        private string GetClassName()
+        {
+            return $"{_database.Game}_{_vltClass.Name}";
+        }
+
+        private static string GetAPIFieldName(VLTClassField vltClassField)
+        {
+            return vltClassField.Name.StartsWith("0x")
+                ? $"field_{vltClassField.Name}"
+                : vltClassField.Name;
+        }
+
+        private Type PrimitiveToRealPrimitive(Type type)
         {
             switch (type.Name)
             {
-                case "Bool":
-                    return typeof(bool);
-                case "Float":
-                    return typeof(float);
-                case "Int8":
-                    return typeof(sbyte);
-                case "Int16":
-                    return typeof(short);
-                case "Int32":
-                    return typeof(int);
-                case "Int64":
-                    return typeof(long);
-                case "UInt8":
-                    return typeof(byte);
-                case "UInt16":
-                    return typeof(ushort);
-                case "UInt32":
-                    return typeof(uint);
-                case "Text":
-                    return typeof(string);
+                //case "Bool":
+                //    return typeof(bool);
+                //case "Float":
+                //    return typeof(float);
+                //case "Int8":
+                //    return typeof(sbyte);
+                //case "Int16":
+                //    return typeof(short);
+                //case "Int32":
+                //    return typeof(int);
+                //case "Int64":
+                //    return typeof(long);
+                //case "UInt8":
+                //    return typeof(byte);
+                //case "UInt16":
+                //    return typeof(ushort);
+                //case "UInt32":
+                //    return typeof(uint);
+                //case "Text":
+                //    return typeof(string);
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    // class should be marked with an attribute
+                    if (type.GetCustomAttribute<PrimitiveInfoAttribute>() is PrimitiveInfoAttribute primInfo)
+                    {
+                        return primInfo.PrimitiveType;
+                    }
+
+                    throw new Exception($"cannot map {type.FullName} to primitive type");
             }
         }
     }
