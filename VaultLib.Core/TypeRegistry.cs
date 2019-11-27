@@ -73,49 +73,23 @@ namespace VaultLib.Core
 
             foreach (var type in assembly.GetTypes())
             {
-                if (type.IsGenericType || type.IsAbstract || !type.DescendsFrom(typeof(VLTBaseType))) continue;
-
-                //Debug.WriteLine(type.FullName);
+                if (type.IsGenericType || type.IsAbstract ||
+                    (!type.DescendsFrom(typeof(VLTBaseType)) && !type.IsEnum)) continue;
 
                 VLTTypeInfoAttribute typeInfoAttribute = type.GetCustomAttribute<VLTTypeInfoAttribute>();
 
                 if (typeInfoAttribute == null)
                 {
-                    Debug.WriteLine("Warning: {0} does not have VLTTypeInfoAttribute. Skipping...", type);
                     continue;
                 }
 
                 foreach (var gameId in games)
                 {
-                    Debug.WriteLine("[{2}] {0}: {1}", type, typeInfoAttribute.Name, gameId);
-
                     Type finalType = type.IsEnum ? typeof(VLTEnumType<>).MakeGenericType(type) : type;
 
                     RegisterType(gameId, typeInfoAttribute.Name, finalType);
                 }
             }
-
-            //foreach (var type in (from t in assembly.GetTypes()
-            //                      where t.IsClass && t.IsAssignableFrom(typeof(VLTBaseType)) && !t.IsGenericTypeDefinition && !t.IsAbstract || t.IsEnum
-            //                      select t))
-            //{
-            //    VLTTypeInfoAttribute typeInfoAttribute = type.GetCustomAttribute<VLTTypeInfoAttribute>();
-
-            //    if (typeInfoAttribute == null)
-            //    {
-            //        Debug.WriteLine("Warning: {0} does not have VLTTypeInfoAttribute. Skipping...", type);
-            //        continue;
-            //    }
-
-            //    foreach (var gameId in games)
-            //    {
-            //        Debug.WriteLine("[{2}] {0}: {1}", type, typeInfoAttribute.Name, gameId);
-
-            //        Type finalType = type.IsEnum ? typeof(VLTEnumType<>).MakeGenericType(type) : type;
-
-            //        RegisterType(gameId, typeInfoAttribute.Name, finalType);
-            //    }
-            //}
         }
 
         /// <summary>

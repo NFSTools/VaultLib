@@ -11,6 +11,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
+    [VLTTypeInfo(nameof(FEHintsData))]
     public class FEHintsData : VLTBaseType, IReferencesStrings
     {
         public uint SubjectHALId { get; set; }

@@ -13,6 +13,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
+    [VLTTypeInfo(nameof(CCarDamageEntry))]
     public class CCarDamageEntry : VLTBaseType, IReferencesStrings
     {
         public int PartID { get; set; }

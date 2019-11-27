@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
+    [VLTTypeInfo(nameof(TargetTimeOverrides))]
     public class TargetTimeOverrides : VLTBaseType, IReferencesStrings
     {
         public RefSpec Car { get; set; }

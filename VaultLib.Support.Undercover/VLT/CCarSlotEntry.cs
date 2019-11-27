@@ -12,6 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
+    [VLTTypeInfo(nameof(CCarSlotEntry))]
     public class CCarSlotEntry : VLTBaseType, IReferencesStrings
     {
         public DynamicSizeArray<RefSpec> Parts { get; set; }

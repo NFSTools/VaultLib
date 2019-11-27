@@ -5,6 +5,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
 {
+    [VLTTypeInfo(nameof(CopFormationRecord))]
     public class CopFormationRecord : VLTBaseType
     {
         public FormationType FormationType { get; set; }

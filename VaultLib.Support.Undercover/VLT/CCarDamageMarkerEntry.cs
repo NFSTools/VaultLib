@@ -13,6 +13,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
+    [VLTTypeInfo(nameof(CCarDamageMarkerEntry))]
     public class CCarDamageMarkerEntry : VLTBaseType, IReferencesStrings
     {
         public string MarkerName { get; set; }

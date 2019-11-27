@@ -9,6 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
+    [VLTTypeInfo(nameof(Curve))]
     public class Curve : VLTBaseType, IPointerObject
     {
         public float MinX { get; set; }

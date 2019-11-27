@@ -9,6 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
+    [VLTTypeInfo(nameof(CameraCurveReactionRecord))]
     public class CameraCurveReactionRecord : VLTBaseType, IPointerObject
     {
         public Curve Curve { get; set; }
