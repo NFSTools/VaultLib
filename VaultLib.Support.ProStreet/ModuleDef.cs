@@ -7,6 +7,7 @@ using System.Reflection;
 using CoreLibraries.GameUtilities;
 using CoreLibraries.ModuleSystem;
 using VaultLib.Core;
+using VaultLib.ModernBase;
 
 namespace VaultLib.Support.ProStreet
 {
@@ -16,6 +17,7 @@ namespace VaultLib.Support.ProStreet
     {
         public void Load()
         {
+            TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_PROSTREET);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_PROSTREET);
             GameIdHelper.AddFeature(GameIdHelper.ID_PROSTREET, "VLT");
         }

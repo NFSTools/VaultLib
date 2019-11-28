@@ -7,6 +7,7 @@ using System.Reflection;
 using CoreLibraries.GameUtilities;
 using CoreLibraries.ModuleSystem;
 using VaultLib.Core;
+using VaultLib.ModernBase;
 
 namespace VaultLib.Support.Undercover
 {
@@ -16,6 +17,7 @@ namespace VaultLib.Support.Undercover
     {
         public void Load()
         {
+            TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_UNDERCOVER);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_UNDERCOVER);
             GameIdHelper.AddFeature(GameIdHelper.ID_UNDERCOVER, "VLT");
         }

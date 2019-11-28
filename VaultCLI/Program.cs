@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using VaultLib.Core;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Loading;
@@ -78,6 +79,7 @@ namespace VaultCLI
             stopwatch.Stop();
 
             Debug.WriteLine("Loaded in {0}ms", stopwatch.ElapsedMilliseconds);
+            TypeRegistry.ListUnknownTypes();
 
             var codeGenDirectory = Path.Combine("gen-code", database.Game);
             Directory.CreateDirectory(codeGenDirectory);

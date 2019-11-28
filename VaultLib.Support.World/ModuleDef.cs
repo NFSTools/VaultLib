@@ -10,6 +10,7 @@ using VaultLib.Core;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
 using VaultLib.Core.ModuleHelper;
+using VaultLib.ModernBase;
 using VaultLib.ModernBase.Exports;
 using VaultLib.ModernBase.Structures;
 
@@ -21,6 +22,7 @@ namespace VaultLib.Support.World
     {
         public override void Load()
         {
+            TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_WORLD);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_WORLD);
             ExportFactory.SetClassLoadCreator<ModernClassLoad>(GameIdHelper.ID_WORLD);
             ExportFactory.SetCollectionLoadCreator<ModernCollectionLoad>(GameIdHelper.ID_WORLD);
