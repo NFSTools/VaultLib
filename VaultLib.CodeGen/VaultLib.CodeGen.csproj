@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7</LangVersion>
+    <Platforms>x86</Platforms>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>VaultLib.CodeGen</PackageId>
+    <Authors>heyitsleo/NFSTools</Authors>
+    <Company>NFSTools</Company>
+    <Product>VaultLib.CodeGen</Product>
+    <Description>Supplementary code generation library for VaultLib. Generates C# wrapper classes.</Description>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VaultLib.Core\VaultLib.Core.csproj" />
+  </ItemGroup>
+
+</Project>

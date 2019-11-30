@@ -43,7 +43,7 @@ namespace VaultLib.ModernBase.Exports
             }
 
             NumDefinitions = mNumDefinitions;
-            Class = new VLTClass(HashManager.ResolveVLT(ClassHash), ClassHash);
+            Class = new VLTClass(HashManager.ResolveVLT(ClassHash), ClassHash, vault.Database);
             Class.SizeOfLayout = layoutSize;
         }
 

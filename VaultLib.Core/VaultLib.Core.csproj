@@ -5,25 +5,13 @@
     <LangVersion>7</LangVersion>
     <Platforms>x86</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>NFSTools.VaultLib.Core</PackageId>
+    <PackageId>VaultLib.Core</PackageId>
     <Authors>heyitsleo/NFSTools</Authors>
     <Company>NFSTools</Company>
-    <Product>NFSTools.VaultLib.Core</Product>
+    <Product>VaultLib.Core</Product>
     <Description>Core library for processing VLT files - requires supplemental game modules</Description>
-    <Version>1.0.18</Version>
+    <Version>1.0.19</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Types\Carbon\**" />
-    <Compile Remove="Types\ProStreet\**" />
-    <Compile Remove="Types\Undercover\**" />
-    <EmbeddedResource Remove="Types\Carbon\**" />
-    <EmbeddedResource Remove="Types\ProStreet\**" />
-    <EmbeddedResource Remove="Types\Undercover\**" />
-    <None Remove="Types\Carbon\**" />
-    <None Remove="Types\ProStreet\**" />
-    <None Remove="Types\Undercover\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="External\" />

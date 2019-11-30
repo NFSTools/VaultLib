@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using VaultLib.Core.DB;
 
 namespace VaultLib.Core.Data
 {
@@ -38,12 +39,13 @@ namespace VaultLib.Core.Data
         public bool HasOptionalFields => OptionalFields.Any();
         public bool HasArrayFields => Fields.Values.Any(f => f.Flags.HasFlag(DefinitionFlags.kArray));
         public bool HasStaticFields => StaticFields.Any();
-
-        public VLTClass(string name, ulong key)
+        public Database Database { get; }
+        public VLTClass(string name, ulong key, Database database)
         {
             this.Name = name;
             this.Fields = new Dictionary<ulong, VLTClassField>();
             this.NameHash = key;
+            this.Database = database;
         }
 
         public bool FieldExists(ulong key) => Fields.Any(f => f.Value.Key == key);

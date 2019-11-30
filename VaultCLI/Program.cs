@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using VaultLib.CodeGen;
 using VaultLib.Core;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
@@ -84,10 +85,11 @@ namespace VaultCLI
             var codeGenDirectory = Path.Combine("gen-code", database.Game);
             Directory.CreateDirectory(codeGenDirectory);
 
+            CSharpCodeGenerator cscg = new CSharpCodeGenerator(database);
+
             foreach (var databaseClass in database.Classes)
             {
-                VaultClassToCodeConverter ctc = new VaultClassToCodeConverter(database, databaseClass);
-                ctc.WriteCodeToFile(codeGenDirectory);
+                cscg.WriteCodeToFile(databaseClass, codeGenDirectory);
             }
         }
 

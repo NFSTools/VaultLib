@@ -6,9 +6,10 @@ using System;
 using System.Collections.Generic;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
+using VaultLib.Core.Types.Abstractions;
 using VaultLib.Core.Types.EA.Reflection;
 
-namespace VaultCLI
+namespace VaultLib.CodeGen
 {
     public abstract class CollectionWrapperBase
     {
@@ -19,26 +20,23 @@ namespace VaultCLI
 
         protected VLTCollection Collection { get; }
 
+        public bool HasField(string key)
+        {
+            VLTClassField field = this.Collection.Class.GetField(key);
+
+            return Collection.DataRow.ContainsKey(field.Key);
+        }
+
         protected T GetValue<T>(string key)
         {
             VLTClassField field = this.Collection.Class.GetField(key);
 
             if (Collection.DataRow.TryGetValue(field.Key, out VLTBaseType dataRowValue))
             {
-                Type paramType = typeof(T);
-
-                switch (true)
-                {
-                    case true when paramType.IsPrimitive:
-                        return (T)((PrimitiveTypeBase)dataRowValue).GetValue();
-                    case true when paramType == typeof(string):
-                        return (T)Convert.ChangeType(((Text)dataRowValue).Value, typeof(T));
-                    default:
-                        return (T)Convert.ChangeType(dataRowValue, typeof(T));
-                }
+                return convertItem<T>(dataRowValue);
             }
 
-            return default;
+            return default(T);
         }
 
         protected List<T> GetArray<T>(string key)
@@ -55,7 +53,7 @@ namespace VaultCLI
 
                 foreach (var item in vltArray.Items)
                 {
-                    list.Add(convertArrayItem<T>(item));
+                    list.Add(convertItem<T>(item));
                 }
 
                 return list;
@@ -64,7 +62,7 @@ namespace VaultCLI
             return null;
         }
 
-        private T convertArrayItem<T>(VLTBaseType item)
+        private T convertItem<T>(VLTBaseType item)
         {
             Type paramType = typeof(T);
 
@@ -74,9 +72,17 @@ namespace VaultCLI
                     return (T)((PrimitiveTypeBase)item).GetValue();
                 case true when paramType == typeof(string):
                     return (T)Convert.ChangeType(((Text)item).Value, typeof(T));
+                case true when paramType == typeof(BaseRefSpec):
+                    return createRefSpecWrapper<T>((BaseRefSpec) item);
                 default:
                     return (T)Convert.ChangeType(item, typeof(T));
             }
+        }
+
+        private T createRefSpecWrapper<T>(BaseRefSpec item)
+        {
+            return (T) (object) new RefSpecWrapper(Collection.Class.Database.FindClass(item.ClassKey),
+                Collection.Class.Database.RowManager.FindCollectionByName(item.ClassKey, item.CollectionKey));
         }
     }
 }

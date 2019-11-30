@@ -40,7 +40,7 @@ namespace VaultLib.LegacyBase.Exports
             ushort requiredCount = br.ReadUInt16();
             Debug.Assert(requiredCount <= NumDefinitions);
             br.ReadInt16();
-            Class = new VLTClass(HashManager.ResolveVLT(ClassHash), ClassHash);
+            Class = new VLTClass(HashManager.ResolveVLT(ClassHash), ClassHash, vault.Database);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
