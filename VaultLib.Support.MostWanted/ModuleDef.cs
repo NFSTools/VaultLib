@@ -23,7 +23,6 @@ namespace VaultLib.Support.MostWanted
             ExportFactory.SetCollectionLoadCreator<LegacyCollectionLoad>(GameIdHelper.ID_MW);
             ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_MW);
             ExportFactory.SetExportEntryCreator<LegacyExportEntry>(GameIdHelper.ID_MW);
-            GameIdHelper.AddFeature(GameIdHelper.ID_MW, "VLT");
         }
     }
 }

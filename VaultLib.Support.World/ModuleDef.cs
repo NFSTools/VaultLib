@@ -28,8 +28,6 @@ namespace VaultLib.Support.World
             ExportFactory.SetCollectionLoadCreator<ModernCollectionLoad>(GameIdHelper.ID_WORLD);
             ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_WORLD);
             ExportFactory.SetExportEntryCreator<ModernExportEntry>(GameIdHelper.ID_WORLD);
-
-            GameIdHelper.AddFeature(GameIdHelper.ID_WORLD, VLTFeatureKey);
         }
     }
 }

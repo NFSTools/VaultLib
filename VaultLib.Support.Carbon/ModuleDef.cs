@@ -15,7 +15,6 @@ namespace VaultLib.Support.Carbon
         {
             TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_CARBON);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(GetType()), GameIdHelper.ID_CARBON);
-            GameIdHelper.AddFeature(GameIdHelper.ID_CARBON, "VLT");
         }
     }
 }

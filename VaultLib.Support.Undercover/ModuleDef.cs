@@ -19,7 +19,6 @@ namespace VaultLib.Support.Undercover
         {
             TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_UNDERCOVER);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_UNDERCOVER);
-            GameIdHelper.AddFeature(GameIdHelper.ID_UNDERCOVER, "VLT");
         }
     }
 }

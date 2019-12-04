@@ -19,7 +19,6 @@ namespace VaultLib.Support.ProStreet
         {
             TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_PROSTREET);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_PROSTREET);
-            GameIdHelper.AddFeature(GameIdHelper.ID_PROSTREET, "VLT");
         }
     }
 }

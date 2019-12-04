@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>7</LangVersion>
     <Platforms>x86</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -23,6 +23,7 @@
     <PackageReference Include="NFSTools.Core.GameUtilities" Version="1.0.3" />
     <PackageReference Include="NFSTools.Core.IO" Version="1.0.3" />
     <PackageReference Include="NFSTools.Core.ModuleSystem" Version="1.0.3" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
   </ItemGroup>
 
 </Project>
