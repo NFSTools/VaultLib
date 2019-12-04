@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -25,8 +26,8 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Car = new RefSpec();
-            _eventText = new Text { Class = Class, Collection = Collection, Field = Field };
+            Car = new RefSpec(Class, Field, Collection);
+            _eventText = new Text(Class, Field, Collection);
 
             Car.Read(vault, br);
             _eventText.Read(vault, br);
@@ -63,6 +64,14 @@ namespace VaultLib.Support.Undercover.VLT
         public IEnumerable<string> GetStrings()
         {
             return _eventText.GetStrings();
+        }
+
+        public TargetTimeOverrides(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public TargetTimeOverrides(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

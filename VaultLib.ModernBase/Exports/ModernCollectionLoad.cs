@@ -99,7 +99,9 @@ namespace VaultLib.ModernBase.Exports
                 }
                 else
                 {
-                    entry.InlineData = new VLTAttribType { Data = optionalDataColumn.Value, Class = Collection.Class, Collection = Collection, Field = vltClassField };
+                    entry.InlineData =
+                        new VLTAttribType(Collection.Class, Collection.Class.Fields[entry.Key], Collection)
+                        { Data = optionalDataColumn.Value };
                 }
 
                 if (vltClassField.IsArray)

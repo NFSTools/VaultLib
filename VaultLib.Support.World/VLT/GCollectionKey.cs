@@ -5,6 +5,7 @@
 using System.IO;
 using CoreLibraries.GameUtilities;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Abstractions;
@@ -35,6 +36,14 @@ namespace VaultLib.Support.World.VLT
         public override string ToString()
         {
             return $"gameplay -> {CollectionKey}";
+        }
+
+        public GCollectionKey(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public GCollectionKey(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

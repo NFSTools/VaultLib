@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -25,15 +26,15 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            PresetRide = new RefSpec();
+            PresetRide = new RefSpec(Class, Field, Collection);
             PresetRide.Read(vault, br);
 
-            _presetSkinNameText = new Text { Class = Class, Collection = Collection, Field = Field };
+            _presetSkinNameText = new Text(Class, Field, Collection);
             _presetSkinNameText.Read(vault, br);
 
             VehicleCategory = br.ReadUInt32();
 
-            _channelNameText = new Text { Class = Class, Collection = Collection, Field = Field };
+            _channelNameText = new Text(Class, Field, Collection);
             _channelNameText.Read(vault, br);
         }
 
@@ -69,6 +70,14 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public IEnumerable<string> GetStrings()
         {
             return _presetSkinNameText.GetStrings().Concat(_channelNameText.GetStrings());
+        }
+
+        public NISCar(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public NISCar(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

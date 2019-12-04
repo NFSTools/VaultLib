@@ -2,12 +2,14 @@
 // 
 // Created: 10/19/2019 @ 5:40 PM.
 
+using System;
 using System.IO;
+using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class DynamicSizeArray<T> : VLTBaseType, IPointerObject where T : VLTBaseType, new()
+    public class DynamicSizeArray<T> : VLTBaseType, IPointerObject where T : VLTBaseType
     {
         public T[] Items { get; set; }
 
@@ -33,7 +35,7 @@ namespace VaultLib.Core.Types
             br.BaseStream.Position = _pointer;
             for (int i = 0; i < Items.Length; i++)
             {
-                Items[i] = new T();
+                Items[i] = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
                 Items[i].Read(vault, br);
             }
         }
@@ -50,6 +52,14 @@ namespace VaultLib.Core.Types
         public void AddPointers(Vault vault)
         {
             vault.SaveContext.AddPointer(_srcPtr, _dstPtr, false);
+        }
+
+        public DynamicSizeArray(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public DynamicSizeArray(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

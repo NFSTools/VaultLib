@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 using VaultLib.ModernBase;
@@ -25,10 +26,7 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _deviceID = new StringKey();
-            _deviceID.Class = Class;
-            _deviceID.Collection = Collection;
-            _deviceID.Field = Field;
+            _deviceID = new StringKey(Class, Field, Collection);
             _deviceID.Read(vault, br);
             UpdateType = br.ReadEnum<InputUpdateType>();
             LowerDZ = br.ReadSingle();
@@ -37,11 +35,7 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _deviceID = new StringKey();
-            _deviceID.Class = Class;
-            _deviceID.Collection = Collection;
-            _deviceID.Field = Field;
-            _deviceID.Value = DeviceID;
+            _deviceID = new StringKey(Class, Field, Collection) { Value = DeviceID };
             _deviceID.Write(vault, bw);
             bw.WriteEnum(UpdateType);
             bw.Write(LowerDZ);
@@ -50,7 +44,7 @@ namespace VaultLib.Support.Undercover.VLT
 
         public IEnumerable<string> GetStrings()
         {
-            return new[] {DeviceID};
+            return new[] { DeviceID };
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -67,6 +61,14 @@ namespace VaultLib.Support.Undercover.VLT
         public void AddPointers(Vault vault)
         {
             _deviceID.AddPointers(vault);
+        }
+
+        public ControllerDataRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public ControllerDataRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

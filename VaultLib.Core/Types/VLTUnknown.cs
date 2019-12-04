@@ -4,6 +4,7 @@
 
 using System.Diagnostics;
 using System.IO;
+using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types
 {
@@ -23,6 +24,14 @@ namespace VaultLib.Core.Types
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write(this.Data ?? new byte[this.Size]);
+        }
+
+        public VLTUnknown(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public VLTUnknown(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

@@ -11,27 +11,24 @@ namespace VaultLib.Core.Types
 {
     public abstract class VLTBaseType : IFileAccess
     {
-        [Browsable(false)]
-        public VLTCollection Collection { get; set; }
-        [Browsable(false)]
-        public VLTClassField Field { get; set; }
-        [Browsable(false)]
-        public VLTClass Class { get; set; }
+        protected VLTClass Class { get; set; }
+        protected VLTClassField Field { get; set; }
+        protected VLTCollection Collection { get; set; }
 
-        [Browsable(false)]
-        public bool IsInVLT
+        //public VLTBaseType() { }
+
+        protected VLTBaseType(VLTClass @class, VLTClassField field, VLTCollection collection)
         {
-            get
-            {
-                return
-                    (Field.Flags & DefinitionFlags.kInLayout) == 0
-                    && (Field.Flags & DefinitionFlags.kArray) == 0
-                    && Field.Size <= 4;
-            }
+            Class = @class;
+            Field = field;
+            Collection = collection;
         }
 
-        [Browsable(false)]
-        public int ArrayIndex { get; set; }
+        protected VLTBaseType(VLTClass @class, VLTClassField field)
+        {
+            Class = @class;
+            Field = field;
+        }
 
         public abstract void Read(Vault vault, BinaryReader br);
         public abstract void Write(Vault vault, BinaryWriter bw);

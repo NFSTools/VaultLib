@@ -3,6 +3,7 @@
 // Created: 09/26/2019 @ 7:25 AM.
 
 using System.IO;
+using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.Attrib.Types
 {
@@ -27,6 +28,14 @@ namespace VaultLib.Core.Types.Attrib.Types
             {
                 bw.Write(Data[i]);
             }
+        }
+
+        public Matrix(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Matrix(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

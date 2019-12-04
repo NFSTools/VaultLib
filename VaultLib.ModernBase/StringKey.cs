@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.GameUtilities;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -18,27 +19,17 @@ namespace VaultLib.ModernBase
 
         private Text _text;
 
-        public StringKey()
-        {
-            Value = string.Empty;
-        }
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _text = new Text();
-            _text.Class = Class;
-            _text.Collection = Collection;
-            _text.Field = Field;
+            _text = new Text(Class, Field, Collection);
             br.ReadUInt32();
             _text.Read(vault, br);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _text = new Text();
-            _text.Class = Class;
-            _text.Collection = Collection;
-            _text.Field = Field;
+            _text = new Text(Class, Field, Collection);
             _text.Value = Value;
             bw.Write(string.IsNullOrEmpty(Value) ? 0 : VLT32Hasher.Hash(Value));
             _text.Write(vault, bw);
@@ -78,6 +69,14 @@ namespace VaultLib.ModernBase
         public void SetString(string str)
         {
             Value = str;
+        }
+
+        public StringKey(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public StringKey(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

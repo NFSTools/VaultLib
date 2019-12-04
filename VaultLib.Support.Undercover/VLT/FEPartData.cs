@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -56,9 +57,9 @@ namespace VaultLib.Support.Undercover.VLT
             BrandHALId = br.ReadUInt32();
             LogoTextureId = br.ReadUInt32();
             DetailHash = br.ReadUInt32();
-            PartDetails = new VLTPointerContainer<FEPartDetail>();
+            PartDetails = new VLTPointerContainer<FEPartDetail>(Class, Field, Collection);
             PartDetails.Read(vault, br);
-            _offerIdText = new Text { Class = Class, Collection = Collection, Field = Field };
+            _offerIdText = new Text(Class, Field, Collection);
             _offerIdText.Read(vault, br);
             IsOnlineLockable = br.ReadBoolean();
             br.AlignReader(4);
@@ -112,6 +113,14 @@ namespace VaultLib.Support.Undercover.VLT
         public IEnumerable<string> GetStrings()
         {
             return _offerIdText.GetStrings();
+        }
+
+        public FEPartData(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public FEPartData(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

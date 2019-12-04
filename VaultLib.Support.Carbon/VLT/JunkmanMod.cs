@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
@@ -30,6 +31,14 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(DefinitionKey);
             bw.Write(ScaleF);
             bw.Write(ScaleR);
+        }
+
+        public JunkmanMod(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public JunkmanMod(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

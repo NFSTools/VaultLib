@@ -5,6 +5,7 @@
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -30,6 +31,14 @@ namespace VaultLib.Support.World.VLT
         {
             bw.Write(mCurveIndex);
             bw.WriteEnum(Flags);
+        }
+
+        public GMapCurveRef(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public GMapCurveRef(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

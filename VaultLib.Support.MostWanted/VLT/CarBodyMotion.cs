@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.MostWanted.VLT
@@ -27,6 +28,14 @@ namespace VaultLib.Support.MostWanted.VLT
             bw.Write(DegPerG);
             bw.Write(MaxGs);
             bw.Write(DegPerSec);
+        }
+
+        public CarBodyMotion(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public CarBodyMotion(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

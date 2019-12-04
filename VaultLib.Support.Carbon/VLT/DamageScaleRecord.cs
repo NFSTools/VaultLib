@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT
@@ -24,6 +25,14 @@ namespace VaultLib.Support.Carbon.VLT
         {
             bw.Write(VisualScale);
             bw.Write(HitPointScale);
+        }
+
+        public DamageScaleRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public DamageScaleRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

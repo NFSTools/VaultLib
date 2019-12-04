@@ -42,8 +42,7 @@ namespace VaultLib.LegacyBase.Exports
             }
             else
             {
-                InlineData = new VLTAttribType
-                { Class = Collection.Class, Collection = Collection, Field = Collection.Class.Fields[Key] };
+                InlineData = new VLTAttribType(Collection.Class, Collection.Class.Fields[Key], Collection);
             }
             InlineData.Read(vault, br);
             br.AlignReader(4);

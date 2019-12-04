@@ -8,13 +8,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using CoreLibraries.IO;
+using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class VLTArrayType : VLTBaseType, ICanBootstrap, IReferencesStrings, IReferencesCollections
+    public class VLTArrayType : VLTBaseType, IReferencesStrings, IReferencesCollections
     {
         public ushort FieldSize { get; set; }
 
@@ -26,6 +27,14 @@ namespace VaultLib.Core.Types
 
         public VLTBaseType[] Items { get; set; }
 
+        public VLTArrayType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public VLTArrayType(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public override void Read(Vault vault, BinaryReader br)
         {
             Capacity = br.ReadUInt16();
@@ -33,12 +42,12 @@ namespace VaultLib.Core.Types
             Debug.Assert(count <= Capacity);
             Items = new VLTBaseType[count];
             FieldSize = br.ReadUInt16();
-            ushort _u1 = br.ReadUInt16();
+            br.ReadUInt16();
 
             for (int i = 0; i < Items.Length; i++)
             {
-                Items[i] = (VLTBaseType)Activator.CreateInstance(ItemType);
-                Items[i].ArrayIndex = i;
+                Items[i] = TypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
+                //Items[i] = (VLTBaseType)Activator.CreateInstance(ItemType, Class, Field, Collection);
 
                 br.AlignReader(ItemAlignment);
 
@@ -47,18 +56,7 @@ namespace VaultLib.Core.Types
                     unknown.Size = FieldSize;
                 }
 
-                var start = br.BaseStream.Position;
-
-                Items[i].Collection = Collection;
-                Items[i].Class = Class;
-                Items[i].Field = Field;
                 Items[i].Read(vault, br);
-
-                if (!(Items[i] is PrimitiveTypeBase) && br.BaseStream.Position - start != FieldSize)
-                {
-                    Debug.WriteLine("{0} start at {1:X} end at {2:X} (diff {3} vs {4})", ItemType, start, br.BaseStream.Position, br.BaseStream.Position - start, FieldSize);
-                    throw new Exception();
-                }
             }
 
             br.BaseStream.Position += (Capacity - count) * FieldSize;
@@ -127,11 +125,6 @@ namespace VaultLib.Core.Types
         public override string ToString()
         {
             return string.Join<VLTBaseType>(" | ", Items);
-        }
-
-        public void Bootstrap()
-        {
-            Items = new VLTBaseType[0];
         }
 
         public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)

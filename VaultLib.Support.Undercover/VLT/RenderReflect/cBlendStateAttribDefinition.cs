@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib.Types;
 using VaultLib.Core.Types.EA.Reflection;
@@ -41,7 +42,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _debugNameText = new Text { Class = Class, Collection = Collection, Field = Field };
+            _debugNameText = new Text(Class, Field, Collection);
             _debugNameText.Read(vault, br);
             BlendEnable = br.ReadBoolean();
             AlphaTestEnable = br.ReadBoolean();
@@ -54,7 +55,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             SourceAlpha = br.ReadArray(br.ReadEnum<State_BlendInput>, 4);
             DestAlpha = br.ReadArray(br.ReadEnum<State_BlendInput>, 4);
             OperationAlpha = br.ReadArray(br.ReadEnum<State_BlendOp>, 4);
-            BlendFactor = new Vector4();
+            BlendFactor = new Vector4(Class, Field, Collection);
             BlendFactor.Read(vault, br);
             RGBAEnableRT0 = br.ReadArray(br.ReadBoolean, 4);
             RGBAEnableRT1 = br.ReadArray(br.ReadBoolean, 4);
@@ -112,6 +113,14 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public IEnumerable<string> GetStrings()
         {
             return _debugNameText.GetStrings();
+        }
+
+        public cBlendStateAttribDefinition(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public cBlendStateAttribDefinition(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -18,7 +19,7 @@ namespace VaultLib.Support.Undercover.VLT
         {
             if (br.ReadUInt32() != 0)
                 throw new InvalidDataException();
-            Curve = new Curve();
+            Curve = new Curve(Class, Field, Collection);
             Curve.Read(vault, br);
         }
 
@@ -41,6 +42,14 @@ namespace VaultLib.Support.Undercover.VLT
         public void AddPointers(Vault vault)
         {
             Curve.AddPointers(vault);
+        }
+
+        public CameraCurveReactionRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public CameraCurveReactionRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

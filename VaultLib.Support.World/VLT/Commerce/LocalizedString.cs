@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -18,27 +19,15 @@ namespace VaultLib.Support.World.VLT.Commerce
 
         public string Value { get; set; }
 
-        public LocalizedString()
-        {
-            Value = string.Empty;
-        }
-
         public override void Read(Vault vault, BinaryReader br)
         {
-            _text = new Text();
-            _text.Collection = Collection;
-            _text.Class = Class;
-            _text.Field = Field;
+            _text = new Text(Class, Field, Collection);
             _text.Read(vault, br);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _text = new Text();
-            _text.Collection = Collection;
-            _text.Class = Class;
-            _text.Field = Field;
-            _text.Value = Value;
+            _text = new Text(Class, Field, Collection) { Value = Value };
             _text.Write(vault, bw);
         }
 
@@ -71,6 +60,14 @@ namespace VaultLib.Support.World.VLT.Commerce
         public void SetString(string str)
         {
             Value = str;
+        }
+
+        public LocalizedString(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public LocalizedString(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

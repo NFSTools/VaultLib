@@ -90,7 +90,10 @@ namespace VaultLib.LegacyBase.Exports
                 }
                 else
                 {
-                    entry.InlineData = new VLTAttribType { Data = optionalDataColumn.Value, Class = Collection.Class, Collection = Collection, Field = vltClassField };
+                    entry.InlineData = new VLTAttribType(Collection.Class, vltClassField, Collection)
+                    {
+                        Data = optionalDataColumn.Value
+                    };
                 }
 
                 if (vltClassField.IsArray)

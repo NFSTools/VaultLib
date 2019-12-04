@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -22,7 +23,7 @@ namespace VaultLib.Support.MostWanted.VLT
         public override void Read(Vault vault, BinaryReader br)
         {
             Goal = br.ReadUInt32();
-            Reaction = new RefSpec();
+            Reaction = new RefSpec(Class, Field, Collection);
             Reaction.Read(vault, br);
         }
 
@@ -40,6 +41,14 @@ namespace VaultLib.Support.MostWanted.VLT
         public bool ReferencesCollection(string classKey, string collectionKey)
         {
             throw new System.NotImplementedException();
+        }
+
+        public AICollisionReactionRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public AICollisionReactionRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -21,7 +22,7 @@ namespace VaultLib.Support.World.VLT.PowerUps
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            RefSpec rs = new RefSpec();
+            RefSpec rs = new RefSpec(Class, Field, Collection);
             rs.Read(vault, br);
             uint type = br.ReadUInt32();
 
@@ -31,7 +32,7 @@ namespace VaultLib.Support.World.VLT.PowerUps
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            RefSpec rs = new RefSpec();
+            RefSpec rs = new RefSpec(Class, Field, Collection);
             rs.ClassKey = "powerup_gamegroup";
             rs.CollectionKey = GroupKey;
             rs.Write(vault, bw);
@@ -46,6 +47,14 @@ namespace VaultLib.Support.World.VLT.PowerUps
         public bool ReferencesCollection(string classKey, string collectionKey)
         {
             return classKey == "powerup_gamegroup" && collectionKey == GroupKey;
+        }
+
+        public GameplayEffectAndTarget(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public GameplayEffectAndTarget(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

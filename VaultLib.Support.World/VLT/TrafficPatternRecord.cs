@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -22,7 +23,7 @@ namespace VaultLib.Support.World.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Vehicle = new RefSpec();
+            Vehicle = new RefSpec(Class, Field, Collection);
             Vehicle.Read(vault, br);
             Rate = br.ReadSingle();
             MaxInstances = br.ReadUInt32();
@@ -50,6 +51,14 @@ namespace VaultLib.Support.World.VLT
         public bool ReferencesCollection(string classKey, string collectionKey)
         {
             return Vehicle.ClassKey == classKey && Vehicle.CollectionKey == collectionKey;
+        }
+
+        public TrafficPatternRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public TrafficPatternRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

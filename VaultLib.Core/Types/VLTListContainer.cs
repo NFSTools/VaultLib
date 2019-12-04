@@ -2,13 +2,15 @@
 // 
 // Created: 10/19/2019 @ 4:49 PM.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
+using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class VLTListContainer<T> : VLTBaseType, IPointerObject where T : VLTBaseType, new()
+    public class VLTListContainer<T> : VLTBaseType, IPointerObject where T : VLTBaseType
     {
         public List<T> Items { get; }
 
@@ -16,11 +18,6 @@ namespace VaultLib.Core.Types
 
         private long _srcPtr;
         private long _dstPtr;
-
-        public VLTListContainer(int count)
-        {
-            Items = new List<T>(count);
-        }
 
         public override void Read(Vault vault, BinaryReader br)
         {
@@ -39,7 +36,7 @@ namespace VaultLib.Core.Types
 
             for (int i = 0; i < Items.Capacity; i++)
             {
-                T item = new T();
+                T item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
                 item.Read(vault, br);
                 Items.Add(item);
             }
@@ -58,6 +55,15 @@ namespace VaultLib.Core.Types
         public void AddPointers(Vault vault)
         {
             vault.SaveContext.AddPointer(_srcPtr, _dstPtr, false);
+        }
+
+        public VLTListContainer(VLTClass @class, VLTClassField field, VLTCollection collection, int count) : base(@class, field, collection)
+        {
+            Items = new List<T>(count);
+        }
+
+        public VLTListContainer(VLTClass @class, VLTClassField field, int count) : this(@class, field, null, count)
+        {
         }
     }
 }

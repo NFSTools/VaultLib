@@ -3,6 +3,7 @@
 // Created: 09/28/2019 @ 3:52 PM.
 
 using System.IO;
+using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.Attrib.Types
 {
@@ -27,6 +28,14 @@ namespace VaultLib.Core.Types.Attrib.Types
         public override string ToString()
         {
             return $"({X}, {Y})";
+        }
+
+        public Vector2(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Vector2(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

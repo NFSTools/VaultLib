@@ -5,6 +5,7 @@
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.MostWanted.VLT
@@ -41,6 +42,14 @@ namespace VaultLib.Support.MostWanted.VLT
             bw.Write(Duration);
             bw.Write(PriorityChance);
             bw.Write(PriorityTime);
+        }
+
+        public LeaderSupport(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public LeaderSupport(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

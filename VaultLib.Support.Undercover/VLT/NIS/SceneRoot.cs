@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -40,7 +41,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public override void Read(Vault vault, BinaryReader br)
         {
             SceneRootType = br.ReadEnum<eSceneRoot>();
-            _markerNameText = new Text {Class = Class, Collection = Collection, Field = Field};
+            _markerNameText = new Text(Class, Field, Collection);
             _markerNameText.Read(vault, br);
         }
 
@@ -69,6 +70,14 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public IEnumerable<string> GetStrings()
         {
             return _markerNameText.GetStrings();
+        }
+
+        public SceneRoot(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public SceneRoot(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

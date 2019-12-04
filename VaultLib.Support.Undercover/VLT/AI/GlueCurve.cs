@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -17,8 +18,8 @@ namespace VaultLib.Support.Undercover.VLT.AI
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Easy = new Curve();
-            Hard = new Curve();
+            Easy = new Curve(Class, Field, Collection);
+            Hard = new Curve(Class, Field, Collection);
 
             Easy.Read(vault, br);
             Hard.Read(vault, br);
@@ -46,6 +47,14 @@ namespace VaultLib.Support.Undercover.VLT.AI
         {
             Easy.AddPointers(vault);
             Hard.AddPointers(vault);
+        }
+
+        public GlueCurve(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public GlueCurve(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -22,8 +23,8 @@ namespace VaultLib.Support.ProStreet.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _slotNameText = new Text { Class = Class, Collection = Collection, Field = Field };
-            Camera = new RefSpec();
+            _slotNameText = new Text(Class, Field, Collection);
+            Camera = new RefSpec(Class, Field, Collection);
 
             _slotNameText.Read(vault, br);
             Camera.Read(vault, br);
@@ -54,6 +55,14 @@ namespace VaultLib.Support.ProStreet.VLT
         public IEnumerable<string> GetStrings()
         {
             return _slotNameText.GetStrings();
+        }
+
+        public FEPartCamera(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public FEPartCamera(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

@@ -26,6 +26,8 @@ namespace VaultLib.Core
 
         private static readonly HashSet<string> UnknownTypes = new HashSet<string>();
 
+        private static readonly Dictionary<Type, ObjectActivator<VLTBaseType>> _activators = new Dictionary<Type, ObjectActivator<VLTBaseType>>();
+
         /// <summary>
         /// Initializes the type registry. Registers some default types.
         /// </summary>
@@ -116,11 +118,12 @@ namespace VaultLib.Core
 
             if (vltClassField.IsArray)
             {
-                instance = new VLTArrayType { ItemType = type, ItemAlignment = vltClassField.Alignment };
+                instance = new VLTArrayType(vltClass, vltClassField, collection) { ItemType = type, ItemAlignment = vltClassField.Alignment };
             }
             else
             {
-                instance = (VLTBaseType)Activator.CreateInstance(type);
+                instance = ConstructInstance(type, vltClass, vltClassField, collection);
+                //instance = (VLTBaseType)Activator.CreateInstance(type, vltClass, vltClassField, collection);
             }
 
             if (instance is VLTUnknown unknown)
@@ -128,11 +131,23 @@ namespace VaultLib.Core
                 unknown.Size = vltClassField.Size;
             }
 
-            instance.Collection = collection;
-            instance.Class = vltClass;
-            instance.Field = vltClassField;
-
             return instance;
+        }
+
+        public static VLTBaseType ConstructInstance(Type type, VLTClass vltClass, VLTClassField vltClassField,
+            VLTCollection collection)
+        {
+            if (!_activators.TryGetValue(type, out ObjectActivator<VLTBaseType> activator))
+            {
+                activator = ReflectionUtils.GetActivator<VLTBaseType>(type.GetConstructor(new Type[]
+                {
+                    typeof(VLTClass), typeof(VLTClassField), typeof(VLTCollection)
+                }));
+
+                _activators[type] = activator;
+            }
+
+            return activator(vltClass, vltClassField, collection);
         }
 
         /// <summary>

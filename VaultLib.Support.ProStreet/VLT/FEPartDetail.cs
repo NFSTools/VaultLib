@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.ProStreet.VLT
@@ -23,6 +24,14 @@ namespace VaultLib.Support.ProStreet.VLT
         {
             bw.Write(Logo);
             bw.Write(Name);
+        }
+
+        public FEPartDetail(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public FEPartDetail(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

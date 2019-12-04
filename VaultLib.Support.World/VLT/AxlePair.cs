@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -29,6 +30,14 @@ namespace VaultLib.Support.World.VLT
         public override string ToString()
         {
             return $"[{Front}, {Rear}]";
+        }
+
+        public AxlePair(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public AxlePair(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

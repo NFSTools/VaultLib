@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.EA.Reflection
 {
@@ -31,6 +32,14 @@ namespace VaultLib.Core.Types.EA.Reflection
         public override void SetValue(IConvertible value)
         {
             Value = (short)value;
+        }
+
+        public Int16(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Int16(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -48,9 +49,9 @@ namespace VaultLib.Support.ProStreet.VLT
             BrandHALId = br.ReadUInt32();
             LogoTextureId = br.ReadUInt32();
 
-            AutoSculptCamera1 = new VLTListContainer<RefSpec>(br.ReadByte());
-            AutoSculptCamera2 = new VLTListContainer<RefSpec>(br.ReadByte());
-            AutoSculptCamera3 = new VLTListContainer<RefSpec>(br.ReadByte());
+            AutoSculptCamera1 = new VLTListContainer<RefSpec>(Class, Field, Collection, br.ReadByte());
+            AutoSculptCamera2 = new VLTListContainer<RefSpec>(Class, Field, Collection, br.ReadByte());
+            AutoSculptCamera3 = new VLTListContainer<RefSpec>(Class, Field, Collection, br.ReadByte());
             byte b = br.ReadByte();
 
             if (b != 0)
@@ -62,9 +63,9 @@ namespace VaultLib.Support.ProStreet.VLT
 
             DetailHash = br.ReadUInt32();
 
-            PartDetails = new VLTPointerContainer<FEPartDetail>();
+            PartDetails = new VLTPointerContainer<FEPartDetail>(Class, Field, Collection);
             PartDetails.Read(vault, br);
-            _offerIdText = new Text { Class = Class, Collection = Collection, Field = Field };
+            _offerIdText = new Text(Class, Field, Collection);
             _offerIdText.Read(vault, br);
         }
 
@@ -124,6 +125,14 @@ namespace VaultLib.Support.ProStreet.VLT
         public IEnumerable<string> GetStrings()
         {
             return _offerIdText.GetStrings();
+        }
+
+        public FEPartData(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public FEPartData(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

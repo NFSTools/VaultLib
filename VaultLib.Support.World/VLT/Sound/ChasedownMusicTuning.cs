@@ -1,5 +1,6 @@
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
@@ -85,6 +86,14 @@ namespace VaultLib.Support.World.VLT.Sound
             {
                 bw.Write(OpponentDamageThreshold[i]);
             }
+        }
+
+        public ChasedownMusicTuning(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public ChasedownMusicTuning(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

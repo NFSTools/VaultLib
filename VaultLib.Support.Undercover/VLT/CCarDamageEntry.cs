@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -28,13 +29,13 @@ namespace VaultLib.Support.Undercover.VLT
         public override void Read(Vault vault, BinaryReader br)
         {
             PartID = br.ReadInt32();
-            _attachPartText = new Text { Class = Class, Collection = Collection, Field = Field };
+            _attachPartText = new Text(Class, Field, Collection);
             _attachPartText.Read(vault, br);
-            Material = new RefSpec();
+            Material = new RefSpec(Class, Field, Collection);
             Material.Read(vault, br);
-            _smackableCollisionNameText = new Text { Class = Class, Collection = Collection, Field = Field };
+            _smackableCollisionNameText = new Text(Class, Field, Collection);
             _smackableCollisionNameText.Read(vault, br);
-            SmackableCollisionAttribute = new RefSpec();
+            SmackableCollisionAttribute = new RefSpec(Class, Field, Collection);
             SmackableCollisionAttribute.Read(vault, br);
         }
 
@@ -71,6 +72,14 @@ namespace VaultLib.Support.Undercover.VLT
         {
             return _attachPartText.GetStrings()
                 .Concat(_smackableCollisionNameText.GetStrings());
+        }
+
+        public CCarDamageEntry(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public CCarDamageEntry(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

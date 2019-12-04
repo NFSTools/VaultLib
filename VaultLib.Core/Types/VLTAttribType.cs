@@ -5,6 +5,7 @@
 using System.Diagnostics;
 using System.IO;
 using CoreLibraries.IO;
+using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
@@ -63,6 +64,14 @@ namespace VaultLib.Core.Types
             {
                 pointerObject.AddPointers(vault);
             }
+        }
+
+        public VLTAttribType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public VLTAttribType(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -20,7 +21,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _debugNameText = new Text { Class = Class, Collection = Collection, Field = Field };
+            _debugNameText = new Text(Class, Field, Collection);
             _debugNameText.Read(vault, br);
             Data = br.ReadBytes(76);
         }
@@ -50,6 +51,14 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public IEnumerable<string> GetStrings()
         {
             return _debugNameText.GetStrings();
+        }
+
+        public cDepthStencilStateAttribDefinition(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public cDepthStencilStateAttribDefinition(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

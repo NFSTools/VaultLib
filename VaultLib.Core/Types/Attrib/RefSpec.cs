@@ -4,6 +4,7 @@
 
 using System.IO;
 using CoreLibraries.GameUtilities;
+using VaultLib.Core.Data;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
 
@@ -46,6 +47,14 @@ namespace VaultLib.Core.Types.Attrib
                 bw.Write(VLT32Hasher.Hash(CollectionKey));
                 bw.Write(0);
             }
+        }
+
+        public RefSpec(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public RefSpec(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

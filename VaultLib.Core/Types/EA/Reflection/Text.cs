@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using CoreLibraries.IO;
+using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.EA.Reflection
 {
     [VLTTypeInfo("EA::Reflection::Text")]
     [PrimitiveInfo(typeof(string))]
-    public class Text : PrimitiveTypeBase, IReferencesStrings, IStringValue, ICanBootstrap
+    public class Text : PrimitiveTypeBase, IReferencesStrings, IStringValue
     {
         public string Value { get; set; }
 
@@ -58,7 +59,9 @@ namespace VaultLib.Core.Types.EA.Reflection
         public void AddPointers(Vault vault)
         {
             Debug.Assert(_internalPointerSrc != 0 && _internalPointerDst != 0);
-            vault.SaveContext.AddPointer(_internalPointerSrc, _internalPointerDst, IsInVLT);
+
+            // TODO: come back to this
+            vault.SaveContext.AddPointer(_internalPointerSrc, _internalPointerDst, /*IsInVLT*/false);
         }
 
         public string GetString()
@@ -84,6 +87,14 @@ namespace VaultLib.Core.Types.EA.Reflection
         public override void SetValue(IConvertible value)
         {
             SetString((string)value);
+        }
+
+        public Text(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Text(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using CoreLibraries.IO;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Core.Types
@@ -31,6 +32,14 @@ namespace VaultLib.Core.Types
         public override void SetValue(IConvertible value)
         {
             Value = (T) value;
+        }
+
+        public VLTEnumType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public VLTEnumType(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

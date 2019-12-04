@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -74,6 +75,14 @@ namespace VaultLib.Support.World.VLT
         {
             bw.WriteEnum(mEnum);
             bw.Write(mIndex);
+        }
+
+        public ParticleTextureRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public ParticleTextureRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

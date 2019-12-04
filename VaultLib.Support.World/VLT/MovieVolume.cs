@@ -1,6 +1,7 @@
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -23,6 +24,14 @@ namespace VaultLib.Support.World.VLT
             bw.Write(Hash);
             bw.Write(Volume);
             bw.AlignWriter(4);
+        }
+
+        public MovieVolume(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public MovieVolume(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

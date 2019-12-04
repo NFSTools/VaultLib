@@ -1,5 +1,6 @@
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
@@ -107,6 +108,14 @@ namespace VaultLib.Support.World.VLT.Sound
             bw.Write(Unknown2);
             bw.Write(Unknown3);
             bw.Write(Unknown4);
+        }
+
+        public SirenTuning(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public SirenTuning(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

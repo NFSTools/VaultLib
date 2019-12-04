@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore
@@ -21,6 +22,14 @@ namespace VaultLib.Support.World.VLT.GameCore
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write(Key);
+        }
+
+        public StringKey(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public StringKey(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.GameUtilities;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -28,10 +29,7 @@ namespace VaultLib.Support.World.VLT
         public override void Read(Vault vault, BinaryReader br)
         {
             br.ReadUInt32(); // stringhash32(KitName)
-            _kitName = new Text();
-            _kitName.Collection = Collection;
-            _kitName.Class = Class;
-            _kitName.Field = Field;
+            _kitName = new Text(Class, Field, Collection);
             _kitName.Read(vault, br);
             Offset = br.ReadUInt32();
         }
@@ -42,11 +40,7 @@ namespace VaultLib.Support.World.VLT
                 bw.Write(0);
             else
                 bw.Write(VLT32Hasher.Hash(KitName));
-            _kitName = new Text();
-            _kitName.Collection = Collection;
-            _kitName.Class = Class;
-            _kitName.Field = Field;
-            _kitName.Value = KitName;
+            _kitName = new Text(Class, Field, Collection) { Value = KitName };
             _kitName.Write(vault, bw);
             bw.Write(Offset);
         }
@@ -70,6 +64,14 @@ namespace VaultLib.Support.World.VLT
         public void AddPointers(Vault vault)
         {
             _kitName.AddPointers(vault);
+        }
+
+        public IntegratedKitWheelOffset(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public IntegratedKitWheelOffset(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

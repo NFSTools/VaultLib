@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
@@ -138,6 +139,14 @@ namespace VaultLib.Support.World.VLT.Sound
             bw.Write(PctMaxVel_High);
             bw.Write(MaxPursuitDist);
             bw.Write(MinCopCohesion);
+        }
+
+        public PursuitMusicTuning(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public PursuitMusicTuning(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

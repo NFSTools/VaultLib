@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -50,7 +51,7 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
 
             for (int i = 0; i < Sliders.Capacity; i++)
             {
-                Slider slider = new Slider();
+                Slider slider = new Slider(Class, Field, Collection);
                 slider.Read(vault, br);
                 Sliders.Add(slider);
             }
@@ -64,6 +65,14 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
         public void AddPointers(Vault vault)
         {
             vault.SaveContext.AddPointer(_srcSlidersPtr, _dstSlidersPtr, false);
+        }
+
+        public Alias(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Alias(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

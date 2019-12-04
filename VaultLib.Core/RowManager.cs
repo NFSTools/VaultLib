@@ -147,9 +147,6 @@ namespace VaultLib.Core
             VLTCollection collection = new VLTCollection(vault, _database.FindClass(className), newName,
                 _database.Is64Bit ? VLT64Hasher.Hash(newName) : VLT32Hasher.Hash(newName));
 
-            // Create base fields
-            collection.BootstrapData();
-
             if (parentCollection != null)
             {
                 // Make the new collection a child of the parent

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.GameUtilities;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -23,10 +24,7 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _keyString = new Text();
-            _keyString.Collection = Collection;
-            _keyString.Class = Class;
-            _keyString.Field = Field;
+            _keyString = new Text(Class, Field, Collection);
             _keyString.Read(vault, br);
 
             br.ReadUInt32(); // stringhash32(KeyString)
@@ -35,11 +33,7 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _keyString = new Text();
-            _keyString.Collection = Collection;
-            _keyString.Class = Class;
-            _keyString.Field = Field;
-            _keyString.Value = KeyString;
+            _keyString = new Text(Class, Field, Collection) { Value = KeyString };
             _keyString.Write(vault, bw);
             bw.Write(string.IsNullOrEmpty(KeyString) ? 0 : VLT32Hasher.Hash(KeyString));
             bw.Write(Value);
@@ -47,7 +41,7 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public IEnumerable<string> GetStrings()
         {
-            return new[] {KeyString};
+            return new[] { KeyString };
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -64,6 +58,14 @@ namespace VaultLib.Support.World.VLT.GameCore
         public void AddPointers(Vault vault)
         {
             _keyString.AddPointers(vault);
+        }
+
+        public KeyValuePair(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public KeyValuePair(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

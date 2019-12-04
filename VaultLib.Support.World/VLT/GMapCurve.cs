@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -24,6 +25,14 @@ namespace VaultLib.Support.World.VLT
         {
             bw.Write(mPointStart);
             bw.Write(mPointCount);
+        }
+
+        public GMapCurve(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public GMapCurve(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

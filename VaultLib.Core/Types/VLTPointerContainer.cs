@@ -2,7 +2,9 @@
 // 
 // Created: 10/19/2019 @ 4:56 PM.
 
+using System;
 using System.IO;
+using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
@@ -11,7 +13,7 @@ namespace VaultLib.Core.Types
     /// Helper class for reading data types through a pointer
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class VLTPointerContainer<T> : VLTBaseType, IPointerObject where T : VLTBaseType, new()
+    public class VLTPointerContainer<T> : VLTBaseType, IPointerObject where T : VLTBaseType
     {
         public T Value { get; set; }
 
@@ -34,7 +36,7 @@ namespace VaultLib.Core.Types
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
             br.BaseStream.Position = _pointer;
-            Value = new T();
+            Value = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
             Value.Read(vault, br);
 
             if (Value is IPointerObject pointerObject)
@@ -57,6 +59,14 @@ namespace VaultLib.Core.Types
         public void AddPointers(Vault vault)
         {
             vault.SaveContext.AddPointer(_ptrSrc, _ptrDst, false);
+        }
+
+        public VLTPointerContainer(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public VLTPointerContainer(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

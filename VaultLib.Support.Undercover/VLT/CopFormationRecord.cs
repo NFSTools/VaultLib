@@ -1,6 +1,7 @@
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
@@ -24,6 +25,14 @@ namespace VaultLib.Support.Undercover.VLT
             bw.WriteEnum(FormationType);
             bw.Write(Duration);
             bw.Write(Frequency);
+        }
+
+        public CopFormationRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public CopFormationRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

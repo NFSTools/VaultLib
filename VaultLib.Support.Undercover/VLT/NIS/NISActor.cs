@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -26,8 +27,8 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _actorNameText = new Text {Class = Class, Collection = Collection, Field = Field};
-            _carChannelNameText = new Text {Class = Class, Collection = Collection, Field = Field};
+            _actorNameText = new Text(Class, Field, Collection);
+            _carChannelNameText = new Text(Class, Field, Collection);
 
             _actorNameText.Read(vault, br);
             _carChannelNameText.Read(vault, br);
@@ -74,6 +75,14 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public IEnumerable<string> GetStrings()
         {
             return _actorNameText.GetStrings().Concat(_carChannelNameText.GetStrings());
+        }
+
+        public NISActor(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public NISActor(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

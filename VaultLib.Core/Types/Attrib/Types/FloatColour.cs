@@ -3,6 +3,7 @@
 // Created: 09/27/2019 @ 4:52 PM.
 
 using System.IO;
+using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.Attrib.Types
 {
@@ -35,6 +36,14 @@ namespace VaultLib.Core.Types.Attrib.Types
         public override string ToString()
         {
             return $"R: {R} G: {G} B: {B} A: {A}";
+        }
+
+        public FloatColour(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public FloatColour(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

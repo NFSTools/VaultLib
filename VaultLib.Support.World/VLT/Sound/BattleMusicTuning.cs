@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
@@ -30,6 +31,14 @@ namespace VaultLib.Support.World.VLT.Sound
             bw.Write(TimeAhead_MedToLo);
             bw.Write(TimeBehind_HiToFail);
             bw.Write(TimeAhead_FailToHi);
+        }
+
+        public BattleMusicTuning(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public BattleMusicTuning(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

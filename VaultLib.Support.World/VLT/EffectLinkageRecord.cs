@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -26,9 +27,9 @@ namespace VaultLib.Support.World.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Surface = new RefSpec();
-            Effect = new RefSpec();
-            Audio = new RefSpec();
+            Surface = new RefSpec(Class, Field, Collection);
+            Effect = new RefSpec(Class, Field, Collection);
+            Audio = new RefSpec(Class, Field, Collection);
 
             Surface.Read(vault, br);
             Effect.Read(vault, br);
@@ -63,6 +64,14 @@ namespace VaultLib.Support.World.VLT
             return Surface.ReferencesCollection(classKey, collectionKey)
                    || Effect.ReferencesCollection(classKey, collectionKey)
                    || Audio.ReferencesCollection(classKey, collectionKey);
+        }
+
+        public EffectLinkageRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public EffectLinkageRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

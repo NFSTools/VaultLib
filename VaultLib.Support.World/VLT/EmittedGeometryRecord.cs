@@ -5,6 +5,7 @@
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -60,6 +61,14 @@ namespace VaultLib.Support.World.VLT
         {
             bw.WriteEnum(Value);
             bw.Write(Index);
+        }
+
+        public EmittedGeometryRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public EmittedGeometryRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

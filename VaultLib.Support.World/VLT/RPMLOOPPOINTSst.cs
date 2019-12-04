@@ -1,5 +1,6 @@
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -71,6 +72,14 @@ namespace VaultLib.Support.World.VLT
             bw.Write(RPM_CRZ_HI_IN);
             bw.Write(RPM_CRZ_HI_PEAK);
             bw.Write(RPM_CRZ_HI_OUT);
+        }
+
+        public RPMLOOPPOINTSst(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public RPMLOOPPOINTSst(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

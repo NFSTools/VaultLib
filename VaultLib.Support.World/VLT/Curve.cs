@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -87,6 +88,14 @@ namespace VaultLib.Support.World.VLT
             _xArray.AddPointers(vault);
             _yArray.AddPointers(vault);
             _y2Array.AddPointers(vault);
+        }
+
+        public Curve(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Curve(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

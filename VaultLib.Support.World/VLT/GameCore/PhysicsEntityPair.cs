@@ -1,6 +1,7 @@
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore
@@ -21,6 +22,14 @@ namespace VaultLib.Support.World.VLT.GameCore
         {
             bw.WriteEnum(Entity1);
             bw.WriteEnum(Entity2);
+        }
+
+        public PhysicsEntityPair(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public PhysicsEntityPair(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

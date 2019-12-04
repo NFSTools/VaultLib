@@ -4,6 +4,7 @@
 
 using System.IO;
 using CoreLibraries.GameUtilities;
+using VaultLib.Core.Data;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
 
@@ -11,10 +12,10 @@ namespace VaultLib.Core.Types.Attrib.Gen
 {
     public abstract class ClassRefSpec_template : BaseRefSpec
     {
-        protected ClassRefSpec_template(string classKey)
-        {
-            ClassKey = classKey;
-        }
+        //protected ClassRefSpec_template(string classKey)
+        //{
+        //    ClassKey = classKey;
+        //}
 
         public override bool CanChangeClass => false;
 
@@ -38,6 +39,16 @@ namespace VaultLib.Core.Types.Attrib.Gen
         public override string ToString()
         {
             return $"{ClassKey} -> {CollectionKey}";
+        }
+
+        protected ClassRefSpec_template(VLTClass @class, VLTClassField field, VLTCollection collection, string classKey) : base(@class, field, collection)
+        {
+            ClassKey = classKey;
+        }
+
+        protected ClassRefSpec_template(VLTClass @class, VLTClassField field, string classKey) : base(@class, field)
+        {
+            ClassKey = classKey;
         }
     }
 }

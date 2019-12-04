@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -139,6 +140,14 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
             vault.SaveContext.AddPointer(ElementsPointer, ElementsDest, false);
             vault.SaveContext.AddPointer(TreePointer, TreeDest, false);
             vault.SaveContext.AddPointer(EndPointer, EndDest, false);
+        }
+
+        public Static_Inorder_N_to_1(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Static_Inorder_N_to_1(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

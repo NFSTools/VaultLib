@@ -94,35 +94,6 @@ namespace VaultLib.Core.Data
             this.Children = new FastObservableCollection<VLTCollection>();
         }
 
-
-        /// <summary>
-        /// Initializes the collection's data map
-        /// with values for base fields.
-        /// </summary>
-        public void BootstrapData()
-        {
-            if (this.DataRow.Any())
-            {
-                throw new InvalidOperationException("Cannot bootstrap a collection that already has data");
-            }
-
-            foreach (var baseField in this.Class.BaseFields)
-            {
-                VLTBaseType data = TypeRegistry.CreateInstance(this.Vault.Database.Game, Class, baseField, this);
-
-                if (data is ICanBootstrap cb)
-                {
-                    cb.Bootstrap();
-                }
-                else
-                {
-                    Debug.WriteLine("field {0} ({1}): bootstrap not implemented ({2})", baseField.Name, baseField.TypeName, data.GetType());
-                }
-
-                this.DataRow[baseField.Key] = data;
-            }
-        }
-
         /// <summary>
         /// Makes the current collection a child of the given collection.
         /// </summary>

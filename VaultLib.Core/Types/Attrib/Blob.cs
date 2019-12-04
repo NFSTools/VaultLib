@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using CoreLibraries.GameUtilities;
+using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib
@@ -173,6 +174,14 @@ namespace VaultLib.Core.Types.Attrib
         public void AddPointers(Vault vault)
         {
             vault.SaveContext.AddPointer(_dataPtrSrc, _dataPtrDst, false);
+        }
+
+        public Blob(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Blob(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

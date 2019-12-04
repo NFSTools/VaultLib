@@ -5,6 +5,7 @@
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.MostWanted.VLT
@@ -39,6 +40,14 @@ namespace VaultLib.Support.MostWanted.VLT
             bw.Write(Chance);
             bw.Write(Duration);
             bw.Write(ChanceBigSUV);
+        }
+
+        public HeavySupport(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public HeavySupport(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }

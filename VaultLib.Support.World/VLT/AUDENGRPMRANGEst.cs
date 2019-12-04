@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -42,6 +43,14 @@ namespace VaultLib.Support.World.VLT
             bw.Write(LD_MED_RPM);
             bw.Write(LD_HI_RPM);
             bw.Write(REVLMT_RPM);
+        }
+
+        public AUDENGRPMRANGEst(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public AUDENGRPMRANGEst(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
     }
 }
