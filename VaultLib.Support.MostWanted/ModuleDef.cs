@@ -19,10 +19,10 @@ namespace VaultLib.Support.MostWanted
         {
             TypeRegistry.Register<StringKey64>("Attrib::StringKey", GameIdHelper.ID_MW);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(GetType()), GameIdHelper.ID_MW);
-            ExportFactory.SetClassLoadCreator<LegacyClassLoad>(GameIdHelper.ID_MW);
-            ExportFactory.SetCollectionLoadCreator<LegacyCollectionLoad>(GameIdHelper.ID_MW);
+            ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_MW);
+            ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_MW);
             ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_MW);
-            ExportFactory.SetExportEntryCreator<LegacyExportEntry>(GameIdHelper.ID_MW);
+            ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_MW);
         }
     }
 }

@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports
 {
-    public class LegacyAttribEntry : IFileAccess, IPointerObject
+    public class AttribEntry : IFileAccess, IPointerObject
     {
         [Flags]
         public enum NodeFlagsEnum : ushort
@@ -26,7 +26,7 @@ namespace VaultLib.LegacyBase.Exports
         public VLTBaseType InlineData { get; set; }
         public VLTCollection Collection { get; }
 
-        public LegacyAttribEntry(VLTCollection collection)
+        public AttribEntry(VLTCollection collection)
         {
             Collection = collection;
         }

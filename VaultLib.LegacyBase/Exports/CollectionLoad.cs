@@ -18,11 +18,11 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports
 {
-    public class LegacyCollectionLoad : BaseCollectionLoad
+    public class CollectionLoad : BaseCollectionLoad
     {
         private uint _layoutPointer;
         private uint[] _types;
-        private LegacyAttribEntry[] _entries;
+        private AttribEntry[] _entries;
 
         private long _srcLayoutPtr;
         private long _dstLayoutPtr;
@@ -48,11 +48,11 @@ namespace VaultLib.LegacyBase.Exports
                 _types[i] = (br.ReadUInt32());
             }
 
-            _entries = new LegacyAttribEntry[mNumEntries];
+            _entries = new AttribEntry[mNumEntries];
 
             for (var i = 0; i < mNumEntries; i++)
             {
-                var attribEntry = new LegacyAttribEntry(Collection);
+                var attribEntry = new AttribEntry(Collection);
                 attribEntry.Read(vault, br);
                 _entries[i] = attribEntry;
             }
@@ -67,7 +67,7 @@ namespace VaultLib.LegacyBase.Exports
                                                                           where Collection.Class.Fields[pair.Key].IsOptional
                                                                           select pair).ToList();
 
-            _entries = new LegacyAttribEntry[optionalDataColumns.Count];
+            _entries = new AttribEntry[optionalDataColumns.Count];
             _types = Collection.Class.BaseFields.Select(f => f.TypeName)
                 .Concat(optionalDataColumns.Select(c => Collection.Class.Fields[c.Key].TypeName))
                 .Select(s => VLT32Hasher.Hash(s)).Distinct().ToArray();
@@ -75,18 +75,18 @@ namespace VaultLib.LegacyBase.Exports
             for (var index = 0; index < optionalDataColumns.Count; index++)
             {
                 var optionalDataColumn = optionalDataColumns[index];
-                var entry = new LegacyAttribEntry(Collection);
+                var entry = new AttribEntry(Collection);
 
                 entry.Key = (uint)optionalDataColumn.Key;
                 var vltClassField = Collection.Class.Fields[optionalDataColumn.Key];
                 entry.TypeIndex = (ushort)Array.IndexOf(_types,
                     VLT32Hasher.Hash(vltClassField.TypeName));
-                entry.NodeFlags = LegacyAttribEntry.NodeFlagsEnum.Default;
+                entry.NodeFlags = AttribEntry.NodeFlagsEnum.Default;
 
                 if (entry.IsInline())
                 {
                     entry.InlineData = optionalDataColumn.Value;
-                    entry.NodeFlags |= LegacyAttribEntry.NodeFlagsEnum.IsInline;
+                    entry.NodeFlags |= AttribEntry.NodeFlagsEnum.IsInline;
                 }
                 else
                 {
@@ -98,7 +98,7 @@ namespace VaultLib.LegacyBase.Exports
 
                 if (vltClassField.IsArray)
                 {
-                    entry.NodeFlags |= LegacyAttribEntry.NodeFlagsEnum.IsArray;
+                    entry.NodeFlags |= AttribEntry.NodeFlagsEnum.IsArray;
                 }
 
                 _entries[index] = entry;

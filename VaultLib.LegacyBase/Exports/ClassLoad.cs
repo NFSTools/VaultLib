@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports
 {
-    public class LegacyClassLoad : BaseClassLoad
+    public class ClassLoad : BaseClassLoad
     {
         private uint ClassHash { get; set; }
         private int NumDefinitions { get; set; }

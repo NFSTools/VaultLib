@@ -4,7 +4,7 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.LegacyBase.Structures
 {
-    public class LegacyExportEntry : IExportEntry
+    public class ExportEntry : IExportEntry
     {
         public void Read(Vault vault, BinaryReader br)
         {
