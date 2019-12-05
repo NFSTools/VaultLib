@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports
 {
-    public class ModernAttribEntry : IFileAccess, IPointerObject
+    public class AttribEntry : IFileAccess, IPointerObject
     {
         [Flags]
         public enum NodeFlagsEnum : byte
@@ -28,7 +28,7 @@ namespace VaultLib.ModernBase.Exports
         public VLTBaseType InlineData { get; set; }
         public VLTCollection Collection { get; }
 
-        public ModernAttribEntry(VLTCollection collection)
+        public AttribEntry(VLTCollection collection)
         {
             Collection = collection;
         }

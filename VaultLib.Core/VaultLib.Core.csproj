@@ -10,7 +10,7 @@
     <Company>NFSTools</Company>
     <Product>VaultLib.Core</Product>
     <Description>Core library for processing VLT files - requires supplemental game modules</Description>
-    <Version>1.0.19</Version>
+    <Version>1.0.20</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -23,10 +23,10 @@ namespace VaultLib.Support.World
         {
             TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_WORLD);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_WORLD);
-            ExportFactory.SetClassLoadCreator<ModernClassLoad>(GameIdHelper.ID_WORLD);
-            ExportFactory.SetCollectionLoadCreator<ModernCollectionLoad>(GameIdHelper.ID_WORLD);
+            ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_WORLD);
+            ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_WORLD);
             ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_WORLD);
-            ExportFactory.SetExportEntryCreator<ModernExportEntry>(GameIdHelper.ID_WORLD);
+            ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_WORLD);
         }
     }
 }

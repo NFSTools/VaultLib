@@ -2,10 +2,9 @@
 // 
 // Created: 09/24/2019 @ 6:03 PM.
 
-using System.Diagnostics;
+using CoreLibraries.IO;
 using System.IO;
 using System.Linq;
-using CoreLibraries.IO;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Utils;
@@ -22,23 +21,21 @@ namespace VaultLib.Core.Exports.Implementations
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            uint mNumClasses = br.ReadUInt32();
-            uint mDefaultDataSize = br.ReadUInt32();
+            br.ReadUInt32();
+            br.ReadUInt32();
             _numTypes = br.ReadUInt32();
             _typeNames = br.ReadPointer(); // Pointer
 
-            Debug.WriteLine(
-                "Database Load: {0} classes | DefaultData: {1} bytes | {2} types | type names @ bin+0x{3:X}",
-                mNumClasses, mDefaultDataSize, _numTypes, _typeNames);
+            if (_typeNames == 0)
+            {
+                throw new InvalidDataException("NULL pointer to mTypeNames is no good!");
+            }
 
             for (int i = 0; i < _numTypes; i++)
             {
-                DatabaseTypeInfo typeInfo = new DatabaseTypeInfo();
-                typeInfo.Size = br.ReadUInt32();
+                DatabaseTypeInfo typeInfo = new DatabaseTypeInfo { Size = br.ReadUInt32() };
                 vault.Database.Types.Add(typeInfo);
             }
-
-            Debug.WriteLine("DefaultDataSize calc = {0}", vault.Database.Types.Max(t => t.Size));
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
@@ -59,8 +56,6 @@ namespace VaultLib.Core.Exports.Implementations
 
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
-            Debug.WriteLine("DatabaseLoadData: loading type names from {0:X}", _typeNames);
-
             br.BaseStream.Position = _typeNames;
 
             foreach (var t in vault.Database.Types)

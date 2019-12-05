@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports
 {
-    public class ModernClassLoad : BaseClassLoad
+    public class ClassLoad : BaseClassLoad
     {
         private uint ClassHash { get; set; }
         private int NumDefinitions { get; set; }

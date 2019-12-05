@@ -15,11 +15,11 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports
 {
-    public class ModernCollectionLoad : BaseCollectionLoad
+    public class CollectionLoad : BaseCollectionLoad
     {
         private uint _layoutPointer;
         private uint[] _types;
-        private List<ModernAttribEntry> _entries;
+        private List<AttribEntry> _entries;
 
         private long _srcLayoutPtr;
         private long _dstLayoutPtr;
@@ -53,11 +53,11 @@ namespace VaultLib.ModernBase.Exports
                 br.ReadUInt32();
             }
 
-            _entries = new List<ModernAttribEntry>();
+            _entries = new List<AttribEntry>();
 
             for (var i = 0; i < mNumEntries; i++)
             {
-                var attribEntry = new ModernAttribEntry(Collection);
+                var attribEntry = new AttribEntry(Collection);
 
                 attribEntry.Read(vault, br);
                 _entries.Add(attribEntry);
@@ -75,7 +75,7 @@ namespace VaultLib.ModernBase.Exports
                                                                           orderby field.Name
                                                                           select pair).ToList();
 
-            _entries = new List<ModernAttribEntry>();
+            _entries = new List<AttribEntry>();
             _types = Collection.Class.BaseFields.Select(f => f.TypeName)
                 .Concat(optionalDataColumns.Select(c => Collection.Class.Fields[c.Key].TypeName))
                 .Select(s => VLT32Hasher.Hash(s)).Distinct().ToArray();
@@ -83,19 +83,19 @@ namespace VaultLib.ModernBase.Exports
             for (var index = 0; index < optionalDataColumns.Count; index++)
             {
                 var optionalDataColumn = optionalDataColumns[index];
-                var entry = new ModernAttribEntry(Collection);
+                var entry = new AttribEntry(Collection);
                 var vltClassField = Collection.Class.Fields[optionalDataColumn.Key];
 
                 entry.Key = (uint)optionalDataColumn.Key;
                 entry.TypeIndex = (ushort)Array.IndexOf(_types,
                     VLT32Hasher.Hash(vltClassField.TypeName));
                 entry.EntryFlags = 0;
-                entry.NodeFlags = ModernAttribEntry.NodeFlagsEnum.Default;
+                entry.NodeFlags = AttribEntry.NodeFlagsEnum.Default;
 
                 if (entry.IsInline())
                 {
                     entry.InlineData = optionalDataColumn.Value;
-                    entry.NodeFlags |= ModernAttribEntry.NodeFlagsEnum.IsInline;
+                    entry.NodeFlags |= AttribEntry.NodeFlagsEnum.IsInline;
                 }
                 else
                 {
@@ -106,12 +106,12 @@ namespace VaultLib.ModernBase.Exports
 
                 if (vltClassField.IsArray)
                 {
-                    entry.NodeFlags |= ModernAttribEntry.NodeFlagsEnum.IsArray;
+                    entry.NodeFlags |= AttribEntry.NodeFlagsEnum.IsArray;
                 }
 
                 if ((vltClassField.Flags & DefinitionFlags.kHasHandler) != 0)
                 {
-                    entry.NodeFlags |= ModernAttribEntry.NodeFlagsEnum.HasHandler;
+                    entry.NodeFlags |= AttribEntry.NodeFlagsEnum.HasHandler;
                 }
 
                 _entries.Add(entry);
@@ -199,34 +199,34 @@ namespace VaultLib.ModernBase.Exports
 
                 if ((optionalField.Flags & DefinitionFlags.kHasHandler) != 0)
                 {
-                    Debug.Assert((entry.NodeFlags & ModernAttribEntry.NodeFlagsEnum.HasHandler) ==
-                                 ModernAttribEntry.NodeFlagsEnum.HasHandler);
+                    Debug.Assert((entry.NodeFlags & AttribEntry.NodeFlagsEnum.HasHandler) ==
+                                 AttribEntry.NodeFlagsEnum.HasHandler);
                 }
                 else
                 {
-                    Debug.Assert((entry.NodeFlags & ModernAttribEntry.NodeFlagsEnum.HasHandler) == 0);
+                    Debug.Assert((entry.NodeFlags & AttribEntry.NodeFlagsEnum.HasHandler) == 0);
                 }
 
                 if ((optionalField.Flags & DefinitionFlags.kArray) != 0)
                 {
-                    Debug.Assert((entry.NodeFlags & ModernAttribEntry.NodeFlagsEnum.IsArray) ==
-                                 ModernAttribEntry.NodeFlagsEnum.IsArray);
+                    Debug.Assert((entry.NodeFlags & AttribEntry.NodeFlagsEnum.IsArray) ==
+                                 AttribEntry.NodeFlagsEnum.IsArray);
                 }
                 else
                 {
-                    Debug.Assert((entry.NodeFlags & ModernAttribEntry.NodeFlagsEnum.IsArray) == 0);
+                    Debug.Assert((entry.NodeFlags & AttribEntry.NodeFlagsEnum.IsArray) == 0);
                 }
 
                 if (entry.InlineData is VLTAttribType attribType)
                 {
-                    Debug.Assert((entry.NodeFlags & ModernAttribEntry.NodeFlagsEnum.IsInline) == 0);
+                    Debug.Assert((entry.NodeFlags & AttribEntry.NodeFlagsEnum.IsInline) == 0);
                     attribType.ReadPointerData(vault, br);
                     Collection.DataRow[optionalField.Key] = attribType.Data;
                 }
                 else
                 {
-                    Debug.Assert((entry.NodeFlags & ModernAttribEntry.NodeFlagsEnum.IsInline) ==
-                                 ModernAttribEntry.NodeFlagsEnum.IsInline);
+                    Debug.Assert((entry.NodeFlags & AttribEntry.NodeFlagsEnum.IsInline) ==
+                                 AttribEntry.NodeFlagsEnum.IsInline);
                     Collection.DataRow[optionalField.Key] = entry.InlineData;
                 }
             }

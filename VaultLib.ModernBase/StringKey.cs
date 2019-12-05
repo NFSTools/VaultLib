@@ -29,8 +29,7 @@ namespace VaultLib.ModernBase
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _text = new Text(Class, Field, Collection);
-            _text.Value = Value;
+            _text = new Text(Class, Field, Collection) { Value = Value };
             bw.Write(string.IsNullOrEmpty(Value) ? 0 : VLT32Hasher.Hash(Value));
             _text.Write(vault, bw);
         }

@@ -15,7 +15,6 @@ namespace VaultLib.Core.Types
         protected VLTClassField Field { get; set; }
         protected VLTCollection Collection { get; set; }
 
-        //public VLTBaseType() { }
 
         protected VLTBaseType(VLTClass @class, VLTClassField field, VLTCollection collection)
         {

@@ -9,7 +9,7 @@ using VaultLib.Core.Structures;
 
 namespace VaultLib.ModernBase.Structures
 {
-    public class ModernExportEntry : IExportEntry
+    public class ExportEntry : IExportEntry
     {
         public void Read(Vault vault, BinaryReader br)
         {
