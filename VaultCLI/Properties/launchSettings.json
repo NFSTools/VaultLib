@@ -2,7 +2,7 @@
   "profiles": {
     "VaultCLI": {
       "commandName": "Project",
-      "commandLineArgs": "-g UNDERCOVER -i test-data/undercover/attributes.bin -o test-export/undercover"
+      "commandLineArgs": "-g THE_RUN -i test-data/the_run/c4schema.res test-data/the_run/c4indbcontent.res -o test-export/the_run"
     }
   }
 }

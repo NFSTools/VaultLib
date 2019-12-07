@@ -13,6 +13,7 @@ using VaultLib.Core;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Loading;
+using VaultLib.Core.Types;
 
 namespace VaultCLI
 {
