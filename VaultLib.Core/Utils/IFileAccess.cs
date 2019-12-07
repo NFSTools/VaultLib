@@ -7,7 +7,7 @@ using System.IO;
 namespace VaultLib.Core.Utils
 {
     /// <summary>
-    /// Generic interface for reading and writing binary structures.
+    ///     Generic interface for reading and writing binary structures.
     /// </summary>
     public interface IFileAccess
     {

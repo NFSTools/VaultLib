@@ -12,6 +12,14 @@ namespace VaultLib.Core.Types.EA.Reflection
     [PrimitiveInfo(typeof(long))]
     public class Int64 : PrimitiveTypeBase
     {
+        public Int64(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Int64(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public long Value { get; set; }
 
         public override void Read(Vault vault, BinaryReader br)
@@ -32,14 +40,6 @@ namespace VaultLib.Core.Types.EA.Reflection
         public override void SetValue(IConvertible value)
         {
             Value = (long) value;
-        }
-
-        public Int64(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Int64(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
         }
     }
 }

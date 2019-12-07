@@ -16,32 +16,25 @@ namespace VaultLib.Core.Types.EA.Reflection
     [PrimitiveInfo(typeof(string))]
     public class Text : PrimitiveTypeBase, IReferencesStrings, IStringValue
     {
+        private long _internalPointerDst;
+
+        private long _internalPointerSrc;
+
+        public Text(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Text(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public string Value { get; set; }
 
         private uint Pointer { get; set; }
 
-        private long _internalPointerSrc;
-        private long _internalPointerDst;
-
-        public override void Read(Vault vault, BinaryReader br)
-        {
-            Debug.Assert(this.Class != null, "this.Class != null");
-
-            // NOTE 11.01.19: since Text can be in static data, we cannot require a collection
-            //Debug.Assert(this.Collection != null, "this.Collection != null");
-            Debug.Assert(this.Field != null, "this.Field != null");
-            Pointer = br.ReadPointer();
-        }
-
-        public override void Write(Vault vault, BinaryWriter bw)
-        {
-            _internalPointerSrc = bw.BaseStream.Position;
-            bw.Write(0);
-        }
-
         public IEnumerable<string> GetStrings()
         {
-            return new List<string>(new[] { Value });
+            return new List<string>(new[] {Value});
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -74,6 +67,22 @@ namespace VaultLib.Core.Types.EA.Reflection
             Value = str;
         }
 
+        public override void Read(Vault vault, BinaryReader br)
+        {
+            Debug.Assert(Class != null, "this.Class != null");
+
+            // NOTE 11.01.19: since Text can be in static data, we cannot require a collection
+            //Debug.Assert(this.Collection != null, "this.Collection != null");
+            Debug.Assert(Field != null, "this.Field != null");
+            Pointer = br.ReadPointer();
+        }
+
+        public override void Write(Vault vault, BinaryWriter bw)
+        {
+            _internalPointerSrc = bw.BaseStream.Position;
+            bw.Write(0);
+        }
+
         public void Bootstrap()
         {
             Value = string.Empty;
@@ -86,15 +95,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public override void SetValue(IConvertible value)
         {
-            SetString((string)value);
-        }
-
-        public Text(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Text(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
+            SetString((string) value);
         }
     }
 }

@@ -12,6 +12,14 @@ namespace VaultLib.Core.Types.EA.Reflection
     [PrimitiveInfo(typeof(uint))]
     public class UInt32 : PrimitiveTypeBase
     {
+        public UInt32(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public UInt32(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public uint Value { get; set; }
 
         public override void Read(Vault vault, BinaryReader br)
@@ -31,15 +39,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public override void SetValue(IConvertible value)
         {
-            Value = (uint)value;
-        }
-
-        public UInt32(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public UInt32(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
+            Value = (uint) value;
         }
     }
 }

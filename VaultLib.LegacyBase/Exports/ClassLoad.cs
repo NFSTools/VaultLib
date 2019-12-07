@@ -40,12 +40,12 @@ namespace VaultLib.LegacyBase.Exports
             ushort requiredCount = br.ReadUInt16();
             Debug.Assert(requiredCount <= NumDefinitions);
             br.ReadInt16();
-            Class = new VLTClass(HashManager.ResolveVLT(ClassHash), ClassHash, vault.Database);
+            Class = new VLTClass(vault.Database, HashManager.ResolveVLT(ClassHash));
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            bw.Write((uint)Class.NameHash);
+            bw.Write(VLT32Hasher.Hash(Class.Name));
 
             int collReserve = (from collection in vault.Database.RowManager.GetFlattenedCollections(Class.Name)
                                select collection).Count();

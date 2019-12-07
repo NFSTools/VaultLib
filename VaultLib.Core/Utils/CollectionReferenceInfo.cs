@@ -9,13 +9,13 @@ namespace VaultLib.Core.Utils
 {
     public class CollectionReferenceInfo
     {
-        public VLTBaseType Source { get; }
-        public VLTCollection Destination { get; }
-
         public CollectionReferenceInfo(VLTBaseType source, VLTCollection destination)
         {
             Source = source;
             Destination = destination;
         }
+
+        public VLTBaseType Source { get; }
+        public VLTCollection Destination { get; }
     }
 }

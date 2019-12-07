@@ -2,8 +2,12 @@
 using CoreLibraries.ModuleSystem;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Xml.Serialization;
 using VaultLib.CodeGen;
 using VaultLib.Core;
 using VaultLib.Core.DB;
@@ -68,7 +72,7 @@ namespace VaultCLI
             Debug.WriteLine("Loading database");
 
             HashManager.LoadDictionary("hashes.txt");
-            Database database = new Database(args.GameID);
+            Database database = new Database(new DatabaseOptions(args.GameID, DatabaseType.X86Database));
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             foreach (var file in args.Files)
@@ -82,7 +86,7 @@ namespace VaultCLI
             Debug.WriteLine("Loaded in {0}ms", stopwatch.ElapsedMilliseconds);
             TypeRegistry.ListUnknownTypes();
 
-            var codeGenDirectory = Path.Combine("gen-code", database.Game);
+            var codeGenDirectory = Path.Combine("gen-code", args.GameID);
             Directory.CreateDirectory(codeGenDirectory);
 
             CSharpCodeGenerator cscg = new CSharpCodeGenerator(database);

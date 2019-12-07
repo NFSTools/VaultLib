@@ -1,10 +1,8 @@
-﻿
-namespace VaultLib.Core.External.CollectionViews
+﻿namespace VaultLib.Core.External.CollectionViews
 {
     public enum ListSortDirection
     {
         Ascending,
         Descending
     }
-
 }

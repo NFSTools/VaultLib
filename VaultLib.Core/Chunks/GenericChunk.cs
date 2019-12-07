@@ -2,6 +2,7 @@
 // 
 // Created: 09/24/2019 @ 3:58 PM.
 
+using System;
 using System.IO;
 
 namespace VaultLib.Core.Chunks
@@ -13,6 +14,10 @@ namespace VaultLib.Core.Chunks
             ID = id;
         }
 
+        public override uint ID { get; }
+        public override uint Size { get; set; }
+        public override long Offset { get; set; }
+
         public override void Read(Vault vault, BinaryReader br)
         {
             //Debug.WriteLine("UNKNOWN CHUNK of {0} bytes - text {2} ({1:X8})", this.Size, this.ID, Encoding.ASCII.GetString(BitConverter.GetBytes(this.ID).Reverse().ToArray()));
@@ -20,11 +25,7 @@ namespace VaultLib.Core.Chunks
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
-
-        public override uint ID { get; }
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
     }
 }

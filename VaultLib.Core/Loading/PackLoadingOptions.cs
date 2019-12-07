@@ -7,7 +7,7 @@ using CoreLibraries.IO;
 namespace VaultLib.Core.Loading
 {
     /// <summary>
-    /// Provides options for vault pack loading
+    ///     Provides options for vault pack loading
     /// </summary>
     public class PackLoadingOptions
     {

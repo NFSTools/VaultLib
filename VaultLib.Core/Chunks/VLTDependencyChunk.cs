@@ -14,9 +14,15 @@ namespace VaultLib.Core.Chunks
             Debug.Assert(dependencyNames.Count == 2, "dependencyNames.Count == 2");
         }
 
-        public VLTDependencyChunk() { }
+        public VLTDependencyChunk()
+        {
+        }
 
         public List<string> DependencyNames { get; }
+
+        public override uint ID => 0x4465704E;
+        public override uint Size { get; set; }
+        public override long Offset { get; set; }
 
         public override void Read(Vault vault, BinaryReader br)
         {
@@ -24,20 +30,11 @@ namespace VaultLib.Core.Chunks
             var dependencyHashes = new List<uint>();
             var dependencyNames = new List<string>();
 
-            for (int i = 0; i < dependencyCount; i++)
-            {
-                dependencyHashes.Add(br.ReadUInt32());
-            }
+            for (var i = 0; i < dependencyCount; i++) dependencyHashes.Add(br.ReadUInt32());
 
-            for (int i = 0; i < dependencyCount; i++)
-            {
-                br.ReadUInt32();
-            }
+            for (var i = 0; i < dependencyCount; i++) br.ReadUInt32();
 
-            for (int i = 0; i < dependencyCount; i++)
-            {
-                dependencyNames.Add(NullTerminatedString.Read(br));
-            }
+            for (var i = 0; i < dependencyCount; i++) dependencyNames.Add(NullTerminatedString.Read(br));
 
             //for (int i = 0; i < dependencyCount; i++)
             //{
@@ -49,13 +46,10 @@ namespace VaultLib.Core.Chunks
         {
             bw.Write(DependencyNames.Count);
 
-            foreach (var dependencyName in DependencyNames)
-            {
-                bw.Write(VLT32Hasher.Hash(dependencyName));
-            }
+            foreach (var dependencyName in DependencyNames) bw.Write(VLT32Hasher.Hash(dependencyName));
 
-            Dictionary<string, int> nameOffsets = new Dictionary<string, int>();
-            int nameOffset = 0;
+            var nameOffsets = new Dictionary<string, int>();
+            var nameOffset = 0;
 
             foreach (var dependencyName in DependencyNames)
             {
@@ -63,21 +57,11 @@ namespace VaultLib.Core.Chunks
                 nameOffset += dependencyName.Length + 1;
             }
 
-            foreach (var dependencyName in DependencyNames)
-            {
-                bw.Write(nameOffsets[dependencyName]);
-            }
+            foreach (var dependencyName in DependencyNames) bw.Write(nameOffsets[dependencyName]);
 
-            foreach (var dependencyName in DependencyNames)
-            {
-                NullTerminatedString.Write(bw, dependencyName);
-            }
+            foreach (var dependencyName in DependencyNames) NullTerminatedString.Write(bw, dependencyName);
 
             bw.AlignWriter(0x10);
         }
-
-        public override uint ID => 0x4465704E;
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
     }
 }

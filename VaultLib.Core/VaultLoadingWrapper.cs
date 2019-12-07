@@ -9,19 +9,12 @@ using CoreLibraries.IO;
 namespace VaultLib.Core
 {
     /// <summary>
-    /// Holds instances of <see cref="BinaryReader"/> for vault loading
+    ///     Holds instances of <see cref="BinaryReader" /> for vault loading
     /// </summary>
     public class VaultLoadingWrapper : IDisposable
     {
-        public Vault Vault { get; }
-
-        public BinaryReader BinReader { get; }
-        public BinaryReader VltReader { get; }
-
-        public ByteOrder ByteOrder { get; }
-
         /// <summary>
-        /// Initializes the loading wrapper with the given vault.
+        ///     Initializes the loading wrapper with the given vault.
         /// </summary>
         /// <param name="vault">The vault to create readers for.</param>
         /// <param name="byteOrder">The byte order of the data streams.</param>
@@ -29,11 +22,22 @@ namespace VaultLib.Core
         {
             Vault = vault;
             ByteOrder = byteOrder;
-            BinReader = byteOrder == ByteOrder.Little ? new BinaryReader(vault.BinStream) : new BigEndianBinaryReader(vault.BinStream);
-            VltReader = byteOrder == ByteOrder.Little ? new BinaryReader(vault.VltStream) : new BigEndianBinaryReader(vault.VltStream);
+            BinReader = byteOrder == ByteOrder.Little
+                ? new BinaryReader(vault.BinStream)
+                : new BigEndianBinaryReader(vault.BinStream);
+            VltReader = byteOrder == ByteOrder.Little
+                ? new BinaryReader(vault.VltStream)
+                : new BigEndianBinaryReader(vault.VltStream);
 
             Vault.ByteOrder = byteOrder;
         }
+
+        public Vault Vault { get; }
+
+        public BinaryReader BinReader { get; }
+        public BinaryReader VltReader { get; }
+
+        public ByteOrder ByteOrder { get; }
 
         public void Dispose()
         {

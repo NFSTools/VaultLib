@@ -9,16 +9,18 @@ namespace VaultLib.Core.Exceptions
 {
     public class CollectionLoadingException : Exception
     {
-        public VLTCollection Collection { get; }
-
         public CollectionLoadingException(string message, VLTCollection collection) : base(message)
         {
-            this.Collection = collection ?? throw new ArgumentNullException(nameof(collection)); ;
+            Collection = collection ?? throw new ArgumentNullException(nameof(collection));
+            ;
         }
 
-        public CollectionLoadingException(string message, Exception innerException, VLTCollection collection) : base(message, innerException)
+        public CollectionLoadingException(string message, Exception innerException, VLTCollection collection) : base(
+            message, innerException)
         {
-            this.Collection = collection ?? throw new ArgumentNullException(nameof(collection));
+            Collection = collection ?? throw new ArgumentNullException(nameof(collection));
         }
+
+        public VLTCollection Collection { get; }
     }
 }

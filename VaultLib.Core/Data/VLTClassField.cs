@@ -25,8 +25,6 @@ namespace VaultLib.Core.Data
 
         public ulong Key { get; set; }
 
-        public VLTClassField() { }
-
         public bool CanBeInlined()
         {
             return IsOptional && Size <= 4 && !IsArray;

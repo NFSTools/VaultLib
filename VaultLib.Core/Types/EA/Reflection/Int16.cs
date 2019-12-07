@@ -12,6 +12,14 @@ namespace VaultLib.Core.Types.EA.Reflection
     [PrimitiveInfo(typeof(short))]
     public class Int16 : PrimitiveTypeBase
     {
+        public Int16(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Int16(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public short Value { get; set; }
 
         public override void Read(Vault vault, BinaryReader br)
@@ -31,15 +39,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public override void SetValue(IConvertible value)
         {
-            Value = (short)value;
-        }
-
-        public Int16(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Int16(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
+            Value = (short) value;
         }
     }
 }

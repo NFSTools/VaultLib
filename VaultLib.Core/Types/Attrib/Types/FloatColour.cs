@@ -10,6 +10,15 @@ namespace VaultLib.Core.Types.Attrib.Types
     [VLTTypeInfo("Attrib::Types::FloatColour")]
     public class FloatColour : VLTBaseType
     {
+        public FloatColour(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+            collection)
+        {
+        }
+
+        public FloatColour(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public float R { get; set; }
         public float G { get; set; }
         public float B { get; set; }
@@ -36,14 +45,6 @@ namespace VaultLib.Core.Types.Attrib.Types
         public override string ToString()
         {
             return $"R: {R} G: {G} B: {B} A: {A}";
-        }
-
-        public FloatColour(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public FloatColour(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
         }
     }
 }

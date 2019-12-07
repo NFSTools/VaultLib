@@ -11,11 +11,42 @@ namespace VaultLib.Core.Types
 {
     public class DynamicSizeArray<T> : VLTBaseType, IPointerObject where T : VLTBaseType
     {
-        public T[] Items { get; set; }
+        private long _dstPtr;
 
         private uint _pointer;
         private long _srcPtr;
-        private long _dstPtr;
+
+        public DynamicSizeArray(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+            collection)
+        {
+        }
+
+        public DynamicSizeArray(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
+        public T[] Items { get; set; }
+
+        public void ReadPointerData(Vault vault, BinaryReader br)
+        {
+            br.BaseStream.Position = _pointer;
+            for (var i = 0; i < Items.Length; i++)
+            {
+                Items[i] = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
+                Items[i].Read(vault, br);
+            }
+        }
+
+        public void WritePointerData(Vault vault, BinaryWriter bw)
+        {
+            _dstPtr = bw.BaseStream.Position;
+            foreach (var vltBaseType in Items) vltBaseType.Write(vault, bw);
+        }
+
+        public void AddPointers(Vault vault)
+        {
+            vault.SaveContext.AddPointer(_srcPtr, _dstPtr, false);
+        }
 
         public override void Read(Vault vault, BinaryReader br)
         {
@@ -28,38 +59,6 @@ namespace VaultLib.Core.Types
             _srcPtr = bw.BaseStream.Position;
             bw.Write(0);
             bw.Write(Items.Length);
-        }
-
-        public void ReadPointerData(Vault vault, BinaryReader br)
-        {
-            br.BaseStream.Position = _pointer;
-            for (int i = 0; i < Items.Length; i++)
-            {
-                Items[i] = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
-                Items[i].Read(vault, br);
-            }
-        }
-
-        public void WritePointerData(Vault vault, BinaryWriter bw)
-        {
-            _dstPtr = bw.BaseStream.Position;
-            foreach (var vltBaseType in Items)
-            {
-                vltBaseType.Write(vault, bw);
-            }
-        }
-
-        public void AddPointers(Vault vault)
-        {
-            vault.SaveContext.AddPointer(_srcPtr, _dstPtr, false);
-        }
-
-        public DynamicSizeArray(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public DynamicSizeArray(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
         }
     }
 }

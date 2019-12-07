@@ -20,107 +20,46 @@ namespace VaultLib.Core.Types.Attrib
             RAWW = 0x57574152
         }
 
-        public class CompressedBlob : IFileAccess
+        private uint _dataOffset;
+        private long _dataPtrDst;
+
+        private long _dataPtrSrc;
+
+        public Blob(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
         {
-            public CompressionID Type { get; set; }
+        }
 
-            public uint DecompressedLength { get; set; }
-
-            private byte[] CompressedData { get; set; }
-
-            public byte[] Data { get; set; }
-
-            public void Read(Vault vault, BinaryReader br)
-            {
-                Type = (CompressionID)br.ReadUInt32();
-                if (br.ReadByte() > 2)
-                    throw new InvalidDataException("Invalid LZHeader version!");
-                if (br.ReadByte() != 0x10)
-                    throw new InvalidDataException("Invalid LZHeader size!");
-                if (br.ReadUInt16() != 0)
-                    throw new InvalidDataException("Expected 0 flags but got something else in LZHeader");
-                DecompressedLength = br.ReadUInt32();
-                var compLength = br.ReadInt32();
-                if (Type == CompressionID.JDLZ) compLength -= 16;
-                CompressedData = new byte[compLength];
-
-                if (br.Read(CompressedData, 0, CompressedData.Length) != CompressedData.Length)
-                {
-                    throw new InvalidDataException("Failed to read " + CompressedData.Length + " bytes");
-                }
-
-                this.Data = new byte[DecompressedLength];
-                this.DecompressData();
-
-                CompressedData = null;
-            }
-
-            public void PrepareCompressedData()
-            {
-                byte[] compressed = new byte[Data.Length << 2];
-                Compression.Compress(Data, ref compressed);
-                CompressedData = compressed;
-            }
-
-            public void Write(Vault vault, BinaryWriter bw)
-            {
-                if (CompressedData == null)
-                    throw new Exception("compressed data buffer is null");
-                bw.Write(CompressedData);
-            }
-
-            public int GetLength()
-            {
-                return 16 + CompressedData.Length;
-            }
-
-            public bool HasData()
-            {
-                return Data != null;
-            }
-
-            private byte GetVersion()
-            {
-                switch (Type)
-                {
-                    case CompressionID.JDLZ:
-                        return 2;
-                    case CompressionID.HUFF:
-                    case CompressionID.RAWW:
-                        return 1;
-                    default:
-                        throw new Exception();
-                }
-            }
-
-            private void DecompressData()
-            {
-                byte[] inData = new byte[16 + CompressedData.Length];
-                Array.Copy(BitConverter.GetBytes((uint)Type), inData, 4);
-                inData[5] = GetVersion();
-                inData[6] = 0x10;
-                inData[8] = (byte)(DecompressedLength & 0xff);
-                inData[9] = (byte)((DecompressedLength >> 8) & 0xff);
-                inData[10] = (byte)((DecompressedLength >> 16) & 0xff);
-                inData[11] = (byte)((DecompressedLength >> 24) & 0xff);
-                inData[12] = (byte)(CompressedData.Length & 0xff);
-                inData[13] = (byte)((CompressedData.Length >> 8) & 0xff);
-                inData[14] = (byte)((CompressedData.Length >> 16) & 0xff);
-                inData[15] = (byte)((CompressedData.Length >> 24) & 0xff);
-                Array.ConstrainedCopy(CompressedData, 0, inData, 16, CompressedData.Length);
-
-                Compression.Decompress(inData, Data);
-            }
+        public Blob(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
         }
 
         public uint Length { get; set; }
 
         public CompressedBlob Data { get; set; }
 
-        private uint _dataOffset;
+        public void ReadPointerData(Vault vault, BinaryReader br)
+        {
+            if (_dataOffset != 0)
+            {
+                br.BaseStream.Position = _dataOffset;
 
-        private long _dataPtrSrc;
-        private long _dataPtrDst;
+                Data.Read(vault, br);
+            }
+        }
+
+        public void WritePointerData(Vault vault, BinaryWriter bw)
+        {
+            if (Data.HasData())
+            {
+                _dataPtrDst = bw.BaseStream.Position;
+                Data.Write(vault, bw);
+            }
+        }
+
+        public void AddPointers(Vault vault)
+        {
+            vault.SaveContext.AddPointer(_dataPtrSrc, _dataPtrDst, false);
+        }
 
         public override void Read(Vault vault, BinaryReader br)
         {
@@ -152,36 +91,95 @@ namespace VaultLib.Core.Types.Attrib
             bw.Write(0);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public class CompressedBlob : IFileAccess
         {
-            if (_dataOffset != 0)
+            public CompressionID Type { get; set; }
+
+            public uint DecompressedLength { get; set; }
+
+            private byte[] CompressedData { get; set; }
+
+            public byte[] Data { get; set; }
+
+            public void Read(Vault vault, BinaryReader br)
             {
-                br.BaseStream.Position = _dataOffset;
+                Type = (CompressionID) br.ReadUInt32();
+                if (br.ReadByte() > 2)
+                    throw new InvalidDataException("Invalid LZHeader version!");
+                if (br.ReadByte() != 0x10)
+                    throw new InvalidDataException("Invalid LZHeader size!");
+                if (br.ReadUInt16() != 0)
+                    throw new InvalidDataException("Expected 0 flags but got something else in LZHeader");
+                DecompressedLength = br.ReadUInt32();
+                var compLength = br.ReadInt32();
+                if (Type == CompressionID.JDLZ) compLength -= 16;
+                CompressedData = new byte[compLength];
 
-                Data.Read(vault, br);
+                if (br.Read(CompressedData, 0, CompressedData.Length) != CompressedData.Length)
+                    throw new InvalidDataException("Failed to read " + CompressedData.Length + " bytes");
+
+                Data = new byte[DecompressedLength];
+                DecompressData();
+
+                CompressedData = null;
             }
-        }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
-        {
-            if (Data.HasData())
+            public void Write(Vault vault, BinaryWriter bw)
             {
-                _dataPtrDst = bw.BaseStream.Position;
-                Data.Write(vault, bw);
+                if (CompressedData == null)
+                    throw new Exception("compressed data buffer is null");
+                bw.Write(CompressedData);
             }
-        }
 
-        public void AddPointers(Vault vault)
-        {
-            vault.SaveContext.AddPointer(_dataPtrSrc, _dataPtrDst, false);
-        }
+            public void PrepareCompressedData()
+            {
+                var compressed = new byte[Data.Length << 2];
+                Compression.Compress(Data, ref compressed);
+                CompressedData = compressed;
+            }
 
-        public Blob(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
+            public int GetLength()
+            {
+                return 16 + CompressedData.Length;
+            }
 
-        public Blob(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
+            public bool HasData()
+            {
+                return Data != null;
+            }
+
+            private byte GetVersion()
+            {
+                switch (Type)
+                {
+                    case CompressionID.JDLZ:
+                        return 2;
+                    case CompressionID.HUFF:
+                    case CompressionID.RAWW:
+                        return 1;
+                    default:
+                        throw new Exception();
+                }
+            }
+
+            private void DecompressData()
+            {
+                var inData = new byte[16 + CompressedData.Length];
+                Array.Copy(BitConverter.GetBytes((uint) Type), inData, 4);
+                inData[5] = GetVersion();
+                inData[6] = 0x10;
+                inData[8] = (byte) (DecompressedLength & 0xff);
+                inData[9] = (byte) ((DecompressedLength >> 8) & 0xff);
+                inData[10] = (byte) ((DecompressedLength >> 16) & 0xff);
+                inData[11] = (byte) ((DecompressedLength >> 24) & 0xff);
+                inData[12] = (byte) (CompressedData.Length & 0xff);
+                inData[13] = (byte) ((CompressedData.Length >> 8) & 0xff);
+                inData[14] = (byte) ((CompressedData.Length >> 16) & 0xff);
+                inData[15] = (byte) ((CompressedData.Length >> 24) & 0xff);
+                Array.ConstrainedCopy(CompressedData, 0, inData, 16, CompressedData.Length);
+
+                Compression.Decompress(inData, Data);
+            }
         }
     }
 }

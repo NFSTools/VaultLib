@@ -40,7 +40,7 @@ namespace VaultLib.LegacyBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VLTCollection(vault, vault.Database.FindClass(mClass), HashManager.ResolveVLT(mKey), mKey);
+            Collection = new VLTCollection(vault, vault.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey), mKey);
 
             _types = new uint[mNumTypes];
             for (var i = 0; i < mNumTypes; i++)
@@ -58,7 +58,7 @@ namespace VaultLib.LegacyBase.Exports
             }
 
             Collection.ParentKey = mParent;
-            vault.Database.AddRow(Collection);
+            vault.Database.RowManager.AddCollection(Collection);
         }
 
         public override void Prepare()
@@ -108,7 +108,7 @@ namespace VaultLib.LegacyBase.Exports
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write((uint) Collection.Key);
-            bw.Write((uint) Collection.Class.NameHash);
+            bw.Write(VLT32Hasher.Hash(Collection.Name));
             bw.Write((uint) (Collection.Parent?.Key ?? 0));
             bw.Write((uint) _entries.Length);
             bw.Write(0);
@@ -144,7 +144,7 @@ namespace VaultLib.LegacyBase.Exports
                     br.AlignReader(baseField.Alignment);
 
                     VLTBaseType data =
-                        TypeRegistry.CreateInstance(vault.Database.Game, Collection.Class, baseField, Collection);
+                        TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
                     data.Read(vault, br);
                     long endPos = br.BaseStream.Position;

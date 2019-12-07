@@ -20,15 +20,16 @@ namespace VaultLib.Core.Types.EA.Reflection
 
     public abstract class PrimitiveTypeBase : VLTBaseType
     {
-        public abstract IConvertible GetValue();
-        public abstract void SetValue(IConvertible value);
-
-        protected PrimitiveTypeBase(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        protected PrimitiveTypeBase(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class,
+            field, collection)
         {
         }
 
         protected PrimitiveTypeBase(VLTClass @class, VLTClassField field) : base(@class, field)
         {
         }
+
+        public abstract IConvertible GetValue();
+        public abstract void SetValue(IConvertible value);
     }
 }

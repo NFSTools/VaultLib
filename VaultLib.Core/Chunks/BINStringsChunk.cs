@@ -14,9 +14,13 @@ namespace VaultLib.Core.Chunks
     {
         public List<string> Strings { get; set; }
 
+        public override uint ID => 0x53747245;
+        public override uint Size { get; set; }
+        public override long Offset { get; set; }
+
         public override void Read(Vault vault, BinaryReader br)
         {
-            while (br.BaseStream.Position < this.EndOffset)
+            while (br.BaseStream.Position < EndOffset)
             {
                 var str = NullTerminatedString.Read(br);
                 HashManager.AddVLT(str);
@@ -25,8 +29,8 @@ namespace VaultLib.Core.Chunks
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            Assembly currentAssembly = Assembly.GetAssembly(typeof(Database));
-            AssemblyMetadataAttribute metadataAttribute =
+            var currentAssembly = Assembly.GetAssembly(typeof(Database));
+            var metadataAttribute =
                 currentAssembly.GetCustomAttributes<AssemblyMetadataAttribute>().First(m => m.Key == "GitHash");
 
             Strings.Insert(0,
@@ -42,9 +46,5 @@ namespace VaultLib.Core.Chunks
 
             bw.AlignWriter(0x10);
         }
-
-        public override uint ID => 0x53747245;
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
     }
 }

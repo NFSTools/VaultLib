@@ -67,7 +67,7 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
             EndPointer = 0;
 
             // Obtain the full list of collections
-            var allCollections = vault.SaveContext.Collections.Where(c => c.Class.NameHash == Class.NameHash).ToList();
+            var allCollections = vault.SaveContext.Collections.Where(c => c.Class.Name == Class.Name).ToList();
 
             // Group list by parent
             var groupedByParent = allCollections.GroupBy(c => c.Parent?.Key ?? 0).ToDictionary(g => g.Key, g => g.ToList());

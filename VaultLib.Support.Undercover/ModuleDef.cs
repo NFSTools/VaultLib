@@ -7,7 +7,11 @@ using System.Reflection;
 using CoreLibraries.GameUtilities;
 using CoreLibraries.ModuleSystem;
 using VaultLib.Core;
+using VaultLib.Core.Exports;
+using VaultLib.Core.Exports.Implementations;
 using VaultLib.ModernBase;
+using VaultLib.ModernBase.Exports;
+using VaultLib.ModernBase.Structures;
 
 namespace VaultLib.Support.Undercover
 {
@@ -19,6 +23,10 @@ namespace VaultLib.Support.Undercover
         {
             TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_UNDERCOVER);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_UNDERCOVER);
+            ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_UNDERCOVER);
+            ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_UNDERCOVER);
+            ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_UNDERCOVER);
+            ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_UNDERCOVER);
         }
     }
 }

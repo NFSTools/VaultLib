@@ -10,7 +10,7 @@ using VaultLib.Core.Data;
 namespace VaultLib.Core
 {
     /// <summary>
-    /// Data stored and used during the save process
+    ///     Data stored and used during the save process
     /// </summary>
     public class VaultSaveContext
     {
@@ -24,19 +24,16 @@ namespace VaultLib.Core
 
         public void AddPointer(long src, long dst, bool isVLT)
         {
-            Debug.Assert(src != 0 );
+            Debug.Assert(src != 0);
 
-            VLTPointer pointer = new VLTPointer
+            var pointer = new VLTPointer
             {
                 Type = isVLT ? VLTPointerType.Vlt : VLTPointerType.Bin,
-                FixUpOffset = (uint)src,
-                Destination = (uint)dst
+                FixUpOffset = (uint) src,
+                Destination = (uint) dst
             };
 
-            if (!Pointers.Add(pointer))
-            {
-                throw new Exception("Duplicate pointer added?");
-            }
+            if (!Pointers.Add(pointer)) throw new Exception("Duplicate pointer added?");
         }
     }
 }

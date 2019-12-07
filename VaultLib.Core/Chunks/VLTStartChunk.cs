@@ -8,6 +8,10 @@ namespace VaultLib.Core.Chunks
 {
     public class VLTStartChunk : ChunkBase
     {
+        public override uint ID => 0x5374724E;
+        public override uint Size { get; set; }
+        public override long Offset { get; set; }
+
         public override void Read(Vault vault, BinaryReader br)
         {
             //Debug.WriteLine("start");
@@ -17,9 +21,5 @@ namespace VaultLib.Core.Chunks
         {
             bw.Write(new byte[8]);
         }
-
-        public override uint ID => 0x5374724E;
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
     }
 }

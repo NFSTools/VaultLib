@@ -6,37 +6,45 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core.DataInterfaces;
+using VaultLib.Core.DB;
 using VaultLib.Core.Exports;
 
 namespace VaultLib.Core.Chunks
 {
     public class VLTExportChunk : ChunkBase
     {
-        private List<IExportEntry> _exports;
+        private readonly List<IExportEntry> _exports;
 
-        public VLTExportChunk() { }
+        public VLTExportChunk()
+        {
+        }
 
         public VLTExportChunk(List<IExportEntry> exports)
         {
             _exports = exports;
         }
 
+        public override uint ID => 0x4578704E;
+        public override uint Size { get; set; }
+        public override long Offset { get; set; }
+
         public override void Read(Vault vault, BinaryReader br)
         {
-            ulong numExports = vault.Database.Is64Bit ? br.ReadUInt64() : br.ReadUInt32();
+            var numExports = vault.Database.Options.Type == DatabaseType.X64Database ? br.ReadUInt64() : br.ReadUInt32();
             for (ulong i = 0; i < numExports; i++)
             {
                 var exportEntry = ExportFactory.BuildExportEntry(vault);
 
                 exportEntry.Read(vault, br);
 
-                BaseExport export = this.CreateExport(vault, exportEntry.Type);
+                var export = CreateExport(vault, exportEntry.Type);
 
                 if (export != null)
                 {
                     export.Offset = exportEntry.Offset;
                     vault.Exports.Add(export);
                 }
+
                 //Debug.WriteLine("Export ID {0:X8} Type {1:X8} Offset {2:X} Size {3}", exportEntry.ID, exportEntry.Type, exportEntry.Offset, exportEntry.Size);
             }
         }
@@ -45,10 +53,7 @@ namespace VaultLib.Core.Chunks
         {
             bw.Write(_exports.Count);
 
-            foreach (var exportEntry in _exports)
-            {
-                exportEntry.Write(vault, bw);
-            }
+            foreach (var exportEntry in _exports) exportEntry.Write(vault, bw);
 
             bw.AlignWriter(0x10);
         }
@@ -70,9 +75,5 @@ namespace VaultLib.Core.Chunks
                     return null;
             }
         }
-
-        public override uint ID => 0x4578704E;
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
     }
 }

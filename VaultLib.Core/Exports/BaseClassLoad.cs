@@ -9,6 +9,10 @@ namespace VaultLib.Core.Exports
     {
         public VLTClass Class { get; set; }
 
+        public abstract void ReadPointerData(Vault vault, BinaryReader br);
+        public abstract void WritePointerData(Vault vault, BinaryWriter bw);
+        public abstract void AddPointers(Vault vault);
+
         public override uint GetExportID()
         {
             return VLT32Hasher.Hash(Class.Name);
@@ -18,9 +22,5 @@ namespace VaultLib.Core.Exports
         {
             return VLT32Hasher.Hash("Attrib::ClassLoadData");
         }
-
-        public abstract void ReadPointerData(Vault vault, BinaryReader br);
-        public abstract void WritePointerData(Vault vault, BinaryWriter bw);
-        public abstract void AddPointers(Vault vault);
     }
 }

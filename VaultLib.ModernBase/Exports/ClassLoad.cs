@@ -43,7 +43,7 @@ namespace VaultLib.ModernBase.Exports
             }
 
             NumDefinitions = mNumDefinitions;
-            Class = new VLTClass(HashManager.ResolveVLT(ClassHash), ClassHash, vault.Database);
+            Class = new VLTClass(vault.Database, HashManager.ResolveVLT(ClassHash));
             Class.SizeOfLayout = layoutSize;
         }
 
@@ -53,7 +53,7 @@ namespace VaultLib.ModernBase.Exports
                 where collection.Class.Name == Class.Name
                 select collection).Count();
 
-            bw.Write((uint) Class.NameHash);
+            bw.Write(VLT32Hasher.Hash(Class.Name));
             bw.Write(collectionReserve);
             bw.Write(Class.Fields.Count);
             _srcDefinitionsPtr = bw.BaseStream.Position;
@@ -102,7 +102,7 @@ namespace VaultLib.ModernBase.Exports
                 foreach (VLTClassField staticField in Class.StaticFields)
                 {
                     br.AlignReader(staticField.Alignment);
-                    VLTBaseType staticData = TypeRegistry.CreateInstance(vault.Database.Game, Class, staticField, null);
+                    VLTBaseType staticData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Class, staticField, null);
                     staticData.Read(vault, br);
                     staticField.StaticValue = staticData;
                 }

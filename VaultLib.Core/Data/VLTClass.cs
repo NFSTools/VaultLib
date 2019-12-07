@@ -9,12 +9,19 @@ using VaultLib.Core.DB;
 namespace VaultLib.Core.Data
 {
     /// <summary>
-    /// A class in VLT is like a table in a SQL database.
-    /// A class has fields, which can each have different properties.
-    /// A class also has collections, which are like rows in a table.
+    ///     A class in VLT is like a table in a SQL database.
+    ///     A class has fields, which can each have different properties.
+    ///     A class also has collections, which are like rows in a table.
     /// </summary>
     public class VLTClass
     {
+        public VLTClass(Database database, string name)
+        {
+            Name = name;
+            Fields = new Dictionary<ulong, VLTClassField>();
+            Database = database;
+        }
+
         public string Name { get; }
 
         public Dictionary<ulong, VLTClassField> Fields { get; }
@@ -33,22 +40,17 @@ namespace VaultLib.Core.Data
             orderby vltClassField.Offset
             select vltClassField;
 
-        public ulong NameHash { get; }
         public uint SizeOfLayout { get; set; }
         public bool HasBaseFields => BaseFields.Any();
         public bool HasOptionalFields => OptionalFields.Any();
         public bool HasArrayFields => Fields.Values.Any(f => f.Flags.HasFlag(DefinitionFlags.kArray));
         public bool HasStaticFields => StaticFields.Any();
         public Database Database { get; }
-        public VLTClass(string name, ulong key, Database database)
-        {
-            this.Name = name;
-            this.Fields = new Dictionary<ulong, VLTClassField>();
-            this.NameHash = key;
-            this.Database = database;
-        }
 
-        public bool FieldExists(ulong key) => Fields.Any(f => f.Value.Key == key);
+        public bool FieldExists(ulong key)
+        {
+            return Fields.Any(f => f.Value.Key == key);
+        }
 
         public VLTClassField GetField(string name)
         {

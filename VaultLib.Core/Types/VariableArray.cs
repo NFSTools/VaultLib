@@ -10,18 +10,17 @@ namespace VaultLib.Core.Types
 {
     public class VariableArray : IFileAccess, IPointerObject
     {
-        public float[] Data { get; set; }
-
         private uint _mArray;
+        private long _ptrDst;
 
         private long _ptrSrc;
-        private long _ptrDst;
+        public float[] Data { get; set; }
 
         public void Read(Vault vault, BinaryReader br)
         {
             _mArray = br.ReadPointer();
             Debug.Assert(_mArray != 0);
-            uint mLength = br.ReadUInt32();
+            var mLength = br.ReadUInt32();
 
             Data = new float[mLength];
         }
@@ -37,20 +36,14 @@ namespace VaultLib.Core.Types
         {
             br.BaseStream.Position = _mArray;
 
-            for (int i = 0; i < Data.Length; i++)
-            {
-                Data[i] = br.ReadSingle();
-            }
+            for (var i = 0; i < Data.Length; i++) Data[i] = br.ReadSingle();
         }
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
             _ptrDst = bw.BaseStream.Position;
 
-            foreach (var f in Data)
-            {
-                bw.Write(f);
-            }
+            foreach (var f in Data) bw.Write(f);
         }
 
         public void AddPointers(Vault vault)

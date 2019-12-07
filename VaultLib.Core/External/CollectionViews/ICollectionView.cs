@@ -16,6 +16,7 @@ namespace VaultLib.Core.External.CollectionViews
         // Returns:
         //     true if this view supports grouping; otherwise, false.
         bool CanGroup { get; }
+
         //
         // Summary:
         //     Gets the top-level groups.
@@ -23,6 +24,7 @@ namespace VaultLib.Core.External.CollectionViews
         // Returns:
         //     A read-only collection of the top-level groups.
         ReadOnlyObservableCollection<IGroupData> Groups { get; }
+
         //
         // Summary:
         //     Gets or sets a callback used to determine if an item is suitable for inclusion
@@ -31,6 +33,7 @@ namespace VaultLib.Core.External.CollectionViews
         // Returns:
         //     A method used to determine if an item is suitable for inclusion in the view.
         Predicate<object> Filter { get; set; }
+
         //
         // Summary:
         //     Gets a value that indicates whether this view supports sorting via the SortDescriptions
@@ -39,6 +42,7 @@ namespace VaultLib.Core.External.CollectionViews
         // Returns:
         //     true if this view supports sorting; otherwise, false.
         bool CanSort { get; }
+
         //
         // Summary:
         //     Gets a collection of SortDescription objects that describe
@@ -48,6 +52,7 @@ namespace VaultLib.Core.External.CollectionViews
         //     A collection of SortDescription objects that describe how
         //     the items in the collection are sorted in the view.
         FastObservableCollection<SortDescription> SortDescriptions { get; }
+
         //
         // Summary:
         //     Gets a collection of GroupDescription objects that describe
@@ -57,6 +62,7 @@ namespace VaultLib.Core.External.CollectionViews
         //     A collection of GroupDescription objects that describe
         //     how the items in the collection are grouped in the view.
         FastObservableCollection<GroupDescription> GroupDescriptions { get; }
+
         //
         // Summary:
         //     Recreates the view.

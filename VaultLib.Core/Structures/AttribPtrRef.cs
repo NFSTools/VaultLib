@@ -9,7 +9,6 @@ namespace VaultLib.Core.Structures
 {
     public class AttribPtrRef : IPtrRef
     {
-
         public void Read(Vault vault, BinaryReader br)
         {
             FixupOffset = br.ReadUInt32();
@@ -21,7 +20,7 @@ namespace VaultLib.Core.Structures
         public void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write(FixupOffset);
-            bw.Write((ushort)PtrType);
+            bw.Write((ushort) PtrType);
             bw.Write(Index);
             bw.Write(Destination);
         }

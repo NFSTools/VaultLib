@@ -12,26 +12,25 @@ namespace VaultLib.Core.Types
 {
     public class VLTAttribType : VLTBaseType, IPointerObject
     {
+        private long _offsetDst;
+
+        private long _offsetSrc;
+
+        public VLTAttribType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+            collection)
+        {
+        }
+
+        public VLTAttribType(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public uint Offset { get; set; } // pointer to bin stream
         public VLTBaseType Data { get; set; }
 
-        private long _offsetSrc;
-        private long _offsetDst;
-
-        public override void Read(Vault vault, BinaryReader br)
-        {
-            Offset = br.ReadPointer();
-        }
-
-        public override void Write(Vault vault, BinaryWriter bw)
-        {
-            _offsetSrc = bw.BaseStream.Position;
-            bw.Write(0);
-        }
-
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
-            Data = TypeRegistry.CreateInstance(vault.Database.Game, Class, Field, Collection);
+            Data = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Class, Field, Collection);
 
             Debug.Assert(Offset != 0);
             br.BaseStream.Position = Offset;
@@ -48,10 +47,7 @@ namespace VaultLib.Core.Types
             _offsetDst = bw.BaseStream.Position;
             Data.Write(vault, bw);
 
-            if (Data is IPointerObject pointerObject)
-            {
-                pointerObject.WritePointerData(vault, bw);
-            }
+            if (Data is IPointerObject pointerObject) pointerObject.WritePointerData(vault, bw);
         }
 
         public void AddPointers(Vault vault)
@@ -60,18 +56,18 @@ namespace VaultLib.Core.Types
 
             vault.SaveContext.AddPointer(_offsetSrc, _offsetDst, true);
 
-            if (Data is IPointerObject pointerObject)
-            {
-                pointerObject.AddPointers(vault);
-            }
+            if (Data is IPointerObject pointerObject) pointerObject.AddPointers(vault);
         }
 
-        public VLTAttribType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public override void Read(Vault vault, BinaryReader br)
         {
+            Offset = br.ReadPointer();
         }
 
-        public VLTAttribType(VLTClass @class, VLTClassField field) : base(@class, field)
+        public override void Write(Vault vault, BinaryWriter bw)
         {
+            _offsetSrc = bw.BaseStream.Position;
+            bw.Write(0);
         }
     }
 }

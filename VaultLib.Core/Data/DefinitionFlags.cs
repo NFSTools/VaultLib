@@ -14,6 +14,6 @@ namespace VaultLib.Core.Data
         kIsBound = 0x4,
         kIsNotSearchable = 0x8,
         kIsStatic = 0x10,
-        kHasHandler = 0x20,
+        kHasHandler = 0x20
     }
 }

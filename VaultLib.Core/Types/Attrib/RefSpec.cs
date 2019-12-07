@@ -5,6 +5,7 @@
 using System.IO;
 using CoreLibraries.GameUtilities;
 using VaultLib.Core.Data;
+using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
 
@@ -13,12 +14,20 @@ namespace VaultLib.Core.Types.Attrib
     [VLTTypeInfo("Attrib::RefSpec")]
     public class RefSpec : BaseRefSpec
     {
+        public RefSpec(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public RefSpec(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public override string ClassKey { get; set; }
         public override string CollectionKey { get; set; }
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            if (vault.Database.Is64Bit)
+            if (vault.Database.Options.Type == DatabaseType.X64Database)
             {
                 // 64-bit RefSpec is 24 bytes instead of 12
                 ClassKey = HashManager.ResolveVLT(br.ReadUInt64());
@@ -35,7 +44,7 @@ namespace VaultLib.Core.Types.Attrib
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            if (vault.Database.Is64Bit)
+            if (vault.Database.Options.Type == DatabaseType.X64Database)
             {
                 bw.Write(VLT64Hasher.Hash(ClassKey));
                 bw.Write(VLT64Hasher.Hash(CollectionKey));
@@ -47,14 +56,6 @@ namespace VaultLib.Core.Types.Attrib
                 bw.Write(VLT32Hasher.Hash(CollectionKey));
                 bw.Write(0);
             }
-        }
-
-        public RefSpec(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public RefSpec(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
         }
     }
 }

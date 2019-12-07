@@ -9,39 +9,39 @@ using VaultLib.Core.Chunks;
 namespace VaultLib.Core.IO
 {
     /// <summary>
-    /// Writes AttribSys-style chunks to a data stream.
+    ///     Writes AttribSys-style chunks to a data stream.
     /// </summary>
     public class ChunkWriter
     {
-        private BinaryWriter Writer { get; }
-
-        private Vault Vault { get; }
-
         /// <summary>
-        /// Initializes the chunk writer with a backing <see cref="BinaryWriter"/> and <see cref="VaultLib.Core.Vault"/>
+        ///     Initializes the chunk writer with a backing <see cref="BinaryWriter" /> and <see cref="VaultLib.Core.Vault" />
         /// </summary>
-        /// <param name="writer">The <see cref="BinaryWriter"/> instance that will write to the stream</param>
-        /// <param name="vault">The <see cref="VaultLib.Core.Vault"/> instance to provide to chunk instances</param>
+        /// <param name="writer">The <see cref="BinaryWriter" /> instance that will write to the stream</param>
+        /// <param name="vault">The <see cref="VaultLib.Core.Vault" /> instance to provide to chunk instances</param>
         public ChunkWriter(BinaryWriter writer, Vault vault)
         {
             Writer = writer ?? throw new ArgumentNullException(nameof(writer));
             Vault = vault ?? throw new ArgumentNullException(nameof(vault));
         }
 
+        private BinaryWriter Writer { get; }
+
+        private Vault Vault { get; }
+
         /// <summary>
-        /// Writes a chunk to the data stream.
+        ///     Writes a chunk to the data stream.
         /// </summary>
         /// <param name="chunk">The chunk to write.</param>
         public void WriteChunk(ChunkBase chunk)
         {
-            long beginPos = Writer.BaseStream.Position;
+            var beginPos = Writer.BaseStream.Position;
             Writer.Write(chunk.ID);
-            long sizePos = Writer.BaseStream.Position;
+            var sizePos = Writer.BaseStream.Position;
             Writer.Write(0);
 
             chunk.Write(Vault, Writer);
 
-            long endPos = Writer.BaseStream.Position;
+            var endPos = Writer.BaseStream.Position;
 
             Writer.BaseStream.Position = sizePos;
             Writer.Write((uint) (endPos - beginPos));

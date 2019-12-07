@@ -37,7 +37,7 @@ namespace VaultLib.LegacyBase.Exports
             InlineDataPointer = br.BaseStream.Position;
             if (IsInline())
             {
-                InlineData = TypeRegistry.CreateInstance(vault.Database.Game, Collection.Class, Collection.Class.Fields[Key],
+                InlineData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, Collection.Class.Fields[Key],
                     Collection);
             }
             else

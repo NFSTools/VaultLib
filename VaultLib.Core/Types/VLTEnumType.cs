@@ -12,6 +12,15 @@ namespace VaultLib.Core.Types
 {
     public class VLTEnumType<T> : PrimitiveTypeBase where T : IConvertible
     {
+        public VLTEnumType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+            collection)
+        {
+        }
+
+        public VLTEnumType(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public T Value { get; set; }
 
         public sealed override void Read(Vault vault, BinaryReader br)
@@ -32,14 +41,6 @@ namespace VaultLib.Core.Types
         public override void SetValue(IConvertible value)
         {
             Value = (T) value;
-        }
-
-        public VLTEnumType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public VLTEnumType(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
         }
     }
 }

@@ -2,6 +2,7 @@
 // 
 // Created: 09/24/2019 @ 3:32 PM.
 
+using System;
 using System.IO;
 using VaultLib.Core.Utils;
 
@@ -24,19 +25,17 @@ namespace VaultLib.Core.Structures
             Size = br.ReadUInt32() - 8;
 
             if (Offset + Size + 8 > br.BaseStream.Length)
-            {
                 throw new InvalidDataException($"Overflowing chunk detected @ base+0x{Offset:X}");
-            }
         }
 
         public void Write(Vault vault, BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void GoToEnd(Stream stream)
         {
-            stream.Seek(this.EndOffset, SeekOrigin.Begin);
+            stream.Seek(EndOffset, SeekOrigin.Begin);
         }
     }
 }

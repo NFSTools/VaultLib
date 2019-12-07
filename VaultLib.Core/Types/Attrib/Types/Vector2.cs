@@ -10,6 +10,14 @@ namespace VaultLib.Core.Types.Attrib.Types
     [VLTTypeInfo("Attrib::Types::Vector2")]
     public class Vector2 : VLTBaseType
     {
+        public Vector2(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Vector2(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public float X { get; set; }
         public float Y { get; set; }
 
@@ -28,14 +36,6 @@ namespace VaultLib.Core.Types.Attrib.Types
         public override string ToString()
         {
             return $"({X}, {Y})";
-        }
-
-        public Vector2(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Vector2(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
         }
     }
 }

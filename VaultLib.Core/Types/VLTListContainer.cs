@@ -12,12 +12,47 @@ namespace VaultLib.Core.Types
 {
     public class VLTListContainer<T> : VLTBaseType, IPointerObject where T : VLTBaseType
     {
-        public List<T> Items { get; }
+        private long _dstPtr;
 
         private uint _pointer;
 
         private long _srcPtr;
-        private long _dstPtr;
+
+        public VLTListContainer(VLTClass @class, VLTClassField field, VLTCollection collection, int count) : base(
+            @class, field, collection)
+        {
+            Items = new List<T>(count);
+        }
+
+        public VLTListContainer(VLTClass @class, VLTClassField field, int count) : this(@class, field, null, count)
+        {
+        }
+
+        public List<T> Items { get; }
+
+        public void ReadPointerData(Vault vault, BinaryReader br)
+        {
+            br.BaseStream.Position = _pointer;
+
+            for (var i = 0; i < Items.Capacity; i++)
+            {
+                var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
+                item.Read(vault, br);
+                Items.Add(item);
+            }
+        }
+
+        public void WritePointerData(Vault vault, BinaryWriter bw)
+        {
+            _dstPtr = bw.BaseStream.Position;
+
+            foreach (var item in Items) item.Write(vault, bw);
+        }
+
+        public void AddPointers(Vault vault)
+        {
+            vault.SaveContext.AddPointer(_srcPtr, _dstPtr, false);
+        }
 
         public override void Read(Vault vault, BinaryReader br)
         {
@@ -28,42 +63,6 @@ namespace VaultLib.Core.Types
         {
             _srcPtr = bw.BaseStream.Position;
             bw.Write(0);
-        }
-
-        public void ReadPointerData(Vault vault, BinaryReader br)
-        {
-            br.BaseStream.Position = _pointer;
-
-            for (int i = 0; i < Items.Capacity; i++)
-            {
-                T item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
-                item.Read(vault, br);
-                Items.Add(item);
-            }
-        }
-
-        public void WritePointerData(Vault vault, BinaryWriter bw)
-        {
-            _dstPtr = bw.BaseStream.Position;
-
-            foreach (var item in Items)
-            {
-                item.Write(vault, bw);
-            }
-        }
-
-        public void AddPointers(Vault vault)
-        {
-            vault.SaveContext.AddPointer(_srcPtr, _dstPtr, false);
-        }
-
-        public VLTListContainer(VLTClass @class, VLTClassField field, VLTCollection collection, int count) : base(@class, field, collection)
-        {
-            Items = new List<T>(count);
-        }
-
-        public VLTListContainer(VLTClass @class, VLTClassField field, int count) : this(@class, field, null, count)
-        {
         }
     }
 }

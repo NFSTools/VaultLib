@@ -2,6 +2,7 @@
 // 
 // Created: 09/23/2019 @ 9:28 PM.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core.Utils;
@@ -20,9 +21,9 @@ namespace VaultLib.Core.Loading.Structures
             Header = new AttribVaultPackHeader();
             Header.Read(vault, br);
 
-            for (int i = 0; i < Header.NumEntries; i++)
+            for (var i = 0; i < Header.NumEntries; i++)
             {
-                AttribVaultPackEntry entry = new AttribVaultPackEntry();
+                var entry = new AttribVaultPackEntry();
                 entry.Read(vault, br);
                 Entries.Add(entry);
             }
@@ -30,7 +31,7 @@ namespace VaultLib.Core.Loading.Structures
 
         public void Write(Vault vault, BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -15,10 +15,7 @@ namespace VaultLib.Core.Hashing
 
         public static void LoadDictionary(string file)
         {
-            foreach (var line in File.ReadLines(file))
-            {
-                AddVLT(line);
-            }
+            foreach (var line in File.ReadLines(file)) AddVLT(line);
         }
 
         public static void AddVLT(string str)
@@ -29,12 +26,12 @@ namespace VaultLib.Core.Hashing
 
         public static string ResolveVLT(uint hash)
         {
-            return VltHashDictionary.TryGetValue(hash, out string s) ? s : $"0x{hash:X8}";
+            return VltHashDictionary.TryGetValue(hash, out var s) ? s : $"0x{hash:X8}";
         }
 
         public static string ResolveVLT(ulong hash)
         {
-            return Vlt64HashDictionary.TryGetValue(hash, out string s) ? s : $"0x{hash:X16}";
+            return Vlt64HashDictionary.TryGetValue(hash, out var s) ? s : $"0x{hash:X16}";
         }
     }
 }

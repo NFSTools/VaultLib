@@ -6,6 +6,10 @@ namespace VaultLib.Core.Chunks
     {
         public ulong Version { get; set; }
 
+        public override uint ID => 0x56657273;
+        public override uint Size { get; set; }
+        public override long Offset { get; set; }
+
         public override void Read(Vault vault, BinaryReader br)
         {
             Version = br.ReadUInt64();
@@ -17,9 +21,5 @@ namespace VaultLib.Core.Chunks
         {
             bw.Write(0x6838F8C1836A18DE);
         }
-
-        public override uint ID => 0x56657273;
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
     }
 }

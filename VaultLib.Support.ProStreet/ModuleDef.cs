@@ -7,7 +7,11 @@ using System.Reflection;
 using CoreLibraries.GameUtilities;
 using CoreLibraries.ModuleSystem;
 using VaultLib.Core;
+using VaultLib.Core.Exports;
+using VaultLib.Core.Exports.Implementations;
 using VaultLib.ModernBase;
+using VaultLib.ModernBase.Exports;
+using VaultLib.ModernBase.Structures;
 
 namespace VaultLib.Support.ProStreet
 {
@@ -19,6 +23,10 @@ namespace VaultLib.Support.ProStreet
         {
             TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_PROSTREET);
             TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_PROSTREET);
+            ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_PROSTREET);
+            ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_PROSTREET);
+            ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_PROSTREET);
+            ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_PROSTREET);
         }
     }
 }

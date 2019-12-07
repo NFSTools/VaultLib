@@ -8,7 +8,7 @@ namespace VaultLib.Core.DataInterfaces
         PtrNull = 0x1,
         PtrSetFixupTarget = 0x2,
         PtrDepRelative = 0x3,
-        PtrExport = 0x4,
+        PtrExport = 0x4
     }
 
     public interface IPtrRef : IFileAccess

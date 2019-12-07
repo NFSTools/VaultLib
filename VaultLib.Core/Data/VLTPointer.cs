@@ -22,6 +22,9 @@ namespace VaultLib.Core.Data
 
         public bool Tracked { get; set; }
 
+        public static IEqualityComparer<VLTPointer> FixUpOffsetDestinationTypeComparer { get; } =
+            new FixUpOffsetDestinationTypeEqualityComparer();
+
         public override string ToString()
         {
             return $"{Type}+{FixUpOffset:X} -> {Destination:X}";
@@ -49,7 +52,5 @@ namespace VaultLib.Core.Data
                 }
             }
         }
-
-        public static IEqualityComparer<VLTPointer> FixUpOffsetDestinationTypeComparer { get; } = new FixUpOffsetDestinationTypeEqualityComparer();
     }
 }

@@ -2,12 +2,12 @@
 // 
 // Created: 09/27/2019 @ 5:45 PM.
 
+using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -28,12 +28,12 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            var numElements = br.ReadUInt32();
+            uint numElements = br.ReadUInt32();
 
-            var elements = new List<uint>();
-            var elementsPointer = br.ReadUInt32();
-            var treePointer = br.ReadUInt32();
-            var endPointer = br.ReadUInt32();
+            List<uint> elements = new List<uint>();
+            uint elementsPointer = br.ReadUInt32();
+            uint treePointer = br.ReadUInt32();
+            uint endPointer = br.ReadUInt32();
 
             for (int i = 0; i < numElements; i++)
             {
@@ -47,12 +47,12 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
                 //Debug.WriteLine("\tArray element: {0:X} ({1})", elements[i], HashManager.ResolveVLT(elements[i]));
             }
 
-            var lastIndex = 0u;
+            uint lastIndex = 0u;
 
             for (int i = 0; i < numElements; i++)
             {
-                var index = br.ReadUInt32();
-                var childrenCount = br.ReadUInt32();
+                uint index = br.ReadUInt32();
+                uint childrenCount = br.ReadUInt32();
 
                 Debug.Assert(index == lastIndex);
                 lastIndex += childrenCount;
@@ -67,28 +67,32 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
             EndPointer = 0;
 
             // Obtain the full list of collections
-            var allCollections = vault.SaveContext.Collections.Where(c => c.Class.NameHash == Class.NameHash).ToList();
+            List<VLTCollection> allCollections = vault.SaveContext.Collections.Where(c => c.Class.Name == Class.Name).ToList();
 
             // Group list by parent
-            var groupedByParent = allCollections.GroupBy(c => c.Parent?.Key ?? 0).ToDictionary(g => g.Key, g => g.ToList());
+            Dictionary<ulong, List<VLTCollection>> groupedByParent = allCollections.GroupBy(c => c.Parent?.Key ?? 0).ToDictionary(g => g.Key, g => g.ToList());
 
             // Filter list to collections with children
-            var withChildren = allCollections.Where(c => groupedByParent.ContainsKey(c.Key)).OrderBy(c => c.Key).ToList();
+            List<VLTCollection> withChildren = allCollections.Where(c => groupedByParent.ContainsKey(c.Key)).OrderBy(c => c.Key).ToList();
 
             // Get list of top-level (no parent) collections
-            var topLevel = allCollections.Where(c => c.Parent == null).ToList();
+            List<VLTCollection> topLevel = allCollections.Where(c => c.Parent == null).ToList();
 
-            var arrayElements = new List<uint>();
-            arrayElements.Add(0); // 0 represents the class root
+            List<uint> arrayElements = new List<uint>
+            {
+                0 // 0 represents the class root
+            };
 
             // Collections with children are in the array and tree
-            foreach (var c in withChildren)
+            foreach (VLTCollection c in withChildren)
             {
-                arrayElements.Add((uint) c.Key);
+                arrayElements.Add((uint)c.Key);
             }
 
-            var tree = new Dictionary<int, int>();
-            tree.Add(0, topLevel.Count); // class root
+            Dictionary<int, int> tree = new Dictionary<int, int>
+            {
+                { 0, topLevel.Count } // class root
+            };
 
             int treeIdx = topLevel.Count;
             int arrIdx = 1;
@@ -109,14 +113,14 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
 
             ElementsDest = bw.BaseStream.Position;
 
-            foreach (var arrayElement in arrayElements)
+            foreach (uint arrayElement in arrayElements)
             {
                 bw.Write(arrayElement);
             }
 
             TreeDest = bw.BaseStream.Position;
 
-            foreach (var i in tree)
+            foreach (KeyValuePair<int, int> i in tree)
             {
                 bw.Write(i.Key);
                 bw.Write(i.Value);

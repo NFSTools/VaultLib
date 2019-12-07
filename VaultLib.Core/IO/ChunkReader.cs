@@ -9,7 +9,7 @@ using VaultLib.Core.Structures;
 namespace VaultLib.Core.IO
 {
     /// <summary>
-    /// Reads chunks from a data stream
+    ///     Reads chunks from a data stream
     /// </summary>
     public class ChunkReader
     {
@@ -22,7 +22,7 @@ namespace VaultLib.Core.IO
 
         public ChunkBase NextChunk(Vault vault)
         {
-            ChunkBlockHeader header = new ChunkBlockHeader();
+            var header = new ChunkBlockHeader();
             header.Read(vault, Reader);
             ChunkBase chunk = null;
 

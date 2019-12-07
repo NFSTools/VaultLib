@@ -8,10 +8,14 @@ namespace VaultLib.Core.Exports
     public abstract class BaseCollectionLoad : BaseExport, IPointerObject
     {
         /// <summary>
-        /// The collection being described by this export.
+        ///     The collection being described by this export.
         /// </summary>
         public VLTCollection Collection { get; set; }
-        
+
+        public abstract void ReadPointerData(Vault vault, BinaryReader br);
+        public abstract void WritePointerData(Vault vault, BinaryWriter bw);
+        public abstract void AddPointers(Vault vault);
+
         public override uint GetTypeId()
         {
             return VLT32Hasher.Hash("Attrib::CollectionLoadData");
@@ -21,9 +25,5 @@ namespace VaultLib.Core.Exports
         {
             return VLT32Hasher.Hash($"{Collection.ClassName}/{Collection.Name}");
         }
-
-        public abstract void ReadPointerData(Vault vault, BinaryReader br);
-        public abstract void WritePointerData(Vault vault, BinaryWriter bw);
-        public abstract void AddPointers(Vault vault);
     }
 }

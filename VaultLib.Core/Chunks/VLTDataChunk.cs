@@ -2,6 +2,7 @@
 // 
 // Created: 09/30/2019 @ 3:30 PM.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
@@ -14,23 +15,27 @@ namespace VaultLib.Core.Chunks
     {
         private readonly List<BaseExport> _exports;
 
-        public List<IExportEntry> ExportEntries { get; }
-
         public VLTDataChunk(List<BaseExport> exports)
         {
             _exports = exports;
             ExportEntries = new List<IExportEntry>();
         }
 
+        public List<IExportEntry> ExportEntries { get; }
+
+        public override uint ID => 0x4461744E;
+        public override uint Size { get; set; }
+        public override long Offset { get; set; }
+
         public override void Read(Vault vault, BinaryReader br)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
             //Debug.WriteLine("writing exports", vault.Name);
-            for (int i = 0; i < _exports.Count; i++)
+            for (var i = 0; i < _exports.Count; i++)
             {
                 //Debug.WriteLine("Writing export {0}/{1}", i + 1, _exports.Count);
 
@@ -40,7 +45,7 @@ namespace VaultLib.Core.Chunks
 
                 var endOffset = bw.BaseStream.Position;
 
-                IExportEntry exportEntry = ExportFactory.BuildExportEntry(vault);
+                var exportEntry = ExportFactory.BuildExportEntry(vault);
                 exportEntry.ID = _exports[i].GetExportID();
                 exportEntry.Offset = (uint) offset;
                 exportEntry.Type = _exports[i].GetTypeId();
@@ -53,9 +58,5 @@ namespace VaultLib.Core.Chunks
                 bw.AlignWriter(0x8);
             }
         }
-
-        public override uint ID => 0x4461744E;
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
     }
 }

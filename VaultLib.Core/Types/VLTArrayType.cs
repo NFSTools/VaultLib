@@ -17,6 +17,15 @@ namespace VaultLib.Core.Types
 {
     public class VLTArrayType : VLTBaseType, IReferencesStrings, IReferencesCollections
     {
+        public VLTArrayType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+            collection)
+        {
+        }
+
+        public VLTArrayType(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public ushort FieldSize { get; set; }
 
         public ushort Capacity { get; set; }
@@ -27,64 +36,15 @@ namespace VaultLib.Core.Types
 
         public VLTBaseType[] Items { get; set; }
 
-        public VLTArrayType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
         {
+            return Items.OfType<IReferencesCollections>()
+                .SelectMany(rc => rc.GetReferencedCollections(database, vault));
         }
 
-        public VLTArrayType(VLTClass @class, VLTClassField field) : base(@class, field)
+        public bool ReferencesCollection(string classKey, string collectionKey)
         {
-        }
-
-        public override void Read(Vault vault, BinaryReader br)
-        {
-            Capacity = br.ReadUInt16();
-            var count = br.ReadUInt16();
-            Debug.Assert(count <= Capacity);
-            Items = new VLTBaseType[count];
-            FieldSize = br.ReadUInt16();
-            br.ReadUInt16();
-
-            for (int i = 0; i < Items.Length; i++)
-            {
-                Items[i] = TypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
-                //Items[i] = (VLTBaseType)Activator.CreateInstance(ItemType, Class, Field, Collection);
-
-                br.AlignReader(ItemAlignment);
-
-                if (Items[i] is VLTUnknown unknown)
-                {
-                    unknown.Size = FieldSize;
-                }
-
-                Items[i].Read(vault, br);
-            }
-
-            br.BaseStream.Position += (Capacity - count) * FieldSize;
-        }
-
-        public override void Write(Vault vault, BinaryWriter bw)
-        {
-            bw.Write(Capacity);
-            bw.Write((ushort)Items.Length);
-            bw.Write(FieldSize);
-            bw.Write((ushort)0);
-
-            foreach (var t in Items)
-            {
-                bw.AlignWriter(ItemAlignment);
-                long start = bw.BaseStream.Position;
-                t.Write(vault, bw);
-                if (!(t is PrimitiveTypeBase))
-                {
-                    Debug.Assert(bw.BaseStream.Position - start == FieldSize);
-                }
-            }
-
-            for (int i = 0; i < Capacity - Items.Length; i++)
-            {
-                bw.AlignWriter(ItemAlignment);
-                bw.Write(new byte[FieldSize]);
-            }
+            return Items.OfType<IReferencesCollections>().Any(rc => rc.ReferencesCollection(classKey, collectionKey));
         }
 
         /**
@@ -99,10 +59,7 @@ namespace VaultLib.Core.Types
 
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
-            foreach (var pointerObject in Items.OfType<IPointerObject>())
-            {
-                pointerObject.ReadPointerData(vault, br);
-            }
+            foreach (var pointerObject in Items.OfType<IPointerObject>()) pointerObject.ReadPointerData(vault, br);
         }
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
@@ -116,25 +73,58 @@ namespace VaultLib.Core.Types
 
         public void AddPointers(Vault vault)
         {
-            foreach (var pointerObject in Items.OfType<IPointerObject>())
+            foreach (var pointerObject in Items.OfType<IPointerObject>()) pointerObject.AddPointers(vault);
+        }
+
+        public override void Read(Vault vault, BinaryReader br)
+        {
+            Capacity = br.ReadUInt16();
+            var count = br.ReadUInt16();
+            Debug.Assert(count <= Capacity);
+            Items = new VLTBaseType[count];
+            FieldSize = br.ReadUInt16();
+            br.ReadUInt16();
+
+            for (var i = 0; i < Items.Length; i++)
             {
-                pointerObject.AddPointers(vault);
+                Items[i] = TypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
+                //Items[i] = (VLTBaseType)Activator.CreateInstance(ItemType, Class, Field, Collection);
+
+                br.AlignReader(ItemAlignment);
+
+                if (Items[i] is VLTUnknown unknown) unknown.Size = FieldSize;
+
+                Items[i].Read(vault, br);
+            }
+
+            br.BaseStream.Position += (Capacity - count) * FieldSize;
+        }
+
+        public override void Write(Vault vault, BinaryWriter bw)
+        {
+            bw.Write(Capacity);
+            bw.Write((ushort) Items.Length);
+            bw.Write(FieldSize);
+            bw.Write((ushort) 0);
+
+            foreach (var t in Items)
+            {
+                bw.AlignWriter(ItemAlignment);
+                var start = bw.BaseStream.Position;
+                t.Write(vault, bw);
+                if (!(t is PrimitiveTypeBase)) Debug.Assert(bw.BaseStream.Position - start == FieldSize);
+            }
+
+            for (var i = 0; i < Capacity - Items.Length; i++)
+            {
+                bw.AlignWriter(ItemAlignment);
+                bw.Write(new byte[FieldSize]);
             }
         }
 
         public override string ToString()
         {
             return string.Join<VLTBaseType>(" | ", Items);
-        }
-
-        public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
-        {
-            return Items.OfType<IReferencesCollections>().SelectMany(rc => rc.GetReferencedCollections(database, vault));
-        }
-
-        public bool ReferencesCollection(string classKey, string collectionKey)
-        {
-            return Items.OfType<IReferencesCollections>().Any(rc => rc.ReferencesCollection(classKey, collectionKey));
         }
     }
 }

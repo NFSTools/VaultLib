@@ -12,6 +12,14 @@ namespace VaultLib.Core.Types.EA.Reflection
     [PrimitiveInfo(typeof(bool))]
     public class Bool : PrimitiveTypeBase
     {
+        public Bool(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public Bool(VLTClass @class, VLTClassField field) : base(@class, field)
+        {
+        }
+
         public bool Value { get; set; }
 
         public override void Read(Vault vault, BinaryReader br)
@@ -32,14 +40,6 @@ namespace VaultLib.Core.Types.EA.Reflection
         public override void SetValue(IConvertible value)
         {
             Value = (bool) value;
-        }
-
-        public Bool(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Bool(VLTClass @class, VLTClassField field) : base(@class, field)
-        {
         }
     }
 }

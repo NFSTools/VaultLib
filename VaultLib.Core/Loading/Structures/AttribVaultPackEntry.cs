@@ -2,6 +2,7 @@
 // 
 // Created: 09/23/2019 @ 9:29 PM.
 
+using System;
 using System.IO;
 using VaultLib.Core.Utils;
 
@@ -26,7 +27,7 @@ namespace VaultLib.Core.Loading.Structures
 
         public void Write(Vault vault, BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
