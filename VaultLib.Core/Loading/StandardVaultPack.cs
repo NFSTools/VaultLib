@@ -69,7 +69,6 @@ namespace VaultLib.Core.Loading
 
         public void Save(BinaryWriter bw, IList<Vault> vaults)
         {
-            AttribVaultPackImage vaultPackImage = new AttribVaultPackImage();
             Dictionary<string, (MemoryStream bin, MemoryStream vlt)> streamDictionary = new Dictionary<string, (MemoryStream bin, MemoryStream vlt)>();
 
             foreach (var vault in vaults)
@@ -77,80 +76,6 @@ namespace VaultLib.Core.Loading
                 VaultWriter vaultWriter = new VaultWriter(vault);
                 streamDictionary[vault.Name] = vaultWriter.Save();
             }
-
-            /*                bw bw = new bw(stream);
-
-                bw.Write(0x4B415056); // VPAK
-                bw.Write(file.Vaults.Count);
-
-                var nameTablePtrOffset = bw.BaseStream.Position;
-                bw.Write(0);
-
-                //int nameTableLength = database.Vaults.Aggregate(0, (i, v) => i + v.Name.Length + 1);
-                Dictionary<string, int> nameOffsets = new Dictionary<string, int>();
-                int nameOffset = 0;
-
-                foreach (var databaseVault in file.Vaults)
-                {
-                    nameOffsets[databaseVault.Name] = nameOffset;
-                    nameOffset += databaseVault.Name.Length + 1;
-                }
-
-                bw.Write(nameOffset);
-
-                var entryTablePos = bw.BaseStream.Position;
-
-                foreach (var databaseVault in file.Vaults)
-                {
-                    bw.Write(nameOffsets[databaseVault.Name]);
-                    bw.Write((int)databaseVault.BinStream.Length);
-                    bw.Write((int)databaseVault.VltStream.Length);
-                    bw.Write(0); // bin offset
-                    bw.Write(0); // vlt offset
-                }
-
-                bw.AlignWriter(0x40);
-
-                var nameTablePos = bw.BaseStream.Position;
-
-                foreach (var databaseVault in file.Vaults)
-                {
-                    NullTerminatedString.Write(bw, databaseVault.Name);
-                }
-
-                bw.AlignWriter(0x80);
-
-                List<long> binOffsets = new List<long>();
-                List<long> vltOffsets = new List<long>();
-
-                foreach (var databaseVault in file.Vaults)
-                {
-                    bw.AlignWriter(0x80);
-
-                    binOffsets.Add(bw.BaseStream.Position);
-                    databaseVault.BinStream.CopyTo(bw.BaseStream);
-
-                    bw.AlignWriter(0x80);
-
-                    vltOffsets.Add(bw.BaseStream.Position);
-                    databaseVault.VltStream.CopyTo(bw.BaseStream);
-                }
-
-                bw.BaseStream.Position = entryTablePos;
-
-                for (var index = 0; index < file.Vaults.Count; index++)
-                {
-                    var databaseVault = file.Vaults[index];
-                    bw.Write(nameOffsets[databaseVault.Name]);
-                    bw.Write((int)databaseVault.BinStream.Length);
-                    bw.Write((int)databaseVault.VltStream.Length);
-                    bw.Write((int)binOffsets[index]); // bin offset
-                    bw.Write((int)vltOffsets[index]); // vlt offset
-                }
-
-                bw.BaseStream.Position = nameTablePtrOffset;
-                bw.Write((int)nameTablePos);
-                */
 
             // empty header for now
             bw.Write(new byte[16]);

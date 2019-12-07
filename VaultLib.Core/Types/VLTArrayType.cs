@@ -83,7 +83,14 @@ namespace VaultLib.Core.Types
             Debug.Assert(count <= Capacity);
             Items = new VLTBaseType[count];
             FieldSize = br.ReadUInt16();
-            br.ReadUInt16();
+
+            // NOTE: this is 0x8000 when Attrib::Types::Vector4 is in use. not sure why. 0 otherwise
+            var readUInt16 = br.ReadUInt16();
+
+            if (readUInt16 != 0)
+            {
+                Debug.WriteLine("CHECK: expected 0 for EncodedTypePad, but got {0}: type {1}", readUInt16, Field.TypeName);
+            }
 
             for (var i = 0; i < Items.Length; i++)
             {
@@ -103,9 +110,19 @@ namespace VaultLib.Core.Types
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write(Capacity);
-            bw.Write((ushort) Items.Length);
+            bw.Write((ushort)Items.Length);
             bw.Write(FieldSize);
-            bw.Write((ushort) 0);
+            //bw.Write((ushort)0x8000);
+
+            // TODO: what is going on here?!
+            if (Field.TypeName == "Attrib::Types::Vector4")
+            {
+                bw.Write((ushort)32768);
+            }
+            else
+            {
+                bw.Write((ushort)0);
+            }
 
             foreach (var t in Items)
             {
