@@ -53,6 +53,11 @@ namespace VaultLib.Core
         /// </summary>
         public Database Database { get; set; }
 
+        /// <summary>
+        /// This is set to <c>true</c> if this vault is the "primary" vault - the one with class definitions
+        /// </summary>
+        public bool IsPrimaryVault { get; set; }
+
         public VaultSaveContext SaveContext { get; set; }
 
         public ByteOrder ByteOrder { get; set; }

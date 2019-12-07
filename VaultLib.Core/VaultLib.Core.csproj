@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <LangVersion>7</LangVersion>
+    <LangVersion>8</LangVersion>
     <Platforms>x86</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>VaultLib.Core</PackageId>
@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MSBuildGitHash" Version="0.5.0" />
     <PackageReference Include="MvvmCross" Version="6.4.1" />
     <PackageReference Include="NFSTools.Core.Data" Version="1.0.2" />
     <PackageReference Include="NFSTools.Core.GameUtilities" Version="1.0.3" />

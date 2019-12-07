@@ -53,8 +53,7 @@ namespace VaultLib.Core.Types.EA.Reflection
         {
             Debug.Assert(_internalPointerSrc != 0 && _internalPointerDst != 0);
 
-            // TODO: come back to this
-            vault.SaveContext.AddPointer(_internalPointerSrc, _internalPointerDst, /*IsInVLT*/false);
+            vault.SaveContext.AddPointer(_internalPointerSrc, _internalPointerDst, IsInVLT);
         }
 
         public string GetString()

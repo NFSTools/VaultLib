@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VaultLib.Core.Data;
+using VaultLib.Core.Exports;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
 
@@ -137,6 +138,8 @@ namespace VaultLib.Core.DB
                     pointerObject.ReadPointerData(vault, binStreamReader);
                 }
             }
+
+            vault.IsPrimaryVault = vault.Exports.OfType<BaseClassLoad>().Any();
         }
 
         private void fixPointers(Vault vault, VLTPointerType pointerType, Stream stream)

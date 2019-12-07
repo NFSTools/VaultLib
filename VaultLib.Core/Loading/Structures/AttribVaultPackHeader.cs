@@ -16,7 +16,7 @@ namespace VaultLib.Core.Loading.Structures
 
         public void Read(Vault vault, BinaryReader br)
         {
-            if (br.ReadUInt32() != 1262571606) throw new InvalidDataException("Pack header invalid");
+            if (br.ReadUInt32() != 0x4B415056) throw new InvalidDataException("Pack header invalid");
 
             NumEntries = br.ReadUInt32();
             StringBlockOffset = br.ReadUInt32();
@@ -25,7 +25,10 @@ namespace VaultLib.Core.Loading.Structures
 
         public void Write(Vault vault, BinaryWriter bw)
         {
-            throw new NotImplementedException();
+            bw.Write(0x4B415056);
+            bw.Write(NumEntries);
+            bw.Write(StringBlockOffset);
+            bw.Write(StringBlockSize);
         }
     }
 }

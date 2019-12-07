@@ -28,6 +28,19 @@ namespace VaultLib.Core
         }
 
         /// <summary>
+        /// Provides an enumerator to access every collection in the database that is part of the given vault.
+        /// </summary>
+        /// <param name="vault">The vault to obtain collections for.</param>
+        /// <returns>A collection enumerator</returns>
+        public IEnumerable<VLTCollection> GetCollectionsInVault(Vault vault)
+        {
+            foreach (var collection in EnumerateFlattenedCollections().Where(c => c.Vault == vault))
+            {
+                yield return collection;
+            }
+        }
+
+        /// <summary>
         ///     Builds a list of every collection, parent or child, in the database.
         /// </summary>
         /// <param name="collections">For recursion purposes - the enumerator to obtain data from</param>

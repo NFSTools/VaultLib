@@ -27,7 +27,11 @@ namespace VaultLib.Core.Loading.Structures
 
         public void Write(Vault vault, BinaryWriter bw)
         {
-            throw new NotImplementedException();
+            bw.Write(VaultNameOffset);
+            bw.Write(BinSize);
+            bw.Write(VltSize);
+            bw.Write(BinOffset);
+            bw.Write(VltOffset);
         }
     }
 }

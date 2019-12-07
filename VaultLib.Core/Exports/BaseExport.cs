@@ -22,9 +22,17 @@ namespace VaultLib.Core.Exports
         public abstract void Write(Vault vault, BinaryWriter bw);
 
         /// <summary>
+        ///     Perform any necessary preparation work before data is read.
+        /// </summary>
+        public virtual void PrepareRead(Vault vault)
+        {
+
+        }
+
+        /// <summary>
         ///     Perform any necessary preparation work before data is written.
         /// </summary>
-        public virtual void Prepare()
+        public virtual void Prepare(Vault vault)
         {
         }
 

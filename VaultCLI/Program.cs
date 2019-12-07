@@ -74,10 +74,11 @@ namespace VaultCLI
             HashManager.LoadDictionary("hashes.txt");
             Database database = new Database(new DatabaseOptions(args.GameID, DatabaseType.X86Database));
             Stopwatch stopwatch = Stopwatch.StartNew();
+            Dictionary<string, IList<Vault>> fileDictionary = new Dictionary<string, IList<Vault>>();
 
             foreach (var file in args.Files)
             {
-                LoadFileToDB(database, file);
+                fileDictionary[file] = LoadFileToDB(database, file);
             }
 
             database.CompleteLoad();
@@ -86,6 +87,7 @@ namespace VaultCLI
             Debug.WriteLine("Loaded in {0}ms", stopwatch.ElapsedMilliseconds);
             TypeRegistry.ListUnknownTypes();
 
+            Debug.WriteLine("generating code");
             var codeGenDirectory = Path.Combine("gen-code", args.GameID);
             Directory.CreateDirectory(codeGenDirectory);
 
@@ -95,14 +97,23 @@ namespace VaultCLI
             {
                 cscg.WriteCodeToFile(databaseClass, codeGenDirectory);
             }
+
+            Debug.WriteLine("re-saving");
+
+            foreach (var filePair in fileDictionary)
+            {
+                using BinaryWriter bw = new BinaryWriter(File.Open(filePair.Key + ".gen", FileMode.Create));
+                StandardVaultPack vaultPack = new StandardVaultPack();
+                vaultPack.Save(bw, filePair.Value);
+            }
         }
 
-        private static void LoadFileToDB(Database database, string file)
+        private static IList<Vault> LoadFileToDB(Database database, string file)
         {
             using (BinaryReader br = new BinaryReader(File.OpenRead(file)))
             {
                 StandardVaultPack vaultPack = new StandardVaultPack();
-                vaultPack.Load(br, database, new PackLoadingOptions());
+                return vaultPack.Load(br, database, new PackLoadingOptions());
             }
         }
     }

@@ -27,6 +27,11 @@ namespace VaultLib.Core.Types
         protected VLTClassField Field { get; set; }
         protected VLTCollection Collection { get; set; }
 
+        protected bool IsInVLT
+        {
+            get { return Field.IsOptional && Field.Size <= 4 && !Field.IsArray; }
+        }
+
         public abstract void Read(Vault vault, BinaryReader br);
         public abstract void Write(Vault vault, BinaryWriter bw);
     }

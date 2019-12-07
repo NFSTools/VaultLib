@@ -31,7 +31,12 @@ namespace VaultLib.Core.Loading.Structures
 
         public void Write(Vault vault, BinaryWriter bw)
         {
-            throw new NotImplementedException();
+            Header.Write(vault, bw);
+
+            foreach (var entry in Entries)
+            {
+                entry.Write(vault, bw);
+            }
         }
     }
 }

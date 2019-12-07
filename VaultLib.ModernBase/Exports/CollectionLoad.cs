@@ -67,7 +67,7 @@ namespace VaultLib.ModernBase.Exports
             vault.Database.RowManager.AddCollection(Collection);
         }
 
-        public override void Prepare()
+        public override void Prepare(Vault vault)
         {
             List<KeyValuePair<ulong, VLTBaseType>> optionalDataColumns = (from pair in Collection.DataRow
                                                                           let field = Collection.Class.Fields[pair.Key]

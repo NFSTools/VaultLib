@@ -18,7 +18,7 @@ namespace VaultLib.Core
         private readonly List<BaseExport> _exports = new List<BaseExport>();
         private readonly Vault _vault;
 
-        public VaultWriter(List<VLTCollection> allCollections, Vault vault)
+        public VaultWriter(Vault vault)
         {
             BinStream = new MemoryStream();
             VltStream = new MemoryStream();
@@ -26,7 +26,7 @@ namespace VaultLib.Core
             _vault = vault;
             _vault.SaveContext = new VaultSaveContext
             {
-                Collections = allCollections.FindAll(c => c.Vault.Name == _vault.Name),
+                Collections = vault.Database.RowManager.GetCollectionsInVault(vault).ToList(),
                 Pointers = new HashSet<VLTPointer>(VLTPointer.FixUpOffsetDestinationTypeComparer),
                 Strings = new HashSet<string>(),
                 StringOffsets = new Dictionary<string, long>()
@@ -38,17 +38,20 @@ namespace VaultLib.Core
         private MemoryStream BinStream { get; }
         private MemoryStream VltStream { get; }
 
-        public void Save()
+        /// <summary>
+        /// Builds data streams and returns them in the form of a tuple.
+        /// </summary>
+        /// <returns>A tuple with the BIN and VLT streams, in that order.</returns>
+        public (MemoryStream bin, MemoryStream vlt) Save()
         {
             BuildExports();
-            SaveBIN();
-            SaveVLT();
+            SaveBin();
+            SaveVlt();
 
             BinStream.Position = 0;
             VltStream.Position = 0;
 
-            _vault.BinStream = BinStream;
-            _vault.VltStream = VltStream;
+            return (BinStream, VltStream);
         }
 
         private void BuildPointers()
@@ -58,7 +61,7 @@ namespace VaultLib.Core
 
         private void BuildExports()
         {
-            if (_vault.Name == "db")
+            if (_vault.IsPrimaryVault)
             {
                 _exports.Add(ExportFactory.BuildDatabaseLoad(_vault));
 
@@ -77,10 +80,10 @@ namespace VaultLib.Core
                     select ExportFactory.BuildCollectionLoad(_vault, collection));
             }
 
-            _exports.ForEach(e => e.Prepare());
+            _exports.ForEach(e => e.Prepare(_vault));
         }
 
-        private void SaveBIN()
+        private void SaveBin()
         {
             var bw = new BinaryWriter(BinStream);
 
@@ -99,7 +102,7 @@ namespace VaultLib.Core
             chunkWriter.WriteChunk(endChunk);
         }
 
-        private void SaveVLT()
+        private void SaveVlt()
         {
             var bw = new BinaryWriter(VltStream);
             var chunkWriter = new ChunkWriter(bw, _vault);
