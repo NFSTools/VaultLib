@@ -5,7 +5,6 @@
 using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
-using VaultLib.Core.Structures;
 
 namespace VaultLib.ModernBase.Structures
 {

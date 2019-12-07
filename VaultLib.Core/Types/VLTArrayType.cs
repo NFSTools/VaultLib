@@ -112,17 +112,7 @@ namespace VaultLib.Core.Types
             bw.Write(Capacity);
             bw.Write((ushort)Items.Length);
             bw.Write(FieldSize);
-            //bw.Write((ushort)0x8000);
-
-            // TODO: what is going on here?!
-            if (Field.TypeName == "Attrib::Types::Vector4")
-            {
-                bw.Write((ushort)32768);
-            }
-            else
-            {
-                bw.Write((ushort)0);
-            }
+            bw.Write((ushort)(1 << (Field.Alignment - 1)));
 
             foreach (var t in Items)
             {

@@ -41,7 +41,6 @@ namespace VaultLib.ModernBase.Exports
 
             if (!Collection.Class.FieldExists(Key))
             {
-                br.BaseStream.Position = InlineDataPointer - 4 + 0xC;
                 throw new CollectionLoadingException(
                     $"Attempted to process entry for field {Key:X8} which does not exist",
                     Collection);

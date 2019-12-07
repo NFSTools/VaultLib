@@ -12,7 +12,6 @@ namespace VaultLib.Core.Exceptions
         public CollectionLoadingException(string message, VLTCollection collection) : base(message)
         {
             Collection = collection ?? throw new ArgumentNullException(nameof(collection));
-            ;
         }
 
         public CollectionLoadingException(string message, Exception innerException, VLTCollection collection) : base(
