@@ -6,7 +6,7 @@
     <Company>NFSTools</Company>
     <Description>Implements data interfaces for the original AttribSys format</Description>
     <Platforms>x86</Platforms>
-    <Version>1.0.10</Version>
+    <Version>1.0.11</Version>
   </PropertyGroup>
 
   <ItemGroup>
