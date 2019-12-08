@@ -1,11 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>heyitsleo/NFSTools</Authors>
     <Company>NFSTools</Company>
-    <Description>Implements data interfaces for the modern AttribSys format</Description>
+    <Description>Implements the modern AttribSys format</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>7</LangVersion>
+    <PackageId>VaultLib.ModernBase</PackageId>
     <Platforms>x86</Platforms>
+    <Product>VaultLib.ModernBase</Product>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Version>1.0.13</Version>
   </PropertyGroup>
 

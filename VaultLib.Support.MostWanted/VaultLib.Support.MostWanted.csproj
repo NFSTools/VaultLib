@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>heyitsleo/NFSTools</Authors>
     <Company>NFSTools</Company>
-    <Description>Implements VLT support for Need for Speed: Most Wanted</Description>
+    <Description>Support for Need for Speed: Most Wanted</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>7</LangVersion>
+    <PackageId>VaultLib.Support.MostWanted</PackageId>
     <Platforms>x86</Platforms>
-    <Version>1.0.16</Version>
+    <Product>VaultLib.Support.MostWanted</Product>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>1.0.18</Version>
   </PropertyGroup>
 
   <ItemGroup>

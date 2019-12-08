@@ -108,7 +108,7 @@ namespace VaultLib.LegacyBase.Exports
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write((uint) Collection.Key);
-            bw.Write(VLT32Hasher.Hash(Collection.Name));
+            bw.Write(VLT32Hasher.Hash(Collection.Class.Name));
             bw.Write((uint) (Collection.Parent?.Key ?? 0));
             bw.Write((uint) _entries.Length);
             bw.Write(0);

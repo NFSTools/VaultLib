@@ -85,12 +85,7 @@ namespace VaultLib.Core.Types
             FieldSize = br.ReadUInt16();
 
             // NOTE: this is 0x8000 when Attrib::Types::Vector4 is in use. not sure why. 0 otherwise
-            var readUInt16 = br.ReadUInt16();
-
-            if (readUInt16 != 0)
-            {
-                Debug.WriteLine("CHECK: expected 0 for EncodedTypePad, but got {0}: type {1}", readUInt16, Field.TypeName);
-            }
+            br.ReadUInt16();
 
             for (var i = 0; i < Items.Length; i++)
             {
