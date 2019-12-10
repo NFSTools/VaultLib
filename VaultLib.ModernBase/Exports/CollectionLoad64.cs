@@ -15,7 +15,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports
 {
-    public class CollectionLoad : BaseCollectionLoad
+    public class CollectionLoad64 : BaseCollectionLoad
     {
         private uint _layoutPointer;
         private uint[] _types;

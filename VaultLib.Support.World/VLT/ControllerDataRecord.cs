@@ -16,51 +16,51 @@ namespace VaultLib.Support.World.VLT
     [VLTTypeInfo(nameof(ControllerDataRecord))]
     public class ControllerDataRecord : VLTBaseType, IReferencesStrings
     {
-        public string DeviceID { get; set; }
+        public string DeviceId { get; set; }
         public InputUpdateType UpdateType { get; set; }
-        public float LowerDZ { get; set; }
-        public float UpperDZ { get; set; }
+        public float LowerDeadZone { get; set; }
+        public float UpperDeadZone { get; set; }
 
-        private StringKey _deviceID { get; set; }
+        private StringKey InternalDeviceId { get; set; }
 
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _deviceID = new StringKey(Class, Field, Collection);
-            _deviceID.Read(vault, br);
+            InternalDeviceId = new StringKey(Class, Field, Collection);
+            InternalDeviceId.Read(vault, br);
             UpdateType = br.ReadEnum<InputUpdateType>();
-            LowerDZ = br.ReadSingle();
-            UpperDZ = br.ReadSingle();
+            LowerDeadZone = br.ReadSingle();
+            UpperDeadZone = br.ReadSingle();
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _deviceID = new StringKey(Class, Field, Collection) { Value = DeviceID };
-            _deviceID.Write(vault, bw);
+            InternalDeviceId = new StringKey(Class, Field, Collection) { Value = DeviceId };
+            InternalDeviceId.Write(vault, bw);
             bw.WriteEnum(UpdateType);
-            bw.Write(LowerDZ);
-            bw.Write(UpperDZ);
+            bw.Write(LowerDeadZone);
+            bw.Write(UpperDeadZone);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return new[] { DeviceID };
+            return new[] { DeviceId };
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
-            _deviceID.ReadPointerData(vault, br);
-            DeviceID = _deviceID.Value;
+            InternalDeviceId.ReadPointerData(vault, br);
+            DeviceId = InternalDeviceId.Value;
         }
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
-            _deviceID.WritePointerData(vault, bw);
+            InternalDeviceId.WritePointerData(vault, bw);
         }
 
         public void AddPointers(Vault vault)
         {
-            _deviceID.AddPointers(vault);
+            InternalDeviceId.AddPointers(vault);
         }
 
         public ControllerDataRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)

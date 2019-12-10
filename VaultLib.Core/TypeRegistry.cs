@@ -53,7 +53,7 @@ namespace VaultLib.Core
         public static void Register<T>(string typeId, params string[] gameIds) where T : VLTBaseType
         {
             var games = gameIds.Length == 0
-                ? new List<string>(GameIdHelper.GetIdList())
+                ? new List<string>(new[] { "GLOBAL" })
                 : new List<string>(gameIds);
 
             foreach (var game in games) Register<T>(game, typeId);
@@ -68,10 +68,10 @@ namespace VaultLib.Core
         public static void RegisterAssemblyTypes(Assembly assembly, params string[] gameIds)
         {
             var games = gameIds.Length == 0
-                ? new List<string>(GameIdHelper.GetIdList())
+                ? new List<string>(new[] { "GLOBAL" })
                 : new List<string>(gameIds);
 
-            Debug.WriteLine("RegisterAssemblyTypes({0})", new object[] {assembly.FullName});
+            Debug.WriteLine("RegisterAssemblyTypes({0})", new object[] { assembly.FullName });
 
             foreach (var type in assembly.GetTypes())
             {
@@ -83,7 +83,7 @@ namespace VaultLib.Core
                 if (typeInfoAttribute == null)
                 {
                     Debug.WriteLine("WARN: skipping registering type {0} because it doesn't have VLTTypeInfo",
-                        new object[] {type.FullName});
+                        new object[] { type.FullName });
                     continue;
                 }
 
@@ -115,7 +115,7 @@ namespace VaultLib.Core
 
             if (vltClassField.IsArray)
                 instance = new VLTArrayType(vltClass, vltClassField, collection)
-                    {ItemType = type, ItemAlignment = vltClassField.Alignment};
+                { ItemType = type, ItemAlignment = vltClassField.Alignment };
             else
                 instance = ConstructInstance(type, vltClass, vltClassField, collection);
             //instance = (VLTBaseType)Activator.CreateInstance(type, vltClass, vltClassField, collection);
@@ -147,7 +147,7 @@ namespace VaultLib.Core
         public static void ListUnknownTypes()
         {
             Debug.WriteLine("Unknown types:");
-            foreach (var type in UnknownTypes.OrderBy(s => s)) Debug.WriteLine("\t{0}", new object[] {type});
+            foreach (var type in UnknownTypes.OrderBy(s => s)) Debug.WriteLine("\t{0}", new object[] { type });
         }
 
         public static IReadOnlyDictionary<string, ReadOnlyDictionary<string, Type>> GetTypeDictionary()
@@ -173,6 +173,8 @@ namespace VaultLib.Core
             if (TypeDictionary.TryGetValue(gameId, out var typeDict)
                 && typeDict.TryGetValue(typeId, out var type))
                 return type;
+            else if (gameId != "GLOBAL")
+                return ResolveType("GLOBAL", typeId);
 
             UnknownTypes.Add(typeId);
 

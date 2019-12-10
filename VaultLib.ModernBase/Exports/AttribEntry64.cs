@@ -10,9 +10,9 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports
 {
-    public class AttribEntry : IFileAccess, IPointerObject
+    public class AttribEntry64 : IFileAccess, IPointerObject
     {
-        public uint Key { get; set; }
+        public ulong Key { get; set; }
         public ushort TypeIndex { get; set; }
         public NodeFlagsEnum NodeFlags { get; set; }
         public byte EntryFlags { get; set; }
@@ -20,14 +20,14 @@ namespace VaultLib.ModernBase.Exports
         public VLTBaseType InlineData { get; set; }
         public VLTCollection Collection { get; }
 
-        public AttribEntry(VLTCollection collection)
+        public AttribEntry64(VLTCollection collection)
         {
             Collection = collection;
         }
 
         public void Read(Vault vault, BinaryReader br)
         {
-            Key = br.ReadUInt32();
+            Key = br.ReadUInt64();
             InlineDataPointer = br.BaseStream.Position;
             br.ReadUInt32(); // skip data for now
             TypeIndex = br.ReadUInt16();

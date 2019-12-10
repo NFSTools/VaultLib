@@ -2,18 +2,13 @@
 using CoreLibraries.ModuleSystem;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Xml;
-using System.Xml.Serialization;
 using VaultLib.CodeGen;
 using VaultLib.Core;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Loading;
-using VaultLib.Core.Types;
 
 namespace VaultCLI
 {
@@ -99,6 +94,7 @@ namespace VaultCLI
                 cscg.WriteCodeToFile(databaseClass, codeGenDirectory);
             }
 
+            stopwatch = Stopwatch.StartNew();
             Debug.WriteLine("re-saving");
 
             foreach (var filePair in fileDictionary)
@@ -107,6 +103,8 @@ namespace VaultCLI
                 StandardVaultPack vaultPack = new StandardVaultPack();
                 vaultPack.Save(bw, filePair.Value);
             }
+            stopwatch.Stop();
+            Debug.WriteLine("re-saved in {0}ms", stopwatch.ElapsedMilliseconds);
         }
 
         private static IList<Vault> LoadFileToDB(Database database, string file)

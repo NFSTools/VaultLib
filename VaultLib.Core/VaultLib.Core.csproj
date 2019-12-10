@@ -10,18 +10,14 @@
     <Platforms>x86</Platforms>
     <Product>VaultLib.Core</Product>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.0.23</Version>
+    <Version>1.0.25</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="External\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MSBuildGitHash" Version="0.5.0" />
     <PackageReference Include="MvvmCross" Version="6.4.1" />
     <PackageReference Include="NFSTools.Core.Data" Version="1.0.2" />
-    <PackageReference Include="NFSTools.Core.GameUtilities" Version="1.0.3" />
+    <PackageReference Include="NFSTools.Core.GameUtilities" Version="1.0.4" />
     <PackageReference Include="NFSTools.Core.IO" Version="1.0.3" />
     <PackageReference Include="NFSTools.Core.ModuleSystem" Version="1.0.3" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />

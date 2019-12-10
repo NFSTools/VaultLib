@@ -30,7 +30,6 @@
     <ProjectReference Include="..\VaultLib.Support.Carbon\VaultLib.Support.Carbon.csproj" />
     <ProjectReference Include="..\VaultLib.Support.MostWanted\VaultLib.Support.MostWanted.csproj" />
     <ProjectReference Include="..\VaultLib.Support.ProStreet\VaultLib.Support.ProStreet.csproj" />
-    <ProjectReference Include="..\VaultLib.Support.TheRun\VaultLib.Support.TheRun.csproj" />
     <ProjectReference Include="..\VaultLib.Support.Undercover\VaultLib.Support.Undercover.csproj" />
     <ProjectReference Include="..\VaultLib.Support.World\VaultLib.Support.World.csproj" />
   </ItemGroup>
