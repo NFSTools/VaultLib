@@ -4,7 +4,6 @@ using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
-using VaultLib.Core.Exceptions;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 

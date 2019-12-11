@@ -30,7 +30,6 @@ namespace VaultLib.Core.DB
             Options = options;
             Classes = new List<VLTClass>();
             Types = new List<DatabaseTypeInfo>();
-            Files = new List<DatabaseLoadedFile>();
             RowManager = new RowManager(this);
         }
 
@@ -39,8 +38,6 @@ namespace VaultLib.Core.DB
         public RowManager RowManager { get; }
 
         public List<VLTClass> Classes { get; }
-
-        public List<DatabaseLoadedFile> Files { get; }
 
         public List<DatabaseTypeInfo> Types { get; }
 
@@ -82,22 +79,22 @@ namespace VaultLib.Core.DB
             ChunkReader binChunkReader = new ChunkReader(binStreamReader);
             ChunkReader vltChunkReader = new ChunkReader(vltStreamReader);
 
-            Debug.WriteLine("Processing BIN chunks");
+            //Debug.WriteLine("Processing BIN chunks");
             processBinChunks(vault, binChunkReader);
 
-            Debug.WriteLine("Processing VLT chunks");
+            //Debug.WriteLine("Processing VLT chunks");
             processVltChunks(vault, vltChunkReader);
 
-            Debug.WriteLine("Processing pointers");
+            //Debug.WriteLine("Processing pointers");
             fixPointers(vault, VLTPointerType.Bin, vault.BinStream);
             fixPointers(vault, VLTPointerType.Vlt, vault.VltStream);
 
-            Debug.WriteLine("Reading exports");
+            //Debug.WriteLine("Reading exports");
             readExports(vault, vltStreamReader, binStreamReader);
         }
 
         /// <summary>
-        ///     Called after all files have been loaded in order to generate a proper hierarchy
+        ///     Called after all vaults have been loaded in order to generate a proper hierarchy.
         /// </summary>
         public void CompleteLoad()
         {

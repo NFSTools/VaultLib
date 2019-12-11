@@ -2,12 +2,11 @@
 // 
 // Created: 09/23/2019 @ 9:28 PM.
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Core.Loading.Structures
+namespace VaultLib.Core.Pack.Structures
 {
     public class AttribVaultPackImage : IFileAccess
     {

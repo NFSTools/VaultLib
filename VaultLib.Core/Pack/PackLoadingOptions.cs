@@ -4,7 +4,7 @@
 
 using CoreLibraries.IO;
 
-namespace VaultLib.Core.Loading
+namespace VaultLib.Core.Pack
 {
     /// <summary>
     ///     Provides options for vault pack loading

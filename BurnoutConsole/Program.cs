@@ -9,7 +9,7 @@ using VaultLib.Core.DB;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
 using VaultLib.Core.Hashing;
-using VaultLib.Core.Loading;
+using VaultLib.Core.Pack;
 using VaultLib.Core.Structures;
 using VaultLib.ModernBase.Exports;
 using VaultLib.ModernBase.Structures;

@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5E7C816E-E9F3-48ED-B7CD-C7A2D2ABA683}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		README.MD = README.MD
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaultLib.Support.MostWanted", "VaultLib.Support.MostWanted\VaultLib.Support.MostWanted.csproj", "{DE77AF17-C374-4183-8B77-E477019E292C}"
@@ -34,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game support", "Game suppor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheRunConsole", "TheRunConsole\TheRunConsole.csproj", "{24FDC690-C7EE-428C-98AD-6DCE61128EC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnoutConsole", "BurnoutConsole\BurnoutConsole.csproj", "{697AC0E1-DCE7-44EF-A95C-FF6A34DED637}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurnoutConsole", "BurnoutConsole\BurnoutConsole.csproj", "{697AC0E1-DCE7-44EF-A95C-FF6A34DED637}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

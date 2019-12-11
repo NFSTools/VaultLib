@@ -2,11 +2,10 @@
 // 
 // Created: 09/23/2019 @ 9:29 PM.
 
-using System;
 using System.IO;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Core.Loading.Structures
+namespace VaultLib.Core.Pack.Structures
 {
     public class AttribVaultPackHeader : IFileAccess
     {

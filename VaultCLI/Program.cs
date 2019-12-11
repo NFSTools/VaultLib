@@ -8,7 +8,7 @@ using VaultLib.CodeGen;
 using VaultLib.Core;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
-using VaultLib.Core.Loading;
+using VaultLib.Core.Pack;
 
 namespace VaultCLI
 {
@@ -72,7 +72,7 @@ namespace VaultCLI
             Stopwatch stopwatch = Stopwatch.StartNew();
             Dictionary<string, IList<Vault>> fileDictionary = new Dictionary<string, IList<Vault>>();
 
-            foreach (var file in args.Files)
+            foreach (string file in args.Files)
             {
                 fileDictionary[file] = LoadFileToDB(database, file);
             }
@@ -80,16 +80,16 @@ namespace VaultCLI
             database.CompleteLoad();
             stopwatch.Stop();
 
-            Debug.WriteLine("Loaded in {0}ms", stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("Loaded in {0}ms", stopwatch.ElapsedMilliseconds);
             TypeRegistry.ListUnknownTypes();
 
             Debug.WriteLine("generating code");
-            var codeGenDirectory = Path.Combine("gen-code", args.GameID);
+            string codeGenDirectory = Path.Combine("gen-code", args.GameID);
             Directory.CreateDirectory(codeGenDirectory);
 
             CSharpCodeGenerator cscg = new CSharpCodeGenerator(database);
 
-            foreach (var databaseClass in database.Classes)
+            foreach (VaultLib.Core.Data.VLTClass databaseClass in database.Classes)
             {
                 cscg.WriteCodeToFile(databaseClass, codeGenDirectory);
             }
@@ -97,14 +97,15 @@ namespace VaultCLI
             stopwatch = Stopwatch.StartNew();
             Debug.WriteLine("re-saving");
 
-            foreach (var filePair in fileDictionary)
+            foreach (var (path, vaults) in fileDictionary)
             {
-                using BinaryWriter bw = new BinaryWriter(File.Open(filePair.Key + ".gen", FileMode.Create));
+                using BinaryWriter bw = new BinaryWriter(File.Open(path + ".gen", FileMode.Create));
                 StandardVaultPack vaultPack = new StandardVaultPack();
-                vaultPack.Save(bw, filePair.Value);
+                vaultPack.Save(bw, vaults);
             }
             stopwatch.Stop();
-            Debug.WriteLine("re-saved in {0}ms", stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("re-saved in {0}ms", stopwatch.ElapsedMilliseconds);
+            Console.Read();
         }
 
         private static IList<Vault> LoadFileToDB(Database database, string file)

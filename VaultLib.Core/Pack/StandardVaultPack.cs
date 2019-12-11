@@ -2,15 +2,14 @@
 // 
 // Created: 10/31/2019 @ 4:57 PM.
 
-using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using CoreLibraries.IO;
 using VaultLib.Core.DB;
-using VaultLib.Core.Loading.Structures;
+using VaultLib.Core.Pack.Structures;
 
-namespace VaultLib.Core.Loading
+namespace VaultLib.Core.Pack
 {
     /// <summary>
     ///     Implements the classic "VPAK" vault pack.
@@ -67,7 +66,7 @@ namespace VaultLib.Core.Loading
             return vaults;
         }
 
-        public void Save(BinaryWriter bw, IList<Vault> vaults)
+        public void Save(BinaryWriter bw, IList<Vault> vaults, PackSavingOptions savingOptions = null)
         {
             Dictionary<string, (MemoryStream bin, MemoryStream vlt)> streamDictionary = new Dictionary<string, (MemoryStream bin, MemoryStream vlt)>();
 
@@ -110,25 +109,27 @@ namespace VaultLib.Core.Loading
             foreach (var vault in vaults)
             {
                 bw.AlignWriter(0x80);
-                (MemoryStream bin, MemoryStream vlt) streamTuple = streamDictionary[vault.Name];
+                var (binStream, vltStream) = streamDictionary[vault.Name];
 
                 binOffsets.Add(bw.BaseStream.Position);
-                streamTuple.bin.CopyTo(bw.BaseStream);
+                binStream.CopyTo(bw.BaseStream);
 
                 bw.AlignWriter(0x80);
 
                 vltOffsets.Add(bw.BaseStream.Position);
-                streamTuple.vlt.CopyTo(bw.BaseStream);
+                vltStream.CopyTo(bw.BaseStream);
             }
 
             bw.BaseStream.Position = 0;
 
             // write header
             AttribVaultPackImage vpi = new AttribVaultPackImage();
-            AttribVaultPackHeader header = new AttribVaultPackHeader();
-            header.NumEntries = (uint) vaults.Count;
-            header.StringBlockOffset = (uint) nameTablePos;
-            header.StringBlockSize = (uint) nameOffset;
+            AttribVaultPackHeader header = new AttribVaultPackHeader
+            {
+                NumEntries = (uint) vaults.Count,
+                StringBlockOffset = (uint) nameTablePos,
+                StringBlockSize = (uint) nameOffset
+            };
 
             vpi.Header = header;
             vpi.Entries = new List<AttribVaultPackEntry>();
@@ -136,13 +137,15 @@ namespace VaultLib.Core.Loading
             for (int i = 0; i < vaults.Count; i++)
             {
                 Vault vault = vaults[i];
-                (MemoryStream bin, MemoryStream vlt) streamTuple = streamDictionary[vault.Name];
-                AttribVaultPackEntry entry = new AttribVaultPackEntry();
-                entry.BinOffset = (uint) binOffsets[i];
-                entry.VltOffset = (uint) vltOffsets[i];
-                entry.BinSize = (uint) streamTuple.bin.Length;
-                entry.VltSize = (uint) streamTuple.vlt.Length;
-                entry.VaultNameOffset = (uint) nameOffsets[vault.Name];
+                var (binStream, vltStream) = streamDictionary[vault.Name];
+                AttribVaultPackEntry entry = new AttribVaultPackEntry
+                {
+                    BinOffset = (uint) binOffsets[i],
+                    VltOffset = (uint) vltOffsets[i],
+                    BinSize = (uint) binStream.Length,
+                    VltSize = (uint) vltStream.Length,
+                    VaultNameOffset = (uint) nameOffsets[vault.Name]
+                };
 
                 vpi.Entries.Add(entry);
             }

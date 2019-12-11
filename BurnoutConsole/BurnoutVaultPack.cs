@@ -4,7 +4,7 @@ using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.DB;
-using VaultLib.Core.Loading;
+using VaultLib.Core.Pack;
 
 namespace BurnoutConsole
 {
@@ -60,7 +60,7 @@ namespace BurnoutConsole
             return new ReadOnlyCollection<Vault>(new List<Vault>(new[] { vault }));
         }
 
-        public void Save(BinaryWriter bw, IList<Vault> vaults)
+        public void Save(BinaryWriter bw, IList<Vault> vaults, PackSavingOptions savingOptions)
         {
             throw new System.NotImplementedException();
         }
