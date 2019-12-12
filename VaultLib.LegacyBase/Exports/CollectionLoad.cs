@@ -128,7 +128,7 @@ namespace VaultLib.LegacyBase.Exports
             }
         }
 
-        public override uint GetExportID()
+        public override ulong GetExportID()
         {
             return VLT32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }

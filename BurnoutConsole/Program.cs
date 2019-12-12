@@ -1,16 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.DB;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Pack;
-using VaultLib.Core.Structures;
 using VaultLib.ModernBase.Exports;
 using VaultLib.ModernBase.Structures;
 

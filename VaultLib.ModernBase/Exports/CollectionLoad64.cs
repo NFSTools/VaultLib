@@ -18,17 +18,17 @@ namespace VaultLib.ModernBase.Exports
     public class CollectionLoad64 : BaseCollectionLoad
     {
         private uint _layoutPointer;
-        private uint[] _types;
-        private List<AttribEntry> _entries;
+        private ulong[] _types;
+        private List<AttribEntry64> _entries;
 
         private long _srcLayoutPtr;
         private long _dstLayoutPtr;
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            var mKey = br.ReadUInt32();
-            var mClass = br.ReadUInt32();
-            var mParent = br.ReadUInt32();
+            var mKey = br.ReadUInt64();
+            var mClass = br.ReadUInt64();
+            var mParent = br.ReadUInt64();
             var mTableReserve = br.ReadUInt32();
             br.ReadUInt32();
             var mNumEntries = br.ReadUInt32();
@@ -42,22 +42,22 @@ namespace VaultLib.ModernBase.Exports
 
             Debug.Assert(mTypesLen >= mNumTypes);
 
-            _types = new uint[mNumTypes];
+            _types = new ulong[mNumTypes];
             for (var i = 0; i < mNumTypes; i++)
             {
-                _types[i] = (br.ReadUInt32());
+                _types[i] = (br.ReadUInt64());
             }
 
             for (var i = 0; i < mTypesLen - mNumTypes; i++)
             {
-                br.ReadUInt32();
+                br.ReadUInt64();
             }
 
-            _entries = new List<AttribEntry>();
+            _entries = new List<AttribEntry64>();
 
             for (var i = 0; i < mNumEntries; i++)
             {
-                var attribEntry = new AttribEntry(Collection);
+                var attribEntry = new AttribEntry64(Collection);
 
                 attribEntry.Read(vault, br);
 
@@ -87,15 +87,15 @@ namespace VaultLib.ModernBase.Exports
                                                                           orderby field.Name
                                                                           select pair).ToList();
 
-            _entries = new List<AttribEntry>();
+            _entries = new List<AttribEntry64>();
             _types = Collection.Class.BaseFields.Select(f => f.TypeName)
                 .Concat(optionalDataColumns.Select(c => Collection.Class.Fields[c.Key].TypeName))
-                .Select(s => VLT32Hasher.Hash(s)).Distinct().ToArray();
+                .Select(s => VLT64Hasher.Hash(s)).Distinct().ToArray();
 
             for (var index = 0; index < optionalDataColumns.Count; index++)
             {
                 var optionalDataColumn = optionalDataColumns[index];
-                var entry = new AttribEntry(Collection);
+                var entry = new AttribEntry64(Collection);
                 var vltClassField = Collection.Class.Fields[optionalDataColumn.Key];
 
                 entry.Key = (uint)optionalDataColumn.Key;
@@ -132,9 +132,9 @@ namespace VaultLib.ModernBase.Exports
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            bw.Write((uint)Collection.Key);
-            bw.Write(VLT32Hasher.Hash(Collection.Class.Name));
-            bw.Write((uint)(Collection.Parent?.Key ?? 0));
+            bw.Write(VLT64Hasher.Hash(Collection.Name));
+            bw.Write(VLT64Hasher.Hash(Collection.Class.Name));
+            bw.Write(Collection.Parent != null ? VLT64Hasher.Hash(Collection.Parent.Name) : 0L);
             bw.Write(_entries.Count);
             bw.Write(0);
             bw.Write(_entries.Count);
@@ -161,9 +161,9 @@ namespace VaultLib.ModernBase.Exports
             }
         }
 
-        public override uint GetExportID()
+        public override ulong GetExportID()
         {
-            return VLT32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
+            return VLT64Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }
 
         public override void ReadPointerData(Vault vault, BinaryReader br)

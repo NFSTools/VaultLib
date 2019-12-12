@@ -132,9 +132,9 @@ namespace VaultLib.ModernBase.Exports
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            bw.Write((uint)Collection.Key);
+            bw.Write(VLT32Hasher.Hash(Collection.Name));
             bw.Write(VLT32Hasher.Hash(Collection.Class.Name));
-            bw.Write((uint)(Collection.Parent?.Key ?? 0));
+            bw.Write(Collection.Parent != null ? VLT32Hasher.Hash(Collection.Parent.Name) : 0u);
             bw.Write(_entries.Count);
             bw.Write(0);
             bw.Write(_entries.Count);
@@ -161,7 +161,7 @@ namespace VaultLib.ModernBase.Exports
             }
         }
 
-        public override uint GetExportID()
+        public override ulong GetExportID()
         {
             return VLT32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }
