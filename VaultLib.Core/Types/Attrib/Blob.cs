@@ -3,6 +3,7 @@
 // Created: 10/07/2019 @ 7:11 PM.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using CoreLibraries.GameUtilities;
 using VaultLib.Core.Data;
@@ -72,6 +73,7 @@ namespace VaultLib.Core.Types.Attrib
             // Great work, pipeline. Great work.
             Length = br.ReadUInt32();
             _dataOffset = br.ReadPointer();
+
             Data = new CompressedBlob();
         }
 

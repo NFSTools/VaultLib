@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.DB;
@@ -17,6 +18,7 @@ namespace VaultCLI
         private enum OperationMode
         {
             Load,
+            LoadBenchmark,
             Save
         }
 
@@ -50,12 +52,20 @@ namespace VaultCLI
                 case OperationMode.Load:
                     RunLoad(args);
                     break;
+                case OperationMode.LoadBenchmark:
+                    RunLoadBenchmark(args);
+                    break;
                 case OperationMode.Save:
                     RunSave(args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(args.Mode), "This should never happen...");
             }
+        }
+
+        private static void RunLoadBenchmark(ProgramArgs args)
+        {
+            throw new NotImplementedException();
         }
 
         private static void RunSave(ProgramArgs args)
@@ -68,82 +78,25 @@ namespace VaultCLI
             Debug.WriteLine("Loading database");
 
             HashManager.LoadDictionary("hashes.txt");
-            Stopwatch stopwatch = Stopwatch.StartNew();
 
-            int numIterations = 50;
+            Database database = new Database(new DatabaseOptions(args.GameID, DatabaseType.X86Database));
 
-            for (int i = 0; i < numIterations; i++)
+            using (new DatabaseLoadingWrapper(database))
             {
-                Database database = new Database(new DatabaseOptions(args.GameID, DatabaseType.X86Database));
-                using (new DatabaseLoadingWrapper(database))
-                {
-                    foreach (string file in args.Files)
-                    {
-                        LoadFileToDB(database, file);
-                        //fileDictionary[file] = LoadFileToDB(database, file);
-                    }
-                }
+                List<string> fileList = new List<string>(args.Files);
+                Dictionary<string, IList<Vault>> fileDictionary = fileList.ToDictionary(c => c, c => LoadFileToDB(database, c));
             }
 
-            //Dictionary<string, IList<Vault>> fileDictionary = new Dictionary<string, IList<Vault>>();
-
-
-
-
-            //database.CompleteLoad();
-            stopwatch.Stop();
-
-            Console.WriteLine("Test done in {0}ms (avg {1}ms)", stopwatch.ElapsedMilliseconds, ((float)stopwatch.ElapsedMilliseconds) / numIterations);
-
-            //DisplayHierarchy(database);
-
+            Debug.WriteLine("Loaded database!");
+            Debug.WriteLine("Listing unknown types:");
             TypeRegistry.ListUnknownTypes();
-
-            //Debug.WriteLine("generating code");
-            //string codeGenDirectory = Path.Combine("gen-code", args.GameID);
-            //Directory.CreateDirectory(codeGenDirectory);
-
-            //CSharpCodeGenerator cscg = new CSharpCodeGenerator(database);
-
-            //foreach (VaultLib.Core.Data.VltClass databaseClass in database.Classes)
-            //{
-            //    cscg.WriteCodeToFile(databaseClass, codeGenDirectory);
-            //}
-
-            //stopwatch = Stopwatch.StartNew();
-            //Debug.WriteLine("re-saving");
-
-            //foreach (var (path, vaults) in fileDictionary)
-            //{
-            //    using BinaryWriter bw = new BinaryWriter(File.Open(path + ".gen", FileMode.Create));
-            //    StandardVaultPack vaultPack = new StandardVaultPack();
-            //    vaultPack.Save(bw, vaults);
-            //}
-            //stopwatch.Stop();
-            //Debug.WriteLine("re-saved in {0}ms", stopwatch.ElapsedMilliseconds);
-        }
-
-        private static void DisplayHierarchy(Database database)
-        {
-            foreach (var databaseClass in database.Classes)
+            Debug.WriteLine("Listing all types:");
+            foreach (DatabaseTypeInfo typeInfo in database.Types.OrderBy(t=>t.Name))
             {
-                Debug.WriteLine("{0} ({1} fields)", databaseClass.Name, databaseClass.Fields.Count);
-
-                DisplayCollections(databaseClass, database.RowManager.EnumerateCollections(databaseClass.Name));
+                Debug.WriteLine("\t{0} (size {1})", typeInfo.Name, typeInfo.Size);
             }
-        }
 
-        private static void DisplayCollections(VltClass databaseClass, IEnumerable<VltCollection> collections, int level = 0)
-        {
-            string indent = new string('\t', level + 1);
-
-            foreach (var collection in collections)
-            {
-                Debug.WriteLine("{0}{1}", indent, collection.Name);
-
-                if (collection.Children.Count > 0)
-                    DisplayCollections(databaseClass, collection.Children, level + 1);
-            }
+            VltCollection collection = database.RowManager.FindCollectionByName("pvehicle", "240sx");
         }
 
         private static IList<Vault> LoadFileToDB(Database database, string file)

@@ -156,7 +156,7 @@ namespace VaultLib.Core.Data
         /// <param name="key">The key to search for in the data dictionary.</param>
         /// <returns>The <see cref="VLTBaseType"/> instance mapped to the given key.</returns>
         /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
-        public T GetDataValue<T>(string key) where T : VLTBaseType
+        public T GetDataValue<T>(string key)
         {
             return GetValue<T>(GetDataValue(key));
         }
@@ -168,7 +168,7 @@ namespace VaultLib.Core.Data
         /// <param name="key">The key to search for in the data dictionary.</param>
         /// <returns>The <see cref="List{T}"/></returns>
         /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
-        public List<T> GetDataList<T>(string key) where T : VLTBaseType
+        public List<T> GetDataList<T>(string key)
         {
             return GetArray<T>(GetDataValue<VLTArrayType>(key));
         }
@@ -182,7 +182,7 @@ namespace VaultLib.Core.Data
         /// <returns>The <see cref="VLTBaseType"/> instance at the given index.</returns>
         /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
         /// <exception cref="IndexOutOfRangeException">The given index is out of the allowed range.</exception>
-        public T GetDataValue<T>(string key, int index) where T : VLTBaseType
+        public T GetDataValue<T>(string key, int index)
         {
             VLTArrayType array = GetDataValue<VLTArrayType>(key);
 
@@ -277,7 +277,7 @@ namespace VaultLib.Core.Data
                 case true when genericType == typeof(string):
                     return (T)Convert.ChangeType(((IStringValue)originalValue).GetString(), typeof(T));
                 default:
-                    return (T)(object)null;
+                    return (T)(object)originalValue;
             }
         }
 

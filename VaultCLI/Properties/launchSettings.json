@@ -2,7 +2,7 @@
   "profiles": {
     "VaultCLI": {
       "commandName": "Project",
-      "commandLineArgs": "-g UNDERCOVER -i test-data/undercover/attributes.bin test-data/undercover/gameplay.bin  -o test-export/undercover"
+      "commandLineArgs": "-g CARBON -i test-data/carbon/attributes.bin test-data/carbon/fe_attrib.bin test-data/carbon/gameplay.bin -o test-export/carbon"
     }
   }
 }
