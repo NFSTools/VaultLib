@@ -43,8 +43,7 @@ namespace VaultLib.ModernBase.Exports
             }
 
             NumDefinitions = mNumDefinitions;
-            Class = new VLTClass(vault.Database, HashManager.ResolveVLT(ClassHash));
-            Class.SizeOfLayout = layoutSize;
+            Class = new VltClass(HashManager.ResolveVLT(ClassHash));
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
@@ -68,7 +67,7 @@ namespace VaultLib.ModernBase.Exports
 
             bw.Write(0);
 
-            bw.Write(Class.SizeOfLayout);
+            bw.Write(ComputeBaseSize());
             bw.Write((ushort) 0);
             bw.Write((ushort) Class.BaseFields.Count());
         }
@@ -82,24 +81,34 @@ namespace VaultLib.ModernBase.Exports
                 AttribDefinition definition = new AttribDefinition();
                 definition.Read(vault, br);
 
-                VLTClassField field = new VLTClassField();
-                field.Key = definition.Key;
-                field.Name = HashManager.ResolveVLT((uint) definition.Key);
-                field.TypeName = HashManager.ResolveVLT((uint) definition.Type);
-                field.Flags = definition.Flags;
-                field.Size = definition.Size;
-                field.MaxCount = definition.MaxCount;
-                field.Offset = definition.Offset;
-                field.Alignment = definition.Alignment;
+                VltClassField field = new VltClassField(
+                    definition.Key,
+                    HashManager.ResolveVLT((uint)definition.Key),
+                    HashManager.ResolveVLT((uint)definition.Type),
+                    definition.Flags,
+                    definition.Alignment,
+                    definition.Size,
+                    definition.MaxCount,
+                    definition.Offset);
 
                 Class.Fields.Add(definition.Key, field);
+                //field.Key = definition.Key;
+                //field.Name = HashManager.ResolveVLT((uint) definition.Key);
+                //field.TypeName = HashManager.ResolveVLT((uint) definition.Type);
+                //field.Flags = definition.Flags;
+                //field.Size = definition.Size;
+                //field.MaxCount = definition.MaxCount;
+                //field.Offset = definition.Offset;
+                //field.Alignment = definition.Alignment;
+
+                //Class.Fields.Add(definition.Key, field);
             }
 
             if (_staticDataPtr != 0)
             {
                 br.BaseStream.Position = _staticDataPtr;
 
-                foreach (VLTClassField staticField in Class.StaticFields)
+                foreach (VltClassField staticField in Class.StaticFields)
                 {
                     br.AlignReader(staticField.Alignment);
                     VLTBaseType staticData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Class, staticField, null);
@@ -124,7 +133,7 @@ namespace VaultLib.ModernBase.Exports
             foreach (var field in Class.Fields.Values)
             {
                 AttribDefinition definition = new AttribDefinition();
-                definition.Key = field.Key;
+                definition.Key = VLT32Hasher.Hash(field.Name);
                 definition.Alignment = field.Alignment;
                 definition.Flags = field.Flags;
                 definition.MaxCount = field.MaxCount;
@@ -181,7 +190,7 @@ namespace VaultLib.ModernBase.Exports
                     rfs += baseField.Alignment - rfs % baseField.Alignment;
                 }
 
-                if ((baseField.Flags & DefinitionFlags.kArray) != 0)
+                if ((baseField.Flags & DefinitionFlags.Array) != 0)
                 {
                     rfs += 8;
                     rfs += baseField.Size * baseField.MaxCount;

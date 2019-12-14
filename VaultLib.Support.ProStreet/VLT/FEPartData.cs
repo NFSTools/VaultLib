@@ -127,11 +127,11 @@ namespace VaultLib.Support.ProStreet.VLT
             return _offerIdText.GetStrings();
         }
 
-        public FEPartData(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public FEPartData(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public FEPartData(VLTClass @class, VLTClassField field) : base(@class, field)
+        public FEPartData(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

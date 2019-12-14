@@ -11,20 +11,20 @@ using VaultLib.Core.Exports;
 
 namespace VaultLib.Core.Chunks
 {
-    public class VLTExportChunk : ChunkBase
+    public class VltExportChunk : ChunkBase
     {
         private readonly List<IExportEntry> _exports;
 
-        public VLTExportChunk()
+        public VltExportChunk()
         {
         }
 
-        public VLTExportChunk(List<IExportEntry> exports)
+        public VltExportChunk(List<IExportEntry> exports)
         {
             _exports = exports;
         }
 
-        public override uint ID => 0x4578704E;
+        public override uint Id => 0x4578704E;
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 
@@ -39,13 +39,10 @@ namespace VaultLib.Core.Chunks
 
                 var export = CreateExport(vault, exportEntry.Type);
 
-                if (export != null)
-                {
-                    export.Offset = exportEntry.Offset;
-                    vault.Exports.Add(export);
-                }
-
-                //Debug.WriteLine("Export ID {0:X8} Type {1:X8} Offset {2:X} Size {3}", exportEntry.ID, exportEntry.Type, exportEntry.Offset, exportEntry.Size);
+                if (export == null) continue;
+                
+                export.Offset = exportEntry.Offset;
+                vault.Exports.Add(export);
             }
         }
 

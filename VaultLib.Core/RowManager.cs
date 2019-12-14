@@ -19,12 +19,12 @@ namespace VaultLib.Core
     {
         private readonly Database _database;
 
-        public List<VLTCollection> Rows { get; }
+        public List<VltCollection> Rows { get; }
 
         public RowManager(Database database)
         {
             _database = database;
-            Rows = new List<VLTCollection>();
+            Rows = new List<VltCollection>();
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace VaultLib.Core
         /// </summary>
         /// <param name="vault">The vault to obtain collections for.</param>
         /// <returns>A collection enumerator</returns>
-        public IEnumerable<VLTCollection> GetCollectionsInVault(Vault vault)
+        public IEnumerable<VltCollection> GetCollectionsInVault(Vault vault)
         {
             foreach (var collection in EnumerateFlattenedCollections().Where(c => c.Vault == vault))
             {
@@ -45,11 +45,11 @@ namespace VaultLib.Core
         /// </summary>
         /// <param name="collections">For recursion purposes - the enumerator to obtain data from</param>
         /// <returns>The list of collections</returns>
-        public List<VLTCollection> GetFlattenedCollections(IEnumerable<VLTCollection> collections = null)
+        public List<VltCollection> GetFlattenedCollections(IEnumerable<VltCollection> collections = null)
         {
             if (collections == null)
                 collections = Rows;
-            var list = new List<VLTCollection>();
+            var list = new List<VltCollection>();
 
             foreach (var vltCollection in collections)
             {
@@ -66,12 +66,12 @@ namespace VaultLib.Core
         /// <param name="className"></param>
         /// <param name="collections">For recursion purposes - the enumerator to obtain data from</param>
         /// <returns>The list of collections</returns>
-        public List<VLTCollection> GetFlattenedCollections(string className,
-            IEnumerable<VLTCollection> collections = null)
+        public List<VltCollection> GetFlattenedCollections(string className,
+            IEnumerable<VltCollection> collections = null)
         {
             if (collections == null)
-                collections = Rows.FindAll(c => c.ClassName == className);
-            var list = new List<VLTCollection>();
+                collections = Rows.FindAll(c => c.Class.Name == className);
+            var list = new List<VltCollection>();
 
             foreach (var vltCollection in collections)
             {
@@ -88,7 +88,7 @@ namespace VaultLib.Core
         /// </summary>
         /// <param name="collections">For recursion purposes - the enumerator to obtain data from</param>
         /// <returns>The collection enumerator.</returns>
-        public IEnumerable<VLTCollection> EnumerateFlattenedCollections(IEnumerable<VLTCollection> collections = null)
+        public IEnumerable<VltCollection> EnumerateFlattenedCollections(IEnumerable<VltCollection> collections = null)
         {
             if (collections == null)
                 collections = Rows;
@@ -109,11 +109,11 @@ namespace VaultLib.Core
         /// <param name="className">The name of the class to search in.</param>
         /// <param name="collections">For recursion purposes - the enumerator to obtain data from</param>
         /// <returns>The collection enumerator.</returns>
-        public IEnumerable<VLTCollection> EnumerateFlattenedCollections(string className,
-            IEnumerable<VLTCollection> collections = null)
+        public IEnumerable<VltCollection> EnumerateFlattenedCollections(string className,
+            IEnumerable<VltCollection> collections = null)
         {
             if (collections == null)
-                collections = Rows.Where(c => c.ClassName == className);
+                collections = Rows.Where(c => c.Class.Name == className);
 
             foreach (var vltCollection in collections)
             {
@@ -125,15 +125,29 @@ namespace VaultLib.Core
         }
 
         /// <summary>
+        ///     Provides access to an enumerator of every top-level collection in the database that is part of a class.
+        ///     This is ideal for high-performance requirements.
+        /// </summary>
+        /// <param name="className">The name of the class to search in.</param>
+        /// <returns>The collection enumerator.</returns>
+        public IEnumerable<VltCollection> EnumerateCollections(string className)
+        {
+            foreach (var vltCollection in Rows.Where(c => c.Class.Name == className))
+            {
+                yield return vltCollection;
+            }
+        }
+
+        /// <summary>
         ///     Finds a collection in the given class with the given name.
         /// </summary>
         /// <param name="className">The class name to search in</param>
         /// <param name="collectionName">The collection name to search for</param>
         /// <returns>The collection, if one is found, or null</returns>
-        public VLTCollection FindCollectionByName(string className, string collectionName)
+        public VltCollection FindCollectionByName(string className, string collectionName)
         {
             return (from vltCollection in EnumerateFlattenedCollections(className)
-                select vltCollection).FirstOrDefault(collection => collection.Name == collectionName);
+                    select vltCollection).FirstOrDefault(collection => collection.Name == collectionName);
         }
 
         /// <summary>
@@ -145,19 +159,18 @@ namespace VaultLib.Core
         /// <param name="newName">The name of the collection.</param>
         /// <param name="parentCollection">The parent collection, if one is necessary.</param>
         /// <returns>The new collection</returns>
-        public VLTCollection AddCollection(Vault vault, string className, string newName,
-            VLTCollection parentCollection = null)
+        public VltCollection AddCollection(Vault vault, string className, string newName,
+            VltCollection parentCollection = null)
         {
             if (FindCollectionByName(className, newName) != null)
                 throw new DuplicateNameException(
                     $"A collection in the class '{className}' with the name '{newName}' already exists.");
 
-            var collection = new VLTCollection(vault, _database.FindClass(className), newName,
-                _database.Options.Type == DatabaseType.X64Database ? VLT64Hasher.Hash(newName) : VLT32Hasher.Hash(newName));
+            var collection = new VltCollection(vault, _database.FindClass(className), newName);
 
             if (parentCollection != null)
                 // Make the new collection a child of the parent
-                collection.SetParent(parentCollection);
+                parentCollection.AddChild(collection);
             else
                 // Just add the collection
                 Rows.Add(collection);
@@ -170,10 +183,15 @@ namespace VaultLib.Core
         /// </summary>
         /// <param name="collection">The collection to add</param>
         /// <returns>The added collection</returns>
-        public VLTCollection AddCollection(VLTCollection collection)
+        public VltCollection AddCollection(VltCollection collection)
         {
             Rows.Add(collection);
             return collection;
+        }
+
+        public void RemoveCollection(VltCollection collection)
+        {
+            Rows.Remove(collection);
         }
     }
 }

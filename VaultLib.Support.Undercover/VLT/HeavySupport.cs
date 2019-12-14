@@ -42,11 +42,11 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(ChanceBigSUV);
         }
 
-        public HeavySupport(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public HeavySupport(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public HeavySupport(VLTClass @class, VLTClassField field) : base(@class, field)
+        public HeavySupport(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

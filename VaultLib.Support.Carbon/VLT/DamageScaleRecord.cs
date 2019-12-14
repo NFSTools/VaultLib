@@ -27,11 +27,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(HitPointScale);
         }
 
-        public DamageScaleRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public DamageScaleRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public DamageScaleRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public DamageScaleRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

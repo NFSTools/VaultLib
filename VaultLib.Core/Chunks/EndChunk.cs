@@ -5,7 +5,7 @@ namespace VaultLib.Core.Chunks
 {
     public class EndChunk : ChunkBase
     {
-        public override uint ID => 0x456E6443;
+        public override uint Id => 0x456E6443;
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 

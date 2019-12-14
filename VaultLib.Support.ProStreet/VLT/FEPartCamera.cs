@@ -57,11 +57,11 @@ namespace VaultLib.Support.ProStreet.VLT
             return _slotNameText.GetStrings();
         }
 
-        public FEPartCamera(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public FEPartCamera(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public FEPartCamera(VLTClass @class, VLTClassField field) : base(@class, field)
+        public FEPartCamera(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

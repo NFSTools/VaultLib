@@ -12,11 +12,11 @@ namespace VaultLib.Core.Types.EA.Reflection
     [PrimitiveInfo(typeof(short))]
     public class Int16 : PrimitiveTypeBase
     {
-        public Int16(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Int16(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Int16(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Int16(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

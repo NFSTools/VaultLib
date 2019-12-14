@@ -9,7 +9,7 @@ namespace VaultLib.Core.Data
     /// <summary>
     ///     A registered data type for VLT reading
     /// </summary>
-    public class VLTDefinedType
+    public class VltDefinedType
     {
         /// <summary>
         ///     The actual type that should be instantiated.

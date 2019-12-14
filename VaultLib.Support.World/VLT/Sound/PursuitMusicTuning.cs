@@ -141,11 +141,11 @@ namespace VaultLib.Support.World.VLT.Sound
             bw.Write(MinCopCohesion);
         }
 
-        public PursuitMusicTuning(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public PursuitMusicTuning(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public PursuitMusicTuning(VLTClass @class, VLTClassField field) : base(@class, field)
+        public PursuitMusicTuning(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

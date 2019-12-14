@@ -32,11 +32,11 @@ namespace VaultLib.Support.World.VLT
             return $"[{Front}, {Rear}]";
         }
 
-        public AxlePair(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public AxlePair(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public AxlePair(VLTClass @class, VLTClassField field) : base(@class, field)
+        public AxlePair(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

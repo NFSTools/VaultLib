@@ -10,12 +10,12 @@ namespace VaultLib.Core.Types.Attrib.Types
     [VLTTypeInfo("Attrib::Types::FloatColour")]
     public class FloatColour : VLTBaseType
     {
-        public FloatColour(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+        public FloatColour(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)
         {
         }
 
-        public FloatColour(VLTClass @class, VLTClassField field) : base(@class, field)
+        public FloatColour(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 
@@ -30,8 +30,6 @@ namespace VaultLib.Core.Types.Attrib.Types
             G = br.ReadSingle();
             B = br.ReadSingle();
             A = br.ReadSingle();
-
-            //Debug.WriteLine("FloatColour R={0} G={1} B={2} A={3}", R, G, B, A);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)

@@ -11,10 +11,10 @@ namespace VaultLib.Core.Chunks
     {
         public GenericChunk(uint id)
         {
-            ID = id;
+            Id = id;
         }
 
-        public override uint ID { get; }
+        public override uint Id { get; }
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 

@@ -5,7 +5,7 @@ namespace VaultLib.Core.Chunks
 {
     public abstract class ChunkBase : IFileAccess
     {
-        public abstract uint ID { get; }
+        public abstract uint Id { get; }
         public abstract uint Size { get; set; }
         public abstract long Offset { get; set; }
         public long EndOffset => Offset + Size;

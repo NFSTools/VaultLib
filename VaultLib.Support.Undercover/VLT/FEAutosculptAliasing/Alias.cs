@@ -67,11 +67,11 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
             vault.SaveContext.AddPointer(_srcSlidersPtr, _dstSlidersPtr, false);
         }
 
-        public Alias(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Alias(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Alias(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Alias(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

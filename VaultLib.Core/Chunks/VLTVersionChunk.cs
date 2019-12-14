@@ -2,11 +2,11 @@
 
 namespace VaultLib.Core.Chunks
 {
-    public class VLTVersionChunk : ChunkBase
+    public class VltVersionChunk : ChunkBase
     {
         public ulong Version { get; set; }
 
-        public override uint ID => 0x56657273;
+        public override uint Id => 0x56657273;
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 

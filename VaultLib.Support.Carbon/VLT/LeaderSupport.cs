@@ -44,11 +44,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(PriorityTime);
         }
 
-        public LeaderSupport(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public LeaderSupport(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public LeaderSupport(VLTClass @class, VLTClassField field) : base(@class, field)
+        public LeaderSupport(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

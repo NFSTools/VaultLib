@@ -40,11 +40,11 @@ namespace VaultLib.Support.World.VLT.Sound
             bw.Write(mDuration);
         }
 
-        public SirenSequence(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public SirenSequence(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public SirenSequence(VLTClass @class, VLTClassField field) : base(@class, field)
+        public SirenSequence(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

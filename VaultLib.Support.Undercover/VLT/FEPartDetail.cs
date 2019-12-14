@@ -26,11 +26,11 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(Name);
         }
 
-        public FEPartDetail(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public FEPartDetail(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public FEPartDetail(VLTClass @class, VLTClassField field) : base(@class, field)
+        public FEPartDetail(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

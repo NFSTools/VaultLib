@@ -4,8 +4,10 @@
 
 using System;
 using System.Collections.Generic;
-using VaultLib.Core.External.CollectionViews;
+using System.Collections.ObjectModel;
 using VaultLib.Core.Types;
+using VaultLib.Core.Types.EA.Reflection;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Data
 {
@@ -13,124 +15,285 @@ namespace VaultLib.Core.Data
     ///     A collection in VLT is like a row in a SQL database.
     ///     A collection specifies values for the fields of its class.
     /// </summary>
-    public class VLTCollection : IEquatable<VLTCollection>
+    public class VltCollection : IEquatable<VltCollection>
     {
-        public VLTCollection(Vault vault, VLTClass vltClass, string name, ulong key)
-        {
-            Vault = vault;
-            Class = vltClass;
-            ClassName = vltClass.Name;
-            Name = name;
-            Key = key;
-            DataRow = new Dictionary<ulong, VLTBaseType>();
-            Children = new FastObservableCollection<VLTCollection>();
-        }
+        /// <summary>
+        /// Gets the <see cref="VltClass"/> that this collection is part of.
+        /// </summary>
+        public VltClass Class { get; }
 
         /// <summary>
-        ///     The name of the collection
+        /// Gets or sets the <see cref="Core.Vault"/> that this collection is part of.
+        /// </summary>
+        public Vault Vault { get; private set; }
+
+        /// <summary>
+        /// Gets the name of this collection.
         /// </summary>
         public string Name { get; private set; }
 
-        public ulong Key { get; set; }
-        public ulong ParentKey { get; set; }
-        public uint Level { get; set; }
-
-        public VLTClass Class { get; }
-
-        public string ClassName { get; }
+        /// <summary>
+        /// Gets the parent collection of this collection.
+        /// </summary>
+        public VltCollection Parent { get; private set; }
 
         /// <summary>
-        ///     The collection's data
+        /// Gets the child collections of this collection.
         /// </summary>
-        public Dictionary<ulong, VLTBaseType> DataRow { get; }
+        public ObservableCollection<VltCollection> Children { get; }
 
         /// <summary>
-        ///     The child collections of the collection
+        /// Gets the collection's data.
         /// </summary>
-        public FastObservableCollection<VLTCollection> Children { get; }
+        /// <remarks> This is a mapping between a <see cref="VltClassField"/>'s name and a <see cref="VLTBaseType"/> instance.</remarks>
+        private Dictionary<string, VLTBaseType> Data { get; }
 
         /// <summary>
-        ///     A <see cref="CollectionView" /> instance that does some basic manipulation (sorting)
-        ///     of the list of child collections. This is useful for actually displaying the data.
+        /// Initializes a new instance of the <see cref="VltCollection"/> class.
         /// </summary>
-        /// <remarks>I can't believe I actually pulled in an entire CollectionView library. Alas, it was a necessity.</remarks>
-        public CollectionView ChildrenView
+        /// <param name="vault">The vault that contains the collection.</param>
+        /// <param name="vltClass">The <see cref="VltClass"/> that the collection is part of.</param>
+        /// <param name="name">The name of the collection.</param>
+        public VltCollection(Vault vault, VltClass vltClass, string name)
         {
-            get
+            Vault = vault;
+            Class = vltClass;
+            Name = name;
+            Children = new ObservableCollection<VltCollection>();
+            Data = new Dictionary<string, VLTBaseType>();
+        }
+
+        #region API Members
+
+        /// <summary>
+        /// Updates the name of the collection.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <remarks>This method does not perform any validation. It is assumed that you know what you're doing!</remarks>
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        /// <summary>
+        /// Adds the given collection to the list of child collections and associates it with its new parent.
+        /// </summary>
+        /// <param name="collection">The collection to add to the child list.</param>
+        public void AddChild(VltCollection collection)
+        {
+            if (Children.Contains(collection))
             {
-                var view = new CollectionView(Children);
-                view.SortDescriptions.Add(new SortDescription("Name"));
-
-                return view;
+                throw new ArgumentException("Attempted to add a collection as a child when it is already a child of this collection.");
             }
-        }
 
-        public Vault Vault { get; }
-        public VLTCollection Parent { get; private set; }
+            Children.Add(collection);
 
-        public string ShortPath => $"{ClassName}/{Name}";
-
-        public string FullPath
-        {
-            get
-            {
-                var path = "";
-
-                var parent = Parent;
-
-                while (parent != null)
-                {
-                    path = $"/{parent.Name}" + path;
-                    parent = parent.Parent;
-                }
-
-                return $"{ClassName}{path}/{Name}";
-            }
-        }
-
-        public bool Equals(VLTCollection other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return ClassName == other.ClassName && Name == other.Name;
+            // Disassociate old parent
+            collection.Parent?.RemoveChild(collection);
+            // Set new parent
+            collection.Parent = this;
         }
 
         /// <summary>
-        ///     Makes the current collection a child of the given collection.
+        /// Removes the given collection from the list of child collections and disassociates it from its parent collection.
         /// </summary>
-        /// <param name="collection"></param>
-        public void SetParent(VLTCollection collection)
+        /// <param name="collection">The collection to remove from the child list.</param>
+        public void RemoveChild(VltCollection collection)
         {
-            Parent = collection;
-            Level = Parent.Level + 1;
-            Parent.Children.Add(this);
+            if (!Children.Contains(collection))
+            {
+                throw new ArgumentException("Attempted to remove a collection from the list of children when it is not a child of this collection.");
+            }
+
+            Children.Remove(collection);
+            collection.Parent = null;
+        }
+
+        /// <summary>
+        /// Changes the vault that the collection is associated with.
+        /// </summary>
+        /// <param name="vault">The new parent vault.</param>
+        public void SetVault(Vault vault)
+        {
+            Vault = vault;
+        }
+
+        /// <summary>
+        /// Gets a read-only copy of the collection's data dictionary.
+        /// </summary>
+        /// <returns>The read-only dictionary.</returns>
+        public IReadOnlyDictionary<string, VLTBaseType> GetData()
+        {
+            return new ReadOnlyDictionary<string, VLTBaseType>(Data);
+        }
+
+        /// <summary>
+        /// Retrieves the <see cref="VLTBaseType"/> mapped to the given key in the collection's data dictionary.
+        /// </summary>
+        /// <param name="key">The key to search for in the data dictionary.</param>
+        /// <param name="data">A <see cref="VLTBaseType"/> reference to be filled.</param>
+        /// <returns><c>true</c> if the data dictionary has a mapping for the given key; otherwise, <c>false</c>.</returns>
+        public bool GetDataValue(string key, out VLTBaseType data)
+        {
+            return Data.TryGetValue(key, out data);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="VLTBaseType"/> mapped to the given key in the collection's data dictionary.
+        /// </summary>
+        /// <param name="key">The key to search for in the data dictionary.</param>
+        /// <returns>The <see cref="VLTBaseType"/> instance mapped to the given key.</returns>
+        /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
+        public VLTBaseType GetDataValue(string key)
+        {
+            return Data[key];
+        }
+
+        /// <summary>
+        /// Gets the <see cref="VLTBaseType"/> mapped to the given key in the collection's data dictionary.
+        /// </summary>
+        /// <typeparam name="T">The specific data type to obtain.</typeparam>
+        /// <param name="key">The key to search for in the data dictionary.</param>
+        /// <returns>The <see cref="VLTBaseType"/> instance mapped to the given key.</returns>
+        /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
+        public T GetDataValue<T>(string key) where T : VLTBaseType
+        {
+            return GetValue<T>(GetDataValue(key));
+        }
+
+        /// <summary>
+        /// Gets the <see cref="List{T}"/> representation of the <see cref="VLTArrayType"/> instance mapped to the given key.
+        /// </summary>
+        /// <typeparam name="T">The specific data type to obtain a list of.</typeparam>
+        /// <param name="key">The key to search for in the data dictionary.</param>
+        /// <returns>The <see cref="List{T}"/></returns>
+        /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
+        public List<T> GetDataList<T>(string key) where T : VLTBaseType
+        {
+            return GetArray<T>(GetDataValue<VLTArrayType>(key));
+        }
+
+        /// <summary>
+        /// Gets the <see cref="VLTBaseType"/> at the given index in the array mapped to the given key in the collection's data dictionary.
+        /// </summary>
+        /// <typeparam name="T">The specific data type to obtain.</typeparam>
+        /// <param name="key">The key to search for in the data dictionary.</param>
+        /// <param name="index">The index to fetch from the array</param>
+        /// <returns>The <see cref="VLTBaseType"/> instance at the given index.</returns>
+        /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
+        /// <exception cref="IndexOutOfRangeException">The given index is out of the allowed range.</exception>
+        public T GetDataValue<T>(string key, int index) where T : VLTBaseType
+        {
+            VLTArrayType array = GetDataValue<VLTArrayType>(key);
+
+            if (index >= array.Items.Length)
+            {
+                throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Length}");
+            }
+
+            return GetValue<T>(array.Items[index]);
+        }
+
+        /// <summary>
+        /// Updates or creates a mapping in the collection's data dictionary with the given key and value.
+        /// </summary>
+        /// <param name="key">The key for the mapping.</param>
+        /// <param name="data">The <see cref="VLTBaseType"/> instance that is the mapping value.</param>
+        public void SetDataValue(string key, VLTBaseType data)
+        {
+            Data[key] = data;
+        }
+
+        /// <summary>
+        /// Removes the data mapping with the given key, if one exists.
+        /// </summary>
+        /// <param name="key">The key for the mapping to be removed.</param>
+        /// <returns><c>true</c> if a mapping was removed; otherwise, <c>false</c>.</returns>
+        public bool RemoveDataValue(string key)
+        {
+            return Data.Remove(key);
+        }
+
+        #endregion
+
+        #region IEquatable Members
+
+        public bool Equals(VltCollection other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Equals(Class, other.Class) && string.Equals(Name, other.Name, StringComparison.InvariantCulture) && Equals(Parent, other.Parent);
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((VLTCollection) obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((VltCollection)obj);
         }
 
         public override int GetHashCode()
         {
-            var hashCode = ClassName.GetHashCode();
-
-            if (Name != null)
-                hashCode ^= 397 * Name.GetHashCode();
-            return hashCode;
+            HashCode hashCode = new HashCode();
+            hashCode.Add(Class);
+            hashCode.Add(Name, StringComparer.InvariantCulture);
+            hashCode.Add(Parent);
+            return hashCode.ToHashCode();
         }
 
-        public static bool operator ==(VLTCollection left, VLTCollection right)
+        #endregion
+
+        #region Internal API Implementation
+
+        private T GetValue<T>(VLTBaseType originalValue)
         {
-            return Equals(left, right);
+            Type genericType = typeof(T);
+
+            switch (true)
+            {
+                case true when genericType.IsPrimitive:
+                    return (T)((PrimitiveTypeBase)originalValue).GetValue();
+                case true when genericType == typeof(string):
+                    return (T)Convert.ChangeType(((IStringValue)originalValue).GetString(), typeof(T));
+                default:
+                    return (T)(object)null;
+            }
         }
 
-        public static bool operator !=(VLTCollection left, VLTCollection right)
+        private List<T> GetArray<T>(VLTArrayType array)
         {
-            return !Equals(left, right);
+            VLTArrayType vltArray = array;
+            List<T> list = new List<T>();
+
+            foreach (var item in vltArray.Items)
+            {
+                list.Add(GetValue<T>(item));
+            }
+
+            return list;
         }
+
+        #endregion
     }
 }

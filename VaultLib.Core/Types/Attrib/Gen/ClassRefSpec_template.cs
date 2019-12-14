@@ -12,20 +12,16 @@ namespace VaultLib.Core.Types.Attrib.Gen
 {
     public abstract class ClassRefSpec_template : BaseRefSpec
     {
-        protected ClassRefSpec_template(VLTClass @class, VLTClassField field, VLTCollection collection, string classKey)
+        protected ClassRefSpec_template(VltClass @class, VltClassField field, VltCollection collection, string classKey)
             : base(@class, field, collection)
         {
             ClassKey = classKey;
         }
 
-        protected ClassRefSpec_template(VLTClass @class, VLTClassField field, string classKey) : base(@class, field)
+        protected ClassRefSpec_template(VltClass @class, VltClassField field, string classKey) : base(@class, field)
         {
             ClassKey = classKey;
         }
-        //protected ClassRefSpec_template(string classKey)
-        //{
-        //    ClassKey = classKey;
-        //}
 
         public override bool CanChangeClass => false;
 
@@ -37,7 +33,6 @@ namespace VaultLib.Core.Types.Attrib.Gen
         {
             CollectionKey = HashManager.ResolveVLT(br.ReadUInt32());
             br.ReadUInt32();
-            //Debug.Assert(br.ReadUInt32() == 0);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)

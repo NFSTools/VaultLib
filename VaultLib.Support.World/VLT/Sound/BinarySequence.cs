@@ -30,11 +30,11 @@ namespace VaultLib.Support.World.VLT.Sound
             bw.AlignWriter(4);
         }
 
-        public BinarySequence(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public BinarySequence(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public BinarySequence(VLTClass @class, VLTClassField field) : base(@class, field)
+        public BinarySequence(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

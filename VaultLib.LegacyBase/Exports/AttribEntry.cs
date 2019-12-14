@@ -4,6 +4,7 @@ using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -24,9 +25,9 @@ namespace VaultLib.LegacyBase.Exports
         public NodeFlagsEnum NodeFlags { get; set; }
         public long InlineDataPointer { get; set; }
         public VLTBaseType InlineData { get; set; }
-        public VLTCollection Collection { get; }
+        public VltCollection Collection { get; }
 
-        public AttribEntry(VLTCollection collection)
+        public AttribEntry(VltCollection collection)
         {
             Collection = collection;
         }
@@ -34,15 +35,16 @@ namespace VaultLib.LegacyBase.Exports
         public void Read(Vault vault, BinaryReader br)
         {
             Key = br.ReadUInt32();
+
             InlineDataPointer = br.BaseStream.Position;
             if (IsInline())
             {
-                InlineData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, Collection.Class.Fields[Key],
+                InlineData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, Collection.Class[Key],
                     Collection);
             }
             else
             {
-                InlineData = new VLTAttribType(Collection.Class, Collection.Class.Fields[Key], Collection);
+                InlineData = new VLTAttribType(Collection.Class, Collection.Class[Key], Collection);
             }
             InlineData.Read(vault, br);
             br.AlignReader(4);
@@ -70,7 +72,7 @@ namespace VaultLib.LegacyBase.Exports
 
         public bool IsInline()
         {
-            return Collection.Class.Fields[Key].Size <= 4 && (Collection.Class.Fields[Key].Flags & DefinitionFlags.kArray) == 0;
+            return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)

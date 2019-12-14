@@ -24,11 +24,11 @@ namespace VaultLib.Support.World.VLT.GameCore
             bw.Write(Key);
         }
 
-        public StringKey(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public StringKey(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public StringKey(VLTClass @class, VLTClassField field) : base(@class, field)
+        public StringKey(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

@@ -24,11 +24,11 @@ namespace VaultLib.Support.World.VLT.EA.WorldMap
             bw.Write(Hash);
         }
 
-        public MiniMapIconHash(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public MiniMapIconHash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public MiniMapIconHash(VLTClass @class, VLTClassField field) : base(@class, field)
+        public MiniMapIconHash(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

@@ -14,11 +14,11 @@ namespace VaultLib.Core.Types.Attrib
     [VLTTypeInfo("Attrib::RefSpec")]
     public class RefSpec : BaseRefSpec
     {
-        public RefSpec(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public RefSpec(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public RefSpec(VLTClass @class, VLTClassField field) : base(@class, field)
+        public RefSpec(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

@@ -26,11 +26,11 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
             bw.Write(Zone);
         }
 
-        public Slider(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Slider(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Slider(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Slider(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

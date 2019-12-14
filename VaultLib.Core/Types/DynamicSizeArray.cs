@@ -16,12 +16,12 @@ namespace VaultLib.Core.Types
         private uint _pointer;
         private long _srcPtr;
 
-        public DynamicSizeArray(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+        public DynamicSizeArray(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)
         {
         }
 
-        public DynamicSizeArray(VLTClass @class, VLTClassField field) : base(@class, field)
+        public DynamicSizeArray(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 
@@ -32,7 +32,7 @@ namespace VaultLib.Core.Types
             br.BaseStream.Position = _pointer;
             for (var i = 0; i < Items.Length; i++)
             {
-                Items[i] = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
+                Items[i] = (T) TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
                 Items[i].Read(vault, br);
             }
         }

@@ -20,7 +20,7 @@ namespace VaultLib.Core
         {
             Name = name;
             Exports = new List<BaseExport>();
-            Pointers = new List<VLTPointer>();
+            Pointers = new List<VltPointer>();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace VaultLib.Core
         /// <summary>
         ///     The data pointers.
         /// </summary>
-        public List<VLTPointer> Pointers { get; }
+        public List<VltPointer> Pointers { get; }
 
         /// <summary>
         ///     The database that has this vault

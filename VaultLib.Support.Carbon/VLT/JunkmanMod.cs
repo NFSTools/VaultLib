@@ -33,11 +33,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(ScaleR);
         }
 
-        public JunkmanMod(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public JunkmanMod(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public JunkmanMod(VLTClass @class, VLTClassField field) : base(@class, field)
+        public JunkmanMod(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

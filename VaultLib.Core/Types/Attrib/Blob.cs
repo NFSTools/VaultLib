@@ -10,7 +10,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib
 {
-    [VLTTypeInfo("Attrib::Blob")]
+    [VLTTypeInfo("Attrib::bBlob")]
     public class Blob : VLTBaseType, IPointerObject
     {
         public enum CompressionID : uint
@@ -25,11 +25,11 @@ namespace VaultLib.Core.Types.Attrib
 
         private long _dataPtrSrc;
 
-        public Blob(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Blob(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Blob(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Blob(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

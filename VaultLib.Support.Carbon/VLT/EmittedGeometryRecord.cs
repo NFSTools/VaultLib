@@ -63,11 +63,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(Index);
         }
 
-        public EmittedGeometryRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public EmittedGeometryRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public EmittedGeometryRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public EmittedGeometryRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

@@ -57,11 +57,11 @@ namespace VaultLib.Support.ProStreet.VLT
             return _slotNameText.GetStrings();
         }
 
-        public CCarKitSlotEntry(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public CCarKitSlotEntry(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public CCarKitSlotEntry(VLTClass @class, VLTClassField field) : base(@class, field)
+        public CCarKitSlotEntry(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

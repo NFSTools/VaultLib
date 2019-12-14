@@ -72,11 +72,11 @@ namespace VaultLib.LegacyBase
             Value = str;
         }
 
-        public StringKey64(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public StringKey64(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public StringKey64(VLTClass @class, VLTClassField field) : base(@class, field)
+        public StringKey64(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

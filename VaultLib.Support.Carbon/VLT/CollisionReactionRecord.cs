@@ -39,11 +39,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(StunTime);
         }
 
-        public CollisionReactionRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public CollisionReactionRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public CollisionReactionRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public CollisionReactionRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

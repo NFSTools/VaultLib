@@ -49,11 +49,11 @@ namespace VaultLib.Support.World.VLT.PowerUps
             return classKey == "powerup_gamegroup" && collectionKey == GroupKey;
         }
 
-        public GameplayEffectAndTarget(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public GameplayEffectAndTarget(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public GameplayEffectAndTarget(VLTClass @class, VLTClassField field) : base(@class, field)
+        public GameplayEffectAndTarget(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

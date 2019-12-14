@@ -29,25 +29,25 @@ namespace VaultLib.Core.IO
             switch (header.ID)
             {
                 case 0x53747245:
-                    chunk = new BINStringsChunk();
+                    chunk = new BinStringsChunk();
                     break;
                 case 0x5374724E:
-                    chunk = new VLTStartChunk();
+                    chunk = new VltStartChunk();
                     break;
                 case 0x456E6443:
                     chunk = new EndChunk();
                     break;
                 case 0x56657273:
-                    chunk = new VLTVersionChunk();
+                    chunk = new VltVersionChunk();
                     break;
                 case 0x4465704E:
-                    chunk = new VLTDependencyChunk();
+                    chunk = new VltDependencyChunk();
                     break;
                 case 0x4578704E:
-                    chunk = new VLTExportChunk();
+                    chunk = new VltExportChunk();
                     break;
                 case 0x5074724E:
-                    chunk = new VLTPointersChunk();
+                    chunk = new VltPointersChunk();
                     break;
                 default:
                     chunk = new GenericChunk(header.ID);

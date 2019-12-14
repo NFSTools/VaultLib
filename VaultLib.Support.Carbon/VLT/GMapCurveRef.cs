@@ -33,11 +33,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.WriteEnum(Flags);
         }
 
-        public GMapCurveRef(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public GMapCurveRef(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public GMapCurveRef(VLTClass @class, VLTClassField field) : base(@class, field)
+        public GMapCurveRef(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

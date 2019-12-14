@@ -21,6 +21,8 @@ namespace VaultLib.Core.DB
     /// </summary>
     public class Database
     {
+        private Dictionary<VltCollection, string> _parentKeyDictionary = new Dictionary<VltCollection, string>();
+
         /// <summary>
         /// Initializes the database. Sets up data collections.
         /// </summary>
@@ -28,7 +30,7 @@ namespace VaultLib.Core.DB
         public Database(DatabaseOptions options)
         {
             Options = options;
-            Classes = new List<VLTClass>();
+            Classes = new List<VltClass>();
             Types = new List<DatabaseTypeInfo>();
             RowManager = new RowManager(this);
         }
@@ -37,26 +39,26 @@ namespace VaultLib.Core.DB
 
         public RowManager RowManager { get; }
 
-        public List<VLTClass> Classes { get; }
+        public List<VltClass> Classes { get; }
 
         public List<DatabaseTypeInfo> Types { get; }
 
         /// <summary>
-        /// Adds a new <see cref="VLTClass"/> to the list of classes.
+        /// Adds a new <see cref="VltClass"/> to the list of classes.
         /// </summary>
-        /// <param name="vltClass">The <see cref="VLTClass"/> to add to the database.</param>
-        public void AddClass(VLTClass vltClass)
+        /// <param name="vltClass">The <see cref="VltClass"/> to add to the database.</param>
+        public void AddClass(VltClass vltClass)
         {
             Classes.Add(vltClass);
         }
 
         /// <summary>
-        /// Locates and returns the <see cref="VLTClass"/> with the given name.
+        /// Locates and returns the <see cref="VltClass"/> with the given name.
         /// </summary>
         /// <param name="name">The name of the class to search for.</param>
-        /// <returns>The <see cref="VLTClass"/> with the given name.</returns>
+        /// <returns>The <see cref="VltClass"/> with the given name.</returns>
         /// <exception cref="InvalidOperationException">if no class can be found</exception>
-        public VLTClass FindClass(string name)
+        public VltClass FindClass(string name)
         {
             return Classes.First(c => c.Name == name);
         }
@@ -86,11 +88,11 @@ namespace VaultLib.Core.DB
             processVltChunks(vault, vltChunkReader);
 
             //Debug.WriteLine("Processing pointers");
-            fixPointers(vault, VLTPointerType.Bin, vault.BinStream);
-            fixPointers(vault, VLTPointerType.Vlt, vault.VltStream);
+            fixPointers(vault, VltPointerType.Bin, vault.BinStream);
+            fixPointers(vault, VltPointerType.Vlt, vault.VltStream);
 
             //Debug.WriteLine("Reading exports");
-            readExports(vault, vltStreamReader, binStreamReader);
+            ReadExports(vault, vltStreamReader, binStreamReader);
         }
 
         /// <summary>
@@ -100,30 +102,30 @@ namespace VaultLib.Core.DB
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            Dictionary<VLTClass, ulong> hashDictionary = Classes.ToDictionary(c => c, c => VLT64Hasher.Hash(c.Name));
-            Dictionary<ulong, Dictionary<ulong, VLTCollection>> collectionDictionary =
+            Dictionary<VltClass, ulong> hashDictionary = Classes.ToDictionary(c => c, c => VLT64Hasher.Hash(c.Name));
+            Dictionary<ulong, Dictionary<string, VltCollection>> collectionDictionary =
                 RowManager.Rows.GroupBy(r => hashDictionary[r.Class])
-                    .ToDictionary(g => g.Key, g => g.ToDictionary(c => c.Key, c => c));
+                    .ToDictionary(g => g.Key, g => g.ToDictionary(c => c.Name, c => c));
 
             for (int i = RowManager.Rows.Count - 1; i >= 0; i--)
             {
-                VLTCollection row = RowManager.Rows[i];
+                VltCollection row = RowManager.Rows[i];
 
-                if (row.ParentKey != 0)
+                if (_parentKeyDictionary.TryGetValue(row, out string parentKey))
                 {
-                    VLTCollection parentCollection = collectionDictionary[hashDictionary[row.Class]][row.ParentKey];
-                    row.SetParent(parentCollection);
-
+                    VltCollection parentCollection = collectionDictionary[hashDictionary[row.Class]][parentKey];
+                    parentCollection.AddChild(row);
                     RowManager.Rows.RemoveAt(i);
                 }
             }
 
             stopwatch.Stop();
+            _parentKeyDictionary.Clear();
         }
 
         #region Internal Data Reading
 
-        private void readExports(Vault vault, BinaryReader vltStreamReader, BinaryReader binStreamReader)
+        private void ReadExports(Vault vault, BinaryReader vltStreamReader, BinaryReader binStreamReader)
         {
             foreach (Exports.BaseExport vaultExport in vault.Exports)
             {
@@ -134,20 +136,29 @@ namespace VaultLib.Core.DB
                 {
                     pointerObject.ReadPointerData(vault, binStreamReader);
                 }
+
+                if (vaultExport is BaseCollectionLoad bcl)
+                {
+                    string parentKey = bcl.ParentKey;
+                    if (parentKey != string.Empty)
+                    {
+                        _parentKeyDictionary[bcl.Collection] = parentKey;
+                    }
+                }
             }
 
             vault.IsPrimaryVault = vault.Exports.OfType<BaseClassLoad>().Any();
         }
 
-        private void fixPointers(Vault vault, VLTPointerType pointerType, Stream stream)
+        private void fixPointers(Vault vault, VltPointerType pointerType, Stream stream)
         {
-            IEnumerable<VLTPointer> pointers =
+            IEnumerable<VltPointer> pointers =
                 from pointer in vault.Pointers where pointer.Type == pointerType select pointer;
 
             ByteOrder byteOrder = vault.ByteOrder;
             bool isBigEndian = byteOrder == ByteOrder.Big;
 
-            foreach (VLTPointer pointer in pointers)
+            foreach (VltPointer pointer in pointers)
             {
                 stream.Position = pointer.FixUpOffset;
                 uint destination = pointer.Destination;

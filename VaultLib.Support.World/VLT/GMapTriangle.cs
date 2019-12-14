@@ -30,11 +30,11 @@ namespace VaultLib.Support.World.VLT
             bw.Write(mPoint3);
         }
 
-        public GMapTriangle(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public GMapTriangle(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public GMapTriangle(VLTClass @class, VLTClassField field) : base(@class, field)
+        public GMapTriangle(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

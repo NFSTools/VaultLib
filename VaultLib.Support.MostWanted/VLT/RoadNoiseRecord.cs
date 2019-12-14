@@ -33,11 +33,11 @@ namespace VaultLib.Support.MostWanted.VLT
             bw.Write(MaxSpeed);
         }
 
-        public RoadNoiseRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public RoadNoiseRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public RoadNoiseRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public RoadNoiseRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

@@ -8,7 +8,7 @@ namespace VaultLib.Core.Exports
 {
     public abstract class BaseClassLoad : BaseExport, IPointerObject
     {
-        public VLTClass Class { get; set; }
+        public VltClass Class { get; set; }
 
         public abstract void ReadPointerData(Vault vault, BinaryReader br);
         public abstract void WritePointerData(Vault vault, BinaryWriter bw);

@@ -77,11 +77,11 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             return _actorNameText.GetStrings().Concat(_carChannelNameText.GetStrings());
         }
 
-        public NISActor(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public NISActor(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public NISActor(VLTClass @class, VLTClassField field) : base(@class, field)
+        public NISActor(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

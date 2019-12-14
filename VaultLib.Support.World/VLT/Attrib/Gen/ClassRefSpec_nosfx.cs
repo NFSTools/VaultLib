@@ -11,12 +11,12 @@ namespace VaultLib.Support.World.VLT.Attrib.Gen
     [VLTTypeInfo("Attrib::Gen::ClassRefSpec_nosfx")]
     public class ClassRefSpec_nosfx : ClassRefSpec_template
     {
-        public ClassRefSpec_nosfx(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection, "nosfx")
+        public ClassRefSpec_nosfx(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection, "nosfx")
         {
 
         }
 
-        public ClassRefSpec_nosfx(VLTClass @class, VLTClassField field) : base(@class, field, "nosfx")
+        public ClassRefSpec_nosfx(VltClass @class, VltClassField field) : base(@class, field, "nosfx")
         {
 
         }

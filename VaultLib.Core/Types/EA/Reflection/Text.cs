@@ -20,11 +20,11 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         private long _internalPointerSrc;
 
-        public Text(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Text(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Text(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Text(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

@@ -38,7 +38,7 @@ namespace VaultLib.ModernBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VLTCollection(vault, vault.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey), mKey);
+            Collection = new VltCollection(vault, vault.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey));
 
             Debug.Assert(mTypesLen >= mNumTypes);
 
@@ -68,37 +68,37 @@ namespace VaultLib.ModernBase.Exports
 
                 if (!readData)
                 {
-                    Debug.WriteLine("CHECK: read failed for attribute: 0x{0:X8} (non-existent field?)", attribEntry.Key);
                     continue;
                 }
 
                 _entries.Add(attribEntry);
             }
 
-            Collection.ParentKey = mParent;
+            // TODO: ParentKey
+            //Collection.ParentKey = mParent;
             vault.Database.RowManager.AddCollection(Collection);
         }
 
         public override void Prepare(Vault vault)
         {
-            List<KeyValuePair<ulong, VLTBaseType>> optionalDataColumns = (from pair in Collection.DataRow
-                                                                          let field = Collection.Class.Fields[pair.Key]
-                                                                          where field.IsOptional
+            List<KeyValuePair<string, VLTBaseType>> optionalDataColumns = (from pair in Collection.GetData()
+                                                                          let field = Collection.Class[pair.Key]
+                                                                          where !field.IsInLayout
                                                                           orderby field.Name
                                                                           select pair).ToList();
 
             _entries = new List<AttribEntry64>();
             _types = Collection.Class.BaseFields.Select(f => f.TypeName)
-                .Concat(optionalDataColumns.Select(c => Collection.Class.Fields[c.Key].TypeName))
+                .Concat(optionalDataColumns.Select(c => Collection.Class[c.Key].TypeName))
                 .Select(s => VLT64Hasher.Hash(s)).Distinct().ToArray();
 
             for (var index = 0; index < optionalDataColumns.Count; index++)
             {
                 var optionalDataColumn = optionalDataColumns[index];
                 var entry = new AttribEntry64(Collection);
-                var vltClassField = Collection.Class.Fields[optionalDataColumn.Key];
+                var vltClassField = Collection.Class[optionalDataColumn.Key];
 
-                entry.Key = (uint)optionalDataColumn.Key;
+                entry.Key = VLT64Hasher.Hash(optionalDataColumn.Key);
                 entry.TypeIndex = (ushort)Array.IndexOf(_types,
                     VLT32Hasher.Hash(vltClassField.TypeName));
                 entry.EntryFlags = 0;
@@ -112,7 +112,7 @@ namespace VaultLib.ModernBase.Exports
                 else
                 {
                     entry.InlineData =
-                        new VLTAttribType(Collection.Class, Collection.Class.Fields[entry.Key], Collection)
+                        new VLTAttribType(Collection.Class, vltClassField, Collection)
                         { Data = optionalDataColumn.Value };
                 }
 
@@ -121,7 +121,7 @@ namespace VaultLib.ModernBase.Exports
                     entry.NodeFlags |= NodeFlagsEnum.IsArray;
                 }
 
-                if ((vltClassField.Flags & DefinitionFlags.kHasHandler) != 0)
+                if ((vltClassField.Flags & DefinitionFlags.HasHandler) != 0)
                 {
                     entry.NodeFlags |= NodeFlagsEnum.HasHandler;
                 }
@@ -196,20 +196,21 @@ namespace VaultLib.ModernBase.Exports
                             throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
                         }
                     }
-                    Collection.DataRow[baseField.Key] = data;
+                    Collection.SetDataValue(baseField.Name, data);
+                    //Collection.Data[baseField.Name] = data;
                 }
             }
 
             foreach (var entry in _entries)
             {
-                var optionalField = Collection.Class.Fields[entry.Key];
+                var optionalField = Collection.Class[entry.Key];
 
-                if ((optionalField.Flags & DefinitionFlags.kIsStatic) != 0)
+                if ((optionalField.Flags & DefinitionFlags.IsStatic) != 0)
                 {
                     throw new Exception("Encountered static field as an entry. Processing will not continue.");
                 }
 
-                if ((optionalField.Flags & DefinitionFlags.kHasHandler) != 0)
+                if ((optionalField.Flags & DefinitionFlags.HasHandler) != 0)
                 {
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.HasHandler) ==
                                  NodeFlagsEnum.HasHandler);
@@ -219,7 +220,7 @@ namespace VaultLib.ModernBase.Exports
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.HasHandler) == 0);
                 }
 
-                if ((optionalField.Flags & DefinitionFlags.kArray) != 0)
+                if ((optionalField.Flags & DefinitionFlags.Array) != 0)
                 {
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsArray) ==
                                  NodeFlagsEnum.IsArray);
@@ -233,17 +234,19 @@ namespace VaultLib.ModernBase.Exports
                 {
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) == 0);
                     attribType.ReadPointerData(vault, br);
-                    Collection.DataRow[optionalField.Key] = attribType.Data;
+                    Collection.SetDataValue(optionalField.Name, attribType.Data);
+                    //Collection.Data[optionalField.Name] = attribType.Data;
                 }
                 else
                 {
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) ==
                                  NodeFlagsEnum.IsInline);
-                    Collection.DataRow[optionalField.Key] = entry.InlineData;
+                    Collection.SetDataValue(optionalField.Name, entry.InlineData);
+                    //Collection.Data[optionalField.Name] = entry.InlineData;
                 }
             }
 
-            foreach (var dataEntry in Collection.DataRow)
+            foreach (var dataEntry in Collection.GetData())
             {
                 if (dataEntry.Value is IPointerObject pointerObject)
                     pointerObject.ReadPointerData(vault, br);
@@ -265,14 +268,14 @@ namespace VaultLib.ModernBase.Exports
                     throw new Exception("incorrect offset");
                 }
 
-                Collection.DataRow[baseField.Key].Write(vault, bw);
+                Collection.GetDataValue(baseField.Name).Write(vault, bw);
             }
 
-            foreach (var dataPair in Collection.DataRow)
+            foreach (var dataPair in Collection.GetData())
             {
-                VLTClassField field = Collection.Class.Fields[dataPair.Key];
+                VltClassField field = Collection.Class[dataPair.Key];
 
-                if (field.IsOptional)
+                if (!field.IsInLayout)
                 {
                     var entry = _entries.First(e => e.Key == field.Key);
 
@@ -309,7 +312,7 @@ namespace VaultLib.ModernBase.Exports
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                if (this.Collection.DataRow[baseField.Key] is IPointerObject pointerObject)
+                if (this.Collection.GetDataValue(baseField.Name) is IPointerObject pointerObject)
                 {
                     pointerObject.AddPointers(vault);
                 }

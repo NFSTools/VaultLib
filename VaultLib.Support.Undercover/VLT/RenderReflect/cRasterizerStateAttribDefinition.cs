@@ -53,11 +53,11 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             return _debugNameText.GetStrings();
         }
 
-        public cRasterizerStateAttribDefinition(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public cRasterizerStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public cRasterizerStateAttribDefinition(VLTClass @class, VLTClassField field) : base(@class, field)
+        public cRasterizerStateAttribDefinition(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

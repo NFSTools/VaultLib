@@ -14,9 +14,9 @@ using VaultLib.Core.Structures;
 
 namespace VaultLib.Core.Chunks
 {
-    public class VLTPointersChunk : ChunkBase
+    public class VltPointersChunk : ChunkBase
     {
-        public override uint ID => 0x5074724E;
+        public override uint Id => 0x5074724E;
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 
@@ -57,18 +57,18 @@ namespace VaultLib.Core.Chunks
             }
 
             foreach (var ptrRef in binPointers)
-                vault.Pointers.Add(new VLTPointer
-                    {Type = VLTPointerType.Bin, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset});
+                vault.Pointers.Add(new VltPointer
+                    {Type = VltPointerType.Bin, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset});
 
             foreach (var ptrRef in vltPointers)
-                vault.Pointers.Add(new VLTPointer
-                    {Type = VLTPointerType.Vlt, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset});
+                vault.Pointers.Add(new VltPointer
+                    {Type = VltPointerType.Vlt, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset});
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            var binPointers = vault.SaveContext.Pointers.Where(p => p.Type == VLTPointerType.Bin).ToList();
-            var vltPointers = vault.SaveContext.Pointers.Where(p => p.Type == VLTPointerType.Vlt).ToList();
+            var binPointers = vault.SaveContext.Pointers.Where(p => p.Type == VltPointerType.Bin).ToList();
+            var vltPointers = vault.SaveContext.Pointers.Where(p => p.Type == VltPointerType.Vlt).ToList();
 
             {
                 var targetBin = new AttribPtrRef();

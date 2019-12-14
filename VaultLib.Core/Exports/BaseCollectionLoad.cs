@@ -10,7 +10,9 @@ namespace VaultLib.Core.Exports
         /// <summary>
         ///     The collection being described by this export.
         /// </summary>
-        public VLTCollection Collection { get; set; }
+        public VltCollection Collection { get; set; }
+
+        public string ParentKey { get; protected set; }
 
         public abstract void ReadPointerData(Vault vault, BinaryReader br);
         public abstract void WritePointerData(Vault vault, BinaryWriter bw);
@@ -23,7 +25,7 @@ namespace VaultLib.Core.Exports
 
         public override ulong GetExportID()
         {
-            return VLT32Hasher.Hash($"{Collection.ClassName}/{Collection.Name}");
+            return VLT32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }
     }
 }

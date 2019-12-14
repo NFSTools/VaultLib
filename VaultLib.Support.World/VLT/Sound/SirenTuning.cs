@@ -110,11 +110,11 @@ namespace VaultLib.Support.World.VLT.Sound
             bw.Write(Unknown4);
         }
 
-        public SirenTuning(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public SirenTuning(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public SirenTuning(VLTClass @class, VLTClassField field) : base(@class, field)
+        public SirenTuning(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

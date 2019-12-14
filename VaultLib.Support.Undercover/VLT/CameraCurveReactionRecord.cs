@@ -44,11 +44,11 @@ namespace VaultLib.Support.Undercover.VLT
             Curve.AddPointers(vault);
         }
 
-        public CameraCurveReactionRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public CameraCurveReactionRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public CameraCurveReactionRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public CameraCurveReactionRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

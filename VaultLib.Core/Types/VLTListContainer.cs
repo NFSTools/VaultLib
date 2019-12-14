@@ -18,13 +18,13 @@ namespace VaultLib.Core.Types
 
         private long _srcPtr;
 
-        public VLTListContainer(VLTClass @class, VLTClassField field, VLTCollection collection, int count) : base(
+        public VLTListContainer(VltClass @class, VltClassField field, VltCollection collection, int count) : base(
             @class, field, collection)
         {
             Items = new List<T>(count);
         }
 
-        public VLTListContainer(VLTClass @class, VLTClassField field, int count) : this(@class, field, null, count)
+        public VLTListContainer(VltClass @class, VltClassField field, int count) : this(@class, field, null, count)
         {
         }
 
@@ -36,7 +36,8 @@ namespace VaultLib.Core.Types
 
             for (var i = 0; i < Items.Capacity; i++)
             {
-                var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
+                var item = (T) TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
+                //var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
                 item.Read(vault, br);
                 Items.Add(item);
             }

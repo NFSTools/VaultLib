@@ -27,7 +27,7 @@ namespace VaultLib.Core
             _vault.SaveContext = new VaultSaveContext
             {
                 Collections = vault.Database.RowManager.GetCollectionsInVault(vault).ToList(),
-                Pointers = new HashSet<VLTPointer>(VLTPointer.FixUpOffsetDestinationTypeComparer),
+                Pointers = new HashSet<VltPointer>(VltPointer.FixUpOffsetDestinationTypeComparer),
                 Strings = new HashSet<string>(),
                 StringOffsets = new Dictionary<string, long>()
             };
@@ -69,8 +69,8 @@ namespace VaultLib.Core
                 {
                     _exports.Add(ExportFactory.BuildClassLoad(_vault, vltClass));
                     _exports.AddRange(from collection in SaveContext.Collections
-                        where collection.ClassName == vltClass.Name
-                        orderby collection.Level
+                        where collection.Class.Name == vltClass.Name
+                        //orderby collection.Level
                         select ExportFactory.BuildCollectionLoad(_vault, collection));
                 }
             }
@@ -94,7 +94,7 @@ namespace VaultLib.Core
 
             var chunkWriter = new ChunkWriter(bw, _vault);
 
-            var stringsChunk = new BINStringsChunk();
+            var stringsChunk = new BinStringsChunk();
             stringsChunk.Strings = new List<string>(stringsSet);
 
             chunkWriter.WriteChunk(stringsChunk);
@@ -108,24 +108,24 @@ namespace VaultLib.Core
             var chunkWriter = new ChunkWriter(bw, _vault);
 
             {
-                var versionChunk = new VLTVersionChunk();
+                var versionChunk = new VltVersionChunk();
                 chunkWriter.WriteChunk(versionChunk);
 
-                var startChunk = new VLTStartChunk();
+                var startChunk = new VltStartChunk();
                 chunkWriter.WriteChunk(startChunk);
             }
 
-            var dependencyChunk = new VLTDependencyChunk(new List<string>
+            var dependencyChunk = new VltDependencyChunk(new List<string>
             {
                 $"{_vault.Name}.vlt",
                 $"{_vault.Name}.bin"
             });
             chunkWriter.WriteChunk(dependencyChunk);
 
-            var dataChunk = new VLTDataChunk(_exports);
+            var dataChunk = new VltDataChunk(_exports);
             chunkWriter.WriteChunk(dataChunk);
 
-            var exportChunk = new VLTExportChunk(dataChunk.ExportEntries);
+            var exportChunk = new VltExportChunk(dataChunk.ExportEntries);
             chunkWriter.WriteChunk(exportChunk);
             var binWriter = new BinaryWriter(BinStream);
 
@@ -135,15 +135,15 @@ namespace VaultLib.Core
             // after writing exports, we can build pointers
             BuildPointers();
 
-            var pointersChunk = new VLTPointersChunk();
+            var pointersChunk = new VltPointersChunk();
             chunkWriter.WriteChunk(pointersChunk);
             var endChunk = new EndChunk();
             chunkWriter.WriteChunk(endChunk);
         }
 
-        private IEnumerable<string> CollectStrings(VLTCollection collection)
+        private IEnumerable<string> CollectStrings(VltCollection collection)
         {
-            return collection.DataRow.Values.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings());
+            return collection.GetData().Values.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings());
         }
     }
 }

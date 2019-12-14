@@ -42,11 +42,11 @@ namespace VaultLib.Support.Undercover.VLT
             bw.AlignWriter(4);
         }
 
-        public ParticleAnimationInfo(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public ParticleAnimationInfo(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public ParticleAnimationInfo(VLTClass @class, VLTClassField field) : base(@class, field)
+        public ParticleAnimationInfo(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

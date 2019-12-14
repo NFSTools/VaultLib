@@ -115,11 +115,11 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             return _debugNameText.GetStrings();
         }
 
-        public cBlendStateAttribDefinition(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public cBlendStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public cBlendStateAttribDefinition(VLTClass @class, VLTClassField field) : base(@class, field)
+        public cBlendStateAttribDefinition(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

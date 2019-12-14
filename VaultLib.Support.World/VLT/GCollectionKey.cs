@@ -38,11 +38,11 @@ namespace VaultLib.Support.World.VLT
             return $"gameplay -> {CollectionKey}";
         }
 
-        public GCollectionKey(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public GCollectionKey(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public GCollectionKey(VLTClass @class, VLTClassField field) : base(@class, field)
+        public GCollectionKey(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

@@ -27,11 +27,11 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(Frequency);
         }
 
-        public CopFormationRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public CopFormationRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public CopFormationRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public CopFormationRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

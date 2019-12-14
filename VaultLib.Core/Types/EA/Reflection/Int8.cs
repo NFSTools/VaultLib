@@ -12,11 +12,11 @@ namespace VaultLib.Core.Types.EA.Reflection
     [PrimitiveInfo(typeof(sbyte))]
     public class Int8 : PrimitiveTypeBase
     {
-        public Int8(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Int8(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Int8(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Int8(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

@@ -6,9 +6,9 @@ using System.IO;
 
 namespace VaultLib.Core.Chunks
 {
-    public class VLTStartChunk : ChunkBase
+    public class VltStartChunk : ChunkBase
     {
-        public override uint ID => 0x5374724E;
+        public override uint Id => 0x5374724E;
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 

@@ -12,11 +12,11 @@ namespace VaultLib.Core.Types.EA.Reflection
     [PrimitiveInfo(typeof(float))]
     public class Float : PrimitiveTypeBase
     {
-        public Float(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Float(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Float(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Float(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

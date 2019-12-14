@@ -39,11 +39,11 @@ namespace VaultLib.Support.MostWanted.VLT
             bw.Write(Duration);
         }
 
-        public AirSupport(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public AirSupport(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public AirSupport(VLTClass @class, VLTClassField field) : base(@class, field)
+        public AirSupport(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

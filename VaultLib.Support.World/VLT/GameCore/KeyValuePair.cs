@@ -60,11 +60,11 @@ namespace VaultLib.Support.World.VLT.GameCore
             _keyString.AddPointers(vault);
         }
 
-        public KeyValuePair(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public KeyValuePair(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public KeyValuePair(VLTClass @class, VLTClassField field) : base(@class, field)
+        public KeyValuePair(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

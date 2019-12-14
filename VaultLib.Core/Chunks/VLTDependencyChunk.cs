@@ -6,21 +6,21 @@ using CoreLibraries.IO;
 
 namespace VaultLib.Core.Chunks
 {
-    public class VLTDependencyChunk : ChunkBase
+    public class VltDependencyChunk : ChunkBase
     {
-        public VLTDependencyChunk(List<string> dependencyNames)
+        public VltDependencyChunk(List<string> dependencyNames)
         {
             DependencyNames = dependencyNames;
             Debug.Assert(dependencyNames.Count == 2, "dependencyNames.Count == 2");
         }
 
-        public VLTDependencyChunk()
+        public VltDependencyChunk()
         {
         }
 
         public List<string> DependencyNames { get; }
 
-        public override uint ID => 0x4465704E;
+        public override uint Id => 0x4465704E;
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 

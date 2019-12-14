@@ -10,11 +10,11 @@ namespace VaultLib.Core.Types.Attrib.Types
     [VLTTypeInfo("Attrib::Types::Matrix")]
     public class Matrix : VLTBaseType
     {
-        public Matrix(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Matrix(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Matrix(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Matrix(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

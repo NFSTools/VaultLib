@@ -12,11 +12,11 @@ namespace VaultLib.Core.Types.EA.Reflection
     [PrimitiveInfo(typeof(bool))]
     public class Bool : PrimitiveTypeBase
     {
-        public Bool(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Bool(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Bool(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Bool(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

@@ -35,7 +35,7 @@ namespace VaultLib.Core.IO
         public void WriteChunk(ChunkBase chunk)
         {
             var beginPos = Writer.BaseStream.Position;
-            Writer.Write(chunk.ID);
+            Writer.Write(chunk.Id);
             var sizePos = Writer.BaseStream.Position;
             Writer.Write(0);
 

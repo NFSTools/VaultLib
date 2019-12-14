@@ -53,11 +53,11 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             return _debugNameText.GetStrings();
         }
 
-        public cDepthStencilStateAttribDefinition(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public cDepthStencilStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public cDepthStencilStateAttribDefinition(VLTClass @class, VLTClassField field) : base(@class, field)
+        public cDepthStencilStateAttribDefinition(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

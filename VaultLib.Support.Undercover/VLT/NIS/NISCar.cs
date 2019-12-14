@@ -72,11 +72,11 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             return _presetSkinNameText.GetStrings().Concat(_channelNameText.GetStrings());
         }
 
-        public NISCar(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public NISCar(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public NISCar(VLTClass @class, VLTClassField field) : base(@class, field)
+        public NISCar(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

@@ -45,11 +45,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(REVLMT_RPM);
         }
 
-        public AUDENGRPMRANGEst(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public AUDENGRPMRANGEst(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public AUDENGRPMRANGEst(VLTClass @class, VLTClassField field) : base(@class, field)
+        public AUDENGRPMRANGEst(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

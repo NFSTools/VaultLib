@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -67,16 +68,19 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
             EndPointer = 0;
 
             // Obtain the full list of collections
-            List<VLTCollection> allCollections = vault.SaveContext.Collections.Where(c => c.Class.Name == Class.Name).ToList();
+            List<VltCollection> allCollections = vault.SaveContext.Collections.Where(c => c.Class.Name == Class.Name).ToList();
+            Dictionary<VltCollection, uint> keys = allCollections.ToDictionary(c => c, c => VLT32Hasher.Hash(c.Name));
 
             // Group list by parent
-            Dictionary<ulong, List<VLTCollection>> groupedByParent = allCollections.GroupBy(c => c.Parent?.Key ?? 0).ToDictionary(g => g.Key, g => g.ToList());
+            Dictionary<uint, List<VltCollection>> groupedByParent = allCollections.GroupBy(c => c.Parent != null ? keys[c.Parent] : 0)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
 
             // Filter list to collections with children
-            List<VLTCollection> withChildren = allCollections.Where(c => groupedByParent.ContainsKey(c.Key)).OrderBy(c => c.Key).ToList();
+            List<VltCollection> withChildren = allCollections.Where(c => groupedByParent.ContainsKey(keys[c])).OrderBy(c => keys[c]).ToList();
 
             // Get list of top-level (no parent) collections
-            List<VLTCollection> topLevel = allCollections.Where(c => c.Parent == null).ToList();
+            List<VltCollection> topLevel = allCollections.Where(c => c.Parent == null).ToList();
 
             List<uint> arrayElements = new List<uint>
             {
@@ -84,9 +88,9 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
             };
 
             // Collections with children are in the array and tree
-            foreach (VLTCollection c in withChildren)
+            foreach (VltCollection c in withChildren)
             {
-                arrayElements.Add((uint)c.Key);
+                arrayElements.Add(keys[c]);
             }
 
             Dictionary<int, int> tree = new Dictionary<int, int>
@@ -146,11 +150,11 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
             vault.SaveContext.AddPointer(EndPointer, EndDest, false);
         }
 
-        public Static_Inorder_N_to_1(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Static_Inorder_N_to_1(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Static_Inorder_N_to_1(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Static_Inorder_N_to_1(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

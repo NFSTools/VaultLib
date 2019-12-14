@@ -51,11 +51,11 @@ namespace VaultLib.Support.World.VLT.PowerUps
             return classKey == "emittergroup" && collectionKey == EmitterKey;
         }
 
-        public EmitterEffectAndTarget(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public EmitterEffectAndTarget(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public EmitterEffectAndTarget(VLTClass @class, VLTClassField field) : base(@class, field)
+        public EmitterEffectAndTarget(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

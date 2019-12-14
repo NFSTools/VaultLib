@@ -24,11 +24,11 @@ namespace VaultLib.Support.World.VLT.GameCore
             bw.WriteEnum(Entity2);
         }
 
-        public PhysicsEntityPair(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public PhysicsEntityPair(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public PhysicsEntityPair(VLTClass @class, VLTClassField field) : base(@class, field)
+        public PhysicsEntityPair(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

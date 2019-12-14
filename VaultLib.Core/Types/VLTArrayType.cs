@@ -17,12 +17,12 @@ namespace VaultLib.Core.Types
 {
     public class VLTArrayType : VLTBaseType, IReferencesStrings, IReferencesCollections
     {
-        public VLTArrayType(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+        public VLTArrayType(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)
         {
         }
 
-        public VLTArrayType(VLTClass @class, VLTClassField field) : base(@class, field)
+        public VLTArrayType(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

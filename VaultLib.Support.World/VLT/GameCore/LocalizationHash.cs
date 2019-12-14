@@ -20,11 +20,11 @@ namespace VaultLib.Support.World.VLT.GameCore
             bw.Write(Hash);
         }
 
-        public LocalizationHash(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public LocalizationHash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public LocalizationHash(VLTClass @class, VLTClassField field) : base(@class, field)
+        public LocalizationHash(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

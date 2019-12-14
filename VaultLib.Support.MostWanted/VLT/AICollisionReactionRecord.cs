@@ -43,11 +43,11 @@ namespace VaultLib.Support.MostWanted.VLT
             throw new System.NotImplementedException();
         }
 
-        public AICollisionReactionRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public AICollisionReactionRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public AICollisionReactionRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public AICollisionReactionRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

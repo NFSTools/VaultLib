@@ -1,7 +1,6 @@
-using System;
-using System.Diagnostics;
-using System.IO;
 using CoreLibraries.IO;
+using System;
+using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -17,9 +16,9 @@ namespace VaultLib.ModernBase.Exports
         public byte EntryFlags { get; set; }
         public long InlineDataPointer { get; set; }
         public VLTBaseType InlineData { get; set; }
-        public VLTCollection Collection { get; }
+        public VltCollection Collection { get; }
 
-        public AttribEntry(VLTCollection collection)
+        public AttribEntry(VltCollection collection)
         {
             Collection = collection;
         }
@@ -30,30 +29,47 @@ namespace VaultLib.ModernBase.Exports
             InlineDataPointer = br.BaseStream.Position;
             br.ReadUInt32(); // skip data for now
             TypeIndex = br.ReadUInt16();
-            NodeFlags = (NodeFlagsEnum) br.ReadByte();
+            NodeFlags = (NodeFlagsEnum)br.ReadByte();
             EntryFlags = br.ReadByte();
         }
 
         public bool ReadData(Vault vault, BinaryReader br)
         {
-            if (Collection.Class.FieldExists(Key))
+            if (Collection.Class.TryGetField(Key, out VltClassField field))
             {
-                br.BaseStream.Position = InlineDataPointer;
-
-                if (IsInline())
+                if (HasInlineFlag())
                 {
-                    InlineData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, Collection.Class.Fields[Key],
-                        Collection);
+                    InlineData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, field, Collection);
                 }
                 else
                 {
-                    InlineData = new VLTAttribType(Collection.Class, Collection.Class.Fields[Key], Collection);
+                    InlineData = new VLTAttribType(Collection.Class, field, Collection);
                 }
 
+                br.BaseStream.Position = InlineDataPointer;
                 InlineData.Read(vault, br);
 
                 return true;
             }
+
+            //if (Collection.Class.HasField(Key))
+            //{
+            //    br.BaseStream.Position = InlineDataPointer;
+
+            //    if (IsInline())
+            //    {
+            //        InlineData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, Collection.Class[Key],
+            //            Collection);
+            //    }
+            //    else
+            //    {
+            //        InlineData = new VLTAttribType(Collection.Class, Collection.Class[Key], Collection);
+            //    }
+
+            //    InlineData.Read(vault, br);
+
+            //    return true;
+            //}
 
             return false;
         }
@@ -63,7 +79,10 @@ namespace VaultLib.ModernBase.Exports
             bw.Write(Key);
             InlineData.Write(vault, bw);
             if (HasInlineFlag())
+            {
                 bw.AlignWriter(4);
+            }
+
             bw.Write(TypeIndex);
             bw.Write((byte)NodeFlags);
             bw.Write(EntryFlags);
@@ -76,7 +95,7 @@ namespace VaultLib.ModernBase.Exports
 
         public bool IsInline()
         {
-            return Collection.Class.Fields[Key].Size <= 4 && (Collection.Class.Fields[Key].Flags & DefinitionFlags.kArray) == 0;
+            return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)

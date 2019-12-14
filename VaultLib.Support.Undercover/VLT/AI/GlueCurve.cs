@@ -49,11 +49,11 @@ namespace VaultLib.Support.Undercover.VLT.AI
             Hard.AddPointers(vault);
         }
 
-        public GlueCurve(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public GlueCurve(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public GlueCurve(VLTClass @class, VLTClassField field) : base(@class, field)
+        public GlueCurve(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

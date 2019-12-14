@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VaultLib.CodeGen\VaultLib.CodeGen.csproj" />
     <ProjectReference Include="..\VaultLib.Core\VaultLib.Core.csproj" />
     <ProjectReference Include="..\VaultLib.Support.Carbon\VaultLib.Support.Carbon.csproj" />
     <ProjectReference Include="..\VaultLib.Support.MostWanted\VaultLib.Support.MostWanted.csproj" />

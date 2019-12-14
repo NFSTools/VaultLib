@@ -9,11 +9,11 @@ namespace VaultLib.Core.Data
     [Flags]
     public enum DefinitionFlags : byte
     {
-        kArray = 0x1,
-        kInLayout = 0x2,
-        kIsBound = 0x4,
-        kIsNotSearchable = 0x8,
-        kIsStatic = 0x10,
-        kHasHandler = 0x20
+        Array = 0x1,
+        InLayout = 0x2,
+        IsBound = 0x4,
+        IsNotSearchable = 0x8,
+        IsStatic = 0x10,
+        HasHandler = 0x20
     }
 }

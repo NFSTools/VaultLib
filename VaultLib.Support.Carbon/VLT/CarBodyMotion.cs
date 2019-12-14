@@ -30,11 +30,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(DegPerSec);
         }
 
-        public CarBodyMotion(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public CarBodyMotion(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public CarBodyMotion(VLTClass @class, VLTClassField field) : base(@class, field)
+        public CarBodyMotion(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

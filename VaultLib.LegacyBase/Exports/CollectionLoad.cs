@@ -40,7 +40,7 @@ namespace VaultLib.LegacyBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VLTCollection(vault, vault.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey), mKey);
+            Collection = new VltCollection(vault, vault.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey));
 
             _types = new uint[mNumTypes];
             for (var i = 0; i < mNumTypes; i++)
@@ -57,19 +57,20 @@ namespace VaultLib.LegacyBase.Exports
                 _entries[i] = attribEntry;
             }
 
-            Collection.ParentKey = mParent;
+            // TODO: ParentKey
+            //Collection.ParentKey = mParent;
             vault.Database.RowManager.AddCollection(Collection);
         }
 
         public override void Prepare(Vault vault)
         {
-            List<KeyValuePair<ulong, VLTBaseType>> optionalDataColumns = (from pair in Collection.DataRow
-                                                                          where Collection.Class.Fields[pair.Key].IsOptional
-                                                                          select pair).ToList();
+            List<KeyValuePair<string, VLTBaseType>> optionalDataColumns = (from pair in Collection.GetData()
+                                                                           where !Collection.Class[pair.Key].IsInLayout
+                                                                           select pair).ToList();
 
             _entries = new AttribEntry[optionalDataColumns.Count];
             _types = Collection.Class.BaseFields.Select(f => f.TypeName)
-                .Concat(optionalDataColumns.Select(c => Collection.Class.Fields[c.Key].TypeName))
+                .Concat(optionalDataColumns.Select(c => Collection.Class[c.Key].TypeName))
                 .Select(s => VLT32Hasher.Hash(s)).Distinct().ToArray();
 
             for (var index = 0; index < optionalDataColumns.Count; index++)
@@ -77,8 +78,8 @@ namespace VaultLib.LegacyBase.Exports
                 var optionalDataColumn = optionalDataColumns[index];
                 var entry = new AttribEntry(Collection);
 
-                entry.Key = (uint)optionalDataColumn.Key;
-                var vltClassField = Collection.Class.Fields[optionalDataColumn.Key];
+                entry.Key = VLT32Hasher.Hash(optionalDataColumn.Key);
+                var vltClassField = Collection.Class[optionalDataColumn.Key];
                 entry.TypeIndex = (ushort)Array.IndexOf(_types,
                     VLT32Hasher.Hash(vltClassField.TypeName));
                 entry.NodeFlags = AttribEntry.NodeFlagsEnum.Default;
@@ -107,13 +108,14 @@ namespace VaultLib.LegacyBase.Exports
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            bw.Write((uint) Collection.Key);
+            bw.Write(VLT32Hasher.Hash(Collection.Name));
             bw.Write(VLT32Hasher.Hash(Collection.Class.Name));
-            bw.Write((uint) (Collection.Parent?.Key ?? 0));
-            bw.Write((uint) _entries.Length);
+            //bw.Write((uint) (Collection.Parent?.Key ?? 0));
+            bw.Write(Collection.Parent != null ? VLT32Hasher.Hash(Collection.Parent.Name) : 0u);
+            bw.Write((uint)_entries.Length);
             bw.Write(0);
-            bw.Write((uint) _entries.Length);
-            bw.Write((uint) _types.Length);
+            bw.Write((uint)_entries.Length);
+            bw.Write((uint)_types.Length);
             _srcLayoutPtr = bw.BaseStream.Position;
             bw.Write(0);
 
@@ -150,15 +152,16 @@ namespace VaultLib.LegacyBase.Exports
                     long endPos = br.BaseStream.Position;
                     if (!(data is VLTArrayType))
                         Debug.Assert(endPos - startPos == baseField.Size);
-                    Collection.DataRow[baseField.Key] = data;
+                    //Collection.Data[baseField.Name] = data;
+                    Collection.SetDataValue(baseField.Name, data);
                 }
             }
 
             foreach (var entry in _entries)
             {
-                var optionalField = Collection.Class.Fields[entry.Key];
+                var optionalField = Collection.Class[entry.Key];
 
-                if ((optionalField.Flags & DefinitionFlags.kIsStatic) != 0)
+                if ((optionalField.Flags & DefinitionFlags.IsStatic) != 0)
                 {
                     throw new Exception("Congratulations. You have successfully broken this library. Please consult with your doctor for further instructions.");
                 }
@@ -166,15 +169,17 @@ namespace VaultLib.LegacyBase.Exports
                 if (entry.InlineData is VLTAttribType attribType)
                 {
                     attribType.ReadPointerData(vault, br);
-                    Collection.DataRow[optionalField.Key] = attribType.Data;
+                    Collection.SetDataValue(optionalField.Name, attribType.Data);
+                    //Collection.Data[optionalField.Name] = attribType.Data;
                 }
                 else
                 {
-                    Collection.DataRow[optionalField.Key] = entry.InlineData;
+                    Collection.SetDataValue(optionalField.Name, entry.InlineData);
+                    //Collection.Data[optionalField.Name] = entry.InlineData;
                 }
             }
 
-            foreach (var dataEntry in Collection.DataRow)
+            foreach (var dataEntry in Collection.GetData())
             {
                 if (dataEntry.Value is IPointerObject pointerObject)
                     pointerObject.ReadPointerData(vault, br);
@@ -196,14 +201,15 @@ namespace VaultLib.LegacyBase.Exports
                     throw new Exception("incorrect offset");
                 }
 
-                Collection.DataRow[baseField.Key].Write(vault, bw);
+                Collection.GetDataValue(baseField.Name).Write(vault, bw);
+                //Collection.Data[baseField.Name].Write(vault, bw);
             }
 
-            foreach (var dataPair in Collection.DataRow)
+            foreach (var dataPair in Collection.GetData())
             {
-                VLTClassField field = Collection.Class.Fields[dataPair.Key];
+                VltClassField field = Collection.Class[dataPair.Key];
 
-                if (field.IsOptional)
+                if (!field.IsInLayout)
                 {
                     var entry = _entries.First(e => e.Key == field.Key);
 
@@ -230,7 +236,7 @@ namespace VaultLib.LegacyBase.Exports
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                if (this.Collection.DataRow[baseField.Key] is IPointerObject pointerObject)
+                if (this.Collection.GetDataValue(baseField.Name) is IPointerObject pointerObject)
                 {
                     pointerObject.AddPointers(vault);
                 }

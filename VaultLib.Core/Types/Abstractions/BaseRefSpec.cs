@@ -11,12 +11,12 @@ namespace VaultLib.Core.Types.Abstractions
 {
     public abstract class BaseRefSpec : VLTBaseType, IReferencesCollections
     {
-        protected BaseRefSpec(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+        protected BaseRefSpec(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)
         {
         }
 
-        protected BaseRefSpec(VLTClass @class, VLTClassField field) : base(@class, field)
+        protected BaseRefSpec(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

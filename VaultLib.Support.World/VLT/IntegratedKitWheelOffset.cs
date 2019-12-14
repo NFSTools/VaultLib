@@ -66,11 +66,11 @@ namespace VaultLib.Support.World.VLT
             _kitName.AddPointers(vault);
         }
 
-        public IntegratedKitWheelOffset(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public IntegratedKitWheelOffset(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public IntegratedKitWheelOffset(VLTClass @class, VLTClassField field) : base(@class, field)
+        public IntegratedKitWheelOffset(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

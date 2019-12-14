@@ -11,12 +11,12 @@ namespace VaultLib.Support.World.VLT.Attrib.Gen
     [VLTTypeInfo("Attrib::Gen::ClassRefSpec_timeofdaylighting")]
     public class ClassRefSpec_timeofdaylighting : ClassRefSpec_template
     {
-        public ClassRefSpec_timeofdaylighting(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection, "timeofdaylighting")
+        public ClassRefSpec_timeofdaylighting(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection, "timeofdaylighting")
         {
 
         }
 
-        public ClassRefSpec_timeofdaylighting(VLTClass @class, VLTClassField field) : base(@class, field, "timeofdaylighting")
+        public ClassRefSpec_timeofdaylighting(VltClass @class, VltClassField field) : base(@class, field, "timeofdaylighting")
         {
 
         }

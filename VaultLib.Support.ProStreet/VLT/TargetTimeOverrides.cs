@@ -66,11 +66,11 @@ namespace VaultLib.Support.ProStreet.VLT
             return _eventText.GetStrings();
         }
 
-        public TargetTimeOverrides(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public TargetTimeOverrides(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public TargetTimeOverrides(VLTClass @class, VLTClassField field) : base(@class, field)
+        public TargetTimeOverrides(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

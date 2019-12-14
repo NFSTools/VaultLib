@@ -11,11 +11,11 @@ using VaultLib.Core.Exports;
 
 namespace VaultLib.Core.Chunks
 {
-    public class VLTDataChunk : ChunkBase
+    public class VltDataChunk : ChunkBase
     {
         private readonly List<BaseExport> _exports;
 
-        public VLTDataChunk(List<BaseExport> exports)
+        public VltDataChunk(List<BaseExport> exports)
         {
             _exports = exports;
             ExportEntries = new List<IExportEntry>();
@@ -23,7 +23,7 @@ namespace VaultLib.Core.Chunks
 
         public List<IExportEntry> ExportEntries { get; }
 
-        public override uint ID => 0x4461744E;
+        public override uint Id => 0x4461744E;
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 
@@ -34,26 +34,21 @@ namespace VaultLib.Core.Chunks
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            //Debug.WriteLine("writing exports", vault.Name);
-            for (var i = 0; i < _exports.Count; i++)
+            foreach (var t in _exports)
             {
-                //Debug.WriteLine("Writing export {0}/{1}", i + 1, _exports.Count);
-
                 var offset = bw.BaseStream.Position;
 
-                _exports[i].Write(vault, bw);
+                t.Write(vault, bw);
 
                 var endOffset = bw.BaseStream.Position;
 
                 var exportEntry = ExportFactory.BuildExportEntry(vault);
-                exportEntry.ID = _exports[i].GetExportID();
+                exportEntry.ID = t.GetExportID();
                 exportEntry.Offset = (uint) offset;
-                exportEntry.Type = _exports[i].GetTypeId();
+                exportEntry.Type = t.GetTypeId();
                 exportEntry.Size = (uint) (endOffset - offset);
 
                 ExportEntries.Add(exportEntry);
-
-                //Debug.WriteLine("wrote export {0} ({3:X}) - offset {1:X} size {2}", _exports[i], exportEntry.Offset, exportEntry.Size, exportEntry.ID);
 
                 bw.AlignWriter(0x8);
             }

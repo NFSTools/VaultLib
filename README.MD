@@ -23,4 +23,5 @@ A number of factors played a part in the decision to create this library:
 - Extensibility is built-in; any game that uses AttribSys can be supported.
   - Flexible type system allows different implementations of data types for specific games
   - AttribSys data structures (such as `ClassLoadData` and `CollectionLoadData`) can be overridden with custom implementations
-# TODO
+- Easy to integrate into existing software
+- Simple API 

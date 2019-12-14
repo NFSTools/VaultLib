@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using VaultLib.CodeGen;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Pack;
@@ -68,44 +68,82 @@ namespace VaultCLI
             Debug.WriteLine("Loading database");
 
             HashManager.LoadDictionary("hashes.txt");
-            Database database = new Database(new DatabaseOptions(args.GameID, DatabaseType.X86Database));
             Stopwatch stopwatch = Stopwatch.StartNew();
-            Dictionary<string, IList<Vault>> fileDictionary = new Dictionary<string, IList<Vault>>();
 
-            foreach (string file in args.Files)
+            int numIterations = 50;
+
+            for (int i = 0; i < numIterations; i++)
             {
-                fileDictionary[file] = LoadFileToDB(database, file);
+                Database database = new Database(new DatabaseOptions(args.GameID, DatabaseType.X86Database));
+                using (new DatabaseLoadingWrapper(database))
+                {
+                    foreach (string file in args.Files)
+                    {
+                        LoadFileToDB(database, file);
+                        //fileDictionary[file] = LoadFileToDB(database, file);
+                    }
+                }
             }
 
-            database.CompleteLoad();
+            //Dictionary<string, IList<Vault>> fileDictionary = new Dictionary<string, IList<Vault>>();
+
+
+
+
+            //database.CompleteLoad();
             stopwatch.Stop();
 
-            Console.WriteLine("Loaded in {0}ms", stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("Test done in {0}ms (avg {1}ms)", stopwatch.ElapsedMilliseconds, ((float)stopwatch.ElapsedMilliseconds) / numIterations);
+
+            //DisplayHierarchy(database);
+
             TypeRegistry.ListUnknownTypes();
 
-            Debug.WriteLine("generating code");
-            string codeGenDirectory = Path.Combine("gen-code", args.GameID);
-            Directory.CreateDirectory(codeGenDirectory);
+            //Debug.WriteLine("generating code");
+            //string codeGenDirectory = Path.Combine("gen-code", args.GameID);
+            //Directory.CreateDirectory(codeGenDirectory);
 
-            CSharpCodeGenerator cscg = new CSharpCodeGenerator(database);
+            //CSharpCodeGenerator cscg = new CSharpCodeGenerator(database);
 
-            foreach (VaultLib.Core.Data.VLTClass databaseClass in database.Classes)
+            //foreach (VaultLib.Core.Data.VltClass databaseClass in database.Classes)
+            //{
+            //    cscg.WriteCodeToFile(databaseClass, codeGenDirectory);
+            //}
+
+            //stopwatch = Stopwatch.StartNew();
+            //Debug.WriteLine("re-saving");
+
+            //foreach (var (path, vaults) in fileDictionary)
+            //{
+            //    using BinaryWriter bw = new BinaryWriter(File.Open(path + ".gen", FileMode.Create));
+            //    StandardVaultPack vaultPack = new StandardVaultPack();
+            //    vaultPack.Save(bw, vaults);
+            //}
+            //stopwatch.Stop();
+            //Debug.WriteLine("re-saved in {0}ms", stopwatch.ElapsedMilliseconds);
+        }
+
+        private static void DisplayHierarchy(Database database)
+        {
+            foreach (var databaseClass in database.Classes)
             {
-                cscg.WriteCodeToFile(databaseClass, codeGenDirectory);
+                Debug.WriteLine("{0} ({1} fields)", databaseClass.Name, databaseClass.Fields.Count);
+
+                DisplayCollections(databaseClass, database.RowManager.EnumerateCollections(databaseClass.Name));
             }
+        }
 
-            stopwatch = Stopwatch.StartNew();
-            Debug.WriteLine("re-saving");
+        private static void DisplayCollections(VltClass databaseClass, IEnumerable<VltCollection> collections, int level = 0)
+        {
+            string indent = new string('\t', level + 1);
 
-            foreach (var (path, vaults) in fileDictionary)
+            foreach (var collection in collections)
             {
-                using BinaryWriter bw = new BinaryWriter(File.Open(path + ".gen", FileMode.Create));
-                StandardVaultPack vaultPack = new StandardVaultPack();
-                vaultPack.Save(bw, vaults);
+                Debug.WriteLine("{0}{1}", indent, collection.Name);
+
+                if (collection.Children.Count > 0)
+                    DisplayCollections(databaseClass, collection.Children, level + 1);
             }
-            stopwatch.Stop();
-            Console.WriteLine("re-saved in {0}ms", stopwatch.ElapsedMilliseconds);
-            Console.Read();
         }
 
         private static IList<Vault> LoadFileToDB(Database database, string file)

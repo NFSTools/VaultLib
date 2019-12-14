@@ -32,11 +32,11 @@ namespace VaultLib.Support.World.VLT
             return $"RWAC Bank {Bank:X8} -> Asset {Asset:X8}";
         }
 
-        public RwacSampleBankAsset(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public RwacSampleBankAsset(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public RwacSampleBankAsset(VLTClass @class, VLTClassField field) : base(@class, field)
+        public RwacSampleBankAsset(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

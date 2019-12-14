@@ -20,12 +20,12 @@ namespace VaultLib.Core.Types
 
         private long _ptrSrc;
 
-        public VLTPointerContainer(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field,
+        public VLTPointerContainer(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)
         {
         }
 
-        public VLTPointerContainer(VLTClass @class, VLTClassField field) : base(@class, field)
+        public VLTPointerContainer(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 
@@ -34,7 +34,7 @@ namespace VaultLib.Core.Types
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
             br.BaseStream.Position = _pointer;
-            Value = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
+            Value = (T) TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
             Value.Read(vault, br);
 
             if (Value is IPointerObject pointerObject) pointerObject.ReadPointerData(vault, br);

@@ -20,12 +20,12 @@ namespace VaultLib.Core.Types.EA.Reflection
 
     public abstract class PrimitiveTypeBase : VLTBaseType
     {
-        protected PrimitiveTypeBase(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class,
+        protected PrimitiveTypeBase(VltClass @class, VltClassField field, VltCollection collection) : base(@class,
             field, collection)
         {
         }
 
-        protected PrimitiveTypeBase(VLTClass @class, VLTClassField field) : base(@class, field)
+        protected PrimitiveTypeBase(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

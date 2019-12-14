@@ -10,11 +10,11 @@ namespace VaultLib.Core.Types.Attrib.Types
     [VLTTypeInfo("Attrib::Types::Vector3")]
     public class Vector3 : VLTBaseType
     {
-        public Vector3(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Vector3(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Vector3(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Vector3(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

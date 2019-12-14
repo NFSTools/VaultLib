@@ -16,19 +16,19 @@ namespace VaultLib.Core
     {
         public HashSet<string> Strings { get; set; }
 
-        public HashSet<VLTPointer> Pointers { get; set; }
+        public HashSet<VltPointer> Pointers { get; set; }
 
-        public List<VLTCollection> Collections { get; set; }
+        public List<VltCollection> Collections { get; set; }
 
         public Dictionary<string, long> StringOffsets { get; set; }
 
-        public void AddPointer(long src, long dst, bool isVLT)
+        public void AddPointer(long src, long dst, bool isVlt)
         {
             Debug.Assert(src != 0);
 
-            var pointer = new VLTPointer
+            var pointer = new VltPointer
             {
-                Type = isVLT ? VLTPointerType.Vlt : VLTPointerType.Bin,
+                Type = isVlt ? VltPointerType.Vlt : VltPointerType.Bin,
                 FixUpOffset = (uint) src,
                 Destination = (uint) dst
             };

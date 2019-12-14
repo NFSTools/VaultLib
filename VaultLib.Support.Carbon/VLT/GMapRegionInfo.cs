@@ -67,11 +67,11 @@ namespace VaultLib.Support.Carbon.VLT
             return new[] {Name};
         }
 
-        public GMapRegionInfo(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public GMapRegionInfo(VLTClass @class, VLTClassField field) : base(@class, field)
+        public GMapRegionInfo(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

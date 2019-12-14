@@ -57,11 +57,11 @@ namespace VaultLib.Support.Undercover.VLT
             return _pictureText.GetStrings();
         }
 
-        public FEHintsData(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public FEHintsData(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public FEHintsData(VLTClass @class, VLTClassField field) : base(@class, field)
+        public FEHintsData(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

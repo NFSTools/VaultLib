@@ -72,11 +72,11 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             return _markerNameText.GetStrings();
         }
 
-        public SceneRoot(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public SceneRoot(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public SceneRoot(VLTClass @class, VLTClassField field) : base(@class, field)
+        public SceneRoot(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

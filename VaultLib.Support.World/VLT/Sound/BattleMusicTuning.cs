@@ -33,11 +33,11 @@ namespace VaultLib.Support.World.VLT.Sound
             bw.Write(TimeAhead_FailToHi);
         }
 
-        public BattleMusicTuning(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public BattleMusicTuning(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public BattleMusicTuning(VLTClass @class, VLTClassField field) : base(@class, field)
+        public BattleMusicTuning(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

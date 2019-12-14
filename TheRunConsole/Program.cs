@@ -20,6 +20,9 @@ namespace TheRunConsole
         {
             HashManager.LoadDictionary("hashes.txt");
 
+            // Register types
+            TypeRegistry.RegisterAssemblyTypes(typeof(Program).Assembly, _gameId);
+
             // Prepare readers
             ExportFactory.SetClassLoadCreator<ClassLoad>(_gameId);
             ExportFactory.SetCollectionLoadCreator<CollectionLoad>(_gameId);

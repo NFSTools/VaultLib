@@ -69,11 +69,11 @@ namespace VaultLib.Support.MostWanted.VLT
             return new[] { DeviceID };
         }
 
-        public ControllerDataRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public ControllerDataRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public ControllerDataRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

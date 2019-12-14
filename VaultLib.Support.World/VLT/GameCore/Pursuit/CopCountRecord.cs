@@ -62,11 +62,11 @@ namespace VaultLib.Support.World.VLT.GameCore.Pursuit
             _copType.AddPointers(vault);
         }
 
-        public CopCountRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public CopCountRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public CopCountRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

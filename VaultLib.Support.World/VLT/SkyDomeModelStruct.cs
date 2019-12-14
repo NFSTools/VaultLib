@@ -24,11 +24,11 @@ namespace VaultLib.Support.World.VLT
             bw.Write(Hash);
         }
 
-        public SkyDomeModelStruct(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public SkyDomeModelStruct(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public SkyDomeModelStruct(VLTClass @class, VLTClassField field) : base(@class, field)
+        public SkyDomeModelStruct(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

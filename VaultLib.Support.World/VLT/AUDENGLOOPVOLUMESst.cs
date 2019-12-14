@@ -45,11 +45,11 @@ namespace VaultLib.Support.World.VLT
             bw.Write(REVLMT_VOL);
         }
 
-        public AUDENGLOOPVOLUMESst(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public AUDENGLOOPVOLUMESst(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public AUDENGLOOPVOLUMESst(VLTClass @class, VLTClassField field) : base(@class, field)
+        public AUDENGLOOPVOLUMESst(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

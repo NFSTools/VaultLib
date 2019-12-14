@@ -87,11 +87,11 @@ namespace VaultLib.Support.ProStreet.VLT
             _y2Array.AddPointers(vault);
         }
 
-        public Curve(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public Curve(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public Curve(VLTClass @class, VLTClassField field) : base(@class, field)
+        public Curve(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

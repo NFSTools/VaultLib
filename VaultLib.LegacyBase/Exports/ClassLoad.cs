@@ -40,7 +40,7 @@ namespace VaultLib.LegacyBase.Exports
             ushort requiredCount = br.ReadUInt16();
             Debug.Assert(requiredCount <= NumDefinitions);
             br.ReadInt16();
-            Class = new VLTClass(vault.Database, HashManager.ResolveVLT(ClassHash));
+            Class = new VltClass(HashManager.ResolveVLT(ClassHash));
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
@@ -74,20 +74,28 @@ namespace VaultLib.LegacyBase.Exports
                 AttribDefinition definition = new AttribDefinition();
                 definition.Read(vault, br);
 
-                if ((definition.Flags & DefinitionFlags.kIsStatic) != 0)
+                if ((definition.Flags & DefinitionFlags.IsStatic) != 0)
                 {
                     throw new Exception("Legacy format does not support static fields");
                 }
 
-                VLTClassField field = new VLTClassField();
-                field.Key = definition.Key;
-                field.Name = HashManager.ResolveVLT((uint)definition.Key);
-                field.TypeName = HashManager.ResolveVLT((uint)definition.Type);
-                field.Flags = definition.Flags;
-                field.Size = definition.Size;
-                field.MaxCount = definition.MaxCount;
-                field.Offset = definition.Offset;
-                field.Alignment = definition.Alignment;
+                VltClassField field = new VltClassField(
+                    definition.Key,
+                    HashManager.ResolveVLT((uint)definition.Key),
+                    HashManager.ResolveVLT((uint)definition.Type),
+                    definition.Flags,
+                    definition.Alignment,
+                    definition.Size,
+                    definition.MaxCount,
+                    definition.Offset);
+                //field.Key = definition.Key;
+                //field.Name = HashManager.ResolveVLT((uint)definition.Key);
+                //field.TypeName = HashManager.ResolveVLT((uint)definition.Type);
+                //field.Flags = definition.Flags;
+                //field.Size = definition.Size;
+                //field.MaxCount = definition.MaxCount;
+                //field.Offset = definition.Offset;
+                //field.Alignment = definition.Alignment;
 
                 Class.Fields.Add(definition.Key, field);
             }
@@ -102,7 +110,7 @@ namespace VaultLib.LegacyBase.Exports
             foreach (var field in Class.Fields.Values)
             {
                 AttribDefinition definition = new AttribDefinition();
-                definition.Key = field.Key;
+                definition.Key = VLT32Hasher.Hash(field.Name);
                 definition.Type = VLT32Hasher.Hash(field.TypeName);
                 definition.Flags = field.Flags;
                 definition.Size = field.Size;
@@ -129,7 +137,7 @@ namespace VaultLib.LegacyBase.Exports
                     rfs += baseField.Alignment - rfs % baseField.Alignment;
                 }
 
-                if ((baseField.Flags & DefinitionFlags.kArray) != 0)
+                if ((baseField.Flags & DefinitionFlags.Array) != 0)
                 {
                     rfs += 8;
                     rfs += baseField.Size * baseField.MaxCount;

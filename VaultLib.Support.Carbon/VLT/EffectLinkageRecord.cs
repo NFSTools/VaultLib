@@ -66,11 +66,11 @@ namespace VaultLib.Support.Carbon.VLT
                    || Audio.ReferencesCollection(classKey, collectionKey);
         }
 
-        public EffectLinkageRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public EffectLinkageRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public EffectLinkageRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public EffectLinkageRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

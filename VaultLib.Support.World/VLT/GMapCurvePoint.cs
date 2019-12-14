@@ -27,11 +27,11 @@ namespace VaultLib.Support.World.VLT
             bw.Write(Y);
         }
 
-        public GMapCurvePoint(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public GMapCurvePoint(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public GMapCurvePoint(VLTClass @class, VLTClassField field) : base(@class, field)
+        public GMapCurvePoint(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

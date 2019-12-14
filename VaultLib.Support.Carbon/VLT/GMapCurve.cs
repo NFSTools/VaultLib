@@ -27,11 +27,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(mPointCount);
         }
 
-        public GMapCurve(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public GMapCurve(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public GMapCurve(VLTClass @class, VLTClassField field) : base(@class, field)
+        public GMapCurve(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

@@ -83,11 +83,11 @@ namespace VaultLib.Support.Undercover.VLT
                 .Concat(_smackableCollisionNameText.GetStrings());
         }
 
-        public CCarDamageMarkerEntry(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public CCarDamageMarkerEntry(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public CCarDamageMarkerEntry(VLTClass @class, VLTClassField field) : base(@class, field)
+        public CCarDamageMarkerEntry(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

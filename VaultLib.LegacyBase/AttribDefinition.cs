@@ -23,7 +23,7 @@ namespace VaultLib.LegacyBase
             Flags = (DefinitionFlags) br.ReadByte();
             Alignment = 1 << br.ReadByte();
 
-            if ((Flags & DefinitionFlags.kIsStatic) != 0)
+            if ((Flags & DefinitionFlags.IsStatic) != 0)
             {
                 throw new InvalidDataException("IsStatic cannot be set in legacy AttribDefinition");
             }

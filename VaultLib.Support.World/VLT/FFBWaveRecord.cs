@@ -45,11 +45,11 @@ namespace VaultLib.Support.World.VLT
             bw.Write(Threshold_B);
         }
 
-        public FFBWaveRecord(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public FFBWaveRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public FFBWaveRecord(VLTClass @class, VLTClassField field) : base(@class, field)
+        public FFBWaveRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

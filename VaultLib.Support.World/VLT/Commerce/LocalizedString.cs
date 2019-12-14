@@ -62,11 +62,11 @@ namespace VaultLib.Support.World.VLT.Commerce
             Value = str;
         }
 
-        public LocalizedString(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public LocalizedString(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public LocalizedString(VLTClass @class, VLTClassField field) : base(@class, field)
+        public LocalizedString(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

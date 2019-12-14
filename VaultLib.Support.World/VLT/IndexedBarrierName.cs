@@ -13,11 +13,11 @@ namespace VaultLib.Support.World.VLT
     [PrimitiveInfo(typeof(int))]
     public class IndexedBarrierName : Int32
     {
-        public IndexedBarrierName(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public IndexedBarrierName(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public IndexedBarrierName(VLTClass @class, VLTClassField field) : base(@class, field)
+        public IndexedBarrierName(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

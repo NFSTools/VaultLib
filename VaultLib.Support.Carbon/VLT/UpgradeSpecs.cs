@@ -26,11 +26,11 @@ namespace VaultLib.Support.Carbon.VLT
             bw.Write(UpgradeLevel);
         }
 
-        public UpgradeSpecs(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public UpgradeSpecs(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public UpgradeSpecs(VLTClass @class, VLTClassField field) : base(@class, field)
+        public UpgradeSpecs(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

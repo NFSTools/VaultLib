@@ -105,8 +105,8 @@ namespace VaultLib.Core
         /// <param name="vltClassField"></param>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public static VLTBaseType CreateInstance(string gameId, VLTClass vltClass, VLTClassField vltClassField,
-            VLTCollection collection)
+        public static VLTBaseType CreateInstance(string gameId, VltClass vltClass, VltClassField vltClassField,
+            VltCollection collection)
         {
             if (!_initialized) throw new InvalidOperationException("TypeRegistry has not been initialized!");
 
@@ -125,14 +125,14 @@ namespace VaultLib.Core
             return instance;
         }
 
-        public static VLTBaseType ConstructInstance(Type type, VLTClass vltClass, VLTClassField vltClassField,
-            VLTCollection collection)
+        public static VLTBaseType ConstructInstance(Type type, VltClass vltClass, VltClassField vltClassField,
+            VltCollection collection)
         {
             if (!_activators.TryGetValue(type, out var activator))
             {
                 activator = ReflectionUtils.GetActivator<VLTBaseType>(type.GetConstructor(new[]
                 {
-                    typeof(VLTClass), typeof(VLTClassField), typeof(VLTCollection)
+                    typeof(VltClass), typeof(VltClassField), typeof(VltCollection)
                 }));
 
                 _activators[type] = activator;
@@ -173,7 +173,7 @@ namespace VaultLib.Core
             if (TypeDictionary.TryGetValue(gameId, out var typeDict)
                 && typeDict.TryGetValue(typeId, out var type))
                 return type;
-            else if (gameId != "GLOBAL")
+            if (gameId != "GLOBAL")
                 return ResolveType("GLOBAL", typeId);
 
             UnknownTypes.Add(typeId);

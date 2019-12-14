@@ -33,11 +33,11 @@ namespace VaultLib.Support.World.VLT.Commerce
             bw.Write(RequiredPartCount);
         }
 
-        public HatBonus(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public HatBonus(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public HatBonus(VLTClass @class, VLTClassField field) : base(@class, field)
+        public HatBonus(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

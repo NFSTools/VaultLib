@@ -37,11 +37,11 @@ namespace VaultLib.Support.World.VLT.GameCore
             bw.WriteEnum(mFlags);
         }
 
-        public BehaviorSlot(VLTClass @class, VLTClassField field, VLTCollection collection) : base(@class, field, collection)
+        public BehaviorSlot(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
 
-        public BehaviorSlot(VLTClass @class, VLTClassField field) : base(@class, field)
+        public BehaviorSlot(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
     }

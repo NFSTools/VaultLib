@@ -53,7 +53,7 @@ namespace VaultLib.Core.Exports
             return ExportEntryCreatorDictionary[vault.Database.Options.GameId]();
         }
 
-        public static BaseCollectionLoad BuildCollectionLoad(Vault vault, VLTCollection collection)
+        public static BaseCollectionLoad BuildCollectionLoad(Vault vault, VltCollection collection)
         {
             var collectionLoad = CollectionLoadBuilderDictionary[vault.Database.Options.GameId]();
 
@@ -62,7 +62,7 @@ namespace VaultLib.Core.Exports
             return collectionLoad;
         }
 
-        public static BaseClassLoad BuildClassLoad(Vault vault, VLTClass vltClass)
+        public static BaseClassLoad BuildClassLoad(Vault vault, VltClass vltClass)
         {
             var classLoad = ClassLoadBuilderDictionary[vault.Database.Options.GameId]();
 
