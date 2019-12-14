@@ -10,7 +10,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib
 {
-    [VLTTypeInfo("Attrib::bBlob")]
+    [VLTTypeInfo("Attrib::Blob")]
     public class Blob : VLTBaseType, IPointerObject
     {
         public enum CompressionID : uint
