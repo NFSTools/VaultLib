@@ -30,9 +30,12 @@ namespace TheRunConsole
             ExportFactory.SetExportEntryCreator<ExportEntry>(_gameId);
             ExportFactory.SetPointerCreator<AttribPtrRef>(_gameId);
 
+
             // Load data
             AttribSysPack pack = new AttribSysPack();
             Database database = new Database(new DatabaseOptions(_gameId, DatabaseType.X86Database));
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
 
             using (FileStream fs = new FileStream(@"data\c4schema.res", FileMode.Open, FileAccess.Read))
             using (BinaryReader br = new BinaryReader(fs))
@@ -47,6 +50,8 @@ namespace TheRunConsole
             }
 
             database.CompleteLoad();
+            stopwatch.Stop();
+            Debug.WriteLine("loaded in {0}ms", stopwatch.ElapsedMilliseconds);
             TypeRegistry.ListUnknownTypes();
 
             foreach (var typeInfo in database.Types)

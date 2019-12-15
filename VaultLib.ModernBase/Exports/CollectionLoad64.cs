@@ -24,6 +24,11 @@ namespace VaultLib.ModernBase.Exports
         private long _srcLayoutPtr;
         private long _dstLayoutPtr;
 
+        public override ulong GetTypeId()
+        {
+            return VLT64Hasher.Hash("Attrib::CollectionLoadData");
+        }
+
         public override void Read(Vault vault, BinaryReader br)
         {
             var mKey = br.ReadUInt64();

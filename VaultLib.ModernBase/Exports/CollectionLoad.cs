@@ -68,7 +68,6 @@ namespace VaultLib.ModernBase.Exports
 
                 if (!readData)
                 {
-                    Debug.WriteLine("CHECK: read failed for attribute: 0x{0:X8} (non-existent field?)", attribEntry.Key);
                     continue;
                 }
 

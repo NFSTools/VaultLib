@@ -62,7 +62,23 @@ namespace BurnoutConsole
 
         public void Save(BinaryWriter bw, IList<Vault> vaults, PackSavingOptions savingOptions)
         {
-            throw new System.NotImplementedException();
+            bw.Write(0x10);
+            Vault vault = vaults[0];
+            VaultWriter vw = new VaultWriter(vault);
+            var (bin, vlt) = vw.Save();
+            bw.Write((uint)vlt.Length);
+            bw.Write(0);
+            bw.Write((uint)bin.Length);
+
+            vlt.CopyTo(bw.BaseStream);
+            bw.AlignWriter(0x10);
+            long binOffset = bw.BaseStream.Position;
+            bin.CopyTo(bw.BaseStream);
+            long endOffset = bw.BaseStream.Position;
+
+            bw.BaseStream.Position = 8;
+            bw.Write((uint)binOffset);
+            bw.BaseStream.Position = endOffset;
         }
     }
 }

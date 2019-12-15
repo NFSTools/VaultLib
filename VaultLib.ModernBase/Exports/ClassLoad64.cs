@@ -24,6 +24,16 @@ namespace VaultLib.ModernBase.Exports
         private long _dstDefinitionsPtr;
         private long _dstStaticPtr;
 
+        public override ulong GetExportID()
+        {
+            return VLT64Hasher.Hash(Class.Name);
+        }
+
+        public override ulong GetTypeId()
+        {
+            return VLT64Hasher.Hash("Attrib::ClassLoadData");
+        }
+
         public override void Read(Vault vault, BinaryReader br)
         {
             ClassHash = br.ReadUInt64();

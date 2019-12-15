@@ -48,7 +48,11 @@ namespace VaultLib.Core.Chunks
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            bw.Write(_exports.Count);
+            //bw.Write(_exports.Count);
+            if (vault.Database.Options.Type == DatabaseType.X64Database)
+                bw.Write((ulong)_exports.Count);
+            else
+                bw.Write(_exports.Count);
 
             foreach (var exportEntry in _exports) exportEntry.Write(vault, bw);
 

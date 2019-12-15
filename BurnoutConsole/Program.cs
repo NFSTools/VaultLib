@@ -1,6 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using VaultLib.Core;
+using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
@@ -29,19 +33,49 @@ namespace BurnoutConsole
             // Load data
             Database database = new Database(new DatabaseOptions(_gameId, DatabaseType.X64Database));
 
-            using (FileStream fs = new FileStream(@"schema.bin", FileMode.Open, FileAccess.Read))
-            using (BinaryReader br = new BinaryReader(fs))
-            {
-                BurnoutVaultPack bvp = new BurnoutVaultPack("schema");
-                bvp.Load(br, database, new PackLoadingOptions());
-            }
+
+            List<string> fileList = new List<string> { "schema.bin" };
+            Dictionary<string, IList<Vault>> fileDictionary = fileList.ToDictionary(c => c, c => LoadFileToDB(database, c));
 
             database.CompleteLoad();
             TypeRegistry.ListUnknownTypes();
 
+            Debug.WriteLine("Listing types:");
             foreach (DatabaseTypeInfo typeInfo in database.Types)
             {
-                Debug.WriteLine("TYPE: {0} (size {1})", typeInfo.Name, typeInfo.Size);
+                Debug.WriteLine("\t{0} (size {1})", typeInfo.Name, typeInfo.Size);
+            }
+
+            Debug.WriteLine("Listing classes:");
+            foreach (VltClass vltClass in database.Classes)
+            {
+                Debug.WriteLine("\t{0} ({1} fields)", vltClass.Name, vltClass.Fields.Count);
+
+                foreach (VltClassField field in vltClass.Fields.Values)
+                {
+                    Debug.WriteLine("\t\t{0} ({1}) - flags: {2}", field.Name, field.TypeName, field.Flags);
+                }
+            }
+
+            Debug.WriteLine("re-saving");
+
+            foreach (var entry in fileDictionary)
+            {
+                BurnoutVaultPack bvp = new BurnoutVaultPack(Path.GetFileNameWithoutExtension(entry.Key));
+                using FileStream fs = new FileStream(entry.Key + ".gen", FileMode.Create, FileAccess.Write);
+                using BinaryWriter bw = new BinaryWriter(fs);
+
+                bvp.Save(bw, entry.Value, new PackSavingOptions());
+            }
+        }
+
+        private static IList<Vault> LoadFileToDB(Database database, string filePath)
+        {
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (BinaryReader br = new BinaryReader(fs))
+            {
+                BurnoutVaultPack bvp = new BurnoutVaultPack(Path.GetFileNameWithoutExtension(filePath));
+                return bvp.Load(br, database, new PackLoadingOptions());
             }
         }
     }

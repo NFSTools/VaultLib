@@ -47,7 +47,7 @@ namespace TheRunConsole
             _strText.ReadPointerData(vault, br);
             StringValue = _strText.Value;
 
-            Debug.WriteLine("fb::gp::StringHashMapper: {0}/{1:X8}", StringValue, StringHash);
+            //Debug.WriteLine("fb::gp::StringHashMapper: {0}/{1:X8}", StringValue, StringHash);
         }
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
