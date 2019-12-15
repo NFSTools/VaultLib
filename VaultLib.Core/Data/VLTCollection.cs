@@ -166,7 +166,7 @@ namespace VaultLib.Core.Data
         /// </summary>
         /// <typeparam name="T">The specific data type to obtain a list of.</typeparam>
         /// <param name="key">The key to search for in the data dictionary.</param>
-        /// <returns>The <see cref="List{T}"/></returns>
+        /// <returns>The <see cref="List{T}"/>.</returns>
         /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
         public List<T> GetDataList<T>(string key)
         {
@@ -174,19 +174,30 @@ namespace VaultLib.Core.Data
         }
 
         /// <summary>
-        /// Gets the <see cref="VLTBaseType"/> at the given index in the array mapped to the given key in the collection's data dictionary.
+        /// Gets the length of the <see cref="VLTArrayType"/> instance mapped to the given key.
+        /// </summary>
+        /// <param name="key">The key to search for in the data dictionary.</param>
+        /// <returns>The length of the <see cref="VLTArrayType"/> instance.</returns>
+        /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
+        public int GetListLength(string key)
+        {
+            return GetDataValue<VLTArrayType>(key).Items.Length;
+        }
+
+        /// <summary>
+        /// Retrieves and converts the data at the given index in the array mapped to the given key in the collection's data dictionary.
         /// </summary>
         /// <typeparam name="T">The specific data type to obtain.</typeparam>
         /// <param name="key">The key to search for in the data dictionary.</param>
         /// <param name="index">The index to fetch from the array</param>
-        /// <returns>The <see cref="VLTBaseType"/> instance at the given index.</returns>
+        /// <returns>The converted data at the given index.</returns>
         /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
         /// <exception cref="IndexOutOfRangeException">The given index is out of the allowed range.</exception>
         public T GetDataValue<T>(string key, int index)
         {
             VLTArrayType array = GetDataValue<VLTArrayType>(key);
 
-            if (index >= array.Items.Length)
+            if (index >= array.Items.Length || index < 0)
             {
                 throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Length}");
             }
@@ -195,13 +206,66 @@ namespace VaultLib.Core.Data
         }
 
         /// <summary>
+        /// Gets the <see cref="VLTBaseType"/> at the given index in the array mapped to the given key in the collection's data dictionary.
+        /// </summary>
+        /// <param name="key">The key to search for in the data dictionary.</param>
+        /// <param name="index">The index to fetch from the array</param>
+        /// <returns>The <see cref="VLTBaseType"/> instance at the given index.</returns>
+        /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
+        /// <exception cref="IndexOutOfRangeException">The given index is out of the allowed range.</exception>
+        public VLTBaseType GetDataValue(string key, int index)
+        {
+            VLTArrayType array = GetDataValue<VLTArrayType>(key);
+
+            if (index >= array.Items.Length || index < 0)
+            {
+                throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Length}");
+            }
+
+            return (array.Items[index]);
+        }
+
+        /// <summary>
         /// Updates or creates a mapping in the collection's data dictionary with the given key and value.
         /// </summary>
         /// <param name="key">The key for the mapping.</param>
-        /// <param name="data">The <see cref="VLTBaseType"/> instance that is the mapping value.</param>
-        public void SetDataValue(string key, VLTBaseType data)
+        /// <param name="data">The new mapping value.</param>
+        public void SetDataValue<T>(string key, T data)
         {
-            Data[key] = data;
+            if (data is VLTBaseType vbt)
+            {
+                this.Data[key] = vbt;
+            }
+            else
+            {
+                this.Data[key] = ConvertToBaseType(data, TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, Class.FindField(key), this));
+            }
+        }
+
+        /// <summary>
+        /// Sets the data at the given index in the array mapped to the given key in the collection's data dictionary.
+        /// </summary>
+        /// <param name="key">The key for the mapping.</param>
+        /// <param name="data">The new mapping value.</param>
+        public void SetDataValue<T>(string key, int index, T data)
+        {
+            VLTArrayType array = GetDataValue<VLTArrayType>(key);
+
+            if (index >= array.Items.Length || index < 0)
+            {
+                throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Length}");
+            }
+
+            if (data is VLTBaseType vbt)
+            {
+                array.Items[index] = vbt;
+                //this.Data[key] = vbt;
+            }
+            else
+            {
+                array.Items[index] = ConvertToBaseType(data, TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, Class.FindField(key), this));
+                //this.Data[key] = ConvertToBaseType(data, TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, Class.FindField(key), this));
+            }
         }
 
         /// <summary>
@@ -265,6 +329,23 @@ namespace VaultLib.Core.Data
         #endregion
 
         #region Internal API Implementation
+
+        private VLTBaseType ConvertToBaseType<T>(T data, VLTBaseType original)
+        {
+            Type genericType = typeof(T);
+
+            switch (true)
+            {
+                case true when genericType.IsPrimitive:
+                    ((PrimitiveTypeBase)original).SetValue((IConvertible)data);
+                    break;
+                case true when genericType == typeof(string):
+                    ((IStringValue)original).SetString((string)(object)data);
+                    break;
+            }
+
+            return original;
+        }
 
         private T GetValue<T>(VLTBaseType originalValue)
         {

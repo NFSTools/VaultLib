@@ -10,6 +10,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Pack;
+using VaultLib.Core.Types.Abstractions;
 
 namespace VaultCLI
 {
@@ -96,7 +97,14 @@ namespace VaultCLI
                 Debug.WriteLine("\t{0} (size {1})", typeInfo.Name, typeInfo.Size);
             }
 
+            // test data API
             VltCollection collection = database.RowManager.FindCollectionByName("pvehicle", "240sx");
+            int chassisLength = collection.GetListLength("chassis");
+
+            for (int i = 0; i < chassisLength; i++)
+            {
+                Debug.WriteLine("chassis[{0}] = {1}", i, collection.GetDataValue<BaseRefSpec>("chassis", i));
+            }
         }
 
         private static IList<Vault> LoadFileToDB(Database database, string file)
