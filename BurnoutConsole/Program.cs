@@ -47,11 +47,11 @@ namespace BurnoutConsole
             }
 
             Debug.WriteLine("Listing classes:");
-            foreach (VltClass vltClass in database.Classes)
+            foreach (VltClass vltClass in database.Classes.OrderBy(c=>c.Name))
             {
                 Debug.WriteLine("\t{0} ({1} fields)", vltClass.Name, vltClass.Fields.Count);
 
-                foreach (VltClassField field in vltClass.Fields.Values)
+                foreach (VltClassField field in vltClass.Fields.Values.OrderBy(f=>f.Name))
                 {
                     Debug.WriteLine("\t\t{0} ({1}) - flags: {2}", field.Name, field.TypeName, field.Flags);
                 }

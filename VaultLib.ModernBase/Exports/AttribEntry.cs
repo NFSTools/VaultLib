@@ -52,25 +52,6 @@ namespace VaultLib.ModernBase.Exports
                 return true;
             }
 
-            //if (Collection.Class.HasField(Key))
-            //{
-            //    br.BaseStream.Position = InlineDataPointer;
-
-            //    if (IsInline())
-            //    {
-            //        InlineData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, Collection.Class[Key],
-            //            Collection);
-            //    }
-            //    else
-            //    {
-            //        InlineData = new VLTAttribType(Collection.Class, Collection.Class[Key], Collection);
-            //    }
-
-            //    InlineData.Read(vault, br);
-
-            //    return true;
-            //}
-
             return false;
         }
 
