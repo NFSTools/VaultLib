@@ -9,9 +9,9 @@ namespace VaultLib.Core.Exports
             return 0xF1DFAC8D; // constant, probably doesn't matter but I don't know the text it comes from
         }
 
-        public override ulong GetTypeId()
+        public override string GetTypeId()
         {
-            return VLT32Hasher.Hash("Attrib::DatabaseLoadData");
+            return "Attrib::DatabaseLoadData";
         }
     }
 }

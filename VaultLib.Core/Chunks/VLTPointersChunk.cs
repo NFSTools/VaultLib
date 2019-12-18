@@ -71,14 +71,14 @@ namespace VaultLib.Core.Chunks
             var vltPointers = vault.SaveContext.Pointers.Where(p => p.Type == VltPointerType.Vlt).ToList();
 
             {
-                var targetBin = new AttribPtrRef();
+                var targetBin = ExportFactory.CreatePtrRef(vault);
                 targetBin.PtrType = EPtrRefType.PtrSetFixupTarget;
                 targetBin.Index = 1;
                 targetBin.Write(vault, bw);
 
                 foreach (var binPointer in binPointers)
                 {
-                    var ptr = new AttribPtrRef();
+                    var ptr = ExportFactory.CreatePtrRef(vault);
                     ptr.PtrType = binPointer.Destination == 0 ? EPtrRefType.PtrNull : EPtrRefType.PtrDepRelative;
                     ptr.FixupOffset = binPointer.FixUpOffset;
                     ptr.Destination = binPointer.Destination;
@@ -88,14 +88,15 @@ namespace VaultLib.Core.Chunks
             }
 
             {
-                var targetVlt = new AttribPtrRef();
+                var targetVlt = ExportFactory.CreatePtrRef(vault);
+
                 targetVlt.PtrType = EPtrRefType.PtrSetFixupTarget;
                 targetVlt.Index = 0;
                 targetVlt.Write(vault, bw);
 
                 foreach (var vltPointer in vltPointers)
                 {
-                    var ptr = new AttribPtrRef();
+                    var ptr = ExportFactory.CreatePtrRef(vault);
                     ptr.PtrType = vltPointer.Destination == 0 ? EPtrRefType.PtrNull : EPtrRefType.PtrDepRelative;
                     ptr.FixupOffset = vltPointer.FixUpOffset;
                     ptr.Destination = vltPointer.Destination;
@@ -105,7 +106,7 @@ namespace VaultLib.Core.Chunks
             }
 
             {
-                var end = new AttribPtrRef();
+                var end = ExportFactory.CreatePtrRef(vault);
                 end.PtrType = EPtrRefType.PtrEnd;
                 end.Write(vault, bw);
             }

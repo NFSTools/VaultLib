@@ -18,9 +18,9 @@ namespace VaultLib.Core.Exports
         public abstract void WritePointerData(Vault vault, BinaryWriter bw);
         public abstract void AddPointers(Vault vault);
 
-        public override ulong GetTypeId()
+        public override string GetTypeId()
         {
-            return VLT32Hasher.Hash("Attrib::CollectionLoadData");
+            return "Attrib::CollectionLoadData";
         }
 
         public override ulong GetExportID()

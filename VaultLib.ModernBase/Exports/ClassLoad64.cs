@@ -29,11 +29,6 @@ namespace VaultLib.ModernBase.Exports
             return VLT64Hasher.Hash(Class.Name);
         }
 
-        public override ulong GetTypeId()
-        {
-            return VLT64Hasher.Hash("Attrib::ClassLoadData");
-        }
-
         public override void Read(Vault vault, BinaryReader br)
         {
             ClassHash = br.ReadUInt64();
@@ -142,7 +137,7 @@ namespace VaultLib.ModernBase.Exports
 
             foreach (var field in Class.Fields.Values)
             {
-                AttribDefinition definition = new AttribDefinition();
+                AttribDefinition64 definition = new AttribDefinition64();
                 definition.Key = VLT64Hasher.Hash(field.Name);
                 definition.Alignment = field.Alignment;
                 definition.Flags = field.Flags;

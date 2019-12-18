@@ -46,6 +46,6 @@ namespace VaultLib.Core.Exports
         ///     Retrieve the type ID for the export.
         /// </summary>
         /// <returns>The export's type ID.'</returns>
-        public abstract ulong GetTypeId();
+        public abstract string GetTypeId();
     }
 }

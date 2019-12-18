@@ -45,7 +45,7 @@ namespace VaultLib.Core.Chunks
                 var exportEntry = ExportFactory.BuildExportEntry(vault);
                 exportEntry.ID = t.GetExportID();
                 exportEntry.Offset = (uint) offset;
-                exportEntry.Type = t.GetTypeId();
+                exportEntry.Type = vault.SaveContext.StringHash(t.GetTypeId());
                 exportEntry.Size = (uint) (endOffset - offset);
 
                 ExportEntries.Add(exportEntry);

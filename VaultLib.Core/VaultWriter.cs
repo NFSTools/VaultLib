@@ -18,13 +18,13 @@ namespace VaultLib.Core
         private readonly List<BaseExport> _exports = new List<BaseExport>();
         private readonly Vault _vault;
 
-        public VaultWriter(Vault vault)
+        public VaultWriter(Vault vault, VaultSaveOptions options = null)
         {
             BinStream = new MemoryStream();
             VltStream = new MemoryStream();
 
             _vault = vault;
-            _vault.SaveContext = new VaultSaveContext
+            _vault.SaveContext = new VaultSaveContext(options ?? new VaultSaveOptions())
             {
                 Collections = vault.Database.RowManager.GetCollectionsInVault(vault).ToList(),
                 Pointers = new HashSet<VltPointer>(VltPointer.FixUpOffsetDestinationTypeComparer),

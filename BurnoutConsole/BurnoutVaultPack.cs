@@ -64,7 +64,7 @@ namespace BurnoutConsole
         {
             bw.Write(0x10);
             Vault vault = vaults[0];
-            VaultWriter vw = new VaultWriter(vault);
+            VaultWriter vw = new VaultWriter(vault, new VaultSaveOptions { HashMode = VaultHashMode.Hash64 });
             var (bin, vlt) = vw.Save();
             bw.Write((uint)vlt.Length);
             bw.Write(0);

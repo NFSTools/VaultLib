@@ -19,9 +19,9 @@ namespace VaultLib.Core.Exports
             return VLT32Hasher.Hash(Class.Name);
         }
 
-        public override ulong GetTypeId()
+        public override string GetTypeId()
         {
-            return VLT32Hasher.Hash("Attrib::ClassLoadData");
+            return "Attrib::ClassLoadData";
         }
     }
 }
