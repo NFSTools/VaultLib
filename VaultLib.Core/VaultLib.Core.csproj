@@ -10,7 +10,7 @@
     <Platforms>x86</Platforms>
     <Product>VaultLib.Core</Product>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.0.26</Version>
+    <Version>1.0.27</Version>
   </PropertyGroup>
 
   <ItemGroup>
