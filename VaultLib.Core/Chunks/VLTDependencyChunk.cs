@@ -26,27 +26,17 @@ namespace VaultLib.Core.Chunks
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            var dependencyCount = br.ReadUInt32();
-            var dependencyHashes = new List<uint>();
-            var dependencyNames = new List<string>();
-
-            for (var i = 0; i < dependencyCount; i++) dependencyHashes.Add(br.ReadUInt32());
-
-            for (var i = 0; i < dependencyCount; i++) br.ReadUInt32();
-
-            for (var i = 0; i < dependencyCount; i++) dependencyNames.Add(NullTerminatedString.Read(br));
-
-            //for (int i = 0; i < dependencyCount; i++)
-            //{
-            //    Debug.WriteLine("dependencies[{0}]: {1} (0x{2:X8})", i, dependencyNames[i], dependencyHashes[i]);
-            //}
+           //
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write(DependencyNames.Count);
 
-            foreach (var dependencyName in DependencyNames) bw.Write(VLT32Hasher.Hash(dependencyName));
+            if (vault.SaveContext.HashMode == VaultHashMode.Hash64)
+                bw.Write(0);
+
+            foreach (var dependencyName in DependencyNames) bw.Write(vault.SaveContext.StringHash(dependencyName));
 
             var nameOffsets = new Dictionary<string, int>();
             var nameOffset = 0;

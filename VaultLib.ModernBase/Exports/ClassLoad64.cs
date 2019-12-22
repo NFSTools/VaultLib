@@ -32,8 +32,8 @@ namespace VaultLib.ModernBase.Exports
         public override void Read(Vault vault, BinaryReader br)
         {
             ClassHash = br.ReadUInt64();
-            br.ReadUInt32(); // Collection reserve
-            int mNumDefinitions = br.ReadInt32(); // Number of fields
+            br.ReadInt32();
+            NumDefinitions = br.ReadInt32();
             _definitionsPtr = br.ReadPointer();
             br.ReadUInt32(); // static size
             _staticDataPtr = br.ReadPointer();
@@ -46,7 +46,6 @@ namespace VaultLib.ModernBase.Exports
                 throw new InvalidDataException("Definitions pointer is NULL, this is not good!");
             }
 
-            NumDefinitions = mNumDefinitions;
             Class = new VltClass(HashManager.ResolveVLT(ClassHash));
         }
 

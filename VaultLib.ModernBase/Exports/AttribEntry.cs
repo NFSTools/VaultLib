@@ -8,22 +8,13 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports
 {
-    public class AttribEntry : IFileAccess, IPointerObject
+    public class AttribEntry : AttribEntryBase
     {
-        public uint Key { get; set; }
-        public ushort TypeIndex { get; set; }
-        public NodeFlagsEnum NodeFlags { get; set; }
-        public byte EntryFlags { get; set; }
-        public long InlineDataPointer { get; set; }
-        public VLTBaseType InlineData { get; set; }
-        public VltCollection Collection { get; }
-
-        public AttribEntry(VltCollection collection)
+        public AttribEntry(VltCollection collection) : base(collection)
         {
-            Collection = collection;
         }
 
-        public void Read(Vault vault, BinaryReader br)
+        public override void Read(Vault vault, BinaryReader br)
         {
             Key = br.ReadUInt32();
             InlineDataPointer = br.BaseStream.Position;
@@ -33,7 +24,7 @@ namespace VaultLib.ModernBase.Exports
             EntryFlags = br.ReadByte();
         }
 
-        public bool ReadData(Vault vault, BinaryReader br)
+        public override bool ReadData(Vault vault, BinaryReader br)
         {
             if (Collection.Class.TryGetField(Key, out VltClassField field))
             {
@@ -55,9 +46,9 @@ namespace VaultLib.ModernBase.Exports
             return false;
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public override void Write(Vault vault, BinaryWriter bw)
         {
-            bw.Write(Key);
+            bw.Write((uint) Key);
             InlineData.Write(vault, bw);
             if (HasInlineFlag())
             {
@@ -79,17 +70,17 @@ namespace VaultLib.ModernBase.Exports
             return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public override void ReadPointerData(Vault vault, BinaryReader br)
         {
             throw new NotImplementedException();
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public override void WritePointerData(Vault vault, BinaryWriter bw)
         {
             throw new NotImplementedException();
         }
 
-        public void AddPointers(Vault vault)
+        public override void AddPointers(Vault vault)
         {
             throw new NotImplementedException();
         }

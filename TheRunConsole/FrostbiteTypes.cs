@@ -9,6 +9,43 @@ using VaultLib.Core.Utils;
 
 namespace TheRunConsole
 {
+    [VLTTypeInfo("EA::VehiclePhysics::PointGraph8")]
+    public class PointGraph8 : VLTBaseType, IPointerObject
+    {
+        public PointGraph8(VltClass @class, VltClassField field) : base(@class, field)
+        {
+        }
+
+        public PointGraph8(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        {
+        }
+
+        public void AddPointers(Vault vault)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Read(Vault vault, BinaryReader br)
+        {
+            // 
+        }
+
+        public void ReadPointerData(Vault vault, BinaryReader br)
+        {
+            //
+        }
+
+        public override void Write(Vault vault, BinaryWriter bw)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void WritePointerData(Vault vault, BinaryWriter bw)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
     /// <summary>
     /// Maps a string to a 32-bit VLT hash.
     /// </summary>

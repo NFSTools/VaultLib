@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -32,9 +31,7 @@ namespace BurnoutConsole
 
             // Load data
             Database database = new Database(new DatabaseOptions(_gameId, DatabaseType.X64Database));
-
-
-            List<string> fileList = new List<string> { "schema.bin.gen" };
+            List<string> fileList = new List<string> { "schema.bin", "XUSBHB1_AttribSys.bin" };
             Dictionary<string, IList<Vault>> fileDictionary = fileList.ToDictionary(c => c, c => LoadFileToDB(database, c));
 
             database.CompleteLoad();
@@ -47,11 +44,11 @@ namespace BurnoutConsole
             }
 
             Debug.WriteLine("Listing classes:");
-            foreach (VltClass vltClass in database.Classes.OrderBy(c=>c.Name))
+            foreach (VltClass vltClass in database.Classes.OrderBy(c => c.Name))
             {
                 Debug.WriteLine("\t{0} ({1} fields)", vltClass.Name, vltClass.Fields.Count);
 
-                foreach (VltClassField field in vltClass.Fields.Values.OrderBy(f=>f.Name))
+                foreach (VltClassField field in vltClass.Fields.Values.OrderBy(f => f.Name))
                 {
                     Debug.WriteLine("\t\t{0} ({1}) - flags: {2}", field.Name, field.TypeName, field.Flags);
                 }

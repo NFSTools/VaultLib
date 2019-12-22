@@ -140,7 +140,7 @@ namespace VaultLib.Core.DB
                 if (vaultExport is BaseCollectionLoad bcl)
                 {
                     string parentKey = bcl.ParentKey;
-                    if (parentKey != string.Empty)
+                    if (!string.IsNullOrEmpty(parentKey))
                     {
                         _parentKeyDictionary[bcl.Collection] = parentKey;
                     }

@@ -15,8 +15,7 @@ namespace VaultLib.ModernBase.Structures
             FixupOffset = br.ReadUInt32();
             PtrType = (EPtrRefType) br.ReadUInt16();
             Index = br.ReadUInt16();
-            Destination = br.ReadUInt32();
-            br.ReadUInt32();
+            Destination = (uint) br.ReadUInt64();
         }
 
         public void Write(Vault vault, BinaryWriter bw)
@@ -24,8 +23,7 @@ namespace VaultLib.ModernBase.Structures
             bw.Write(FixupOffset);
             bw.Write((ushort) PtrType);
             bw.Write(Index);
-            bw.Write(Destination);
-            bw.Write(0);
+            bw.Write((ulong)Destination);
         }
 
         public uint FixupOffset { get; set; }

@@ -14,7 +14,7 @@ namespace VaultLib.Core.Exports.Implementations
     public class DatabaseLoad : BaseDatabaseLoad, IPointerObject
     {
         private uint _numTypes;
-        private uint _typeNames;
+        private long _typeNames;
         private long _typeNamesDst;
 
         private long _typeNamesSrc;
@@ -49,7 +49,8 @@ namespace VaultLib.Core.Exports.Implementations
             br.ReadUInt32();
             br.ReadUInt32();
             _numTypes = br.ReadUInt32();
-            _typeNames = br.ReadPointer(); // Pointer
+            //br.ReadUInt32();
+            _typeNames = br./*ReadPointer*/ReadInt32(); // Pointer
 
             if (_typeNames == 0) throw new InvalidDataException("NULL pointer to mTypeNames is no good!");
 

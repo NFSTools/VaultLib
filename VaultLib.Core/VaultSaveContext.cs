@@ -6,6 +6,7 @@ using CoreLibraries.GameUtilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using VaultLib.Core.Data;
 
 namespace VaultLib.Core
@@ -36,6 +37,8 @@ namespace VaultLib.Core
         /// A mapping of string values to data offsets, for pointer generation.
         /// </summary>
         public Dictionary<string, long> StringOffsets { get; set; }
+
+        public VaultHashMode HashMode => Options.HashMode;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VaultSaveContext"/> class.
@@ -75,9 +78,9 @@ namespace VaultLib.Core
         /// <remarks>Strings beginning with "0x" will be converted to numeric values.</remarks>
         public ulong StringHash(string text)
         {
-            if (text.StartsWith("0x"))
+            if (text.StartsWith("0x") && ulong.TryParse(text.Substring(2), System.Globalization.NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out ulong l))
             {
-                return ulong.Parse(text.Substring(2), System.Globalization.NumberStyles.AllowHexSpecifier);
+                return l;
             }
 
             switch (Options.HashMode)
