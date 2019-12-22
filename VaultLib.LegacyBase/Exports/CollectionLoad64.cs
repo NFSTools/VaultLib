@@ -60,6 +60,7 @@ namespace VaultLib.LegacyBase.Exports
 
             // TODO: ParentKey
             //Collection.ParentKey = mParent;
+            ParentKey = HashManager.ResolveVLT(mParent);
             vault.Database.RowManager.AddCollection(Collection);
         }
 
