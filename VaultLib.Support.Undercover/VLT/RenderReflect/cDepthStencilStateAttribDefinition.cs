@@ -34,13 +34,13 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
-            _debugNameText.ReadPointerData(vault,br);
+            _debugNameText.ReadPointerData(vault, br);
             DebugName = _debugNameText.Value;
         }
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
-            _debugNameText.WritePointerData(vault,bw);
+            _debugNameText.WritePointerData(vault, bw);
         }
 
         public void AddPointers(Vault vault)

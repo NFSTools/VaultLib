@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using MvvmCross.Converters;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using MvvmCross.Converters;
 
 namespace VaultLib.Core.External.CollectionViews
 {

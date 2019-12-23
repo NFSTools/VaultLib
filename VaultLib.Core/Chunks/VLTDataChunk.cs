@@ -2,10 +2,10 @@
 // 
 // Created: 09/30/2019 @ 3:30 PM.
 
+using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using CoreLibraries.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 
@@ -44,9 +44,9 @@ namespace VaultLib.Core.Chunks
 
                 var exportEntry = ExportFactory.BuildExportEntry(vault);
                 exportEntry.ID = t.GetExportID();
-                exportEntry.Offset = (uint) offset;
+                exportEntry.Offset = (uint)offset;
                 exportEntry.Type = vault.SaveContext.StringHash(t.GetTypeId());
-                exportEntry.Size = (uint) (endOffset - offset);
+                exportEntry.Size = (uint)(endOffset - offset);
 
                 ExportEntries.Add(exportEntry);
 

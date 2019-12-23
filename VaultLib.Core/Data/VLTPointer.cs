@@ -43,9 +43,9 @@ namespace VaultLib.Core.Data
             {
                 unchecked
                 {
-                    var hashCode = (int) obj.FixUpOffset;
-                    hashCode = (hashCode * 397) ^ (int) obj.Destination;
-                    hashCode = (hashCode * 397) ^ (int) obj.Type;
+                    var hashCode = (int)obj.FixUpOffset;
+                    hashCode = (hashCode * 397) ^ (int)obj.Destination;
+                    hashCode = (hashCode * 397) ^ (int)obj.Type;
                     return hashCode;
                 }
             }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CoreLibraries.IO;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.DB;
 using VaultLib.Core.Pack;

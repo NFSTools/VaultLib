@@ -2,9 +2,9 @@
 // 
 // Created: 09/30/2019 @ 9:27 AM.
 
+using CoreLibraries.GameUtilities;
 using System.Collections.Generic;
 using System.IO;
-using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;

@@ -2,7 +2,6 @@
 // 
 // Created: 10/19/2019 @ 4:56 PM.
 
-using System;
 using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
@@ -34,7 +33,7 @@ namespace VaultLib.Core.Types
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
             br.BaseStream.Position = _pointer;
-            Value = (T) TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
+            Value = (T)TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
             Value.Read(vault, br);
 
             if (Value is IPointerObject pointerObject) pointerObject.ReadPointerData(vault, br);

@@ -2,7 +2,6 @@
 // 
 // Created: 10/19/2019 @ 5:40 PM.
 
-using System;
 using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
@@ -32,7 +31,7 @@ namespace VaultLib.Core.Types
             br.BaseStream.Position = _pointer;
             for (var i = 0; i < Items.Length; i++)
             {
-                Items[i] = (T) TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
+                Items[i] = (T)TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
                 Items[i].Read(vault, br);
             }
         }

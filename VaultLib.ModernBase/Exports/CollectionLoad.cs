@@ -1,5 +1,4 @@
 using CoreLibraries.GameUtilities;
-using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,10 +6,8 @@ using System.IO;
 using System.Linq;
 using VaultLib.Core;
 using VaultLib.Core.Data;
-using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports
@@ -74,10 +71,10 @@ namespace VaultLib.ModernBase.Exports
         public override void Prepare(Vault vault)
         {
             List<KeyValuePair<string, VLTBaseType>> optionalDataColumns = (from pair in Collection.GetData()
-                                                                          let field = Collection.Class[pair.Key]
-                                                                          where !field.IsInLayout
-                                                                          orderby field.Name
-                                                                          select pair).ToList();
+                                                                           let field = Collection.Class[pair.Key]
+                                                                           where !field.IsInLayout
+                                                                           orderby field.Name
+                                                                           select pair).ToList();
 
             Entries = new List<AttribEntry>();
             Types = Collection.Class.BaseFields.Select(f => f.TypeName)

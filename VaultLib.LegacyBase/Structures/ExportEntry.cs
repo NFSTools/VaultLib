@@ -18,8 +18,8 @@ namespace VaultLib.LegacyBase.Structures
 
         public void Write(Vault vault, BinaryWriter bw)
         {
-            bw.Write((uint) ID);
-            bw.Write((uint) Type);
+            bw.Write((uint)ID);
+            bw.Write((uint)Type);
             bw.Write(0);
             bw.Write(Size);
             bw.Write(Offset);

@@ -9,7 +9,7 @@ namespace VaultLib.Support.World.VLT.GameCore
     public class LocalizationHash : VLTBaseType
     {
         public uint Hash { get; set; }
-        
+
         public override void Read(Vault vault, BinaryReader br)
         {
             Hash = br.ReadUInt32();

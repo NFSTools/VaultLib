@@ -19,7 +19,7 @@ namespace VaultLib.LegacyBase
             Offset = br.ReadUInt16();
             Size = br.ReadUInt16();
             MaxCount = br.ReadUInt16();
-            Flags = (DefinitionFlags) br.ReadByte();
+            Flags = (DefinitionFlags)br.ReadByte();
             Alignment = 1 << br.ReadByte();
 
             if ((Flags & DefinitionFlags.IsStatic) != 0)
@@ -36,7 +36,7 @@ namespace VaultLib.LegacyBase
             bw.Write(Size);
             bw.Write(MaxCount);
             bw.Write((byte)Flags);
-            bw.Write((byte) Math.Log(Alignment, 2));
+            bw.Write((byte)Math.Log(Alignment, 2));
         }
 
         public ulong Key { get; set; }

@@ -2,9 +2,9 @@
 // 
 // Created: 09/27/2019 @ 3:23 PM.
 
+using CoreLibraries.IO;
 using System;
 using System.IO;
-using CoreLibraries.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types.EA.Reflection;
 
@@ -40,7 +40,7 @@ namespace VaultLib.Core.Types
 
         public override void SetValue(IConvertible value)
         {
-            Value = (T) value;
+            Value = (T)value;
         }
     }
 }

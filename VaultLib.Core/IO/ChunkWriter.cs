@@ -44,7 +44,7 @@ namespace VaultLib.Core.IO
             var endPos = Writer.BaseStream.Position;
 
             Writer.BaseStream.Position = sizePos;
-            Writer.Write((uint) (endPos - beginPos));
+            Writer.Write((uint)(endPos - beginPos));
             Writer.BaseStream.Position = endPos;
         }
     }

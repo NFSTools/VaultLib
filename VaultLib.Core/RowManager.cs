@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using CoreLibraries.GameUtilities;
 using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 

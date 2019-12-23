@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using CoreLibraries.IO;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using CoreLibraries.GameUtilities;
-using CoreLibraries.IO;
 
 namespace VaultLib.Core.Chunks
 {
@@ -26,7 +25,7 @@ namespace VaultLib.Core.Chunks
 
         public override void Read(Vault vault, BinaryReader br)
         {
-           //
+            //
         }
 
         public override void Write(Vault vault, BinaryWriter bw)

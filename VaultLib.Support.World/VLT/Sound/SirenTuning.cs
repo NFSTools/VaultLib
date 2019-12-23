@@ -15,16 +15,16 @@ namespace VaultLib.Support.World.VLT.Sound
         public float[] WailLimit { get; set; }
         public float[] YelpLimit { get; set; }
         public float[] LoopXFadeRange { get; set; }
-        
+
         public int Unknown1 { get; set; }
         public int Unknown2 { get; set; }
         public int Unknown3 { get; set; }
         public float Unknown4 { get; set; }
-        
+
         public override void Read(Vault vault, BinaryReader br)
         {
             // TODO: investigate structure
-            
+
             OpRadiusLimit = new float[2];
             HornLimit = new float[2];
             PriorityLimit = new float[2];

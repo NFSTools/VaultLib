@@ -1,5 +1,5 @@
-using System.IO;
 using CoreLibraries.IO;
+using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -11,7 +11,7 @@ namespace VaultLib.Support.World.VLT
     {
         public uint Hash { get; set; }
         public byte Volume { get; set; }
-        
+
         public override void Read(Vault vault, BinaryReader br)
         {
             Hash = br.ReadUInt32();

@@ -2,9 +2,9 @@
 // 
 // Created: 09/24/2019 @ 6:03 PM.
 
+using CoreLibraries.IO;
 using System.IO;
 using System.Linq;
-using CoreLibraries.IO;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Utils;
@@ -56,7 +56,7 @@ namespace VaultLib.Core.Exports.Implementations
 
             for (var i = 0; i < _numTypes; i++)
             {
-                var typeInfo = new DatabaseTypeInfo {Size = br.ReadUInt32()};
+                var typeInfo = new DatabaseTypeInfo { Size = br.ReadUInt32() };
                 vault.Database.Types.Add(typeInfo);
             }
         }

@@ -2,9 +2,9 @@
 // 
 // Created: 09/24/2019 @ 4:32 PM.
 
+using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
-using CoreLibraries.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Exports;
@@ -40,7 +40,7 @@ namespace VaultLib.Core.Chunks
                 var export = CreateExport(vault, exportEntry.Type);
 
                 if (export == null) continue;
-                
+
                 export.Offset = exportEntry.Offset;
                 vault.Exports.Add(export);
             }

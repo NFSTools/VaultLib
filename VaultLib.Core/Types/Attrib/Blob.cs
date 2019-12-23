@@ -2,10 +2,9 @@
 // 
 // Created: 10/07/2019 @ 7:11 PM.
 
-using System;
-using System.Diagnostics;
-using System.IO;
 using CoreLibraries.GameUtilities;
+using System;
+using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
@@ -105,7 +104,7 @@ namespace VaultLib.Core.Types.Attrib
 
             public void Read(Vault vault, BinaryReader br)
             {
-                Type = (CompressionID) br.ReadUInt32();
+                Type = (CompressionID)br.ReadUInt32();
                 if (br.ReadByte() > 2)
                     throw new InvalidDataException("Invalid LZHeader version!");
                 if (br.ReadByte() != 0x10)
@@ -167,17 +166,17 @@ namespace VaultLib.Core.Types.Attrib
             private void DecompressData()
             {
                 var inData = new byte[16 + CompressedData.Length];
-                Array.Copy(BitConverter.GetBytes((uint) Type), inData, 4);
+                Array.Copy(BitConverter.GetBytes((uint)Type), inData, 4);
                 inData[5] = GetVersion();
                 inData[6] = 0x10;
-                inData[8] = (byte) (DecompressedLength & 0xff);
-                inData[9] = (byte) ((DecompressedLength >> 8) & 0xff);
-                inData[10] = (byte) ((DecompressedLength >> 16) & 0xff);
-                inData[11] = (byte) ((DecompressedLength >> 24) & 0xff);
-                inData[12] = (byte) (CompressedData.Length & 0xff);
-                inData[13] = (byte) ((CompressedData.Length >> 8) & 0xff);
-                inData[14] = (byte) ((CompressedData.Length >> 16) & 0xff);
-                inData[15] = (byte) ((CompressedData.Length >> 24) & 0xff);
+                inData[8] = (byte)(DecompressedLength & 0xff);
+                inData[9] = (byte)((DecompressedLength >> 8) & 0xff);
+                inData[10] = (byte)((DecompressedLength >> 16) & 0xff);
+                inData[11] = (byte)((DecompressedLength >> 24) & 0xff);
+                inData[12] = (byte)(CompressedData.Length & 0xff);
+                inData[13] = (byte)((CompressedData.Length >> 8) & 0xff);
+                inData[14] = (byte)((CompressedData.Length >> 16) & 0xff);
+                inData[15] = (byte)((CompressedData.Length >> 24) & 0xff);
                 Array.ConstrainedCopy(CompressedData, 0, inData, 16, CompressedData.Length);
 
                 Compression.Decompress(inData, Data);

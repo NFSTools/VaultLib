@@ -2,15 +2,14 @@
 // 
 // Created: 09/24/2019 @ 5:12 PM.
 
+using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using CoreLibraries.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
-using VaultLib.Core.Structures;
 
 namespace VaultLib.Core.Chunks
 {
@@ -58,11 +57,11 @@ namespace VaultLib.Core.Chunks
 
             foreach (var ptrRef in binPointers)
                 vault.Pointers.Add(new VltPointer
-                    {Type = VltPointerType.Bin, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset});
+                { Type = VltPointerType.Bin, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset });
 
             foreach (var ptrRef in vltPointers)
                 vault.Pointers.Add(new VltPointer
-                    {Type = VltPointerType.Vlt, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset});
+                { Type = VltPointerType.Vlt, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset });
         }
 
         public override void Write(Vault vault, BinaryWriter bw)

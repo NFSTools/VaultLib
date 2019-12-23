@@ -68,7 +68,7 @@ namespace VaultLib.Core.External.CollectionViews
                         return smaller;
                     if (val2 == null) return greater;
 
-                    var x = (IComparable) val1; //items must be IComparable
+                    var x = (IComparable)val1; //items must be IComparable
                     result = x.CompareTo(val2) * greater;
                     if (result != 0)
                         return result;
@@ -76,7 +76,7 @@ namespace VaultLib.Core.External.CollectionViews
                 }
                 else
                 {
-                    var x = (IComparable) object1; //items must be IComparable
+                    var x = (IComparable)object1; //items must be IComparable
                     result = x.CompareTo(object2) * greater;
                     if (result != 0)
                         return result;

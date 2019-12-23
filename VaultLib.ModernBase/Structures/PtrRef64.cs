@@ -13,15 +13,15 @@ namespace VaultLib.ModernBase.Structures
         public void Read(Vault vault, BinaryReader br)
         {
             FixupOffset = br.ReadUInt32();
-            PtrType = (EPtrRefType) br.ReadUInt16();
+            PtrType = (EPtrRefType)br.ReadUInt16();
             Index = br.ReadUInt16();
-            Destination = (uint) br.ReadUInt64();
+            Destination = (uint)br.ReadUInt64();
         }
 
         public void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write(FixupOffset);
-            bw.Write((ushort) PtrType);
+            bw.Write((ushort)PtrType);
             bw.Write(Index);
             bw.Write((ulong)Destination);
         }

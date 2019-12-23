@@ -2,10 +2,10 @@
 // 
 // Created: 10/31/2019 @ 4:57 PM.
 
+using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using CoreLibraries.IO;
 using VaultLib.Core.DB;
 using VaultLib.Core.Pack.Structures;
 
@@ -126,9 +126,9 @@ namespace VaultLib.Core.Pack
             AttribVaultPackImage vpi = new AttribVaultPackImage();
             AttribVaultPackHeader header = new AttribVaultPackHeader
             {
-                NumEntries = (uint) vaults.Count,
-                StringBlockOffset = (uint) nameTablePos,
-                StringBlockSize = (uint) nameOffset
+                NumEntries = (uint)vaults.Count,
+                StringBlockOffset = (uint)nameTablePos,
+                StringBlockSize = (uint)nameOffset
             };
 
             vpi.Header = header;
@@ -140,11 +140,11 @@ namespace VaultLib.Core.Pack
                 var (binStream, vltStream) = streamDictionary[vault.Name];
                 AttribVaultPackEntry entry = new AttribVaultPackEntry
                 {
-                    BinOffset = (uint) binOffsets[i],
-                    VltOffset = (uint) vltOffsets[i],
-                    BinSize = (uint) binStream.Length,
-                    VltSize = (uint) vltStream.Length,
-                    VaultNameOffset = (uint) nameOffsets[vault.Name]
+                    BinOffset = (uint)binOffsets[i],
+                    VltOffset = (uint)vltOffsets[i],
+                    BinSize = (uint)binStream.Length,
+                    VltSize = (uint)vltStream.Length,
+                    VaultNameOffset = (uint)nameOffsets[vault.Name]
                 };
 
                 vpi.Entries.Add(entry);
@@ -154,4 +154,3 @@ namespace VaultLib.Core.Pack
         }
     }
 }
- 

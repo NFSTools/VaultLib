@@ -4,7 +4,6 @@ using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
-using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports
 {

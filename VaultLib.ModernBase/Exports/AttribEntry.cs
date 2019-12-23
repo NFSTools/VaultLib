@@ -4,7 +4,6 @@ using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
-using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports
 {
@@ -48,7 +47,7 @@ namespace VaultLib.ModernBase.Exports
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            bw.Write((uint) Key);
+            bw.Write((uint)Key);
             InlineData.Write(vault, bw);
             if (HasInlineFlag())
             {

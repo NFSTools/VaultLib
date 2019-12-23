@@ -14,7 +14,7 @@ namespace VaultLib.Support.World.VLT.Sound
         public float[] MediumTimeLimit { get; set; }
         public float[] HighTimeLimit { get; set; }
         public float[] OpponentDamageThreshold { get; set; }
-        
+
         public override void Read(Vault vault, BinaryReader br)
         {
             StartTimeLimit = new float[2];

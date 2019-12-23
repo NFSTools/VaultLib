@@ -39,7 +39,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public override void SetValue(IConvertible value)
         {
-            Value = (long) value;
+            Value = (long)value;
         }
     }
 }

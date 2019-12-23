@@ -64,7 +64,7 @@ namespace VaultLib.Support.Carbon.VLT
 
         public IEnumerable<string> GetStrings()
         {
-            return new[] {Name};
+            return new[] { Name };
         }
 
         public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

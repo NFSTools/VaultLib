@@ -2,11 +2,11 @@
 // 
 // Created: 09/26/2019 @ 8:33 PM.
 
+using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using CoreLibraries.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
@@ -34,7 +34,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public IEnumerable<string> GetStrings()
         {
-            return new List<string>(new[] {Value});
+            return new List<string>(new[] { Value });
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -94,7 +94,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public override void SetValue(IConvertible value)
         {
-            SetString((string) value);
+            SetString((string)value);
         }
     }
 }

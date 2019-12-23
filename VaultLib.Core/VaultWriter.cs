@@ -69,15 +69,15 @@ namespace VaultLib.Core
                 {
                     _exports.Add(ExportFactory.BuildClassLoad(_vault, vltClass));
                     _exports.AddRange(from collection in SaveContext.Collections
-                        where collection.Class.Name == vltClass.Name
-                        //orderby collection.Level
-                        select ExportFactory.BuildCollectionLoad(_vault, collection));
+                                      where collection.Class.Name == vltClass.Name
+                                      //orderby collection.Level
+                                      select ExportFactory.BuildCollectionLoad(_vault, collection));
                 }
             }
             else
             {
                 _exports.AddRange(from collection in SaveContext.Collections
-                    select ExportFactory.BuildCollectionLoad(_vault, collection));
+                                  select ExportFactory.BuildCollectionLoad(_vault, collection));
             }
 
             _exports.ForEach(e => e.Prepare(_vault));

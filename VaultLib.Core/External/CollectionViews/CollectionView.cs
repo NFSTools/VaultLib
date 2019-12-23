@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvvmCross.WeakSubscription;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +9,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using MvvmCross.WeakSubscription;
 
 namespace VaultLib.Core.External.CollectionViews
 {
@@ -107,9 +107,9 @@ namespace VaultLib.Core.External.CollectionViews
         public bool Contains(object value)
         {
             foreach (GroupData group in _groups)
-            foreach (var item in group)
-                if (value.Equals(item))
-                    return true;
+                foreach (var item in group)
+                    if (value.Equals(item))
+                        return true;
             return false;
         }
 
@@ -126,8 +126,8 @@ namespace VaultLib.Core.External.CollectionViews
         public IEnumerator GetEnumerator()
         {
             foreach (GroupData group in _groups)
-            foreach (var item in group)
-                yield return item;
+                foreach (var item in group)
+                    yield return item;
             //int currentIndex = 0;
             //Tuple<int, int> groupPairIndex = ConvertToGroupIndex(currentIndex);
             //while (groupPairIndex.Item1 >= 0)
@@ -188,7 +188,7 @@ namespace VaultLib.Core.External.CollectionViews
             else
             {
                 SortCollection(_internalSource); //Updates internal source collection
-                foreach (var group in _groups) ((GroupData) group).SortItems(SourceItemsComparison);
+                foreach (var group in _groups) ((GroupData)group).SortItems(SourceItemsComparison);
             }
 
             NotifyCollectionReset();
@@ -222,9 +222,9 @@ namespace VaultLib.Core.External.CollectionViews
             if (SortDescriptions.Count > 0)
             {
                 if (collection is List<object>)
-                    ((List<object>) collection).Sort(SourceItemsComparison);
+                    ((List<object>)collection).Sort(SourceItemsComparison);
                 else if (collection is object[])
-                    Array.Sort((object[]) collection, SourceItemsComparison);
+                    Array.Sort((object[])collection, SourceItemsComparison);
                 else
                     collection.OrderBy(i => i, new SourceItemsComparer(SortDescriptions));
             }
@@ -284,7 +284,7 @@ namespace VaultLib.Core.External.CollectionViews
                         return smaller;
                     if (val2 == null) return greater;
 
-                    var x = (IComparable) val1; //items must be IComparable
+                    var x = (IComparable)val1; //items must be IComparable
                     result = x.CompareTo(val2) * greater;
                     if (result != 0)
                         return result;
@@ -292,7 +292,7 @@ namespace VaultLib.Core.External.CollectionViews
                 }
                 else
                 {
-                    var x = (IComparable) object1; //items must be IComparable
+                    var x = (IComparable)object1; //items must be IComparable
                     result = x.CompareTo(object2) * greater;
                     if (result != 0)
                         return result;
@@ -427,12 +427,12 @@ namespace VaultLib.Core.External.CollectionViews
         {
             var index = -1;
             foreach (GroupData group in _groups)
-            foreach (var item in group)
-            {
-                index++;
-                if (value.Equals(item))
-                    return index;
-            }
+                foreach (var item in group)
+                {
+                    index++;
+                    if (value.Equals(item))
+                        return index;
+                }
 
             return -1;
         }
@@ -459,7 +459,7 @@ namespace VaultLib.Core.External.CollectionViews
                 throw new ArgumentNullException(nameof(existingGroup));
             if (itemInGroup == null)
                 throw new ArgumentNullException(nameof(itemInGroup));
-            var indexInGroup = ((GroupData) existingGroup).IndexOf(itemInGroup);
+            var indexInGroup = ((GroupData)existingGroup).IndexOf(itemInGroup);
             if (indexInGroup < 0)
                 throw new InvalidOperationException("The given item does not exists in the given IGroupData");
             return GetIndexInCollectionView(existingGroup, indexInGroup);
@@ -579,7 +579,7 @@ namespace VaultLib.Core.External.CollectionViews
             if (oldStartingIndex >= 0
             ) //check the source collection to ensure that it raised the 'CollectionChanged' event properly
             {
-                ((GroupData) _groups[0]).RemoveRangeAt(oldStartingIndex, removedItems.Count);
+                ((GroupData)_groups[0]).RemoveRangeAt(oldStartingIndex, removedItems.Count);
                 _internalSource.RemoveRange(oldStartingIndex, removedItems.Count);
                 NotifyOfPropertyChange("Item[]");
                 UpdateCount();
@@ -603,7 +603,7 @@ namespace VaultLib.Core.External.CollectionViews
                 foreach (var item in removedItems)
                 {
                     var index = _internalSource.IndexOf(item);
-                    ((GroupData) _groups[0]).RemoveObjectAt(index);
+                    ((GroupData)_groups[0]).RemoveObjectAt(index);
                     _internalSource.Remove(item);
                     OnCollectionChanged(
                         new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
@@ -635,7 +635,7 @@ namespace VaultLib.Core.External.CollectionViews
                             replaced.Add(oldItems[i]);
                             newValues.Add(newItems[i]);
                             _internalSource[index] = newItems[i];
-                            ((GroupData) _groups[0]).ReplaceAt(index, newItems[i]);
+                            ((GroupData)_groups[0]).ReplaceAt(index, newItems[i]);
                         }
                     }
 
@@ -653,7 +653,7 @@ namespace VaultLib.Core.External.CollectionViews
                     for (var i = 0; i < oldItems.Count; i++)
                     {
                         _internalSource[index] = newItems[i];
-                        ((GroupData) _groups[0]).ReplaceAt(index, newItems[i]);
+                        ((GroupData)_groups[0]).ReplaceAt(index, newItems[i]);
                         index++;
                     }
 
@@ -687,7 +687,7 @@ namespace VaultLib.Core.External.CollectionViews
                     {
                         var insertAt = GetInsertIndex(_internalSource, item, 0, _internalSource.Count - 1);
                         _internalSource.Insert(insertAt, item);
-                        ((GroupData) _groups[0]).Insert(insertAt, item);
+                        ((GroupData)_groups[0]).Insert(insertAt, item);
                         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
                             item, insertAt));
                     }
@@ -706,7 +706,7 @@ namespace VaultLib.Core.External.CollectionViews
                 newStartingIndex = newStartingIndex < 0 ? _internalSource.Count : newStartingIndex;
                 var filtered = GetFilteredItems(newItems);
                 _internalSource.InsertRange(newStartingIndex, filtered);
-                ((GroupData) _groups[0]).InsertRange(newStartingIndex, filtered);
+                ((GroupData)_groups[0]).InsertRange(newStartingIndex, filtered);
                 UpdateCount();
                 NotifyOfPropertyChange("Item[]");
                 try
@@ -749,7 +749,7 @@ namespace VaultLib.Core.External.CollectionViews
                                 var groupOldIndex = group.Items.IndexOf(item);
                                 var groupNewIndex = group.Items.IndexOf(_internalSource[i]);
                                 var collectionViewNewIndex = collectionViewOldIndex + groupNewIndex - groupOldIndex;
-                                ((GroupData) group).Move(groupOldIndex, groupNewIndex);
+                                ((GroupData)group).Move(groupOldIndex, groupNewIndex);
                                 NotifyOfPropertyChange("Item[]");
                                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(
                                     NotifyCollectionChangedAction.Move, item, collectionViewNewIndex,
@@ -766,7 +766,7 @@ namespace VaultLib.Core.External.CollectionViews
                                 var groupOldIndex = group.Items.IndexOf(item);
                                 var groupNewIndex = group.Items.IndexOf(_internalSource[i]);
                                 var collectionViewNewIndex = collectionViewOldIndex + groupNewIndex - groupOldIndex;
-                                ((GroupData) group).Move(groupOldIndex, groupNewIndex);
+                                ((GroupData)group).Move(groupOldIndex, groupNewIndex);
                                 NotifyOfPropertyChange("Item[]");
                                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(
                                     NotifyCollectionChangedAction.Move, item, collectionViewNewIndex,

@@ -12,7 +12,7 @@ namespace VaultLib.Support.Carbon.VLT
         public RefSpec ReferencedRow { get; set; }
 
         public uint UpgradeLevel { get; set; }
-        
+
         public override void Read(Vault vault, BinaryReader br)
         {
             ReferencedRow = new RefSpec(Class, Field, Collection);

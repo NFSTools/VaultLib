@@ -2,8 +2,8 @@
 // 
 // Created: 10/07/2019 @ 3:56 PM.
 
-using System.IO;
 using CoreLibraries.IO;
+using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -17,7 +17,7 @@ namespace VaultLib.Support.Carbon.VLT
         {
             kFlag_Reversed = 1,
         }
-        
+
         public ushort mCurveIndex { get; set; }
         public GMapCurveRefFlags Flags { get; set; }
 

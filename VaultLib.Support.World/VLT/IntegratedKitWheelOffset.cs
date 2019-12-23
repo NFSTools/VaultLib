@@ -2,9 +2,9 @@
 // 
 // Created: 09/28/2019 @ 4:00 PM.
 
+using CoreLibraries.GameUtilities;
 using System.Collections.Generic;
 using System.IO;
-using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -47,7 +47,7 @@ namespace VaultLib.Support.World.VLT
 
         public IEnumerable<string> GetStrings()
         {
-            return new[] {KitName};
+            return new[] { KitName };
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)

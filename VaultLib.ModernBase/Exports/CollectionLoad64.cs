@@ -82,10 +82,10 @@ namespace VaultLib.ModernBase.Exports
         public override void Prepare(Vault vault)
         {
             List<KeyValuePair<string, VLTBaseType>> optionalDataColumns = (from pair in Collection.GetData()
-                                                                          let field = Collection.Class[pair.Key]
-                                                                          where !field.IsInLayout
-                                                                          orderby field.Name
-                                                                          select pair).ToList();
+                                                                           let field = Collection.Class[pair.Key]
+                                                                           where !field.IsInLayout
+                                                                           orderby field.Name
+                                                                           select pair).ToList();
 
             _entries = new List<AttribEntry64>();
             _types = Collection.Class.BaseFields.Select(f => f.TypeName)

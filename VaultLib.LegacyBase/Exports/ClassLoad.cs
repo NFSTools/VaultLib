@@ -1,13 +1,12 @@
+using CoreLibraries.GameUtilities;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
-using VaultLib.Core.Structures;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports
@@ -88,14 +87,6 @@ namespace VaultLib.LegacyBase.Exports
                     definition.Size,
                     definition.MaxCount,
                     definition.Offset);
-                //field.Key = definition.Key;
-                //field.Name = HashManager.ResolveVLT((uint)definition.Key);
-                //field.TypeName = HashManager.ResolveVLT((uint)definition.Type);
-                //field.Flags = definition.Flags;
-                //field.Size = definition.Size;
-                //field.MaxCount = definition.MaxCount;
-                //field.Offset = definition.Offset;
-                //field.Alignment = definition.Alignment;
 
                 Class.Fields.Add(definition.Key, field);
             }

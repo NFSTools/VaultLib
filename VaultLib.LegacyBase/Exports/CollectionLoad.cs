@@ -2,13 +2,13 @@
 // 
 // Created: 10/07/2019 @ 4:19 PM.
 
+using CoreLibraries.GameUtilities;
+using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using CoreLibraries.GameUtilities;
-using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
@@ -29,14 +29,14 @@ namespace VaultLib.LegacyBase.Exports
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            var mKey = br.ReadUInt32();
-            var mClass = br.ReadUInt32();
-            var mParent = br.ReadUInt32();
-            var mTableReserve = br.ReadUInt32();
-            br.ReadUInt32();
-            var mNumEntries = br.ReadUInt32();
-            var mNumTypes = br.ReadUInt32();
-            _layoutPointer = br.ReadPointer();
+            var mKey = br.ReadUInt32(); // 4
+            var mClass = br.ReadUInt32(); // 8
+            var mParent = br.ReadUInt32(); // 12
+            var mTableReserve = br.ReadUInt32(); // 16
+            br.ReadUInt32(); // 20
+            var mNumEntries = br.ReadUInt32(); // 24
+            var mNumTypes = br.ReadUInt32(); // 28
+            _layoutPointer = br.ReadPointer(); // 32
 
             Debug.Assert(mTableReserve == mNumEntries);
 

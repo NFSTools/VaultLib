@@ -155,7 +155,7 @@ namespace VaultLib.Core.External.CollectionViews
                     _internalItems.RemoveAt(--index);
                 else
                     _internalItems.RemoveAt(index);
-                return _internalItems.Count == 0 ? new List<GroupData> {this} : new List<GroupData>();
+                return _internalItems.Count == 0 ? new List<GroupData> { this } : new List<GroupData>();
             }
 
             List<GroupData> emptiedGroups = null;
@@ -203,7 +203,7 @@ namespace VaultLib.Core.External.CollectionViews
             {
                 IsBottomLevel = false;
                 var child = _internalItems.FirstOrDefault(i =>
-                    i is GroupData && ((GroupData) i).Header.Equals(headers.First())) as GroupData;
+                    i is GroupData && ((GroupData)i).Header.Equals(headers.First())) as GroupData;
                 if (child != null)
                 {
                     child.AddItemToGroup(item, ++level, headers.Skip(1));
@@ -276,7 +276,7 @@ namespace VaultLib.Core.External.CollectionViews
             if (Header != null) yield return Header;
             foreach (var item in _internalItems)
                 if (item is GroupData)
-                    foreach (var child in (GroupData) item)
+                    foreach (var child in (GroupData)item)
                         yield return child;
                 else
                     yield return item;
@@ -324,7 +324,7 @@ namespace VaultLib.Core.External.CollectionViews
             if (comparer == null)
                 return;
 
-            var sorted = _internalItems.OrderBy(g => ((GroupData) g).Header, comparer)
+            var sorted = _internalItems.OrderBy(g => ((GroupData)g).Header, comparer)
                 .ToList(); //check why to list is needed
             _internalItems.ReplaceRange(sorted);
             foreach (GroupData group in _internalItems) group.SortHeaders(description);

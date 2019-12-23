@@ -33,7 +33,7 @@ namespace VaultLib.Support.World.VLT.Commerce
 
         public IEnumerable<string> GetStrings()
         {
-            return new[] {Value};
+            return new[] { Value };
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)

@@ -51,7 +51,7 @@ namespace VaultLib.Core.Utils
                 Expression.Lambda(typeof(ObjectActivator<T>), newExp, param);
 
             //compile it
-            var compiled = (ObjectActivator<T>) lambda.Compile();
+            var compiled = (ObjectActivator<T>)lambda.Compile();
             return compiled;
         }
 

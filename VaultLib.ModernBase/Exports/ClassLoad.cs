@@ -1,12 +1,11 @@
-using System.IO;
-using System.Linq;
 using CoreLibraries.GameUtilities;
 using CoreLibraries.IO;
+using System.IO;
+using System.Linq;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
-using VaultLib.Core.Structures;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -49,8 +48,8 @@ namespace VaultLib.ModernBase.Exports
         public override void Write(Vault vault, BinaryWriter bw)
         {
             int collectionReserve = (from collection in vault.SaveContext.Collections
-                where collection.Class.Name == Class.Name
-                select collection).Count();
+                                     where collection.Class.Name == Class.Name
+                                     select collection).Count();
 
             bw.Write(VLT32Hasher.Hash(Class.Name));
             bw.Write(collectionReserve);
@@ -68,8 +67,8 @@ namespace VaultLib.ModernBase.Exports
             bw.Write(0);
 
             bw.Write(ComputeBaseSize());
-            bw.Write((ushort) 0);
-            bw.Write((ushort) Class.BaseFields.Count());
+            bw.Write((ushort)0);
+            bw.Write((ushort)Class.BaseFields.Count());
         }
 
         public override void ReadPointerData(Vault vault, BinaryReader br)

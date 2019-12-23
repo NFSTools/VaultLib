@@ -1,5 +1,5 @@
-using System.IO;
 using CoreLibraries.IO;
+using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -11,7 +11,7 @@ namespace VaultLib.Support.World.VLT.GameCore
     {
         public PhysicsEntity Entity1 { get; set; }
         public PhysicsEntity Entity2 { get; set; }
-        
+
         public override void Read(Vault vault, BinaryReader br)
         {
             Entity1 = br.ReadEnum<PhysicsEntity>();

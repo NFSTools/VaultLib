@@ -87,14 +87,6 @@ namespace VaultLib.LegacyBase.Exports
                     definition.Size,
                     definition.MaxCount,
                     definition.Offset);
-                //field.Key = definition.Key;
-                //field.Name = HashManager.ResolveVLT((uint)definition.Key);
-                //field.TypeName = HashManager.ResolveVLT((uint)definition.Type);
-                //field.Flags = definition.Flags;
-                //field.Size = definition.Size;
-                //field.MaxCount = definition.MaxCount;
-                //field.Offset = definition.Offset;
-                //field.Alignment = definition.Alignment;
 
                 Class.Fields.Add(definition.Key, field);
             }
@@ -136,7 +128,7 @@ namespace VaultLib.LegacyBase.Exports
                     rfs += baseField.Alignment - rfs % baseField.Alignment;
                 }
 
-                if ((baseField.Flags & DefinitionFlags.Array) != 0)
+                if (baseField.IsArray)
                 {
                     rfs += 8;
                     rfs += baseField.Size * baseField.MaxCount;

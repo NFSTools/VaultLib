@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
@@ -19,9 +17,9 @@ namespace VaultLib.ModernBase
     public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoad where TAttribEntry : AttribEntryBase
     {
         protected uint LayoutPointer { get; set; }
-        
+
         protected uint[] Types { get; set; }
-        
+
         protected List<TAttribEntry> Entries { get; set; }
 
         protected long SourceLayoutPointer { get; set; }
@@ -164,7 +162,7 @@ namespace VaultLib.ModernBase
                 bw.AlignWriter(2);
             }
         }
-        
+
         public override void AddPointers(Vault vault)
         {
             vault.SaveContext.AddPointer(SourceLayoutPointer, DestinationLayoutPointer, true);

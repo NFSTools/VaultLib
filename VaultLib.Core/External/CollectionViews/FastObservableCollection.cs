@@ -59,7 +59,7 @@ namespace VaultLib.Core.External.CollectionViews
             }
 
             var startIndex = Count;
-            var changedItems = collection is List<T> ? (List<T>) collection : new List<T>(collection);
+            var changedItems = collection is List<T> ? (List<T>)collection : new List<T>(collection);
             foreach (var i in changedItems) Items.Add(i);
 
             OnPropertyChanged(new PropertyChangedEventArgs("Count"));
@@ -78,7 +78,7 @@ namespace VaultLib.Core.External.CollectionViews
             if (index < 0 || index > Items.Count)
                 throw new ArgumentOutOfRangeException(nameof(index));
             CheckReentrancy();
-            var changedItems = collection is List<T> ? (List<T>) collection : new List<T>(collection);
+            var changedItems = collection is List<T> ? (List<T>)collection : new List<T>(collection);
 
             for (var i = changedItems.Count - 1; i >= 0; i--) Items.Insert(index, changedItems[i]);
 
@@ -165,7 +165,7 @@ namespace VaultLib.Core.External.CollectionViews
         /// </summary>
         public void Replace(T item)
         {
-            ReplaceRange(new[] {item});
+            ReplaceRange(new[] { item });
         }
 
         /// <summary>

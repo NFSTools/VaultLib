@@ -2,9 +2,9 @@
 // 
 // Created: 09/30/2019 @ 9:27 AM.
 
+using CoreLibraries.GameUtilities;
 using System.Collections.Generic;
 using System.IO;
-using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -43,7 +43,7 @@ namespace VaultLib.Support.Carbon.VLT
 
         public IEnumerable<string> GetStrings()
         {
-            return new[] {CopType};
+            return new[] { CopType };
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)

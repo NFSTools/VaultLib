@@ -2,9 +2,9 @@
 // 
 // Created: 09/24/2019 @ 3:56 PM.
 
+using CoreLibraries.GameUtilities;
 using System.Collections.Generic;
 using System.IO;
-using CoreLibraries.GameUtilities;
 
 namespace VaultLib.Core.Hashing
 {

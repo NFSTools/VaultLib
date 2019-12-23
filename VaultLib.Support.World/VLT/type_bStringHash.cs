@@ -9,7 +9,7 @@ namespace VaultLib.Support.World.VLT
     public class type_bStringHash : VLTBaseType
     {
         public uint Hash { get; set; }
-        
+
         public override void Read(Vault vault, BinaryReader br)
         {
             Hash = br.ReadUInt32();

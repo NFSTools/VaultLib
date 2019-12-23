@@ -1,5 +1,5 @@
-using System.IO;
 using CoreLibraries.IO;
+using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -12,7 +12,7 @@ namespace VaultLib.Support.Carbon.VLT
         public FormationType FormationType { get; set; }
         public float Duration { get; set; }
         public float Frequency { get; set; }
-        
+
         public override void Read(Vault vault, BinaryReader br)
         {
             FormationType = br.ReadEnum<FormationType>();

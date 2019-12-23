@@ -2,7 +2,6 @@
 // 
 // Created: 10/19/2019 @ 4:49 PM.
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core.Data;
@@ -36,7 +35,7 @@ namespace VaultLib.Core.Types
 
             for (var i = 0; i < Items.Capacity; i++)
             {
-                var item = (T) TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
+                var item = (T)TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
                 //var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
                 item.Read(vault, br);
                 Items.Add(item);
