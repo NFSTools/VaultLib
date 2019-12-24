@@ -17,6 +17,10 @@ namespace VaultLib.Core.Exports
         ///     The offset of the export data in the VLT stream.
         /// </summary>
         public uint Offset { get; set; }
+        /// <summary>
+        ///     The length of the export data in the VLT stream.
+        /// </summary>
+        public uint Size { get; set; }
 
         public abstract void Read(Vault vault, BinaryReader br);
         public abstract void Write(Vault vault, BinaryWriter bw);

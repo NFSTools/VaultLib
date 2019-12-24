@@ -3,6 +3,7 @@
 // Created: 09/28/2019 @ 11:40 AM.
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VaultLib.Core.Chunks;
@@ -61,6 +62,7 @@ namespace VaultLib.Core
 
         private void BuildExports()
         {
+            Debug.WriteLine("building exports", _vault.Name);
             if (_vault.IsPrimaryVault)
             {
                 _exports.Add(ExportFactory.BuildDatabaseLoad(_vault));

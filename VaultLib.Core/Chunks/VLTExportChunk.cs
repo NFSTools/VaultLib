@@ -42,6 +42,7 @@ namespace VaultLib.Core.Chunks
                 if (export == null) continue;
 
                 export.Offset = exportEntry.Offset;
+                export.Size = exportEntry.Size;
                 vault.Exports.Add(export);
             }
         }

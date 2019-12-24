@@ -81,11 +81,11 @@ namespace VaultCLI
             HashManager.LoadDictionary("hashes.txt");
 
             Database database = new Database(new DatabaseOptions(args.GameID, DatabaseType.X86Database));
-
+            Dictionary<string, IList<Vault>> fileDictionary;
             using (new DatabaseLoadingWrapper(database))
             {
                 List<string> fileList = new List<string>(args.Files);
-                Dictionary<string, IList<Vault>> fileDictionary = fileList.ToDictionary(c => c, c => LoadFileToDB(database, c));
+                fileDictionary = fileList.ToDictionary(c => c, c => LoadFileToDB(database, c));
             }
 
             Debug.WriteLine("Loaded database!");
@@ -95,6 +95,17 @@ namespace VaultCLI
             foreach (DatabaseTypeInfo typeInfo in database.Types.OrderBy(t => t.Name))
             {
                 Debug.WriteLine("\t{0} (size {1})", typeInfo.Name, typeInfo.Size);
+            }
+            Debug.WriteLine("Re-saving files...");
+            foreach (var pair in fileDictionary)
+            {
+                Debug.WriteLine("\tRe-saving {0} ({1} vaults)", pair.Key, pair.Value.Count);
+
+                using FileStream fs = new FileStream(pair.Key + ".gen", FileMode.Create, FileAccess.Write);
+                using BinaryWriter bw = new BinaryWriter(fs);
+
+                StandardVaultPack svp = new StandardVaultPack();
+                svp.Save(bw, pair.Value);
             }
 
             // test data API

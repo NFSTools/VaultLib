@@ -2,11 +2,11 @@
 // 
 // Created: 09/27/2019 @ 4:43 PM.
 
-using CoreLibraries.GameUtilities;
 using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
+using VLT32Hasher = VaultLib.Core.Utils.VLT32Hasher;
 
 namespace VaultLib.Core.Types.Attrib.Gen
 {

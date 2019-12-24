@@ -1,4 +1,3 @@
-using CoreLibraries.GameUtilities;
 using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
@@ -35,6 +34,7 @@ namespace VaultLib.ModernBase.Exports
             var mNumTypes = br.ReadUInt16();
             var mTypesLen = br.ReadUInt16();
             _layoutPointer = br.ReadPointer();
+            br.ReadUInt32();
 
             Debug.Assert(mTableReserve == mNumEntries);
 
@@ -100,7 +100,7 @@ namespace VaultLib.ModernBase.Exports
 
                 entry.Key = VLT64Hasher.Hash(optionalDataColumn.Key);
                 entry.TypeIndex = (ushort)Array.IndexOf(_types,
-                    VLT32Hasher.Hash(vltClassField.TypeName));
+                    VLT64Hasher.Hash(vltClassField.TypeName));
                 entry.EntryFlags = 0;
                 entry.NodeFlags = NodeFlagsEnum.Default;
 
@@ -146,6 +146,7 @@ namespace VaultLib.ModernBase.Exports
             bw.Write(typesLen);
             _srcLayoutPtr = bw.BaseStream.Position;
             bw.Write(0);
+            bw.Write(0); // align
 
             foreach (var type in _types)
             {

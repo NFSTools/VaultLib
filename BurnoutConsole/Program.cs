@@ -31,7 +31,7 @@ namespace BurnoutConsole
 
             // Load data
             Database database = new Database(new DatabaseOptions(_gameId, DatabaseType.X64Database));
-            List<string> fileList = new List<string> { "schema.bin", "XUSBHB1_AttribSys.bin" };
+            List<string> fileList = new List<string> { "schema.bin", "F1_02_EX.bin", "CameraVault.bin", "XUSBHB1_AttribSys.bin" };
             Dictionary<string, IList<Vault>> fileDictionary = fileList.ToDictionary(c => c, c => LoadFileToDB(database, c));
 
             database.CompleteLoad();

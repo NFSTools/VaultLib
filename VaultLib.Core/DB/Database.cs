@@ -2,7 +2,6 @@
 // 
 // Created: 09/23/2019 @ 8:59 PM.
 
-using CoreLibraries.GameUtilities;
 using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
+using VLT64Hasher = VaultLib.Core.Utils.VLT64Hasher;
 
 namespace VaultLib.Core.DB
 {
@@ -131,6 +131,10 @@ namespace VaultLib.Core.DB
             {
                 vltStreamReader.BaseStream.Position = vaultExport.Offset;
                 vaultExport.Read(vault, vltStreamReader);
+#if DEBUG
+                if ((vltStreamReader.BaseStream.Position - vaultExport.Offset) != vaultExport.Size)
+                    throw new Exception();
+#endif
 
                 if (vaultExport is IPointerObject pointerObject)
                 {

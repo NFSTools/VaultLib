@@ -1,5 +1,4 @@
-﻿using CoreLibraries.GameUtilities;
-using System.IO;
+﻿using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;

@@ -11,14 +11,6 @@ namespace VaultLib.LegacyBase.Exports
 {
     public class AttribEntry : IFileAccess, IPointerObject
     {
-        [Flags]
-        public enum NodeFlagsEnum : ushort
-        {
-            Default = 0x00,
-            IsArray = 0x02,
-            IsInline = 0x20
-        }
-
         public uint Key { get; set; }
         public ushort TypeIndex { get; set; }
         public NodeFlagsEnum NodeFlags { get; set; }
@@ -48,15 +40,7 @@ namespace VaultLib.LegacyBase.Exports
             InlineData.Read(vault, br);
             br.AlignReader(4);
             TypeIndex = br.ReadUInt16();
-            NodeFlags = br.ReadEnum<NodeFlagsEnum>();
-
-            if (vault.ByteOrder != ByteOrder.Little)
-            {
-                // ugh
-                ushort us = (ushort)NodeFlags;
-                NodeFlags = (NodeFlagsEnum)(((us & 0xff) << 8) | (us >> 8));
-            }
-
+            NodeFlags = (NodeFlagsEnum)br.ReadUInt16();
             Debug.Assert((ushort)NodeFlags <= 0x20);
         }
 

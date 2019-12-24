@@ -11,14 +11,6 @@ namespace VaultLib.LegacyBase.Exports
 {
     public class AttribEntry64 : IFileAccess, IPointerObject
     {
-        [Flags]
-        public enum NodeFlagsEnum : ushort
-        {
-            Default = 0x00,
-            IsArray = 0x02,
-            IsInline = 0x20
-        }
-
         public ulong Key { get; set; }
         public ushort TypeIndex { get; set; }
         public NodeFlagsEnum NodeFlags { get; set; }

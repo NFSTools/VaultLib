@@ -5,6 +5,7 @@
 using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
@@ -50,7 +51,9 @@ namespace VaultLib.Core.Chunks
 
                 ExportEntries.Add(exportEntry);
 
-                bw.AlignWriter(0x8);
+                bw.AlignWriter(0x10);
+
+                Debug.WriteLine("EXPORT {0:X16} ({1}): size={2}", exportEntry.ID, t.GetTypeId(), exportEntry.Size);
             }
         }
     }

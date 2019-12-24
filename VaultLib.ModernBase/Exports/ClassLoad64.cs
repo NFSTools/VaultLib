@@ -1,4 +1,3 @@
-using CoreLibraries.GameUtilities;
 using CoreLibraries.IO;
 using System.IO;
 using System.Linq;
@@ -40,6 +39,7 @@ namespace VaultLib.ModernBase.Exports
             uint layoutSize = br.ReadUInt32(); // Total size of required fields
             br.ReadUInt16(); // can be 0
             br.ReadUInt16(); // Number of required fields
+            br.ReadUInt32(); // align
 
             if (_definitionsPtr == 0)
             {
@@ -73,6 +73,7 @@ namespace VaultLib.ModernBase.Exports
             bw.Write(ComputeBaseSize());
             bw.Write((ushort)0);
             bw.Write((ushort)Class.BaseFields.Count());
+            bw.Write(0); // align
         }
 
         public override void ReadPointerData(Vault vault, BinaryReader br)

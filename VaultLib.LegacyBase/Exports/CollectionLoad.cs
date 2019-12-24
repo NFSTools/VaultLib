@@ -2,7 +2,6 @@
 // 
 // Created: 10/07/2019 @ 4:19 PM.
 
-using CoreLibraries.GameUtilities;
 using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
@@ -83,12 +82,12 @@ namespace VaultLib.LegacyBase.Exports
                 var vltClassField = Collection.Class[optionalDataColumn.Key];
                 entry.TypeIndex = (ushort)Array.IndexOf(_types,
                     VLT32Hasher.Hash(vltClassField.TypeName));
-                entry.NodeFlags = AttribEntry.NodeFlagsEnum.Default;
+                entry.NodeFlags = NodeFlagsEnum.Default;
 
                 if (entry.IsInline())
                 {
                     entry.InlineData = optionalDataColumn.Value;
-                    entry.NodeFlags |= AttribEntry.NodeFlagsEnum.IsInline;
+                    entry.NodeFlags |= NodeFlagsEnum.IsInline;
                 }
                 else
                 {
@@ -100,7 +99,7 @@ namespace VaultLib.LegacyBase.Exports
 
                 if (vltClassField.IsArray)
                 {
-                    entry.NodeFlags |= AttribEntry.NodeFlagsEnum.IsArray;
+                    entry.NodeFlags |= NodeFlagsEnum.IsArray;
                 }
 
                 _entries[index] = entry;

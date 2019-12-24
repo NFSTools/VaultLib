@@ -2,9 +2,10 @@
 // 
 // Created: 09/24/2019 @ 3:56 PM.
 
-using CoreLibraries.GameUtilities;
 using System.Collections.Generic;
 using System.IO;
+using VLT32Hasher = VaultLib.Core.Utils.VLT32Hasher;
+using VLT64Hasher = VaultLib.Core.Utils.VLT64Hasher;
 
 namespace VaultLib.Core.Hashing
 {

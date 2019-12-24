@@ -2,7 +2,6 @@
 // 
 // Created: 10/07/2019 @ 4:19 PM.
 
-using CoreLibraries.GameUtilities;
 using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
@@ -29,15 +28,17 @@ namespace VaultLib.LegacyBase.Exports
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            var mKey = br.ReadUInt64(); // 8
-            var mClass = br.ReadUInt64(); // 16
-            var mParent = br.ReadUInt64(); // 24
-            var mTableReserve = br.ReadUInt32(); // 28
-            br.ReadUInt32(); // 32
-            var mNumEntries = br.ReadUInt32(); // 36
-            var mNumTypes = br.ReadUInt32(); // 40
-            _layoutPointer = br.ReadPointer(); // 44
-            br.ReadInt32(); // 48
+            var mKey = br.ReadUInt64();
+            var mClass = br.ReadUInt64();
+            var mParent = br.ReadUInt64();
+            var mTableReserve = br.ReadUInt32();
+            br.ReadUInt32();
+            var mNumEntries = br.ReadUInt32();
+            var mNumTypes = br.ReadUInt32();
+            _layoutPointer = br.ReadPointer();
+
+            // NOTE: This is an artifact of structure alignment.
+            br.ReadInt32();
 
             Debug.Assert(mTableReserve == mNumEntries);
 
@@ -84,12 +85,12 @@ namespace VaultLib.LegacyBase.Exports
                 var vltClassField = Collection.Class[optionalDataColumn.Key];
                 entry.TypeIndex = (ushort)Array.IndexOf(_types,
                     VLT64Hasher.Hash(vltClassField.TypeName));
-                entry.NodeFlags = AttribEntry64.NodeFlagsEnum.Default;
+                entry.NodeFlags = NodeFlagsEnum.Default;
 
                 if (entry.IsInline())
                 {
                     entry.InlineData = optionalDataColumn.Value;
-                    entry.NodeFlags |= AttribEntry64.NodeFlagsEnum.IsInline;
+                    entry.NodeFlags |= NodeFlagsEnum.IsInline;
                 }
                 else
                 {
@@ -101,7 +102,7 @@ namespace VaultLib.LegacyBase.Exports
 
                 if (vltClassField.IsArray)
                 {
-                    entry.NodeFlags |= AttribEntry64.NodeFlagsEnum.IsArray;
+                    entry.NodeFlags |= NodeFlagsEnum.IsArray;
                 }
 
                 _entries[index] = entry;
