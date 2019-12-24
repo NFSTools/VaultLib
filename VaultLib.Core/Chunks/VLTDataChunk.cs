@@ -51,7 +51,7 @@ namespace VaultLib.Core.Chunks
 
                 ExportEntries.Add(exportEntry);
 
-                bw.AlignWriter(0x10);
+                bw.AlignWriter(8);
 
                 Debug.WriteLine("EXPORT {0:X16} ({1}): size={2}", exportEntry.ID, t.GetTypeId(), exportEntry.Size);
             }
