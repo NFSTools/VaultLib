@@ -154,7 +154,7 @@ namespace VaultLib.ModernBase.Exports
             }
 
             if (typesLen != numTypes)
-                bw.Write(0);
+                bw.Write(0L);
 
             foreach (var attribEntry in _entries)
             {
