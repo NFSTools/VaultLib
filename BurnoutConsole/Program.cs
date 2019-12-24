@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.DB;
@@ -64,6 +65,32 @@ namespace BurnoutConsole
 
                 bvp.Save(bw, entry.Value, new PackSavingOptions());
             }
+
+            Debug.WriteLine("exporting");
+            Directory.CreateDirectory("export");
+
+            foreach (var vault in fileDictionary.SelectMany(p => p.Value))
+            {
+                Directory.CreateDirectory(Path.Combine("export", vault.Name));
+
+                foreach (var group in database.RowManager.GetTopCollectionsInVault(vault).GroupBy(c => c.Class.Name))
+                {
+                    List<SerializedCollectionInfo> collectionList =
+                        group.Select(ConvertCollectionToSerializedInfo).ToList();
+                    File.WriteAllText(
+                        Path.Combine("export", vault.Name, group.Key + ".json"),
+                        JsonConvert.SerializeObject(collectionList, Formatting.Indented));
+                }
+            }
+        }
+
+        private static SerializedCollectionInfo ConvertCollectionToSerializedInfo(VltCollection arg)
+        {
+            SerializedCollectionInfo sci = new SerializedCollectionInfo();
+            sci.Name = arg.Name;
+            sci.Data = arg.GetFriendlyData();
+            sci.Children = arg.Children.Select(ConvertCollectionToSerializedInfo).ToList();
+            return sci;
         }
 
         private static IList<Vault> LoadFileToDB(Database database, string filePath)

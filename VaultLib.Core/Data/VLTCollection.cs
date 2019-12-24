@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -128,6 +129,15 @@ namespace VaultLib.Core.Data
         }
 
         /// <summary>
+        /// Gets a read-only copy of the collection's data dictionary, with values converted to primitives if possible.
+        /// </summary>
+        /// <returns>The read-only dictionary.</returns>
+        public ReadOnlyDictionary<string, object> GetFriendlyData()
+        {
+            return new ReadOnlyDictionary<string, object>(Data.ToDictionary(c => c.Key, c => GetFriendlyValue(c.Value)));
+        }
+
+        /// <summary>
         /// Retrieves the <see cref="VLTBaseType"/> mapped to the given key in the collection's data dictionary.
         /// </summary>
         /// <param name="key">The key to search for in the data dictionary.</param>
@@ -181,7 +191,7 @@ namespace VaultLib.Core.Data
         /// <exception cref="KeyNotFoundException">A mapping for <paramref name="key"/> does not exist.</exception>
         public int GetListLength(string key)
         {
-            return GetDataValue<VLTArrayType>(key).Items.Length;
+            return GetDataValue<VLTArrayType>(key).Items.Count;
         }
 
         /// <summary>
@@ -197,9 +207,9 @@ namespace VaultLib.Core.Data
         {
             VLTArrayType array = GetDataValue<VLTArrayType>(key);
 
-            if (index >= array.Items.Length || index < 0)
+            if (index >= array.Items.Count || index < 0)
             {
-                throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Length}");
+                throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Count}");
             }
 
             return GetValue<T>(array.Items[index]);
@@ -217,9 +227,9 @@ namespace VaultLib.Core.Data
         {
             VLTArrayType array = GetDataValue<VLTArrayType>(key);
 
-            if (index >= array.Items.Length || index < 0)
+            if (index >= array.Items.Count || index < 0)
             {
-                throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Length}");
+                throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Count}");
             }
 
             return (array.Items[index]);
@@ -251,9 +261,9 @@ namespace VaultLib.Core.Data
         {
             VLTArrayType array = GetDataValue<VLTArrayType>(key);
 
-            if (index >= array.Items.Length || index < 0)
+            if (index >= array.Items.Count || index < 0)
             {
-                throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Length}");
+                throw new IndexOutOfRangeException($"0 <= index <= {array.Items.Count}");
             }
 
             if (data is VLTBaseType vbt)
@@ -359,6 +369,21 @@ namespace VaultLib.Core.Data
                     return (T)Convert.ChangeType(((IStringValue)originalValue).GetString(), typeof(T));
                 default:
                     return (T)(object)originalValue;
+            }
+        }
+
+        private object GetFriendlyValue(VLTBaseType originalValue)
+        {
+            switch (originalValue)
+            {
+                case PrimitiveTypeBase ptb:
+                    return ptb.GetValue();
+                case IStringValue sv:
+                    return sv.GetString();
+                case VLTArrayType array:
+                    return array.Items.Select(GetFriendlyValue).ToList();
+                default:
+                    return originalValue;
             }
         }
 

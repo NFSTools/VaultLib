@@ -2,7 +2,7 @@
   "profiles": {
     "VaultCLI": {
       "commandName": "Project",
-      "commandLineArgs": "-g CARBON -i test-data/carbon/attributes.bin test-data/carbon/fe_attrib.bin test-data/carbon/gameplay.bin -o test-export/carbon"
+      "commandLineArgs": "-g WORLD -i test-data/nfsw/attributes.bin test-data/nfsw/fe_attrib.bin test-data/nfsw/commerce.bin -o test-export/nfsw"
     }
   }
 }

@@ -34,7 +34,7 @@ namespace VaultLib.Core.Types
 
         public Type ItemType { get; set; }
 
-        public VLTBaseType[] Items { get; set; }
+        public IList<VLTBaseType> Items { get; set; }
 
         public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
         {
@@ -81,22 +81,23 @@ namespace VaultLib.Core.Types
             Capacity = br.ReadUInt16();
             var count = br.ReadUInt16();
             Debug.Assert(count <= Capacity);
-            Items = new VLTBaseType[count];
+            Items = new List<VLTBaseType>(Capacity);
             FieldSize = br.ReadUInt16();
 
             // NOTE: this is 0x8000 when Attrib::Types::Vector4 is in use. not sure why. 0 otherwise
             br.ReadUInt16();
 
-            for (var i = 0; i < Items.Length; i++)
+            for (var i = 0; i < count; i++)
             {
-                Items[i] = TypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
+                var item = TypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
                 //Items[i] = (VLTBaseType)Activator.CreateInstance(ItemType, Class, Field, Collection);
 
                 br.AlignReader(ItemAlignment);
 
-                if (Items[i] is VLTUnknown unknown) unknown.Size = FieldSize;
+                if (item is VLTUnknown unknown) unknown.Size = FieldSize;
 
-                Items[i].Read(vault, br);
+                item.Read(vault, br);
+                Items.Add(item);
             }
 
             br.BaseStream.Position += (Capacity - count) * FieldSize;
@@ -105,7 +106,7 @@ namespace VaultLib.Core.Types
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write(Capacity);
-            bw.Write((ushort)Items.Length);
+            bw.Write((ushort)Items.Count);
             bw.Write(FieldSize);
             bw.Write((ushort)(1 << (Field.Alignment - 1)));
 
@@ -117,7 +118,7 @@ namespace VaultLib.Core.Types
                 if (!(t is PrimitiveTypeBase)) Debug.Assert(bw.BaseStream.Position - start == FieldSize);
             }
 
-            for (var i = 0; i < Capacity - Items.Length; i++)
+            for (var i = 0; i < Capacity - Items.Count; i++)
             {
                 bw.AlignWriter(ItemAlignment);
                 bw.Write(new byte[FieldSize]);
