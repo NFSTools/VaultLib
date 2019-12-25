@@ -12,7 +12,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
-using VLT64Hasher = VaultLib.Core.Utils.VLT64Hasher;
+using VLT64Hasher = VaultLib.Core.Hashing.VLT64Hasher;
 
 namespace VaultLib.Core.DB
 {

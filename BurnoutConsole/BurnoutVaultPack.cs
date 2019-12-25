@@ -5,6 +5,7 @@ using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.DB;
 using VaultLib.Core.Pack;
+using VaultLib.Core.Writer;
 
 namespace BurnoutConsole
 {
@@ -65,15 +66,16 @@ namespace BurnoutConsole
             bw.Write(0x10);
             Vault vault = vaults[0];
             VaultWriter vw = new VaultWriter(vault, new VaultSaveOptions { HashMode = VaultHashMode.Hash64 });
-            var (bin, vlt) = vw.Save();
-            bw.Write((uint)vlt.Length);
+            vw.ExportManager.AddExport(new CustomExport());
+            VaultStreamInfo streamInfo = vw.BuildVault();
+            bw.Write((uint)streamInfo.VltStream.Length);
             bw.Write(0);
-            bw.Write((uint)bin.Length);
+            bw.Write((uint)streamInfo.BinStream.Length);
 
-            vlt.CopyTo(bw.BaseStream);
+            streamInfo.VltStream.CopyTo(bw.BaseStream);
             bw.AlignWriter(0x10);
             long binOffset = bw.BaseStream.Position;
-            bin.CopyTo(bw.BaseStream);
+            streamInfo.BinStream.CopyTo(bw.BaseStream);
             long endOffset = bw.BaseStream.Position;
 
             bw.BaseStream.Position = 8;

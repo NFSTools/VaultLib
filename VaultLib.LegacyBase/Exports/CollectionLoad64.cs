@@ -13,6 +13,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
+using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports
@@ -153,7 +154,7 @@ namespace VaultLib.LegacyBase.Exports
                     long startPos = br.BaseStream.Position;
                     data.Read(vault, br);
                     long endPos = br.BaseStream.Position;
-                    if (!(data is VLTArrayType))
+                    if (!(data is VLTArrayType) && !(data is PrimitiveTypeBase))
                         Debug.Assert(endPos - startPos == baseField.Size);
                     //Collection.Data[baseField.Name] = data;
                     Collection.SetDataValue(baseField.Name, data);

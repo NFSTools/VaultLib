@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;

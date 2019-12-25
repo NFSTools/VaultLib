@@ -6,7 +6,7 @@ using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
-using VLT32Hasher = VaultLib.Core.Utils.VLT32Hasher;
+using VLT32Hasher = VaultLib.Core.Hashing.VLT32Hasher;
 
 namespace VaultLib.Core.Types.Attrib.Gen
 {

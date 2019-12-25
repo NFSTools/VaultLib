@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core.DB;
 using VaultLib.Core.Pack.Structures;
+using VaultLib.Core.Writer;
 
 namespace VaultLib.Core.Pack
 {
@@ -68,12 +69,12 @@ namespace VaultLib.Core.Pack
 
         public void Save(BinaryWriter bw, IList<Vault> vaults, PackSavingOptions savingOptions = null)
         {
-            Dictionary<string, (MemoryStream bin, MemoryStream vlt)> streamDictionary = new Dictionary<string, (MemoryStream bin, MemoryStream vlt)>();
+            Dictionary<string, VaultStreamInfo> streamDictionary = new Dictionary<string, VaultStreamInfo>();
 
             foreach (var vault in vaults)
             {
-                VaultWriter vaultWriter = new VaultWriter(vault);
-                streamDictionary[vault.Name] = vaultWriter.Save();
+                VaultWriter vaultWriter = new VaultWriter(vault, new VaultSaveOptions());
+                streamDictionary[vault.Name] = vaultWriter.BuildVault();
             }
 
             // empty header for now
@@ -109,15 +110,15 @@ namespace VaultLib.Core.Pack
             foreach (var vault in vaults)
             {
                 bw.AlignWriter(0x80);
-                var (binStream, vltStream) = streamDictionary[vault.Name];
+                var streamInfo = streamDictionary[vault.Name];
 
                 binOffsets.Add(bw.BaseStream.Position);
-                binStream.CopyTo(bw.BaseStream);
+                streamInfo.BinStream.CopyTo(bw.BaseStream);
 
                 bw.AlignWriter(0x80);
 
                 vltOffsets.Add(bw.BaseStream.Position);
-                vltStream.CopyTo(bw.BaseStream);
+                streamInfo.VltStream.CopyTo(bw.BaseStream);
             }
 
             bw.BaseStream.Position = 0;
@@ -137,13 +138,13 @@ namespace VaultLib.Core.Pack
             for (int i = 0; i < vaults.Count; i++)
             {
                 Vault vault = vaults[i];
-                var (binStream, vltStream) = streamDictionary[vault.Name];
+                var streamInfo = streamDictionary[vault.Name];
                 AttribVaultPackEntry entry = new AttribVaultPackEntry
                 {
                     BinOffset = (uint)binOffsets[i],
                     VltOffset = (uint)vltOffsets[i],
-                    BinSize = (uint)binStream.Length,
-                    VltSize = (uint)vltStream.Length,
+                    BinSize = (uint)streamInfo.BinStream.Length,
+                    VltSize = (uint)streamInfo.VltStream.Length,
                     VaultNameOffset = (uint)nameOffsets[vault.Name]
                 };
 

@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace VaultLib.Core.Utils
+namespace VaultLib.Core.Hashing
 {
     public static class VLT32Hasher
     {

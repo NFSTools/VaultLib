@@ -14,9 +14,9 @@ namespace VaultLib.Core.Chunks
 {
     public class VltDataChunk : ChunkBase
     {
-        private readonly List<BaseExport> _exports;
+        private readonly IList<BaseExport> _exports;
 
-        public VltDataChunk(List<BaseExport> exports)
+        public VltDataChunk(IList<BaseExport> exports)
         {
             _exports = exports;
             ExportEntries = new List<IExportEntry>();

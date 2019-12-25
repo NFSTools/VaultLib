@@ -5,7 +5,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace VaultLib.Core.Utils
+namespace VaultLib.Core.Hashing
 {
     public static class VLT64Hasher
     {

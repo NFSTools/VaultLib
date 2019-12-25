@@ -79,8 +79,8 @@ namespace VaultLib.LegacyBase.Exports
 
                 VltClassField field = new VltClassField(
                     definition.Key,
-                    HashManager.ResolveVLT((uint)definition.Key),
-                    HashManager.ResolveVLT((uint)definition.Type),
+                    HashManager.ResolveVLT(definition.Key),
+                    HashManager.ResolveVLT(definition.Type),
                     definition.Flags,
                     definition.Alignment,
                     definition.Size,

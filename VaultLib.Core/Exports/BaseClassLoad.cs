@@ -1,7 +1,7 @@
 using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
-using VLT32Hasher = VaultLib.Core.Utils.VLT32Hasher;
+using VLT32Hasher = VaultLib.Core.Hashing.VLT32Hasher;
 
 namespace VaultLib.Core.Exports
 {

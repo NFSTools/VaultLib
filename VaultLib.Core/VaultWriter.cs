@@ -1,151 +1,146 @@
-﻿// This file is part of VaultLib by heyitsleo.
-// 
-// Created: 09/28/2019 @ 11:40 AM.
-
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core.Chunks;
 using VaultLib.Core.Data;
-using VaultLib.Core.Exports;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
+using VaultLib.Core.Writer;
 
 namespace VaultLib.Core
 {
+    /// <summary>
+    /// Generates BIN and VLT data streams for a <see cref="VaultLib.Core.Vault"/> instance.
+    /// </summary>
     public class VaultWriter
     {
-        private readonly List<BaseExport> _exports = new List<BaseExport>();
-        private readonly Vault _vault;
-
-        public VaultWriter(Vault vault, VaultSaveOptions options = null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VaultWriter"/> class.
+        /// </summary>
+        /// <param name="vault">The <see cref="VaultLib.Core.Vault"/> instance to generate data for.</param>
+        /// <param name="options">The options for the saving process.</param>
+        public VaultWriter(Vault vault, VaultSaveOptions options)
         {
-            BinStream = new MemoryStream();
-            VltStream = new MemoryStream();
+            Vault = vault;
+            Options = options;
+            ExportManager = new VaultExportManager(vault);
 
-            _vault = vault;
-            _vault.SaveContext = new VaultSaveContext(options ?? new VaultSaveOptions())
+            Vault.SaveContext = new VaultSaveContext(options)
             {
                 Collections = vault.Database.RowManager.GetCollectionsInVault(vault).ToList(),
                 Pointers = new HashSet<VltPointer>(VltPointer.FixUpOffsetDestinationTypeComparer),
                 Strings = new HashSet<string>(),
                 StringOffsets = new Dictionary<string, long>()
             };
+
+            ExportManager.BuildVaultExports();
         }
-
-        private VaultSaveContext SaveContext => _vault.SaveContext;
-
-        private MemoryStream BinStream { get; }
-        private MemoryStream VltStream { get; }
 
         /// <summary>
-        /// Builds data streams and returns them in the form of a tuple.
+        /// Gets the vault to generate data for.
         /// </summary>
-        /// <returns>A tuple with the BIN and VLT streams, in that order.</returns>
-        public (MemoryStream bin, MemoryStream vlt) Save()
+        public Vault Vault { get; }
+
+        /// <summary>
+        /// Gets the options for the saving process. 
+        /// </summary>
+        public VaultSaveOptions Options { get; }
+
+        /// <summary>
+        /// Gets the export manager.
+        /// </summary>
+        public VaultExportManager ExportManager { get; }
+
+        /// <summary>
+        /// Builds BIN and VLT streams for the vault and returns them.
+        /// </summary>
+        /// <returns>The generated streams.</returns>
+        public VaultStreamInfo BuildVault()
         {
-            BuildExports();
-            SaveBin();
-            SaveVlt();
+            ExportManager.PrepareExports();
 
-            BinStream.Position = 0;
-            VltStream.Position = 0;
+            BinStream = BuildBinStream();
+            VltStream = BuildVltStream();
 
-            return (BinStream, VltStream);
+            BinStream.Position = VltStream.Position = 0;
+
+            return new VaultStreamInfo(BinStream, VltStream);
         }
 
-        private void BuildPointers()
+        #region Internal Implementation
+
+        private Stream BinStream { get; set; }
+        private Stream VltStream { get; set; }
+
+        private Stream BuildBinStream()
         {
-            foreach (var pointerObject in _exports.OfType<IPointerObject>()) pointerObject.AddPointers(_vault);
-        }
+            MemoryStream ms = new MemoryStream(8192);
+            BinaryWriter bw = new BinaryWriter(ms);
 
-        private void BuildExports()
-        {
-            Debug.WriteLine("building exports", _vault.Name);
-            if (_vault.IsPrimaryVault)
-            {
-                _exports.Add(ExportFactory.BuildDatabaseLoad(_vault));
-
-                foreach (var vltClass in _vault.Database.Classes)
-                {
-                    _exports.Add(ExportFactory.BuildClassLoad(_vault, vltClass));
-                    _exports.AddRange(from collection in SaveContext.Collections
-                                      where collection.Class.Name == vltClass.Name
-                                      //orderby collection.Level
-                                      select ExportFactory.BuildCollectionLoad(_vault, collection));
-                }
-            }
-            else
-            {
-                _exports.AddRange(from collection in SaveContext.Collections
-                                  select ExportFactory.BuildCollectionLoad(_vault, collection));
-            }
-
-            _exports.ForEach(e => e.Prepare(_vault));
-        }
-
-        private void SaveBin()
-        {
-            var bw = new BinaryWriter(BinStream);
-
+            ChunkWriter cw = new ChunkWriter(bw, Vault);
             var stringsSet = new HashSet<string>();
 
-            var strings = _vault.SaveContext.Collections.SelectMany(CollectStrings).ToList();
+            var strings = Vault.SaveContext.Collections.SelectMany(CollectStrings).ToList();
             stringsSet.UnionWith(strings);
+            var stringsChunk = new BinStringsChunk { Strings = new List<string>(stringsSet) };
 
-            var chunkWriter = new ChunkWriter(bw, _vault);
+            cw.WriteChunk(stringsChunk);
+            cw.WriteChunk(new EndChunk());
 
-            var stringsChunk = new BinStringsChunk();
-            stringsChunk.Strings = new List<string>(stringsSet);
-
-            chunkWriter.WriteChunk(stringsChunk);
-            var endChunk = new EndChunk();
-            chunkWriter.WriteChunk(endChunk);
+            return ms;
         }
 
-        private void SaveVlt()
+        private Stream BuildVltStream()
         {
-            var bw = new BinaryWriter(VltStream);
-            var chunkWriter = new ChunkWriter(bw, _vault);
+            MemoryStream ms = new MemoryStream(8192);
+            BinaryWriter bw = new BinaryWriter(ms);
+            ChunkWriter cw = new ChunkWriter(bw, Vault);
 
-            {
-                var versionChunk = new VltVersionChunk();
-                chunkWriter.WriteChunk(versionChunk);
+            var versionChunk = new VltVersionChunk();
+            cw.WriteChunk(versionChunk);
 
-                var startChunk = new VltStartChunk();
-                chunkWriter.WriteChunk(startChunk);
-            }
+            var startChunk = new VltStartChunk();
+            cw.WriteChunk(startChunk);
 
             var dependencyChunk = new VltDependencyChunk(new List<string>
             {
-                $"{_vault.Name}.vlt",
-                $"{_vault.Name}.bin"
+                $"{Vault.Name}.vlt",
+                $"{Vault.Name}.bin"
             });
-            chunkWriter.WriteChunk(dependencyChunk);
+            cw.WriteChunk(dependencyChunk);
 
-            var dataChunk = new VltDataChunk(_exports);
-            chunkWriter.WriteChunk(dataChunk);
+            var dataChunk = new VltDataChunk(ExportManager.GetExports());
+            cw.WriteChunk(dataChunk);
 
             var exportChunk = new VltExportChunk(dataChunk.ExportEntries);
-            chunkWriter.WriteChunk(exportChunk);
+            cw.WriteChunk(exportChunk);
             var binWriter = new BinaryWriter(BinStream);
 
-            foreach (var pointerObject in _exports.OfType<IPointerObject>())
-                pointerObject.WritePointerData(_vault, binWriter);
+            foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>())
+                pointerObject.WritePointerData(Vault, binWriter);
 
             // after writing exports, we can build pointers
             BuildPointers();
 
             var pointersChunk = new VltPointersChunk();
-            chunkWriter.WriteChunk(pointersChunk);
+            cw.WriteChunk(pointersChunk);
             var endChunk = new EndChunk();
-            chunkWriter.WriteChunk(endChunk);
+            cw.WriteChunk(endChunk);
+
+            return ms;
         }
 
-        private IEnumerable<string> CollectStrings(VltCollection collection)
+        private void BuildPointers()
+        {
+            foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>()) 
+                pointerObject.AddPointers(Vault);
+        }
+
+        private static IEnumerable<string> CollectStrings(VltCollection collection)
         {
             return collection.GetData().Values.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings());
         }
+
+        #endregion
     }
 }

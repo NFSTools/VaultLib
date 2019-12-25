@@ -32,7 +32,7 @@ namespace BurnoutConsole
 
             // Load data
             Database database = new Database(new DatabaseOptions(_gameId, DatabaseType.X64Database));
-            List<string> fileList = new List<string> { "schema.bin", "F1_02_EX.bin", "CameraVault.bin", "XUSBHB1_AttribSys.bin" };
+            List<string> fileList = new List<string> { "schema.bin", "F1_02_EX.bin", "CameraVault.bin", "XUSBHB1_AttribSys.bin", "PUSMC01_AttribSys.bin" };
             Dictionary<string, IList<Vault>> fileDictionary = fileList.ToDictionary(c => c, c => LoadFileToDB(database, c));
 
             database.CompleteLoad();
@@ -56,6 +56,28 @@ namespace BurnoutConsole
             }
 
             Debug.WriteLine("re-saving");
+
+            foreach (var vltCollection in database.RowManager.EnumerateCollections("burnoutcarasset"))
+            {
+                vltCollection.SetDataValue("InGameName", "COMMIT DELETE!!111!");
+            }
+
+            foreach (var vltCollection in database.RowManager.EnumerateCollections("physicsvehicleboostattribs"))
+            {
+                vltCollection.SetDataValue("MaxBoostSpeed", 420.0f);
+                vltCollection.SetDataValue("BoostKickAcceleration", 30.0f);
+                vltCollection.SetDataValue("BoostAcceleration", 30.0f);
+                vltCollection.SetDataValue("BlueMaxBoostSpeed", 420.0f);
+                vltCollection.SetDataValue("BoostBase", 5.0f);
+                //vltCollection.SetDataValue("InGameName", "COMMIT DELETE!!111!");
+            }
+
+            foreach (var vltCollection in database.RowManager.EnumerateCollections("physicsvehiclebaseattribs"))
+            {
+                vltCollection.SetDataValue("MaxSpeed", 250.0f);
+                vltCollection.SetDataValue("DrivingMass", 2000.0f);
+                vltCollection.SetDataValue("RearWheelMass", 90.0f);
+            }
 
             foreach (var entry in fileDictionary)
             {
@@ -88,7 +110,7 @@ namespace BurnoutConsole
         {
             SerializedCollectionInfo sci = new SerializedCollectionInfo();
             sci.Name = arg.Name;
-            sci.Data = arg.GetFriendlyData();
+            sci.Data = arg.GetData().ToDictionary(c => c.Key, c => arg.GetSimpleValue(c.Key));
             sci.Children = arg.Children.Select(ConvertCollectionToSerializedInfo).ToList();
             return sci;
         }
