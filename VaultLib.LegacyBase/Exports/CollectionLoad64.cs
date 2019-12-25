@@ -157,7 +157,7 @@ namespace VaultLib.LegacyBase.Exports
                     if (!(data is VLTArrayType) && !(data is PrimitiveTypeBase))
                         Debug.Assert(endPos - startPos == baseField.Size);
                     //Collection.Data[baseField.Name] = data;
-                    Collection.SetDataValue(baseField.Name, data);
+                    Collection.SetRawValue(baseField.Name, data);
                 }
             }
 
@@ -173,12 +173,12 @@ namespace VaultLib.LegacyBase.Exports
                 if (entry.InlineData is VLTAttribType attribType)
                 {
                     attribType.ReadPointerData(vault, br);
-                    Collection.SetDataValue(optionalField.Name, attribType.Data);
+                    Collection.SetRawValue(optionalField.Name, attribType.Data);
                     //Collection.Data[optionalField.Name] = attribType.Data;
                 }
                 else
                 {
-                    Collection.SetDataValue(optionalField.Name, entry.InlineData);
+                    Collection.SetRawValue(optionalField.Name, entry.InlineData);
                     //Collection.Data[optionalField.Name] = entry.InlineData;
                 }
             }
@@ -205,7 +205,7 @@ namespace VaultLib.LegacyBase.Exports
                     throw new Exception("incorrect offset");
                 }
 
-                Collection.GetDataValue(baseField.Name).Write(vault, bw);
+                Collection.GetRawValue(baseField.Name).Write(vault, bw);
                 //Collection.Data[baseField.Name].Write(vault, bw);
             }
 
@@ -240,7 +240,7 @@ namespace VaultLib.LegacyBase.Exports
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                if (this.Collection.GetDataValue(baseField.Name) is IPointerObject pointerObject)
+                if (this.Collection.GetRawValue(baseField.Name) is IPointerObject pointerObject)
                 {
                     pointerObject.AddPointers(vault);
                 }

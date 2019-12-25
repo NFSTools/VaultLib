@@ -113,8 +113,8 @@ namespace VaultLib.Core
             VLTBaseType instance;
 
             if (vltClassField.IsArray)
-                instance = new VLTArrayType(vltClass, vltClassField, collection)
-                { ItemType = type, ItemAlignment = vltClassField.Alignment };
+                instance = new VLTArrayType(vltClass, vltClassField, collection, type)
+                { ItemAlignment = vltClassField.Alignment };
             else
                 instance = ConstructInstance(type, vltClass, vltClassField, collection);
             //instance = (VLTBaseType)Activator.CreateInstance(type, vltClass, vltClassField, collection);

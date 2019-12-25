@@ -17,13 +17,15 @@ namespace VaultLib.Core.Types
 {
     public class VLTArrayType : VLTBaseType, IReferencesStrings, IReferencesCollections
     {
-        public VLTArrayType(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
+        public VLTArrayType(VltClass @class, VltClassField field, VltCollection collection, Type itemType) : base(@class, field,
             collection)
         {
+            ItemType = itemType;
         }
 
-        public VLTArrayType(VltClass @class, VltClassField field) : base(@class, field)
+        public VLTArrayType(VltClass @class, VltClassField field, Type itemType) : base(@class, field)
         {
+            ItemType = itemType;
         }
 
         public ushort FieldSize { get; set; }
@@ -32,7 +34,7 @@ namespace VaultLib.Core.Types
 
         public int ItemAlignment { get; set; }
 
-        public Type ItemType { get; set; }
+        public Type ItemType { get; }
 
         public IList<VLTBaseType> Items { get; set; }
 

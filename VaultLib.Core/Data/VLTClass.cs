@@ -84,6 +84,24 @@ namespace VaultLib.Core.Data
         /// <returns><c>true</c> if a field was found; otherwise, <c>false</c></returns>
         public bool TryGetField(ulong key, out VltClassField field) => Fields.TryGetValue(key, out field);
 
+        /// <summary>
+        /// Returns the field with the given key, if it exists.
+        /// </summary>
+        /// <param name="key">The key to search for</param>
+        /// <param name="field">A reference to a <see cref="VltClassField"/> that will be populated.</param>
+        /// <returns><c>true</c> if a field was found; otherwise, <c>false</c></returns>
+        public bool TryGetField(string key, out VltClassField field)
+        {
+            if (HasField(key))
+            {
+                field = this[key];
+                return true;
+            }
+
+            field = null;
+            return false;
+        }
+
         #region Helpers
 
         /// <summary>

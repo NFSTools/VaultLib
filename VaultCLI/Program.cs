@@ -109,13 +109,13 @@ namespace VaultCLI
             }
 
             // test data API
-            VltCollection collection = database.RowManager.FindCollectionByName("pvehicle", "240sx");
-            int chassisLength = collection.GetListLength("chassis");
+            //VltCollection collection = database.RowManager.FindCollectionByName("pvehicle", "240sx");
+            //int chassisLength = collection.GetListLength("chassis");
 
-            for (int i = 0; i < chassisLength; i++)
-            {
-                Debug.WriteLine("chassis[{0}] = {1}", i, collection.GetDataValue<BaseRefSpec>("chassis", i));
-            }
+            //for (int i = 0; i < chassisLength; i++)
+            //{
+            //    Debug.WriteLine("chassis[{0}] = {1}", i, collection.GetDataValue<BaseRefSpec>("chassis", i));
+            //}
         }
 
         private static IList<Vault> LoadFileToDB(Database database, string file)

@@ -3,8 +3,10 @@
 // Created: 09/25/2019 @ 7:04 PM.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -140,68 +142,32 @@ namespace VaultLib.Core.Data
         /// <param name="key">The name of the field to obtain the value of.</param>
         /// <returns>The <see cref="VLTBaseType"/> instance mapped to <paramref name="key"/>.</returns>
         /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
-        public VLTBaseType GetDataValue(string key)
+        public VLTBaseType GetRawValue(string key)
         {
-            if (Data.TryGetValue(key, out VLTBaseType data))
-            {
-                return data;
-            }
-
-            throw new KeyNotFoundException($"Collection {ShortPath} does not have a value for field {key}");
+            return GetRawValue<VLTBaseType>(key);
         }
 
         /// <summary>
-        /// Obtains the simplified representation of the value mapped to <paramref name="key"/> from the collection's data dictionary.
+        /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
         /// </summary>
         /// <param name="key">The name of the field to obtain the value of.</param>
-        /// <returns>The simplified representation of the <see cref="VLTBaseType"/> instance mapped to <paramref name="key"/>.</returns>
+        /// <returns>The <see cref="VLTBaseType"/> instance mapped to <paramref name="key"/>.</returns>
         /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
-        public object GetSimpleValue(string key)
+        public T GetRawValue<T>(string key) where T : VLTBaseType
         {
             if (Data.TryGetValue(key, out VLTBaseType data))
             {
-                return GetUnderlyingValue(data);
+                return (T)data;
             }
 
             throw new KeyNotFoundException($"Collection {ShortPath} does not have a value for field {key}");
         }
 
-        /// <summary>
-        /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
-        /// </summary>
-        /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
-        /// <param name="data">The mapping value.</param>
-        public void SetDataValue(string key, VLTBaseType data)
-        {
-            Data[key] = data;
-        }
-
-        /// <summary>
-        /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
-        /// </summary>
-        /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
-        /// <param name="data">The mapping value.</param>
-        public void SetDataValue<T>(string key, T data)
-        {
-            SetDataValue(key,
-                Data.TryGetValue(key, out VLTBaseType originalData)
-                    ? ConvertPrimitiveToBaseType(data, originalData)
-                    : ConvertPrimitiveToBaseType(data,
-                        TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, Class[key], this)));
-        }
-
-        /// <summary>
-        /// Gets the value of type <typeparamref name="T"/> mapped to <paramref name="key"/> in the collection's data dictionary.
-        /// </summary>
-        /// <typeparam name="T">The data type to be obtained.</typeparam>
-        /// <param name="key">The mapping key.</param>
-        /// <returns>The mapping value.</returns>
         public T GetDataValue<T>(string key)
         {
-            VLTBaseType originalValue = GetDataValue(key);
-            Type genericType = typeof(T);
+            VLTBaseType originalData = GetRawValue(key);
 
-            return ConvertBaseType<T>(genericType, originalValue);
+            return (T)BaseTypeToData(originalData);
         }
 
         /// <summary>
@@ -211,28 +177,108 @@ namespace VaultLib.Core.Data
         /// <param name="key">The mapping key.</param>
         /// <param name="index">The array index to retrieve the value from.</param>
         /// <returns>The mapping value.</returns>
-        public T GetDataValue<T>(string key, int index)
+        public VLTBaseType GetRawValue(string key, int index)
         {
-            VLTArrayType array = GetDataValue<VLTArrayType>(key);
+            return GetRawValue<VLTBaseType>(key, index);
+        }
+
+        /// <summary>
+        /// Gets the value of type <typeparamref name="T"/> mapped to <paramref name="key"/> in the collection's data dictionary.
+        /// </summary>
+        /// <typeparam name="T">The data type to be obtained.</typeparam>
+        /// <param name="key">The mapping key.</param>
+        /// <param name="index">The array index to retrieve the value from.</param>
+        /// <returns>The mapping value.</returns>
+        public T GetRawValue<T>(string key, int index) where T : VLTBaseType
+        {
+            VLTArrayType array = GetRawValue<VLTArrayType>(key);
 
             if (index < 0 || index >= array.Items.Count)
             {
                 throw new ArgumentException($"Failed condition: 0 <= {index} < {array.Items.Count}");
             }
 
-            return ConvertBaseType<T>(typeof(T), array.Items[index]);
+            return (T)array.Items[index];
+        }
+
+        public T GetDataValue<T>(string key, int index)
+        {
+            return (T) BaseTypeToData(GetRawValue(key, index));
         }
 
         /// <summary>
-        /// Gets the length of the array mapped to <paramref name="key"/> in the collection's data dictionary.
+        /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
         /// </summary>
-        /// <param name="key">The mapping key.</param>
-        /// <returns>The array length.</returns>
-        public int GetListLength(string key)
+        /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
+        /// <param name="data">The mapping value.</param>
+        public void SetRawValue(string key, VLTBaseType data)
         {
-            VLTArrayType array = GetDataValue<VLTArrayType>(key);
+            if (Class.HasField(key))
+            {
+                Data[key] = data;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Class '{Class.Name}' does not have field '{key}'");
+            }
+        }
 
-            return array.Items.Count;
+        /// <summary>
+        /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
+        /// </summary>
+        /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
+        /// <param name="data">The mapping value.</param>
+        public void SetDataValue<T>(string key, T data)
+        {
+            if (Class.HasField(key))
+            {
+                Data[key] = DataToBaseType(Class[key], data);
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Class '{Class.Name}' does not have field '{key}'");
+            }
+        }
+
+        /// <summary>
+        /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
+        /// </summary>
+        /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
+        /// <param name="index"></param>
+        /// <param name="data">The mapping value.</param>
+        public void SetRawValue<T>(string key, int index, T data) where T : VLTBaseType
+        {
+            VLTArrayType array = GetRawValue<VLTArrayType>(key);
+
+            if (index < 0 || index >= array.Items.Count)
+            {
+                throw new ArgumentException($"Failed condition: 0 <= {index} < {array.Items.Count}");
+            }
+
+            if (typeof(T) != array.ItemType)
+            {
+                throw new ArgumentException($"Type mismatch: T={typeof(T)} A={array.ItemType}");
+            }
+
+            array.Items[index] = data;
+        }
+
+        /// <summary>
+        /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
+        /// </summary>
+        /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
+        /// <param name="index"></param>
+        /// <param name="data">The mapping value.</param>
+        public void SetDataValue<T>(string key, int index, T data)
+        {
+            if (Class.HasField(key))
+            {
+                SetRawValue(key, index, DataToBaseType(Class[key], data));
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Class '{Class.Name}' does not have field '{key}'");
+            }
         }
 
         #endregion
@@ -267,77 +313,57 @@ namespace VaultLib.Core.Data
 
         #endregion
 
-        #region Internal Members
+        #region Internal stuff
 
-        private T ConvertBaseType<T>(Type genericType, VLTBaseType originalValue)
+        private object BaseTypeToData(VLTBaseType baseType)
         {
-            if (genericType.IsPrimitive)
+            // if we have a primitive or string value, return that
+            // if we have an array, return a list where each item in the array has been converted (recursion FTW)
+            // otherwise, just return the original data
+
+            return baseType switch
             {
-                if (originalValue is PrimitiveTypeBase ptb)
-                {
-                    return (T)ptb.GetValue();
-                }
-
-                throw new Exception($"Cannot map {originalValue.GetType()} to {genericType}");
-            }
-
-            if (genericType == typeof(string))
-            {
-                // string isn't a primitive - cool...
-                if (originalValue is IStringValue sv)
-                {
-                    return (T)(object)sv.GetString();
-                }
-
-                throw new Exception($"Cannot map {originalValue.GetType()} to {genericType}");
-            }
-
-            return (T)(object)originalValue;
+                PrimitiveTypeBase ptb => ptb.GetValue(),
+                IStringValue sv => sv.GetString(),
+                VLTArrayType array => array.Items.Select(BaseTypeToData).ToList(),
+                _ => baseType
+            };
         }
 
-        private object GetUnderlyingValue(VLTBaseType originalValue)
+        private VLTBaseType DataToBaseType(VltClassField field, object data)
         {
-            switch (originalValue)
+            switch (data)
             {
-                case PrimitiveTypeBase ptb:
-                    return ptb.GetValue();
-                case IStringValue sv:
-                    return sv.GetString();
-                case VLTArrayType array:
-                    return array.Items;
-                default:
-                    return originalValue;
-            }
-        }
-
-        private VLTBaseType ConvertPrimitiveToBaseType(object data, VLTBaseType baseType)
-        {
-            if (data is VLTBaseType vltBaseType) return vltBaseType;
-
-            switch (baseType)
-            {
-                case VLTArrayType array:
+                case string s:
                     {
-                        if (data is IList<VLTBaseType> list)
+                        VLTBaseType instance =
+                            TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, field, this);
+
+                        if (instance is IStringValue sv)
                         {
-                            array.Items = list;
+                            sv.SetString(s);
+                            return instance;
                         }
 
                         break;
                     }
-                case IStringValue sv when data is string s:
-                    sv.SetString(s);
-                    break;
-                case IStringValue sv:
-                    throw new Exception($"Cannot map {data.GetType()} to string");
-                case PrimitiveTypeBase ptb when data is IConvertible ico:
-                    ptb.SetValue(ico);
-                    break;
-                case PrimitiveTypeBase ptb:
-                    throw new Exception($"Cannot map {data.GetType()} to IConvertible");
+                case IConvertible ic:
+                    {
+                        VLTBaseType instance =
+                            TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, field, this);
+
+                        if (instance is PrimitiveTypeBase ptb)
+                        {
+                            ptb.SetValue(ic);
+                            return instance;
+                        }
+                        break;
+                    }
+                case VLTBaseType vbt:
+                    return vbt;
             }
 
-            return baseType;
+            throw new ArgumentException($"Cannot convert {data.GetType()} to VLTBaseType.");
         }
 
         #endregion

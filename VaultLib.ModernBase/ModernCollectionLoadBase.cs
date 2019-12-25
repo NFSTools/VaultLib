@@ -56,7 +56,7 @@ namespace VaultLib.ModernBase
                             throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
                         }
                     }
-                    Collection.SetDataValue(baseField.Name, data);
+                    Collection.SetRawValue(baseField.Name, data);
                 }
             }
 
@@ -93,13 +93,13 @@ namespace VaultLib.ModernBase
                 {
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) == 0);
                     attribType.ReadPointerData(vault, br);
-                    Collection.SetDataValue(optionalField.Name, attribType.Data);
+                    Collection.SetRawValue(optionalField.Name, attribType.Data);
                 }
                 else
                 {
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) ==
                                  NodeFlagsEnum.IsInline);
-                    Collection.SetDataValue(optionalField.Name, entry.InlineData);
+                    Collection.SetRawValue(optionalField.Name, entry.InlineData);
                 }
             }
 
@@ -125,7 +125,7 @@ namespace VaultLib.ModernBase
                     throw new Exception("incorrect offset");
                 }
 
-                Collection.GetDataValue(baseField.Name).Write(vault, bw);
+                Collection.GetRawValue(baseField.Name).Write(vault, bw);
             }
 
             foreach (var dataPair in Collection.GetData())
@@ -169,7 +169,7 @@ namespace VaultLib.ModernBase
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                if (this.Collection.GetDataValue(baseField.Name) is IPointerObject pointerObject)
+                if (this.Collection.GetRawValue(baseField.Name) is IPointerObject pointerObject)
                 {
                     pointerObject.AddPointers(vault);
                 }
