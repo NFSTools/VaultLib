@@ -255,9 +255,9 @@ namespace VaultLib.Core.Data
                 throw new ArgumentException($"Failed condition: 0 <= {index} < {array.Items.Count}");
             }
 
-            if (typeof(T) != array.ItemType)
+            if (data.GetType() != array.ItemType)
             {
-                throw new ArgumentException($"Type mismatch: T={typeof(T)} A={array.ItemType}");
+                throw new ArgumentException($"Type mismatch: T={data.GetType()} A={array.ItemType}");
             }
 
             array.Items[index] = data;
@@ -337,7 +337,7 @@ namespace VaultLib.Core.Data
                 case string s:
                     {
                         VLTBaseType instance =
-                            TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, field, this);
+                            TypeRegistry.ConstructInstance(TypeRegistry.ResolveType(Vault.Database.Options.GameId, field.TypeName), Class, field, this);
 
                         if (instance is IStringValue sv)
                         {
@@ -350,7 +350,7 @@ namespace VaultLib.Core.Data
                 case IConvertible ic:
                     {
                         VLTBaseType instance =
-                            TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, field, this);
+                            TypeRegistry.ConstructInstance(TypeRegistry.ResolveType(Vault.Database.Options.GameId, field.TypeName), Class, field, this);
 
                         if (instance is PrimitiveTypeBase ptb)
                         {
