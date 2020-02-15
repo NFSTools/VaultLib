@@ -2,6 +2,7 @@
 // 
 // Created: 10/07/2019 @ 5:47 PM.
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -195,8 +196,11 @@ namespace VaultLib.Core
         /// </summary>
         /// <param name="collection">The collection to add</param>
         /// <returns>The added collection</returns>
-        public VltCollection AddCollection(VltCollection collection)
+        public VltCollection AddCollection(VltCollection collection, bool check = false)
         {
+            if (check && Rows.Contains(collection))
+                throw new Exception();
+
             Rows.Add(collection);
             return collection;
         }

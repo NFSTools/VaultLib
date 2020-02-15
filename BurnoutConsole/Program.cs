@@ -131,6 +131,7 @@ namespace BurnoutConsole
 
             object value = field.TypeName switch
             {
+                "EA::Reflection::Bool" => bool.Parse(valueText),
                 "EA::Reflection::Int8" => sbyte.Parse(valueText),
                 "EA::Reflection::UInt8" => byte.Parse(valueText),
                 "EA::Reflection::Int16" => short.Parse(valueText),

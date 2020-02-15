@@ -19,6 +19,8 @@ namespace VaultLib.LegacyBase
 
         private Text _text;
 
+
+
         public override void Read(Vault vault, BinaryReader br)
         {
             _text = new Text(Class, Field, Collection);

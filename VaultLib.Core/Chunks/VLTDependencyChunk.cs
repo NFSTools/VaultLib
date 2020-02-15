@@ -35,7 +35,14 @@ namespace VaultLib.Core.Chunks
             if (vault.SaveContext.HashMode == VaultHashMode.Hash64)
                 bw.Write(0);
 
-            foreach (var dependencyName in DependencyNames) bw.Write(vault.SaveContext.StringHash(dependencyName));
+            foreach (var dependencyName in DependencyNames)
+            {
+                var hash = vault.SaveContext.StringHash(dependencyName);
+                if (vault.SaveContext.HashMode==VaultHashMode.Hash64)
+                    bw.Write(hash);
+                else
+                    bw.Write((uint)hash);
+            }
 
             var nameOffsets = new Dictionary<string, int>();
             var nameOffset = 0;

@@ -32,6 +32,7 @@ namespace VaultLib.Core.DB
             Options = options;
             Classes = new List<VltClass>();
             Types = new List<DatabaseTypeInfo>();
+            Vaults = new List<Vault>();
             RowManager = new RowManager(this);
         }
 
@@ -42,6 +43,8 @@ namespace VaultLib.Core.DB
         public List<VltClass> Classes { get; }
 
         public List<DatabaseTypeInfo> Types { get; }
+
+        public List<Vault> Vaults { get; }
 
         /// <summary>
         /// Adds a new <see cref="VltClass"/> to the list of classes.
@@ -61,6 +64,11 @@ namespace VaultLib.Core.DB
         public VltClass FindClass(string name)
         {
             return Classes.First(c => c.Name == name);
+        }
+
+        public Vault FindVault(string name)
+        {
+            return Vaults.First(v => v.Name == name);
         }
 
         /// <summary>
@@ -93,6 +101,8 @@ namespace VaultLib.Core.DB
 
             //Debug.WriteLine("Reading exports");
             ReadExports(vault, vltStreamReader, binStreamReader);
+
+            Vaults.Add(vault);
         }
 
         /// <summary>

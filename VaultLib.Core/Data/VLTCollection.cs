@@ -137,6 +137,13 @@ namespace VaultLib.Core.Data
         }
 
         /// <summary>
+        /// Determines if the collection has a data entry with the given key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns><c>true</c> if an entry exists; otherwise, <c>false</c>.</returns>
+        public bool HasEntry(string key) => Data.ContainsKey(key);
+
+        /// <summary>
         /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
         /// </summary>
         /// <param name="key">The name of the field to obtain the value of.</param>
@@ -232,7 +239,14 @@ namespace VaultLib.Core.Data
         {
             if (Class.HasField(key))
             {
-                Data[key] = DataToBaseType(Class[key], data);
+                if (HasEntry(key))
+                {
+                    SetRawValue(key, DataToBaseType(Class[key], GetRawValue(key), data));
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"Collection '{ShortPath}' does not have an entry for '{key}'");
+                }
             }
             else
             {
@@ -273,7 +287,14 @@ namespace VaultLib.Core.Data
         {
             if (Class.HasField(key))
             {
-                SetRawValue(key, index, DataToBaseType(Class[key], data));
+                if (HasEntry(key))
+                {
+                    SetRawValue(key, index, DataToBaseType(Class[key], GetRawValue(key, index), data));
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"Collection '{ShortPath}' does not have an entry for '{key}'");
+                }
             }
             else
             {
@@ -330,32 +351,26 @@ namespace VaultLib.Core.Data
             };
         }
 
-        private VLTBaseType DataToBaseType(VltClassField field, object data)
+        private VLTBaseType DataToBaseType(VltClassField field, VLTBaseType originalData, object data)
         {
             switch (data)
             {
                 case string s:
                     {
-                        VLTBaseType instance =
-                            TypeRegistry.ConstructInstance(TypeRegistry.ResolveType(Vault.Database.Options.GameId, field.TypeName), Class, field, this);
-
-                        if (instance is IStringValue sv)
+                        if (originalData is IStringValue sv)
                         {
                             sv.SetString(s);
-                            return instance;
+                            return originalData;
                         }
 
                         break;
                     }
                 case IConvertible ic:
                     {
-                        VLTBaseType instance =
-                            TypeRegistry.ConstructInstance(TypeRegistry.ResolveType(Vault.Database.Options.GameId, field.TypeName), Class, field, this);
-
-                        if (instance is PrimitiveTypeBase ptb)
+                        if (originalData is PrimitiveTypeBase ptb)
                         {
                             ptb.SetValue(ic);
-                            return instance;
+                            return originalData;
                         }
                         break;
                     }

@@ -10,6 +10,8 @@ namespace VaultLib.Core.Types
 {
     public abstract class VLTBaseType : IFileAccess
     {
+        public VLTBaseType() { }
+
         protected VLTBaseType(VltClass @class, VltClassField field, VltCollection collection)
         {
             Class = @class;
