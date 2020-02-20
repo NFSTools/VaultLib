@@ -2,7 +2,7 @@
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 
-namespace VaultLib.Support.Carbon.VLT.Csis
+namespace VaultLib.Support.World.VLT.Csis
 {
     [VLTTypeInfo("Csis::Type_speaker_battalion")]
     public class Type_speaker_battalion : Int32
