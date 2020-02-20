@@ -245,7 +245,9 @@ namespace VaultLib.Core.Data
                 }
                 else
                 {
-                    throw new KeyNotFoundException($"Collection '{ShortPath}' does not have an entry for '{key}'");
+                    VLTBaseType rawValue =
+                        TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, Class[key], this);
+                    SetRawValue(key, DataToBaseType(Class[key], rawValue, data));
                 }
             }
             else
@@ -290,6 +292,41 @@ namespace VaultLib.Core.Data
                 if (HasEntry(key))
                 {
                     SetRawValue(key, index, DataToBaseType(Class[key], GetRawValue(key, index), data));
+                }
+                else
+                {
+                    VLTBaseType rawValue =
+                        TypeRegistry.ConstructInstance(
+                            TypeRegistry.ResolveType(Vault.Database.Options.GameId, Class[key].TypeName), Class,
+                            Class[key], this);
+                    SetRawValue(key, index, DataToBaseType(Class[key], rawValue, data));
+                }
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Class '{Class.Name}' does not have field '{key}'");
+            }
+        }
+
+        /// <summary>
+        /// Removes an entry from the data dictionary.
+        /// This is only valid for optional fields.
+        /// </summary>
+        /// <param name="key">The mapping key.</param>
+        public void RemoveValue(string key)
+        {
+            if (Class.HasField(key))
+            {
+                var field = Class[key];
+
+                if (field.IsInLayout)
+                {
+                    throw new Exception($"Cannot remove in-layout field: {key}");
+                }
+
+                if (HasEntry(key))
+                {
+                    Data.Remove(key);
                 }
                 else
                 {
