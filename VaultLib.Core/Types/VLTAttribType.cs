@@ -38,7 +38,7 @@ namespace VaultLib.Core.Types
             Data.Read(vault, br);
 
             if (!(Data is VLTArrayType))
-                Debug.Assert(br.BaseStream.Position - Offset == Field.Size);
+                Debug.Assert(br.BaseStream.Position - Offset == Field.Size,  "br.BaseStream.Position - Offset == Field.Size");
         }
 
         public void WritePointerData(Vault vault, BinaryWriter bw)

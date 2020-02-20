@@ -95,7 +95,9 @@ namespace VaultLib.Core.Types
 
                 br.AlignReader(ItemAlignment);
 
+                var start = br.BaseStream.Position;
                 item.Read(vault, br);
+                if (!(item is PrimitiveTypeBase)) Debug.Assert(br.BaseStream.Position - start == FieldSize);
                 Items.Add(item);
             }
 
