@@ -34,10 +34,7 @@ namespace VaultLib.Core
         /// <returns>A collection enumerator</returns>
         public IEnumerable<VltCollection> GetCollectionsInVault(Vault vault)
         {
-            foreach (var collection in EnumerateFlattenedCollections().Where(c => c.Vault == vault))
-            {
-                yield return collection;
-            }
+            return EnumerateFlattenedCollections().Where(c => c.Vault == vault);
         }
 
         /// <summary>
@@ -47,10 +44,7 @@ namespace VaultLib.Core
         /// <returns>A collection enumerator</returns>
         public IEnumerable<VltCollection> GetTopCollectionsInVault(Vault vault)
         {
-            foreach (var collection in Rows.Where(c => c.Vault == vault))
-            {
-                yield return collection;
-            }
+            return Rows.Where(c => c.Vault == vault);
         }
 
         /// <summary>
@@ -145,10 +139,7 @@ namespace VaultLib.Core
         /// <returns>The collection enumerator.</returns>
         public IEnumerable<VltCollection> EnumerateCollections(string className)
         {
-            foreach (var vltCollection in Rows.Where(c => c.Class.Name == className))
-            {
-                yield return vltCollection;
-            }
+            return Rows.Where(c => c.Class.Name == className);
         }
 
         /// <summary>
@@ -195,18 +186,30 @@ namespace VaultLib.Core
         /// Manually adds a collection to the list of collections
         /// </summary>
         /// <param name="collection">The collection to add</param>
+        /// <param name="check"></param>
         /// <returns>The added collection</returns>
         public VltCollection AddCollection(VltCollection collection, bool check = false)
         {
             if (check && Rows.Contains(collection))
-                throw new Exception();
+                throw new Exception($"Collection '{collection.ShortPath}' has already been added. Did you mean to add a clone with a new name?");
 
             Rows.Add(collection);
             return collection;
         }
 
+        /// <summary>
+        /// Removes a collection from the list of collections.
+        /// </summary>
+        /// <param name="collection">The collection to remove</param>
+        /// <exception cref="Exception">if the collection is not a top-level collection</exception>
         public void RemoveCollection(VltCollection collection)
         {
+            if (!Rows.Contains(collection))
+            {
+                throw new Exception(
+                    $"Collection '{collection.ShortPath}' is not a top-level collection. Did you mean to disassociate it from its parent?");
+            }
+
             Rows.Remove(collection);
         }
     }
