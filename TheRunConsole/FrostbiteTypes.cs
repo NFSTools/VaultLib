@@ -11,10 +11,6 @@ namespace TheRunConsole
     [VLTTypeInfo("EA::VehiclePhysics::PointGraph8")]
     public class PointGraph8 : VLTBaseType, IPointerObject
     {
-        public PointGraph8()
-        {
-        }
-
         public PointGraph8(VltClass @class, VltClassField field) : base(@class, field)
         {
         }

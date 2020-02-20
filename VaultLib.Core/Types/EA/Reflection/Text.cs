@@ -20,13 +20,6 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         private long _internalPointerSrc;
 
-        /// <summary>
-        /// Empty constructor to make serialization work
-        /// </summary>
-        public Text()
-        {
-        }
-
         public Text(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
