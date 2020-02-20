@@ -117,9 +117,6 @@ namespace VaultLib.Core
                 { ItemAlignment = vltClassField.Alignment };
             else
                 instance = ConstructInstance(type, vltClass, vltClassField, collection);
-            //instance = (VLTBaseType)Activator.CreateInstance(type, vltClass, vltClassField, collection);
-
-            if (instance is VLTUnknown unknown) unknown.Size = vltClassField.Size;
 
             return instance;
         }
@@ -175,9 +172,7 @@ namespace VaultLib.Core
             if (gameId != "GLOBAL")
                 return ResolveType("GLOBAL", typeId);
 
-            UnknownTypes.Add(typeId);
-
-            return typeof(VLTUnknown);
+            throw new KeyNotFoundException($"Type '{typeId}' is not registered for game {gameId}");
         }
     }
 }

@@ -92,11 +92,8 @@ namespace VaultLib.Core.Types
             for (var i = 0; i < count; i++)
             {
                 var item = TypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
-                //Items[i] = (VLTBaseType)Activator.CreateInstance(ItemType, Class, Field, Collection);
 
                 br.AlignReader(ItemAlignment);
-
-                if (item is VLTUnknown unknown) unknown.Size = FieldSize;
 
                 item.Read(vault, br);
                 Items.Add(item);
