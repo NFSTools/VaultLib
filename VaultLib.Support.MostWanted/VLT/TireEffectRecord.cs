@@ -25,17 +25,17 @@ namespace VaultLib.Support.MostWanted.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            mTireCondition = br.ReadEnum<TireCondition>();
             mEmitter = new RefSpecPacked(Class, Field, Collection);
             mEmitter.Read(vault, br);
+            mTireCondition = br.ReadEnum<TireCondition>();
             mMinSpeed = br.ReadSingle();
             mMaxSpeed = br.ReadSingle();
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            bw.WriteEnum(mTireCondition);
             mEmitter.Write(vault, bw);
+            bw.WriteEnum(mTireCondition);
             bw.Write(mMinSpeed);
             bw.Write(mMaxSpeed);
         }
