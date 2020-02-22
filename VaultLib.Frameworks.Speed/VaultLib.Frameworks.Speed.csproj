@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Authors>heyitsleo/NFSTools</Authors>
+    <Company>NFSTools</Company>
+    <Description>Shared library for implementations of common Speed engine VLT types</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>7</LangVersion>
+    <PackageId>VaultLib.Frameworks.Speed</PackageId>
+    <Platforms>x86</Platforms>
+    <Product>VaultLib.Frameworks.Speed</Product>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NFSTools.Core.ModuleSystem" Version="1.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VaultLib.Core\VaultLib.Core.csproj" />
+  </ItemGroup>
+
+</Project>
