@@ -11,7 +11,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT
 {
     [VLTTypeInfo(nameof(FEQuickUpgrade))]
-    public class FEQuickUpgrade : VLTBaseType, IPointerObject
+    public class FEQuickUpgrade : VLTBaseType, IPointerObject, IReferencesStrings
     {
         public FEQuickUpgrade(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
@@ -97,6 +97,12 @@ namespace VaultLib.Support.Undercover.VLT
         {
             Debug.Assert(_ptrPackagesSrc != 0 && _ptrPackagesDst != 0);
             vault.SaveContext.AddPointer(_ptrPackagesSrc, _ptrPackagesDst, false);
+            _offerIdText.AddPointers(vault);
+        }
+
+        public IEnumerable<string> GetStrings()
+        {
+            return _offerIdText.GetStrings();
         }
     }
 }

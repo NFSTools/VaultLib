@@ -23,6 +23,8 @@ namespace VaultLib.Support.Undercover.VLT
         public byte Swatch { get; set; }
         public float Saturation { get; set; }
         public float Variance { get; set; }
+        public bool Unknown { get; set; }
+
         public override void Read(Vault vault, BinaryReader br)
         {
             Group = new RefSpec(Class, Field, Collection);
@@ -32,9 +34,8 @@ namespace VaultLib.Support.Undercover.VLT
             br.AlignReader(4);
             Saturation = br.ReadSingle();
             Variance = br.ReadSingle();
-
-            if (br.ReadUInt32() > 1)
-                throw new InvalidDataException();
+            Unknown = br.ReadBoolean();
+            br.AlignReader(4);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
@@ -45,6 +46,8 @@ namespace VaultLib.Support.Undercover.VLT
             bw.AlignWriter(4);
             bw.Write(Saturation);
             bw.Write(Variance);
+            bw.Write(Unknown);
+            bw.AlignWriter(4);
         }
     }
 }

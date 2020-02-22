@@ -28,7 +28,8 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            bw.WriteEnum(TransitionType);
+            bw.Write(TransitionSec);
         }
     }
 }

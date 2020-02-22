@@ -19,15 +19,15 @@ namespace VaultLib.Support.Undercover.VLT.Sound
         public override void Read(Vault vault, BinaryReader br)
         {
             Value = br.ReadBoolean();
-            Duration = br.ReadSingle();
             br.AlignReader(4);
+            Duration = br.ReadSingle();
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write(Value);
-            bw.Write(Duration);
             bw.AlignWriter(4);
+            bw.Write(Duration);
         }
 
         public BinarySequence(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

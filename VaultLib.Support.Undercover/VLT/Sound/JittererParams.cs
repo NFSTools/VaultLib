@@ -32,7 +32,10 @@ namespace VaultLib.Support.Undercover.VLT.Sound
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            throw new System.NotImplementedException();
+            bw.Write(Unknown1);
+            bw.Write(Unknown2);
+            bw.Write(Unknown3);
+            bw.Write(Unknown4);
         }
     }
 }
