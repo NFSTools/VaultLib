@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.MostWanted.VLT.Csis
+namespace VaultLib.Frameworks.Speed.Csis
 {
     [VLTTypeInfo("Csis::Type_SoundFX_Param")]
     public enum Type_SoundFX_Param

@@ -1,4 +1,4 @@
-﻿namespace VaultLib.Support.MostWanted.VLT
+﻿namespace VaultLib.Frameworks.Speed
 {
     public enum TireCondition
     {

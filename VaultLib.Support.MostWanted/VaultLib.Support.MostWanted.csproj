@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VaultLib.Frameworks.Speed\VaultLib.Frameworks.Speed.csproj" />
     <ProjectReference Include="..\VaultLib.LegacyBase\VaultLib.LegacyBase.csproj" />
   </ItemGroup>
 

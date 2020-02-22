@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.MostWanted.VLT.Csis
+namespace VaultLib.Frameworks.Speed.Csis
 {
     [VLTTypeInfo("Csis::Type_car_type")]
     public enum Type_car_type

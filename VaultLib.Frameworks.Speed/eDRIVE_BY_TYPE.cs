@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.MostWanted.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(eDRIVE_BY_TYPE))]
     public enum eDRIVE_BY_TYPE

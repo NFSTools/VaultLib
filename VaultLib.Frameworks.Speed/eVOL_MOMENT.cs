@@ -1,6 +1,6 @@
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.MostWanted.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(eVOL_MOMENT))]
     public enum eVOL_MOMENT

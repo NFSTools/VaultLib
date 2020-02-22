@@ -7,7 +7,7 @@ using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Carbon.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(JunkmanMod))]
     public class JunkmanMod : VLTBaseType
