@@ -51,8 +51,6 @@ namespace TheRunConsole
             database.CompleteLoad();
             stopwatch.Stop();
             Debug.WriteLine("loaded in {0}ms", stopwatch.ElapsedMilliseconds);
-            TypeRegistry.ListUnknownTypes();
-
             foreach (var typeInfo in database.Types)
             {
                 Debug.WriteLine("TYPE: {0} (size {1})", typeInfo.Name, typeInfo.Size);

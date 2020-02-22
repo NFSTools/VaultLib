@@ -37,7 +37,6 @@ namespace BurnoutConsole
             Dictionary<string, IList<Vault>> fileDictionary = fileList.ToDictionary(c => c, c => LoadFileToDB(database, c));
 
             database.CompleteLoad();
-            TypeRegistry.ListUnknownTypes();
 
             Debug.WriteLine("Listing types:");
             foreach (DatabaseTypeInfo typeInfo in database.Types)

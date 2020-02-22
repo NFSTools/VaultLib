@@ -23,11 +23,7 @@ namespace VaultLib.Core
         private static readonly Dictionary<string, Dictionary<string, Type>> TypeDictionary =
             new Dictionary<string, Dictionary<string, Type>>();
 
-        private static readonly bool _initialized;
-
-        private static readonly HashSet<string> UnknownTypes = new HashSet<string>();
-
-        private static readonly Dictionary<Type, ObjectActivator<VLTBaseType>> _activators =
+        private static readonly Dictionary<Type, ObjectActivator<VLTBaseType>> Activators =
             new Dictionary<Type, ObjectActivator<VLTBaseType>>();
 
         /// <summary>
@@ -35,12 +31,7 @@ namespace VaultLib.Core
         /// </summary>
         static TypeRegistry()
         {
-            if (!_initialized)
-            {
-                RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TypeRegistry)));
-
-                _initialized = true;
-            }
+            RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TypeRegistry)));
         }
 
         /// <summary>
@@ -107,8 +98,6 @@ namespace VaultLib.Core
         public static VLTBaseType CreateInstance(string gameId, VltClass vltClass, VltClassField vltClassField,
             VltCollection collection)
         {
-            if (!_initialized) throw new InvalidOperationException("TypeRegistry has not been initialized!");
-
             var type = ResolveType(gameId, vltClassField.TypeName);
             VLTBaseType instance;
 
@@ -124,26 +113,17 @@ namespace VaultLib.Core
         public static VLTBaseType ConstructInstance(Type type, VltClass vltClass, VltClassField vltClassField,
             VltCollection collection)
         {
-            if (!_activators.TryGetValue(type, out var activator))
+            if (!Activators.TryGetValue(type, out var activator))
             {
                 activator = ReflectionUtils.GetActivator<VLTBaseType>(type.GetConstructor(new[]
                 {
                     typeof(VltClass), typeof(VltClassField), typeof(VltCollection)
                 }));
 
-                _activators[type] = activator;
+                Activators[type] = activator;
             }
 
             return activator(vltClass, vltClassField, collection);
-        }
-
-        /// <summary>
-        ///     For debugging purposes - prints the name of every UNRESOLVED type.
-        /// </summary>
-        public static void ListUnknownTypes()
-        {
-            Debug.WriteLine("Unknown types:");
-            foreach (var type in UnknownTypes.OrderBy(s => s)) Debug.WriteLine("\t{0}", new object[] { type });
         }
 
         public static IReadOnlyDictionary<string, ReadOnlyDictionary<string, Type>> GetTypeDictionary()

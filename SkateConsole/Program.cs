@@ -55,7 +55,6 @@ namespace SkateConsole
             }
 
             database.CompleteLoad();
-            TypeRegistry.ListUnknownTypes();
 
             Debug.WriteLine("Listing types:");
             foreach (DatabaseTypeInfo typeInfo in database.Types.OrderBy(t => t.Name))
