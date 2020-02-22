@@ -89,13 +89,26 @@ namespace VaultCLI
             }
 
             Debug.WriteLine("Loaded database!");
-            Debug.WriteLine("Listing unknown types:");
-            TypeRegistry.ListUnknownTypes();
-            Debug.WriteLine("Listing all types:");
-            foreach (DatabaseTypeInfo typeInfo in database.Types.OrderBy(t => t.Name))
+
+            var typeDict = TypeRegistry.GetTypeDictionary();
+            var globalDict = typeDict["GLOBAL"];
+            var gameDict = typeDict[args.GameID];
+
+            foreach (var typeName in database.Classes.SelectMany(c=>c.Fields.Values).Select(f=>f.TypeName).OrderBy(s=>s).Distinct())
             {
-                Debug.WriteLine("\t{0} (size {1})", typeInfo.Name, typeInfo.Size);
+                if (!gameDict.ContainsKey(typeName) && !globalDict.ContainsKey(typeName))
+                {
+                    throw new Exception($"{typeName} is missing!");
+                }
             }
+
+            //Debug.WriteLine("Listing unknown types:");
+            //TypeRegistry.ListUnknownTypes();
+            //Debug.WriteLine("Listing all types:");
+            //foreach (DatabaseTypeInfo typeInfo in database.Types.OrderBy(t => t.Name))
+            //{
+            //    Debug.WriteLine("\t{0} (size {1})", typeInfo.Name, typeInfo.Size);
+            //}
             Debug.WriteLine("Re-saving files...");
             foreach (var pair in fileDictionary)
             {

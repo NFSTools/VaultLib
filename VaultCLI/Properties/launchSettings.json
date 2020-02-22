@@ -1,12 +1,24 @@
 {
   "profiles": {
-    "NFS World": {
+    "NFS MW": {
       "commandName": "Project",
-      "commandLineArgs": "-g WORLD -i test-data/nfsw/attributes.bin test-data/nfsw/fe_attrib.bin test-data/nfsw/commerce.bin -o test-export/nfsw"
+      "commandLineArgs": "-g MOST_WANTED -i test-data/mw/attributes.bin test-data/mw/fe_attrib.bin test-data/mw/gameplay.bin -o test-export/mw"
     },
     "NFS Carbon": {
       "commandName": "Project",
       "commandLineArgs": "-g CARBON -i test-data/carbon/attributes.bin test-data/carbon/fe_attrib.bin test-data/carbon/gameplay.bin -o test-export/carbon"
+    },
+    "NFS ProStreet": {
+      "commandName": "Project",
+      "commandLineArgs": "-g PROSTREET -i test-data/prostreet/attributes.bin test-data/prostreet/cars_vault.bin test-data/prostreet/fe_attrib.bin test-data/prostreet/gameplay.bin -o test-export/prostreet"
+    },
+    "NFS Undercover": {
+      "commandName": "Project",
+      "commandLineArgs": "-g UNDERCOVER -i test-data/undercover/attributes.bin test-data/undercover/cars_vault.bin test-data/undercover/fe_attrib.bin test-data/undercover/gameplay.bin -o test-export/undercover"
+    },
+    "NFS World": {
+      "commandName": "Project",
+      "commandLineArgs": "-g WORLD -i test-data/nfsw/attributes.bin test-data/nfsw/fe_attrib.bin test-data/nfsw/commerce.bin -o test-export/nfsw"
     }
   }
 }

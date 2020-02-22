@@ -29317,6 +29317,8 @@ nis_data_hub_pinkslip
 nis_data_pip
 nis_data_pip_ucap
 nis_data_ucap
+nis_data_race_start
+nis_data_race_end
 nis_dustblast1
 nis_dustblast2
 NIS_EVTPath
