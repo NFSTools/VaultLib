@@ -3,9 +3,8 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
-using VaultLib.Frameworks.Speed;
 
-namespace VaultLib.Support.Carbon.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(FEPerfSliderTextures))]
     public class FEPerfSliderTextures : VLTBaseType
