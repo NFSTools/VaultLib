@@ -5,7 +5,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
-namespace VaultLib.Support.MostWanted.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(CollisionStream))]
     public class CollisionStream : VLTBaseType

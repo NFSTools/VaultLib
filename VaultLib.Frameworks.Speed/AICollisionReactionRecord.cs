@@ -11,7 +11,7 @@ using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Support.MostWanted.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(AICollisionReactionRecord))]
     public class AICollisionReactionRecord : VLTBaseType, IReferencesCollections

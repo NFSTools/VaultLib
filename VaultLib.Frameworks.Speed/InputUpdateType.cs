@@ -2,7 +2,7 @@
 // 
 // Created: 11/03/2019 @ 11:27 AM.
 
-namespace VaultLib.Support.MostWanted.VLT
+namespace VaultLib.Frameworks.Speed
 {
     public enum InputUpdateType
     {

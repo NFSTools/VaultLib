@@ -2,7 +2,7 @@
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 
-namespace VaultLib.Support.MostWanted.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(FXROADNOISE_LOOP))]
     public class FXROADNOISE_LOOP : Int32

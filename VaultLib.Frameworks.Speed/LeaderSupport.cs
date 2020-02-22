@@ -2,13 +2,13 @@
 // 
 // Created: 10/07/2019 @ 8:07 PM.
 
-using CoreLibraries.IO;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.MostWanted.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(LeaderSupport))]
     public class LeaderSupport : VLTBaseType

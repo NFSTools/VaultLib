@@ -2,13 +2,13 @@
 // 
 // Created: 09/29/2019 @ 11:54 AM.
 
-using CoreLibraries.IO;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.MostWanted.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(ParticleAnimationInfo))]
     public class ParticleAnimationInfo : VLTBaseType
