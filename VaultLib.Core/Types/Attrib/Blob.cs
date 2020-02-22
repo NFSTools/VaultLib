@@ -15,9 +15,19 @@ namespace VaultLib.Core.Types.Attrib
         {
         }
 
-        protected override byte[] PrepareData()
+        protected override void PrepareData()
         {
-            return Data;
+            //
+        }
+
+        protected override int GetDataLength()
+        {
+            return Data.Length;
+        }
+
+        protected override void WriteData(Vault vault, BinaryWriter bw)
+        {
+            bw.Write(Data);
         }
     }
 }

@@ -42,8 +42,8 @@ namespace VaultLib.Core.Types.Attrib
         {
             if (Data != null)
             {
-                _preparedData = PrepareData() ?? throw new Exception("PrepareData() returned null.");
-                bw.Write(_preparedData.Length);
+                PrepareData();
+                bw.Write(GetDataLength());
             }
             else
             {
@@ -56,15 +56,19 @@ namespace VaultLib.Core.Types.Attrib
 
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
-            Data = ReadData(br);
+            if (_dataOffset != 0)
+            {
+                br.BaseStream.Position = _dataOffset;
+                Data = ReadData(vault, br);
+            }
         }
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
-            if (_preparedData != null)
+            if (Data != null)
             {
                 _dataPtrDst = bw.BaseStream.Position;
-                bw.Write(_preparedData);
+                WriteData(vault, bw);
             }
         }
 
@@ -73,9 +77,12 @@ namespace VaultLib.Core.Types.Attrib
             vault.SaveContext.AddPointer(_dataPtrSrc, _dataPtrDst, false);
         }
 
-        protected abstract byte[] PrepareData();
+        protected abstract void PrepareData();
+        protected abstract int GetDataLength();
 
-        protected virtual byte[] ReadData(BinaryReader br)
+        protected abstract void WriteData(Vault vault, BinaryWriter bw);
+
+        protected virtual byte[] ReadData(Vault vault, BinaryReader br)
         {
             byte[] bytes = br.ReadBytes(Length);
 
