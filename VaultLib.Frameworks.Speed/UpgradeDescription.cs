@@ -4,7 +4,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
-namespace VaultLib.Support.Undercover.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(UpgradeDescription))]
     public class UpgradeDescription : VLTBaseType
