@@ -4,7 +4,7 @@ using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
-using VaultLib.Support.ProStreet.VLT.Physics.Upgrades;
+using VaultLib.Frameworks.Speed.Physics.Upgrades;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
