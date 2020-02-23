@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.GRace
+namespace VaultLib.Frameworks.Speed.GRace
 {
     [VLTTypeInfo("GRace::Boss")]
     public enum Boss
