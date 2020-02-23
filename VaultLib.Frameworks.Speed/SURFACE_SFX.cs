@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(SURFACE_SFX))]
     public enum SURFACE_SFX

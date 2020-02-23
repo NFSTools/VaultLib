@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT.NIS
+namespace VaultLib.Frameworks.Speed.NIS
 {
     [VLTTypeInfo("NIS::eNIS_STYLE")]
     public enum eNIS_STYLE

@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Frameworks.Speed.Physics.Upgrades;
 
-namespace VaultLib.Support.ProStreet.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(ModifyScalarValue))]
     public class ModifyScalarValue : VLTBaseType

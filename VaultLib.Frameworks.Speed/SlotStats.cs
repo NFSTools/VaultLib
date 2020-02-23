@@ -2,16 +2,16 @@
 // 
 // Created: 10/19/2019 @ 5:25 PM.
 
-using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Support.ProStreet.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(SlotStats))]
     public class SlotStats : VLTBaseType, IReferencesStrings

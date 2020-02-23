@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT.NIS
+namespace VaultLib.Frameworks.Speed.NIS
 {
     [VLTTypeInfo("NIS::eMULTICLASS_GROUP")]
     public enum eMULTICLASS_GROUP
