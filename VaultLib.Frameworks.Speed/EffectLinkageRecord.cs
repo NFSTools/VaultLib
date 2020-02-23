@@ -1,6 +1,6 @@
 ﻿// This file is part of VaultLib by heyitsleo.
 // 
-// Created: 10/07/2019 @ 8:18 PM.
+// Created: 09/29/2019 @ 9:35 AM.
 
 using System.Collections.Generic;
 using System.IO;
@@ -50,8 +50,8 @@ namespace VaultLib.Frameworks.Speed
 
         public bool ReferencesCollection(string classKey, string collectionKey)
         {
-            return Surface.ClassKey == classKey && Surface.CollectionKey == collectionKey ||
-                   Effect.ClassKey == classKey && Effect.CollectionKey == collectionKey;
+            return Surface.ReferencesCollection(classKey, collectionKey)
+                   || Effect.ReferencesCollection(classKey, collectionKey);
         }
 
         public EffectLinkageRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

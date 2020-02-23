@@ -1,4 +1,4 @@
-﻿namespace VaultLib.Support.ProStreet.VLT
+﻿namespace VaultLib.Frameworks.Speed
 {
     public enum ePaintSlot
     {

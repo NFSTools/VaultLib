@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(eTURN_INDICATORS))]
     public enum eTURN_INDICATORS

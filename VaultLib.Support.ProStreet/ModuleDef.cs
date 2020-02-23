@@ -28,8 +28,8 @@ namespace VaultLib.Support.ProStreet
             ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_PROSTREET);
             ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_PROSTREET);
 
-            TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_PROSTREET);
             SpeedFramework.Register(GameIdHelper.ID_PROSTREET);
+            TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_PROSTREET);
         }
     }
 }

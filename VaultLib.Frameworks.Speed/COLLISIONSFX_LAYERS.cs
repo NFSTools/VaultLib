@@ -4,7 +4,7 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(COLLISIONSFX_LAYERS))]
     public enum COLLISIONSFX_LAYERS : uint

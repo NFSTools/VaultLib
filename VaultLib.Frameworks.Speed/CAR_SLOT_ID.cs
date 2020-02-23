@@ -4,7 +4,7 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT
+namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(CAR_SLOT_ID))]
     public enum CAR_SLOT_ID
