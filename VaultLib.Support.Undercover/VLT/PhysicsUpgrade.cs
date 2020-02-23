@@ -2,6 +2,7 @@
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
+using VaultLib.Frameworks.Speed;
 
 namespace VaultLib.Support.Undercover.VLT
 {

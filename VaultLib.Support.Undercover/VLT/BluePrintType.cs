@@ -10,7 +10,7 @@ namespace VaultLib.Support.Undercover.VLT
         BLUEPRINT_DRAG = 0x2,
         BLUEPRINT_SPEED_CHALLENGE = 0x3,
         BLUEPRINT_FIRST = 0x0,
-        BLUEPRINT_LAST = 0x3,
-        BLUEPRINT_NUM = 0x4,
+        BLUEPRINT_LAST = 0x0,
+        BLUEPRINT_NUM = 0x1,
     }
 }
