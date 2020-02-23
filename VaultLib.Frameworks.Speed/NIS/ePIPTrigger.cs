@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Carbon.VLT.NIS
+namespace VaultLib.Frameworks.Speed.NIS
 {
     [VLTTypeInfo("NIS::ePIPTrigger")]
     public enum ePIPTrigger

@@ -4,7 +4,7 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Carbon.VLT.GRace
+namespace VaultLib.Frameworks.Speed.GRace
 {
     [VLTTypeInfo("GRace::Tier")]
     public enum Tier

@@ -21,8 +21,4 @@
     <ProjectReference Include="..\VaultLib.Core\VaultLib.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="GRace\" />
-  </ItemGroup>
-
 </Project>
