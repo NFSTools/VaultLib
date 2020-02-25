@@ -4,9 +4,9 @@
 
 using System.IO;
 using VaultLib.Core.Data;
+using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
-using VLT32Hasher = VaultLib.Core.Hashing.VLT32Hasher;
 
 namespace VaultLib.Core.Types.Attrib.Gen
 {
@@ -27,17 +27,31 @@ namespace VaultLib.Core.Types.Attrib.Gen
 
         public override string ClassKey { get; set; }
 
-        public override string CollectionKey { get; set; }
+        public override string CollectionKey
+        {
+            get => _hash32 != 0 ? HashManager.ResolveVLT(_hash32) : HashManager.ResolveVLT(_hash64);
+            set => _collectionKey = value;
+        }
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            CollectionKey = HashManager.ResolveVLT(br.ReadUInt32());
+            if (vault.Database.Options.Type == DatabaseType.X86Database)
+            {
+                _hash32 = br.ReadUInt32();
+            }
+            else
+            {
+                _hash64 = br.ReadUInt64();
+            }
             br.ReadUInt32();
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            bw.Write(VLT32Hasher.Hash(CollectionKey));
+            if (vault.Database.Options.Type == DatabaseType.X86Database)
+                bw.Write(VLT32Hasher.Hash(_collectionKey));
+            else
+                bw.Write(VLT64Hasher.Hash(_collectionKey));
             bw.Write(0);
         }
 
@@ -45,5 +59,10 @@ namespace VaultLib.Core.Types.Attrib.Gen
         {
             return $"{ClassKey} -> {CollectionKey}";
         }
+
+        // https://github.com/NFSTools/VaultLib/issues/13
+        private uint _hash32;
+        private ulong _hash64;
+        private string _collectionKey;
     }
 }
