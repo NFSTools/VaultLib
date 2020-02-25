@@ -30,9 +30,9 @@ namespace VaultLib.Frameworks.Speed
         public override void Write(Vault vault, BinaryWriter bw)
         {
             if (vault.Database.Options.Type == DatabaseType.X86Database)
-                bw.Write(VLT32Hasher.Hash(CollectionKey));
+                bw.Write(VLT32Hasher.Hash(_key));
             else
-                bw.Write(VLT64Hasher.Hash(CollectionKey));
+                bw.Write(VLT64Hasher.Hash(_key));
         }
 
         public override string ClassKey
