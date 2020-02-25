@@ -17,9 +17,14 @@ namespace VaultLib.Frameworks.Speed
     {
         public override void Read(Vault vault, BinaryReader br)
         {
-            CollectionKey = vault.Database.Options.Type == DatabaseType.X86Database
-                ? HashManager.ResolveVLT(br.ReadUInt32())
-                : HashManager.ResolveVLT(br.ReadUInt64());
+            if (vault.Database.Options.Type == DatabaseType.X86Database)
+            {
+                _hash32 = br.ReadUInt32();
+            }
+            else
+            {
+                _hash64 = br.ReadUInt64();
+            }
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
@@ -35,7 +40,12 @@ namespace VaultLib.Frameworks.Speed
             get => "gameplay";
             set { }
         }
-        public override string CollectionKey { get; set; }
+
+        public override string CollectionKey
+        {
+            get => _key = _hash32 != 0 ? HashManager.ResolveVLT(_hash32) : HashManager.ResolveVLT(_hash64);
+            set => _key = value;
+        }
         public override bool CanChangeClass => false;
 
         public override string ToString()
@@ -50,5 +60,10 @@ namespace VaultLib.Frameworks.Speed
         public GCollectionKey(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
+
+        // https://github.com/NFSTools/VaultLib/issues/13
+        private uint _hash32;
+        private ulong _hash64;
+        private string _key;
     }
 }
