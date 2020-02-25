@@ -43,7 +43,7 @@ namespace VaultLib.Frameworks.Speed
 
         public override string CollectionKey
         {
-            get => _key = _hash32 != 0 ? HashManager.ResolveVLT(_hash32) : HashManager.ResolveVLT(_hash64);
+            get => _hash32 != 0 ? HashManager.ResolveVLT(_hash32) : HashManager.ResolveVLT(_hash64);
             set => _key = value;
         }
         public override bool CanChangeClass => false;
