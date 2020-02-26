@@ -59,13 +59,11 @@ namespace VaultLib.Core.Types.Attrib
             {
                 bw.Write(VLT64Hasher.Hash(ClassKey));
                 bw.Write(VLT64Hasher.Hash(CollectionKey));
-                bw.Write(0L);
             }
             else
             {
                 bw.Write(VLT32Hasher.Hash(ClassKey));
                 bw.Write(VLT32Hasher.Hash(CollectionKey));
-                bw.Write(0);
             }
         }
 
