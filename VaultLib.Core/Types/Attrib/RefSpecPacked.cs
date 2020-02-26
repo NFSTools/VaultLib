@@ -7,14 +7,9 @@ using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
-using VLT32Hasher = VaultLib.Core.Hashing.VLT32Hasher;
-using VLT64Hasher = VaultLib.Core.Hashing.VLT64Hasher;
 
 namespace VaultLib.Core.Types.Attrib
 {
-    /// <summary>
-    /// Special implementation of <see cref="BaseRefSpec"/> for types that have an 8-or-16-byte RefSpec field.
-    /// </summary>
     public class RefSpecPacked : BaseRefSpec
     {
         public RefSpecPacked(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
@@ -26,20 +21,35 @@ namespace VaultLib.Core.Types.Attrib
         }
 
         public override string ClassKey { get; set; }
-        public override string CollectionKey { get; set; }
+
+        public override string CollectionKey
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_collectionKey))
+                {
+                    return _collectionKey;
+                }
+
+                return _collectionHash32 != 0
+                    ? HashManager.ResolveVLT(_collectionHash32)
+                    : HashManager.ResolveVLT(_collectionHash64);
+            }
+            set => _collectionKey = value;
+        }
 
         public override void Read(Vault vault, BinaryReader br)
         {
             if (vault.Database.Options.Type == DatabaseType.X64Database)
             {
-                // 64-bit RefSpec is 24 bytes instead of 12
+                // 64-bit RefSpec is 16 bytes instead of 8
                 ClassKey = HashManager.ResolveVLT(br.ReadUInt64());
-                CollectionKey = HashManager.ResolveVLT(br.ReadUInt64());
+                _collectionHash64 = br.ReadUInt64();
             }
             else
             {
                 ClassKey = HashManager.ResolveVLT(br.ReadUInt32());
-                CollectionKey = HashManager.ResolveVLT(br.ReadUInt32());
+                _collectionHash32 = br.ReadUInt32();
             }
         }
 
@@ -49,12 +59,19 @@ namespace VaultLib.Core.Types.Attrib
             {
                 bw.Write(VLT64Hasher.Hash(ClassKey));
                 bw.Write(VLT64Hasher.Hash(CollectionKey));
+                bw.Write(0L);
             }
             else
             {
                 bw.Write(VLT32Hasher.Hash(ClassKey));
                 bw.Write(VLT32Hasher.Hash(CollectionKey));
+                bw.Write(0);
             }
         }
+
+        // https://github.com/NFSTools/VaultLib/issues/13
+        private uint _collectionHash32;
+        private ulong _collectionHash64;
+        private string _collectionKey;
     }
 }

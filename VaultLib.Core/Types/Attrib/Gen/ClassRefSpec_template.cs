@@ -29,7 +29,17 @@ namespace VaultLib.Core.Types.Attrib.Gen
 
         public override string CollectionKey
         {
-            get => _hash32 != 0 ? HashManager.ResolveVLT(_hash32) : HashManager.ResolveVLT(_hash64);
+            get
+            {
+                if (!string.IsNullOrEmpty(_collectionKey))
+                {
+                    return _collectionKey;
+                }
+
+                return _hash32 != 0
+                    ? HashManager.ResolveVLT(_hash32)
+                    : HashManager.ResolveVLT(_hash64);
+            }
             set => _collectionKey = value;
         }
 
@@ -49,9 +59,9 @@ namespace VaultLib.Core.Types.Attrib.Gen
         public override void Write(Vault vault, BinaryWriter bw)
         {
             if (vault.Database.Options.Type == DatabaseType.X86Database)
-                bw.Write(VLT32Hasher.Hash(_collectionKey));
+                bw.Write(VLT32Hasher.Hash(CollectionKey));
             else
-                bw.Write(VLT64Hasher.Hash(_collectionKey));
+                bw.Write(VLT64Hasher.Hash(CollectionKey));
             bw.Write(0);
         }
 

@@ -30,9 +30,9 @@ namespace VaultLib.Frameworks.Speed
         public override void Write(Vault vault, BinaryWriter bw)
         {
             if (vault.Database.Options.Type == DatabaseType.X86Database)
-                bw.Write(VLT32Hasher.Hash(_key));
+                bw.Write(VLT32Hasher.Hash(CollectionKey));
             else
-                bw.Write(VLT64Hasher.Hash(_key));
+                bw.Write(VLT64Hasher.Hash(CollectionKey));
         }
 
         public override string ClassKey
@@ -43,7 +43,17 @@ namespace VaultLib.Frameworks.Speed
 
         public override string CollectionKey
         {
-            get => _hash32 != 0 ? HashManager.ResolveVLT(_hash32) : HashManager.ResolveVLT(_hash64);
+            get
+            {
+                if (!string.IsNullOrEmpty(_key))
+                {
+                    return _key;
+                }
+
+                return _hash32 != 0
+                    ? HashManager.ResolveVLT(_hash32)
+                    : HashManager.ResolveVLT(_hash64);
+            }
             set => _key = value;
         }
         public override bool CanChangeClass => false;

@@ -11,6 +11,7 @@ using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Pack;
 using VaultLib.Core.Types.Abstractions;
+using VaultLib.Frameworks.Speed;
 
 namespace VaultCLI
 {
