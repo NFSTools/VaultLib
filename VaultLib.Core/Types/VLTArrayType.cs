@@ -97,7 +97,8 @@ namespace VaultLib.Core.Types
 
                 var start = br.BaseStream.Position;
                 item.Read(vault, br);
-                if (!(item is PrimitiveTypeBase)) Debug.Assert(br.BaseStream.Position - start == FieldSize);
+                //if (!(item is PrimitiveTypeBase)) 
+                    Debug.Assert(br.BaseStream.Position - start == FieldSize);
                 Items.Add(item);
             }
 
@@ -116,7 +117,8 @@ namespace VaultLib.Core.Types
                 bw.AlignWriter(ItemAlignment);
                 var start = bw.BaseStream.Position;
                 t.Write(vault, bw);
-                if (!(t is PrimitiveTypeBase)) Debug.Assert(bw.BaseStream.Position - start == FieldSize);
+                //if (!(t is PrimitiveTypeBase)) 
+                    Debug.Assert(bw.BaseStream.Position - start == FieldSize);
             }
 
             for (var i = 0; i < Capacity - Items.Count; i++)
