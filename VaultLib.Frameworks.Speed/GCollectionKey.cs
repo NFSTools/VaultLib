@@ -56,7 +56,6 @@ namespace VaultLib.Frameworks.Speed
             }
             set => _key = value;
         }
-        public override bool CanChangeClass => false;
 
         public override string ToString()
         {

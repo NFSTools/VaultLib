@@ -23,8 +23,6 @@ namespace VaultLib.Core.Types.Attrib.Gen
             ClassKey = classKey;
         }
 
-        public override bool CanChangeClass => false;
-
         public override string ClassKey { get; set; }
 
         public override string CollectionKey

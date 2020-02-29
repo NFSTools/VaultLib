@@ -23,8 +23,6 @@ namespace VaultLib.Core.Types.Abstractions
         public abstract string ClassKey { get; set; }
         public abstract string CollectionKey { get; set; }
 
-        public virtual bool CanChangeClass => true;
-
         public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
         {
             yield return new CollectionReferenceInfo(this,
