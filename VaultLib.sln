@@ -25,8 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaultLib.Support.Undercover
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaultLib.Support.World", "VaultLib.Support.World\VaultLib.Support.World.csproj", "{9CF2F994-CFD6-4C3A-AC13-2877F3FF2F70}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaultCLI", "VaultCLI\VaultCLI.csproj", "{408622DB-61E0-4C68-BE44-858CBC1380B3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game support", "Game support", "{3A73BA2B-D97E-4728-A6E6-DEE320F64815}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaultLib.Frameworks.Speed", "VaultLib.Frameworks.Speed\VaultLib.Frameworks.Speed.csproj", "{95727CC1-D036-4272-8762-8D49A271A662}"
@@ -105,14 +103,6 @@ Global
 		{9CF2F994-CFD6-4C3A-AC13-2877F3FF2F70}.Release|x64.ActiveCfg = Release|x86
 		{9CF2F994-CFD6-4C3A-AC13-2877F3FF2F70}.Release|x86.ActiveCfg = Release|x86
 		{9CF2F994-CFD6-4C3A-AC13-2877F3FF2F70}.Release|x86.Build.0 = Release|x86
-		{408622DB-61E0-4C68-BE44-858CBC1380B3}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{408622DB-61E0-4C68-BE44-858CBC1380B3}.Debug|x64.ActiveCfg = Debug|x86
-		{408622DB-61E0-4C68-BE44-858CBC1380B3}.Debug|x86.ActiveCfg = Debug|x86
-		{408622DB-61E0-4C68-BE44-858CBC1380B3}.Debug|x86.Build.0 = Debug|x86
-		{408622DB-61E0-4C68-BE44-858CBC1380B3}.Release|Any CPU.ActiveCfg = Release|x86
-		{408622DB-61E0-4C68-BE44-858CBC1380B3}.Release|x64.ActiveCfg = Release|x86
-		{408622DB-61E0-4C68-BE44-858CBC1380B3}.Release|x86.ActiveCfg = Release|x86
-		{408622DB-61E0-4C68-BE44-858CBC1380B3}.Release|x86.Build.0 = Release|x86
 		{95727CC1-D036-4272-8762-8D49A271A662}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{95727CC1-D036-4272-8762-8D49A271A662}.Debug|x64.ActiveCfg = Debug|x86
 		{95727CC1-D036-4272-8762-8D49A271A662}.Debug|x86.ActiveCfg = Debug|x86
