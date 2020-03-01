@@ -1,0 +1,21 @@
+name: .NET Core
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.102
+    - name: Build
+      run: dotnet build --configuration Release /p:Platform="x86"
+    - name: Pack
+      run: dotnet pack --configuration Release /p:Platform="x86" -o finalpackage --no-build
+    - name: Push to NuGet
+      run: for f in finalpackage/*.nupkg; do dotnet nuget push "$f" --skip-duplicate -k ${{ secrets.NUGET_API_KEY }} -s https://nuget.org; done
