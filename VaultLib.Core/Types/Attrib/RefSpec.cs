@@ -34,7 +34,7 @@ namespace VaultLib.Core.Types.Attrib
 
                 return _collectionHash32 != 0
                     ? HashManager.ResolveVLT(_collectionHash32)
-                    : HashManager.ResolveVLT(_collectionHash64);
+                    : _collectionHash64 != 0 ? HashManager.ResolveVLT(_collectionHash64) : string.Empty;
             }
             set => _collectionKey = value;
         }
