@@ -38,14 +38,6 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             PursuitDistThresh = br.ReadSingle();
             Evade2OutrunSpeedThresh = br.ReadSingle();
 
-            HighTimeLimit = new float[2];
-            LowTimeLimit = new float[2];
-            EvadeTimeLimit = new float[2];
-            NormalTimeLimit = new float[2];
-            OutrunTimeLimit = new float[2];
-            SafeTimeLimit = new float[2];
-            UnsafeTimeLimit = new float[2];
-
             for (int i = 0; i < HighTimeLimit.Length; i++)
             {
                 HighTimeLimit[i] = br.ReadSingle();
@@ -141,12 +133,15 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             bw.Write(MinCopCohesion);
         }
 
-        public PursuitMusicTuning(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public PursuitMusicTuning(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public PursuitMusicTuning(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            HighTimeLimit = new float[2];
+            LowTimeLimit = new float[2];
+            EvadeTimeLimit = new float[2];
+            NormalTimeLimit = new float[2];
+            OutrunTimeLimit = new float[2];
+            SafeTimeLimit = new float[2];
+            UnsafeTimeLimit = new float[2];
         }
     }
 }

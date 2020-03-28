@@ -9,12 +9,9 @@ namespace VaultLib.Support.Undercover.VLT
     [VLTTypeInfo(nameof(PhysicsUpgrade))]
     public class PhysicsUpgrade : VLTBaseType
     {
-        public PhysicsUpgrade(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public PhysicsUpgrade(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public PhysicsUpgrade(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            ReferencedAttribute = new AttributeRefSpec(Class, Field, Collection);
         }
 
         public AttributeRefSpec ReferencedAttribute { get; set; }
@@ -22,7 +19,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            ReferencedAttribute = new AttributeRefSpec(Class, Field, Collection);
             ReferencedAttribute.Read(vault, br);
             BlendingPower = br.ReadSingle();
         }

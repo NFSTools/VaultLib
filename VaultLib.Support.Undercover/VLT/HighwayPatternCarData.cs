@@ -10,12 +10,9 @@ namespace VaultLib.Support.Undercover.VLT
     [VLTTypeInfo(nameof(HighwayPatternCarData))]
     public class HighwayPatternCarData : VLTBaseType
     {
-        public HighwayPatternCarData(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public HighwayPatternCarData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public HighwayPatternCarData(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Vehicle = new RefSpec(Class, Field, Collection);
         }
 
         public int Row { get; set; }
@@ -25,7 +22,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Vehicle = new RefSpec(Class, Field, Collection);
             Row = br.ReadInt32();
             Lane = br.ReadInt32();
             Vehicle.Read(vault, br);

@@ -13,12 +13,9 @@ namespace VaultLib.Support.Undercover.VLT
     [VLTTypeInfo(nameof(FEQuickUpgrade))]
     public class FEQuickUpgrade : VLTBaseType, IPointerObject, IReferencesStrings
     {
-        public FEQuickUpgrade(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public FEQuickUpgrade(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public FEQuickUpgrade(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _offerIdText = new Text(Class, Field, Collection);
         }
 
         public float Cost { get; set; }
@@ -37,7 +34,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _offerIdText = new Text(Class, Field, Collection);
             _ptrPackages = br.ReadUInt32();
             Cost = br.ReadSingle();
             Tier1_Cost = br.ReadSingle();
@@ -58,7 +54,7 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(Tier2_Cost);
             bw.Write(Tier3_Cost);
             bw.Write(Tier4_Cost);
-            _offerIdText = new Text(Class, Field, Collection) { Value = OfferID };
+            _offerIdText.Value = OfferID;
             _offerIdText.Write(vault, bw);
             bw.Write((byte) Entries.Count);
             bw.AlignWriter(4);

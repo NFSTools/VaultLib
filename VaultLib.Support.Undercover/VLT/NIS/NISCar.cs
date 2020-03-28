@@ -26,23 +26,19 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            PresetRide = new RefSpec(Class, Field, Collection);
             PresetRide.Read(vault, br);
-
-            _presetSkinNameText = new Text(Class, Field, Collection);
             _presetSkinNameText.Read(vault, br);
-
             VehicleCategory = br.ReadUInt32();
-
-            _channelNameText = new Text(Class, Field, Collection);
             _channelNameText.Read(vault, br);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
             PresetRide.Write(vault, bw);
+            _presetSkinNameText.Value = PresetSkinName;
             _presetSkinNameText.Write(vault, bw);
             bw.Write(VehicleCategory);
+            _channelNameText.Value = ChannelName;
             _channelNameText.Write(vault, bw);
         }
 
@@ -72,12 +68,11 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             return _presetSkinNameText.GetStrings().Concat(_channelNameText.GetStrings());
         }
 
-        public NISCar(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public NISCar(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public NISCar(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            PresetRide = new RefSpec(Class, Field, Collection);
+            _presetSkinNameText = new Text(Class, Field, Collection);
+            _channelNameText = new Text(Class, Field, Collection);
         }
     }
 }

@@ -8,12 +8,9 @@ namespace VaultLib.Support.Undercover.VLT
     [VLTTypeInfo(nameof(PresetRideRandomPaint))]
     public class PresetRideRandomPaint : VLTBaseType
     {
-        public PresetRideRandomPaint(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public PresetRideRandomPaint(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public PresetRideRandomPaint(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Paint = new PresetRidePaint(Class, Field, Collection);
         }
 
         public PresetRidePaint Paint { get; set; }
@@ -21,7 +18,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Paint = new PresetRidePaint(Class, Field, Collection);
             Paint.Read(vault, br);
             Chance = br.ReadSingle();
         }

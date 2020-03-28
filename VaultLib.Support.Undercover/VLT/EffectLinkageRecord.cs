@@ -27,10 +27,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Surface = new RefSpec(Class, Field, Collection);
-            Effect = new RefSpec(Class, Field, Collection);
-            Audio = new RefSpec(Class, Field, Collection);
-
             Surface.Read(vault, br);
             Effect.Read(vault, br);
             Audio.Read(vault, br);
@@ -66,12 +62,11 @@ namespace VaultLib.Support.Undercover.VLT
                    || Audio.ReferencesCollection(classKey, collectionKey);
         }
 
-        public EffectLinkageRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public EffectLinkageRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public EffectLinkageRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Surface = new RefSpec(Class, Field, Collection);
+            Effect = new RefSpec(Class, Field, Collection);
+            Audio = new RefSpec(Class, Field, Collection);
         }
     }
 }

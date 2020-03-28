@@ -27,9 +27,6 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _actorNameText = new Text(Class, Field, Collection);
-            _carChannelNameText = new Text(Class, Field, Collection);
-
             _actorNameText.Read(vault, br);
             _carChannelNameText.Read(vault, br);
 
@@ -42,6 +39,8 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
+            _actorNameText.Value = ActorName;
+            _carChannelNameText.Value = CarChannelName;
             _actorNameText.Write(vault, bw);
             _carChannelNameText.Write(vault, bw);
             bw.Write(IsDriver);
@@ -77,12 +76,10 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             return _actorNameText.GetStrings().Concat(_carChannelNameText.GetStrings());
         }
 
-        public NISActor(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public NISActor(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public NISActor(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _actorNameText = new Text(Class, Field, Collection);
+            _carChannelNameText = new Text(Class, Field, Collection);
         }
     }
 }

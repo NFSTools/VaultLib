@@ -9,12 +9,10 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
     [VLTTypeInfo("VinylsAttrib::DecalLayer")]
     public class DecalLayer : VLTBaseType
     {
-        public DecalLayer(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public DecalLayer(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public DecalLayer(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Transform = new VinylTransform(Class, Field, Collection);
+            Color = new VinylColor(Class, Field, Collection);
         }
 
         public uint PartNameHash { get; set; }
@@ -24,8 +22,6 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Transform = new VinylTransform(Class, Field, Collection);
-            Color = new VinylColor(Class, Field, Collection);
             PartNameHash = br.ReadUInt32();
             Mirrored = br.ReadBoolean();
             br.AlignReader(4);
