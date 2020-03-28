@@ -17,13 +17,6 @@ namespace VaultLib.Support.Undercover.VLT.Sound
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            StartTimeLimit = new float[2];
-            LowTimeLimit = new float[2];
-            FailureTimeLimit = new float[2];
-            MediumTimeLimit = new float[2];
-            HighTimeLimit = new float[2];
-            OpponentDamageThreshold = new float[2];
-
             for (int i = 0; i < StartTimeLimit.Length; i++)
             {
                 StartTimeLimit[i] = br.ReadSingle();
@@ -88,12 +81,14 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             }
         }
 
-        public ChasedownMusicTuning(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public ChasedownMusicTuning(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public ChasedownMusicTuning(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            StartTimeLimit = new float[2];
+            LowTimeLimit = new float[2];
+            FailureTimeLimit = new float[2];
+            MediumTimeLimit = new float[2];
+            HighTimeLimit = new float[2];
+            OpponentDamageThreshold = new float[2];
         }
     }
 }

@@ -11,12 +11,10 @@ namespace VaultLib.Support.Undercover.VLT
     [VLTTypeInfo(nameof(TireEffectRecord))]
     public class TireEffectRecord : VLTBaseType
     {
-        public TireEffectRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public TireEffectRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public TireEffectRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            mEmitter = new RefSpec(Class, Field, Collection);
+            mEmitterLowLod = new RefSpec(Class, Field, Collection);
         }
 
         public TireCondition mTireCondition { get; set; }
@@ -28,9 +26,7 @@ namespace VaultLib.Support.Undercover.VLT
         public override void Read(Vault vault, BinaryReader br)
         {
             mTireCondition = br.ReadEnum<TireCondition>();
-            mEmitter = new RefSpec(Class, Field, Collection);
             mEmitter.Read(vault, br);
-            mEmitterLowLod = new RefSpec(Class, Field, Collection);
             mEmitterLowLod.Read(vault, br);
             mMinSpeed = br.ReadSingle();
             mMaxSpeed = br.ReadSingle();

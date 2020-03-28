@@ -46,7 +46,6 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _debugNameText = new Text(Class, Field, Collection);
             _debugNameText.Read(vault, br);
 
             TwoSidedStencilMode = br.ReadBoolean();
@@ -77,6 +76,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
+            _debugNameText.Value = DebugName;
             _debugNameText.Write(vault, bw);
             bw.Write(TwoSidedStencilMode);
             bw.Write(ZEnable);
@@ -125,12 +125,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             return _debugNameText.GetStrings();
         }
 
-        public cDepthStencilStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public cDepthStencilStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public cDepthStencilStateAttribDefinition(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _debugNameText = new Text(Class, Field, Collection);
         }
     }
 }

@@ -41,13 +41,13 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public override void Read(Vault vault, BinaryReader br)
         {
             SceneRootType = br.ReadEnum<eSceneRoot>();
-            _markerNameText = new Text(Class, Field, Collection);
             _markerNameText.Read(vault, br);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.WriteEnum(SceneRootType);
+            _markerNameText.Value = MarkerName;
             _markerNameText.Write(vault, bw);
         }
 
@@ -72,12 +72,9 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             return _markerNameText.GetStrings();
         }
 
-        public SceneRoot(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public SceneRoot(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public SceneRoot(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _markerNameText = new Text(Class, Field, Collection);
         }
     }
 }

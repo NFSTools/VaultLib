@@ -11,12 +11,9 @@ namespace VaultLib.Support.Undercover.VLT
     [VLTTypeInfo(nameof(PresetRidePart))]
     public class PresetRidePart : VLTBaseType
     {
-        public PresetRidePart(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public PresetRidePart(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public PresetRidePart(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Part = new RefSpec(Class, Field, Collection);
         }
 
         public CAR_SLOT_ID SlotID { get; set; }
@@ -25,7 +22,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Part = new RefSpec(Class, Field, Collection);
             SlotID = br.ReadEnum<CAR_SLOT_ID>();
             Part.Read(vault, br);
             KitNumber = br.ReadUInt32();

@@ -60,7 +60,6 @@ namespace VaultLib.Support.Undercover.VLT
             DetailHash = br.ReadUInt32();
             PartDetails = new VLTPointerContainer<FEPartDetail>(Class, Field, Collection);
             PartDetails.Read(vault, br);
-            _offerIdText = new Text(Class, Field, Collection);
             _offerIdText.Read(vault, br);
             IsOnlineLockable = br.ReadBoolean();
             br.AlignReader(4);
@@ -86,6 +85,7 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(LogoTextureId);
             bw.Write(DetailHash);
             PartDetails.Write(vault, bw);
+            _offerIdText.Value = OfferID;
             _offerIdText.Write(vault, bw);
             bw.Write(IsOnlineLockable);
             bw.AlignWriter(4);
@@ -116,12 +116,10 @@ namespace VaultLib.Support.Undercover.VLT
             return _offerIdText.GetStrings();
         }
 
-        public FEPartData(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public FEPartData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public FEPartData(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _offerIdText = new Text(Class, Field, Collection);
+            OfferID = string.Empty;
         }
     }
 }

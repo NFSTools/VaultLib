@@ -12,12 +12,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
     [VLTTypeInfo("RenderReflect::cSamplerStateAttribDefinition")]
     public class cSamplerStateAttribDefinition : VLTBaseType, IReferencesStrings
     {
-        public cSamplerStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public cSamplerStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public cSamplerStateAttribDefinition(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _nameText = new Text(Class, Field, Collection);
         }
 
         public string Name { get; set; }
@@ -41,7 +38,6 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _nameText = new Text(Class, Field, Collection);
             _nameText.Read(vault, br);
             Unknown1 = br.ReadUInt32();
             Unknown2 = br.ReadUInt32();
@@ -62,7 +58,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _nameText = new Text(Class, Field, Collection) { Value = Name };
+            _nameText.Value = Name;
             _nameText.Write(vault, bw);
             bw.Write(Unknown1);
             bw.Write(Unknown2);

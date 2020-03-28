@@ -25,7 +25,6 @@ namespace VaultLib.Support.Undercover.VLT
         {
             SubjectHALId = br.ReadUInt32();
             TextHALId = br.ReadUInt32();
-            _pictureText = new Text(Class, Field, Collection);
             _pictureText.Read(vault, br);
         }
 
@@ -33,6 +32,7 @@ namespace VaultLib.Support.Undercover.VLT
         {
             bw.Write(SubjectHALId);
             bw.Write(TextHALId);
+            _pictureText.Value = Picture;
             _pictureText.Write(vault, bw);
         }
 
@@ -57,12 +57,9 @@ namespace VaultLib.Support.Undercover.VLT
             return _pictureText.GetStrings();
         }
 
-        public FEHintsData(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public FEHintsData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public FEHintsData(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _pictureText = new Text(Class, Field, Collection);
         }
     }
 }

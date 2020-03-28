@@ -8,12 +8,11 @@ namespace VaultLib.Support.Undercover.VLT
     [VLTTypeInfo(nameof(RoadblockSetup))]
     public class RoadblockSetup : VLTBaseType
     {
-        public RoadblockSetup(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public RoadblockSetup(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public RoadblockSetup(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Contents = new RoadblockElement[6];
+            for (int i = 0; i < 6; i++)
+                Contents[i] = new RoadblockElement(Class, Field, Collection);
         }
 
         public float MinimumWidthRequired { get; set; }
@@ -24,7 +23,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Contents = new RoadblockElement[6];
             MinimumWidthRequired = br.ReadSingle();
             RequiredVehicles = br.ReadUInt32();
             MinimumThreatLevel = br.ReadSingle();
@@ -32,7 +30,6 @@ namespace VaultLib.Support.Undercover.VLT
 
             for (int i = 0; i < 6; i++)
             {
-                Contents[i] = new RoadblockElement(Class, Field, Collection);
                 Contents[i].Read(vault, br);
             }
         }

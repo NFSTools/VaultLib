@@ -18,9 +18,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Front = new Curve(Class, Field, Collection);
-            Rear = new Curve(Class, Field, Collection);
-
             Front.Read(vault, br);
             Rear.Read(vault, br);
         }
@@ -49,12 +46,10 @@ namespace VaultLib.Support.Undercover.VLT
             Rear.AddPointers(vault);
         }
 
-        public AxlePairCurve(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public AxlePairCurve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public AxlePairCurve(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Front = new Curve(Class, Field, Collection);
+            Rear = new Curve(Class, Field, Collection);
         }
     }
 }

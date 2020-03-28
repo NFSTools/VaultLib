@@ -24,14 +24,6 @@ namespace VaultLib.Support.Undercover.VLT.Sound
         public override void Read(Vault vault, BinaryReader br)
         {
             // TODO: investigate structure
-
-            OpRadiusLimit = new float[2];
-            HornLimit = new float[2];
-            PriorityLimit = new float[2];
-            WailLimit = new float[2];
-            YelpLimit = new float[2];
-            LoopXFadeRange = new float[2];
-
             for (int i = 0; i < OpRadiusLimit.Length; i++)
             {
                 OpRadiusLimit[i] = br.ReadSingle();
@@ -110,12 +102,14 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             bw.Write(Unknown4);
         }
 
-        public SirenTuning(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public SirenTuning(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public SirenTuning(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            OpRadiusLimit = new float[2];
+            HornLimit = new float[2];
+            PriorityLimit = new float[2];
+            WailLimit = new float[2];
+            YelpLimit = new float[2];
+            LoopXFadeRange = new float[2];
         }
     }
 }

@@ -29,21 +29,19 @@ namespace VaultLib.Support.Undercover.VLT
         public override void Read(Vault vault, BinaryReader br)
         {
             PartID = br.ReadInt32();
-            _attachPartText = new Text(Class, Field, Collection);
             _attachPartText.Read(vault, br);
-            Material = new RefSpec(Class, Field, Collection);
             Material.Read(vault, br);
-            _smackableCollisionNameText = new Text(Class, Field, Collection);
             _smackableCollisionNameText.Read(vault, br);
-            SmackableCollisionAttribute = new RefSpec(Class, Field, Collection);
             SmackableCollisionAttribute.Read(vault, br);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
             bw.Write(PartID);
+            _attachPartText.Value = AttachPart;
             _attachPartText.Write(vault, bw);
             Material.Write(vault, bw);
+            _smackableCollisionNameText.Value = SmackableCollisionName;
             _smackableCollisionNameText.Write(vault, bw);
             SmackableCollisionAttribute.Write(vault, bw);
         }
@@ -74,12 +72,12 @@ namespace VaultLib.Support.Undercover.VLT
                 .Concat(_smackableCollisionNameText.GetStrings());
         }
 
-        public CCarDamageEntry(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public CCarDamageEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public CCarDamageEntry(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _attachPartText = new Text(Class, Field, Collection);
+            Material = new RefSpec(Class, Field, Collection);
+            _smackableCollisionNameText = new Text(Class, Field, Collection);
+            SmackableCollisionAttribute = new RefSpec(Class, Field, Collection);
         }
     }
 }

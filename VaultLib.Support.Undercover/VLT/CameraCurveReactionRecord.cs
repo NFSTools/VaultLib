@@ -19,7 +19,6 @@ namespace VaultLib.Support.Undercover.VLT
         {
             if (br.ReadUInt32() != 0)
                 throw new InvalidDataException();
-            Curve = new Curve(Class, Field, Collection);
             Curve.Read(vault, br);
         }
 
@@ -44,12 +43,9 @@ namespace VaultLib.Support.Undercover.VLT
             Curve.AddPointers(vault);
         }
 
-        public CameraCurveReactionRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public CameraCurveReactionRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public CameraCurveReactionRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Curve = new Curve(Class, Field, Collection);
         }
     }
 }

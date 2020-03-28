@@ -11,12 +11,9 @@ namespace VaultLib.Support.Undercover.VLT
     [VLTTypeInfo(nameof(PresetRidePaint))]
     public class PresetRidePaint : VLTBaseType
     {
-        public PresetRidePaint(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public PresetRidePaint(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public PresetRidePaint(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Group = new RefSpec(Class, Field, Collection);
         }
 
         public ePaintSlot SlotID { get; set; }
@@ -28,7 +25,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Group = new RefSpec(Class, Field, Collection);
             SlotID = br.ReadEnum<ePaintSlot>();
             Group.Read(vault, br);
             Swatch = br.ReadByte();

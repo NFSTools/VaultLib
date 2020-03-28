@@ -42,7 +42,6 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _debugNameText = new Text(Class, Field, Collection);
             _debugNameText.Read(vault, br);
             BlendEnable = br.ReadBoolean();
             AlphaTestEnable = br.ReadBoolean();
@@ -70,6 +69,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
+            _debugNameText.Value = DebugName;
             _debugNameText.Write(vault, bw);
             bw.Write(BlendEnable);
             bw.Write(AlphaTestEnable);
@@ -115,12 +115,21 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             return _debugNameText.GetStrings();
         }
 
-        public cBlendStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public cBlendStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public cBlendStateAttribDefinition(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _debugNameText = new Text(Class, Field, Collection);
+            SourceColor = new State_BlendInput[4];
+            DestColor = new State_BlendInput[4];
+            OperationColor = new State_BlendOp[4];
+            SourceAlpha = new State_BlendInput[4];
+            DestAlpha = new State_BlendInput[4];
+            OperationAlpha = new State_BlendOp[4];
+            RGBAEnableRT0 = new bool[4];
+            RGBAEnableRT1 = new bool[4];
+            RGBAEnableRT2 = new bool[4];
+            RGBAEnableRT3 = new bool[4];
+            HiPrecisionBlendEnable_XENON = new bool[4];
+            BlendEnable_PS3 = new bool[4];
         }
     }
 }

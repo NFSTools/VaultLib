@@ -29,7 +29,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _name = new Text(Class, Field, Collection);
             _name.Read(vault, br);
             mCurveStart = br.ReadUInt16();
             mCurveCount = br.ReadUInt16();
@@ -43,7 +42,7 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _name = new Text(Class, Field, Collection) { Value = Name };
+            _name.Value = Name;
             _name.Write(vault, bw);
             bw.Write(mCurveStart);
             bw.Write(mCurveCount);
@@ -76,12 +75,9 @@ namespace VaultLib.Support.Undercover.VLT
             return new[] { Name };
         }
 
-        public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public GMapRegionInfo(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _name = new Text(Class, Field, Collection);
         }
     }
 }

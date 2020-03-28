@@ -36,8 +36,6 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            ScissorData = new ScissorData(Class, Field, Collection);
-            _debugNameText = new Text(Class, Field, Collection);
             _debugNameText.Read(vault, br);
             CullMode = br.ReadEnum<State_RasterizerCullMode>();
             DepthBias = br.ReadSingle();
@@ -60,7 +58,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _debugNameText = new Text(Class, Field, Collection) { Value = DebugName };
+            _debugNameText.Value = DebugName;
             _debugNameText.Write(vault, bw);
             bw.WriteEnum(CullMode);
             bw.Write(DepthBias);
@@ -102,12 +100,10 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             return _debugNameText.GetStrings();
         }
 
-        public cRasterizerStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public cRasterizerStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public cRasterizerStateAttribDefinition(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            ScissorData = new ScissorData(Class, Field, Collection);
+            _debugNameText = new Text(Class, Field, Collection);
         }
     }
 }

@@ -30,24 +30,23 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _markerNameText = new Text(Class, Field, Collection);
             _markerNameText.Read(vault, br);
             PartID = br.ReadInt32();
             SlotID = br.ReadInt32();
-            _attachPartText = new Text(Class, Field, Collection);
             _attachPartText.Read(vault, br);
-            _smackableCollisionNameText = new Text(Class, Field, Collection);
             _smackableCollisionNameText.Read(vault, br);
-            SmackableCollisionAttribute = new RefSpec(Class, Field, Collection);
             SmackableCollisionAttribute.Read(vault, br);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
+            _markerNameText.Value = MarkerName;
             _markerNameText.Write(vault, bw);
             bw.Write(PartID);
             bw.Write(SlotID);
+            _attachPartText.Value = AttachPart;
             _attachPartText.Write(vault, bw);
+            _smackableCollisionNameText.Value = SmackableCollisionName;
             _smackableCollisionNameText.Write(vault, bw);
             SmackableCollisionAttribute.Write(vault, bw);
         }
@@ -83,12 +82,12 @@ namespace VaultLib.Support.Undercover.VLT
                 .Concat(_smackableCollisionNameText.GetStrings());
         }
 
-        public CCarDamageMarkerEntry(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public CCarDamageMarkerEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public CCarDamageMarkerEntry(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _markerNameText = new Text(Class, Field, Collection);
+            _attachPartText = new Text(Class, Field, Collection);
+            _smackableCollisionNameText = new Text(Class, Field, Collection);
+            SmackableCollisionAttribute = new RefSpec(Class, Field, Collection);
         }
     }
 }

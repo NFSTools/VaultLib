@@ -24,10 +24,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _slotNameText = new Text(Class, Field, Collection);
-            Camera = new RefSpec(Class, Field, Collection);
-            Camera_4_3 = new RefSpec(Class, Field, Collection);
-
             _slotNameText.Read(vault, br);
             Camera.Read(vault, br);
             Camera_4_3.Read(vault, br);
@@ -35,6 +31,7 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
+            _slotNameText.Value = SlotName;
             _slotNameText.Write(vault, bw);
             Camera.Write(vault, bw);
             Camera_4_3.Write(vault, bw);
@@ -61,12 +58,12 @@ namespace VaultLib.Support.Undercover.VLT
             return _slotNameText.GetStrings();
         }
 
-        public FEPartCamera(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public FEPartCamera(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public FEPartCamera(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _slotNameText = new Text(Class, Field, Collection);
+            Camera = new RefSpec(Class, Field, Collection);
+            Camera_4_3 = new RefSpec(Class, Field, Collection);
+            SlotName = string.Empty;
         }
     }
 }

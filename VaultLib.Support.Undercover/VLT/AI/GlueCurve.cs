@@ -18,9 +18,6 @@ namespace VaultLib.Support.Undercover.VLT.AI
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Easy = new Curve(Class, Field, Collection);
-            Hard = new Curve(Class, Field, Collection);
-
             Easy.Read(vault, br);
             Hard.Read(vault, br);
         }
@@ -49,12 +46,10 @@ namespace VaultLib.Support.Undercover.VLT.AI
             Hard.AddPointers(vault);
         }
 
-        public GlueCurve(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public GlueCurve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public GlueCurve(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Easy = new Curve(Class, Field, Collection);
+            Hard = new Curve(Class, Field, Collection);
         }
     }
 }
