@@ -32,9 +32,6 @@ namespace VaultLib.Support.ProStreet.VLT
             MaxX = br.ReadSingle();
             MinY = br.ReadSingle();
             MaxY = br.ReadSingle();
-            _xArray = new VariableArray();
-            _yArray = new VariableArray();
-            _y2Array = new VariableArray();
             _xArray.Read(vault, br);
             _yArray.Read(vault, br);
             _y2Array.Read(vault, br);
@@ -44,19 +41,17 @@ namespace VaultLib.Support.ProStreet.VLT
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
+            _xArray.Data = XValues;
+            _yArray.Data = YValues;
+            _y2Array.Data = Y2Values; 
+            
             bw.Write(MinX);
             bw.Write(MaxX);
             bw.Write(MinY);
             bw.Write(MaxY);
 
-            _xArray = new VariableArray();
-            _yArray = new VariableArray();
-            _y2Array = new VariableArray();
-            _xArray.Data = XValues;
             _xArray.Write(vault, bw);
-            _yArray.Data = YValues;
             _yArray.Write(vault, bw);
-            _y2Array.Data = Y2Values;
             _y2Array.Write(vault, bw);
 
             bw.Write(0); // AllocatedMemory (bool1 + 3 align bytes)
@@ -87,12 +82,11 @@ namespace VaultLib.Support.ProStreet.VLT
             _y2Array.AddPointers(vault);
         }
 
-        public Curve(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public Curve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public Curve(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _xArray = new VariableArray();
+            _yArray = new VariableArray();
+            _y2Array = new VariableArray();
         }
     }
 }

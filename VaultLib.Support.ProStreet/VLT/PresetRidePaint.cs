@@ -11,12 +11,10 @@ namespace VaultLib.Support.ProStreet.VLT
     [VLTTypeInfo(nameof(PresetRidePaint))]
     public class PresetRidePaint : VLTBaseType
     {
-        public PresetRidePaint(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public PresetRidePaint(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public PresetRidePaint(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Group = new RefSpec(Class, Field, Collection);
+            Swatch = new RefSpec(Class, Field, Collection);
         }
 
         public ePaintSlot SlotID { get; set; }
@@ -27,9 +25,6 @@ namespace VaultLib.Support.ProStreet.VLT
         public float Variance { get; set; }
         public override void Read(Vault vault, BinaryReader br)
         {
-            Group = new RefSpec(Class, Field, Collection);
-            Swatch = new RefSpec(Class, Field, Collection);
-
             SlotID = br.ReadEnum<ePaintSlot>();
             Group.Read(vault, br);
             Swatch.Read(vault, br);
