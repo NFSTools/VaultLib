@@ -10,20 +10,15 @@ namespace VaultLib.Core.Types.Attrib.Types
     [VLTTypeInfo("Attrib::Types::Matrix")]
     public class Matrix : VLTBaseType
     {
-        public Matrix(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public Matrix(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public Matrix(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Data = new float[16];
         }
 
         public float[] Data { get; set; }
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Data = new float[16];
-
             for (var i = 0; i < 16; i++) Data[i] = br.ReadSingle();
         }
 
