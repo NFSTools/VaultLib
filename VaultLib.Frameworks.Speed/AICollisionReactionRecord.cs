@@ -42,14 +42,9 @@ namespace VaultLib.Frameworks.Speed
             throw new System.NotImplementedException();
         }
 
-        public AICollisionReactionRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public AICollisionReactionRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             Reaction = new RefSpec(Class, Field, Collection);
-        }
-
-        public AICollisionReactionRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
-            Reaction = new RefSpec(Class, Field);
         }
     }
 }
