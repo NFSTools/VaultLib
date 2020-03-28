@@ -23,15 +23,14 @@ namespace VaultLib.ModernBase
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _text = new Text(Class, Field, Collection);
             br.ReadUInt32();
             _text.Read(vault, br);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _text = new Text(Class, Field, Collection) { Value = Value };
-            bw.Write(string.IsNullOrEmpty(Value) ? 0 : VLT32Hasher.Hash(Value));
+            _text.Value = Value;
+            bw.Write(VLT32Hasher.Hash(Value));
             _text.Write(vault, bw);
         }
 
@@ -71,12 +70,10 @@ namespace VaultLib.ModernBase
             Value = str;
         }
 
-        public StringKey(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public StringKey(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public StringKey(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _text = new Text(Class, Field, Collection);
+            Value = string.Empty;
         }
     }
 }

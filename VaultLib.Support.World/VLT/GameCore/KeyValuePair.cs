@@ -62,6 +62,7 @@ namespace VaultLib.Support.World.VLT.GameCore
         public KeyValuePair(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _keyString = new Text(Class, Field, Collection);
+            KeyString = string.Empty;
         }
     }
 }

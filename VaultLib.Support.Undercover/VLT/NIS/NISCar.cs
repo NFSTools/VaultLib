@@ -73,6 +73,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             PresetRide = new RefSpec(Class, Field, Collection);
             _presetSkinNameText = new Text(Class, Field, Collection);
             _channelNameText = new Text(Class, Field, Collection);
+            PresetSkinName = ChannelName = string.Empty;
         }
     }
 }

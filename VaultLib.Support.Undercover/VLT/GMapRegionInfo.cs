@@ -78,6 +78,7 @@ namespace VaultLib.Support.Undercover.VLT
         public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _name = new Text(Class, Field, Collection);
+            Name = string.Empty;
         }
     }
 }

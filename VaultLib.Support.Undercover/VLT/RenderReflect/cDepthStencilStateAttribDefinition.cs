@@ -128,6 +128,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public cDepthStencilStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _debugNameText = new Text(Class, Field, Collection);
+            DebugName = string.Empty;
         }
     }
 }

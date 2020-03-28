@@ -16,6 +16,7 @@ namespace VaultLib.Support.Undercover.VLT
         public FEQuickUpgrade(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _offerIdText = new Text(Class, Field, Collection);
+            OfferID = string.Empty;
         }
 
         public float Cost { get; set; }

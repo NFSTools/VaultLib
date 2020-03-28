@@ -15,6 +15,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public cSamplerStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _nameText = new Text(Class, Field, Collection);
+            Name = string.Empty;
         }
 
         public string Name { get; set; }

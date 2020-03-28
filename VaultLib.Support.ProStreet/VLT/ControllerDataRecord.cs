@@ -66,6 +66,7 @@ namespace VaultLib.Support.ProStreet.VLT
         public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _deviceID = new StringKey(Class, Field, Collection);
+            DeviceID = string.Empty;
         }
     }
 }

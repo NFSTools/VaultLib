@@ -87,6 +87,7 @@ namespace VaultLib.Support.Undercover.VLT
             _markerNameText = new Text(Class, Field, Collection);
             _attachPartText = new Text(Class, Field, Collection);
             _smackableCollisionNameText = new Text(Class, Field, Collection);
+            MarkerName = AttachPart = SmackableCollisionName = string.Empty;
             SmackableCollisionAttribute = new RefSpec(Class, Field, Collection);
         }
     }

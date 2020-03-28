@@ -58,6 +58,7 @@ namespace VaultLib.Frameworks.Speed
         public FEPartCamera(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _slotNameText = new Text(Class, Field, Collection);
+            SlotName = string.Empty;
             Camera = new RefSpec(Class, Field, Collection);
         }
     }

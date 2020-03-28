@@ -64,6 +64,7 @@ namespace VaultLib.Support.World.VLT.Commerce
         public LocalizedString(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _text = new Text(Class, Field, Collection);
+            Value = string.Empty;
         }
     }
 }

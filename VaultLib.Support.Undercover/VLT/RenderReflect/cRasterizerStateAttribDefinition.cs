@@ -104,6 +104,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         {
             ScissorData = new ScissorData(Class, Field, Collection);
             _debugNameText = new Text(Class, Field, Collection);
+            DebugName = string.Empty;
         }
     }
 }

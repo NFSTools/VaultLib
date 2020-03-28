@@ -60,6 +60,7 @@ namespace VaultLib.Support.Undercover.VLT
         public FEHintsData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _pictureText = new Text(Class, Field, Collection);
+            Picture = string.Empty;
         }
     }
 }

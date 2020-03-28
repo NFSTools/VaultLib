@@ -66,6 +66,7 @@ namespace VaultLib.Support.World.VLT
         public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             InternalDeviceId = new StringKey(Class, Field, Collection);
+            DeviceId = string.Empty;
         }
     }
 }
