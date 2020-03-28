@@ -66,7 +66,6 @@ namespace VaultLib.Support.ProStreet.VLT
 
             PartDetails = new VLTPointerContainer<FEPartDetail>(Class, Field, Collection);
             PartDetails.Read(vault, br);
-            _offerIdText = new Text(Class, Field, Collection);
             _offerIdText.Read(vault, br);
         }
 
@@ -91,6 +90,7 @@ namespace VaultLib.Support.ProStreet.VLT
             AutoSculptCamera3.Write(vault, bw);
             bw.Write(DetailHash);
             PartDetails.Write(vault, bw);
+            _offerIdText.Value = OfferID;
             _offerIdText.Write(vault, bw);
         }
 
@@ -128,12 +128,9 @@ namespace VaultLib.Support.ProStreet.VLT
             return _offerIdText.GetStrings();
         }
 
-        public FEPartData(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public FEPartData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public FEPartData(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _offerIdText = new Text(Class, Field, Collection);
         }
     }
 }

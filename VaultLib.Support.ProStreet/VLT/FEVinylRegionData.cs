@@ -9,12 +9,9 @@ namespace VaultLib.Support.ProStreet.VLT
     [VLTTypeInfo(nameof(FEVinylRegionData))]
     public class FEVinylRegionData : VLTBaseType
     {
-        public FEVinylRegionData(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public FEVinylRegionData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public FEVinylRegionData(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Camera = new RefSpec(Class, Field, Collection);
         }
 
         public uint HAL_ID { get; set; }
@@ -23,7 +20,6 @@ namespace VaultLib.Support.ProStreet.VLT
         public override void Read(Vault vault, BinaryReader br)
         {
             HAL_ID = br.ReadUInt32();
-            Camera = new RefSpec(Class, Field, Collection);
             Camera.Read(vault, br);
         }
 
