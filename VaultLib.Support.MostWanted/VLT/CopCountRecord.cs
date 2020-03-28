@@ -23,7 +23,6 @@ namespace VaultLib.Support.MostWanted.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _copType = new StringKey64(Class, Field, Collection);
             _copType.Read(vault, br);
             Count = br.ReadUInt32();
             Chance = br.ReadUInt32();
@@ -31,7 +30,7 @@ namespace VaultLib.Support.MostWanted.VLT
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _copType = new StringKey64(Class, Field, Collection) { Value = CopType };
+            _copType.Value = CopType;
             _copType.Write(vault, bw);
             bw.Write(Count);
             bw.Write(Chance);
@@ -58,12 +57,9 @@ namespace VaultLib.Support.MostWanted.VLT
             return new[] { CopType };
         }
 
-        public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public CopCountRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _copType = new StringKey64(Class, Field, Collection);
         }
     }
 }
