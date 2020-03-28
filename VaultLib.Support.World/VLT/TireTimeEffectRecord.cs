@@ -11,12 +11,10 @@ namespace VaultLib.Support.World.VLT
     [VLTTypeInfo(nameof(TireTimeEffectRecord))]
     public class TireTimeEffectRecord : VLTBaseType
     {
-        public TireTimeEffectRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public TireTimeEffectRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public TireTimeEffectRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            mEmitter = new RefSpec(Class, Field, Collection);
+            mEmitterLowLod = new RefSpec(Class, Field, Collection);
         }
 
         public TireCondition mTireCondition { get; set; }
@@ -28,9 +26,7 @@ namespace VaultLib.Support.World.VLT
         public override void Read(Vault vault, BinaryReader br)
         {
             mTireCondition = br.ReadEnum<TireCondition>();
-            mEmitter = new RefSpec(Class, Field, Collection);
             mEmitter.Read(vault, br);
-            mEmitterLowLod = new RefSpec(Class, Field, Collection);
             mEmitterLowLod.Read(vault, br);
             mMinTime = br.ReadSingle();
             mMaxTime = br.ReadSingle();

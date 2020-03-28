@@ -29,18 +29,14 @@ namespace VaultLib.Support.World.VLT
         public override void Read(Vault vault, BinaryReader br)
         {
             br.ReadUInt32(); // stringhash32(KitName)
-            _kitName = new Text(Class, Field, Collection);
             _kitName.Read(vault, br);
             Offset = br.ReadUInt32();
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            if (string.IsNullOrEmpty(KitName))
-                bw.Write(0);
-            else
-                bw.Write(VLT32Hasher.Hash(KitName));
-            _kitName = new Text(Class, Field, Collection) { Value = KitName };
+            bw.Write(VLT32Hasher.Hash(KitName));
+            _kitName.Value = KitName;
             _kitName.Write(vault, bw);
             bw.Write(Offset);
         }
@@ -66,12 +62,9 @@ namespace VaultLib.Support.World.VLT
             _kitName.AddPointers(vault);
         }
 
-        public IntegratedKitWheelOffset(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public IntegratedKitWheelOffset(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public IntegratedKitWheelOffset(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _kitName = new Text(Class, Field, Collection);
         }
     }
 }

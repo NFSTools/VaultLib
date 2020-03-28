@@ -27,7 +27,6 @@ namespace VaultLib.Support.World.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            InternalDeviceId = new StringKey(Class, Field, Collection);
             InternalDeviceId.Read(vault, br);
             UpdateType = br.ReadEnum<InputUpdateType>();
             LowerDeadZone = br.ReadSingle();
@@ -36,7 +35,7 @@ namespace VaultLib.Support.World.VLT
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            InternalDeviceId = new StringKey(Class, Field, Collection) { Value = DeviceId };
+            InternalDeviceId.Value = DeviceId;
             InternalDeviceId.Write(vault, bw);
             bw.WriteEnum(UpdateType);
             bw.Write(LowerDeadZone);
@@ -64,12 +63,9 @@ namespace VaultLib.Support.World.VLT
             InternalDeviceId.AddPointers(vault);
         }
 
-        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public ControllerDataRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            InternalDeviceId = new StringKey(Class, Field, Collection);
         }
     }
 }
