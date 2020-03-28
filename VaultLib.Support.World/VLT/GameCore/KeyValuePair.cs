@@ -24,7 +24,6 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _keyString = new Text(Class, Field, Collection);
             _keyString.Read(vault, br);
 
             br.ReadUInt32(); // stringhash32(KeyString)
@@ -33,9 +32,9 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _keyString = new Text(Class, Field, Collection) { Value = KeyString };
+            _keyString.Value = KeyString;
             _keyString.Write(vault, bw);
-            bw.Write(string.IsNullOrEmpty(KeyString) ? 0 : VLT32Hasher.Hash(KeyString));
+            bw.Write(VLT32Hasher.Hash(KeyString));
             bw.Write(Value);
         }
 
@@ -60,12 +59,9 @@ namespace VaultLib.Support.World.VLT.GameCore
             _keyString.AddPointers(vault);
         }
 
-        public KeyValuePair(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public KeyValuePair(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public KeyValuePair(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _keyString = new Text(Class, Field, Collection);
         }
     }
 }

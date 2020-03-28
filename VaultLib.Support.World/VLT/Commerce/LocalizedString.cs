@@ -21,13 +21,12 @@ namespace VaultLib.Support.World.VLT.Commerce
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _text = new Text(Class, Field, Collection);
             _text.Read(vault, br);
         }
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _text = new Text(Class, Field, Collection) { Value = Value };
+            _text.Value = Value;
             _text.Write(vault, bw);
         }
 
@@ -62,12 +61,9 @@ namespace VaultLib.Support.World.VLT.Commerce
             Value = str;
         }
 
-        public LocalizedString(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public LocalizedString(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public LocalizedString(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _text = new Text(Class, Field, Collection);
         }
     }
 }
