@@ -28,7 +28,6 @@ namespace VaultLib.Support.MostWanted.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _deviceID = new StringKey64(Class, Field, Collection);
             _deviceID.Read(vault, br);
             UpdateType = br.ReadEnum<InputUpdateType>();
             LowerDZ = br.ReadSingle();
@@ -40,8 +39,7 @@ namespace VaultLib.Support.MostWanted.VLT
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _deviceID = new StringKey64(Class, Field, Collection) { Value = DeviceID };
-
+            _deviceID.Value = DeviceID;
             _deviceID.Write(vault, bw);
             bw.WriteEnum(UpdateType);
             bw.Write(LowerDZ);
@@ -70,12 +68,9 @@ namespace VaultLib.Support.MostWanted.VLT
             return new[] { DeviceID };
         }
 
-        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public ControllerDataRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _deviceID = new StringKey64(Class, Field, Collection);
         }
     }
 }

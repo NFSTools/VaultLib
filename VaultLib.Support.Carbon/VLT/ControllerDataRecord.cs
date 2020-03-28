@@ -35,6 +35,7 @@ namespace VaultLib.Support.Carbon.VLT
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
+            _deviceID.Value = DeviceID;
             _deviceID.Write(vault, bw);
             bw.WriteEnum(UpdateType);
             bw.Write(LowerDZ);
@@ -54,7 +55,6 @@ namespace VaultLib.Support.Carbon.VLT
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
-            _deviceID.Value = DeviceID;
             _deviceID.WritePointerData(vault, bw);
         }
 
