@@ -23,7 +23,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Vehicle = new RefSpec(Class, Field, Collection);
             Vehicle.Read(vault, br);
             Rate = br.ReadSingle();
             MaxInstances = br.ReadUInt32();
@@ -53,12 +52,9 @@ namespace VaultLib.Frameworks.Speed
             return Vehicle.ClassKey == classKey && Vehicle.CollectionKey == collectionKey;
         }
 
-        public TrafficPatternRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public TrafficPatternRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public TrafficPatternRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Vehicle = new RefSpec(Class, Field, Collection);
         }
     }
 }

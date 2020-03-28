@@ -9,12 +9,9 @@ namespace VaultLib.Frameworks.Speed
     [VLTTypeInfo(nameof(PhysicsTuningSliderUnlock))]
     public class PhysicsTuningSliderUnlock : VLTBaseType
     {
-        public PhysicsTuningSliderUnlock(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public PhysicsTuningSliderUnlock(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public PhysicsTuningSliderUnlock(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            PhysicsTuningSlider = new RefSpec(Class, Field, Collection);
         }
 
         public RefSpec PhysicsTuningSlider { get; set; }
@@ -22,7 +19,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            PhysicsTuningSlider = new RefSpec(Class, Field, Collection);
             PhysicsTuningSlider.Read(vault, br);
             Range = br.ReadSingle();
         }

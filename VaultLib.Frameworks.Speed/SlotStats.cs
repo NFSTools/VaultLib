@@ -76,7 +76,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _slotNameText = new Text(Class, Field, Collection);
             _slotNameText.Read(vault, br);
             ModeFlags = br.ReadEnum<StatsModeFlag>();
             SlotDesc = br.ReadUInt32();
@@ -101,6 +100,7 @@ namespace VaultLib.Frameworks.Speed
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
+            _slotNameText.Value = SlotName;
             _slotNameText.WritePointerData(vault, bw);
         }
 
@@ -114,12 +114,11 @@ namespace VaultLib.Frameworks.Speed
             return _slotNameText.GetStrings();
         }
 
-        public SlotStats(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public SlotStats(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public SlotStats(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Stats = new FEPhysicsStatType[2];
+            _slotNameText = new Text(Class, Field, Collection);
+            SlotName = string.Empty;
         }
     }
 }

@@ -10,12 +10,9 @@ namespace VaultLib.Frameworks.Speed
     [VLTTypeInfo(nameof(PhysicsTuningPreset))]
     public class PhysicsTuningPreset : VLTBaseType
     {
-        public PhysicsTuningPreset(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public PhysicsTuningPreset(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public PhysicsTuningPreset(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            PhysicsTuningSlider = new RefSpec(Class, Field, Collection);
         }
 
         public RefSpec PhysicsTuningSlider { get; set; }
@@ -24,7 +21,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            PhysicsTuningSlider = new RefSpec(Class, Field, Collection);
             PhysicsTuningSlider.Read(vault, br);
             CenteredAroundPreset = br.ReadBoolean();
             br.AlignReader(4);

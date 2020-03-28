@@ -9,12 +9,9 @@ namespace VaultLib.Frameworks.Speed
     [VLTTypeInfo(nameof(UpgradeDescription))]
     public class UpgradeDescription : VLTBaseType
     {
-        public UpgradeDescription(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public UpgradeDescription(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public UpgradeDescription(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            mPhysicsUpgradeSet = new RefSpec(Class, Field, Collection);
         }
 
         public RefSpec mPhysicsUpgradeSet { get; set; }
@@ -22,7 +19,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            mPhysicsUpgradeSet = new RefSpec(Class, Field, Collection);
             mPhysicsUpgradeSet.Read(vault, br);
             mBlendingPower = br.ReadSingle();
         }

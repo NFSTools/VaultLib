@@ -25,7 +25,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _copType = new Text(Class, Field, Collection);
             _copType.Read(vault, br);
             br.ReadUInt32();
             Count = br.ReadUInt32();
@@ -34,9 +33,8 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _copType = new Text(Class, Field, Collection) { Value = CopType };
             _copType.Write(vault, bw);
-            bw.Write(string.IsNullOrEmpty(CopType) ? 0 : VLT32Hasher.Hash(CopType));
+            bw.Write(VLT32Hasher.Hash(CopType));
             bw.Write(Count);
             bw.Write(Chance);
         }
@@ -54,6 +52,7 @@ namespace VaultLib.Frameworks.Speed
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
+            _copType.Value = CopType;
             _copType.WritePointerData(vault, bw);
         }
 
@@ -62,12 +61,10 @@ namespace VaultLib.Frameworks.Speed
             _copType.AddPointers(vault);
         }
 
-        public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public CopCountRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _copType = new Text(Class, Field, Collection);
+            CopType = string.Empty;
         }
     }
 }

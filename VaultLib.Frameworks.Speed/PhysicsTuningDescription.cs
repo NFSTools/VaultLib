@@ -10,12 +10,9 @@ namespace VaultLib.Frameworks.Speed
     [VLTTypeInfo(nameof(PhysicsTuningDescription))]
     public class PhysicsTuningDescription : VLTBaseType
     {
-        public PhysicsTuningDescription(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public PhysicsTuningDescription(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public PhysicsTuningDescription(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            PhysicsTuning = new RefSpec(Class, Field, Collection);
         }
 
         public RefSpec PhysicsTuning { get; set; }
@@ -23,7 +20,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            PhysicsTuning = new RefSpec(Class, Field, Collection);
             PhysicsTuning.Read(vault, br);
             Increase = br.ReadBoolean();
             br.AlignReader(4);

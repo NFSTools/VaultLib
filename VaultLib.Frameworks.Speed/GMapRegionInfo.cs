@@ -25,7 +25,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _name = new Text(Class, Field, Collection);
             _name.Read(vault, br);
             mCurveStart = br.ReadUInt16();
             mCurveCount = br.ReadUInt16();
@@ -54,6 +53,7 @@ namespace VaultLib.Frameworks.Speed
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
+            _name.Value = Name;
             _name.WritePointerData(vault, bw);
         }
 
@@ -67,12 +67,9 @@ namespace VaultLib.Frameworks.Speed
             return new[] { Name };
         }
 
-        public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public GMapRegionInfo(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _name = new Text(Class, Field, Collection);
         }
     }
 }

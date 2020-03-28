@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
@@ -17,9 +16,7 @@ namespace VaultLib.Core.Types.Attrib
 
         public byte[] Data { get; set; }
 
-        protected int Length { get; set; }
-
-        private byte[] _preparedData;
+        private int Length { get; set; }
 
         private uint _dataOffset;
         private long _dataPtrDst;

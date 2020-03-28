@@ -10,12 +10,9 @@ namespace VaultLib.Frameworks.Speed
     [VLTTypeInfo(nameof(CPartsPackageEntry))]
     public class CPartsPackageEntry : VLTBaseType
     {
-        public CPartsPackageEntry(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public CPartsPackageEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public CPartsPackageEntry(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Part = new RefSpec(Class, Field, Collection);
         }
 
         public RefSpec Part { get; set; }
@@ -23,7 +20,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Part = new RefSpec(Class, Field, Collection);
             Part.Read(vault, br);
             KitNum = br.ReadByte();
             br.AlignReader(4);

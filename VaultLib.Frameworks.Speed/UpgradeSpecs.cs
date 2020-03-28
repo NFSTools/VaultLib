@@ -15,7 +15,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            ReferencedRow = new RefSpec(Class, Field, Collection);
             ReferencedRow.Read(vault, br);
             UpgradeLevel = br.ReadUInt32();
         }
@@ -26,12 +25,9 @@ namespace VaultLib.Frameworks.Speed
             bw.Write(UpgradeLevel);
         }
 
-        public UpgradeSpecs(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public UpgradeSpecs(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public UpgradeSpecs(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            ReferencedRow = new RefSpec(Class, Field, Collection);
         }
     }
 }

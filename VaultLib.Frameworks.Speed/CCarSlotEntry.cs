@@ -23,9 +23,7 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Parts = new DynamicSizeArray<RefSpec>(Class, Field, Collection);
             Parts.Read(vault, br);
-            _slotNameText = new Text(Class, Field, Collection);
             _slotNameText.Read(vault, br);
         }
 
@@ -45,6 +43,7 @@ namespace VaultLib.Frameworks.Speed
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
             Parts.WritePointerData(vault, bw);
+            _slotNameText.Value = SlotName;
             _slotNameText.WritePointerData(vault, bw);
         }
 
@@ -59,12 +58,11 @@ namespace VaultLib.Frameworks.Speed
             return _slotNameText.GetStrings();
         }
 
-        public CCarSlotEntry(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public CCarSlotEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public CCarSlotEntry(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Parts = new DynamicSizeArray<RefSpec>(Class, Field, Collection);
+            _slotNameText = new Text(Class, Field, Collection);
+            SlotName = string.Empty;
         }
     }
 }

@@ -23,7 +23,6 @@ namespace VaultLib.Frameworks.Speed
         public override void Read(Vault vault, BinaryReader br)
         {
             Goal = br.ReadUInt32();
-            Reaction = new RefSpec(Class, Field, Collection);
             Reaction.Read(vault, br);
         }
 
@@ -45,10 +44,12 @@ namespace VaultLib.Frameworks.Speed
 
         public AICollisionReactionRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
+            Reaction = new RefSpec(Class, Field, Collection);
         }
 
         public AICollisionReactionRecord(VltClass @class, VltClassField field) : base(@class, field)
         {
+            Reaction = new RefSpec(Class, Field);
         }
     }
 }

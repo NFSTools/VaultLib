@@ -14,7 +14,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed
 {
     [VLTTypeInfo(nameof(FEPartCamera))]
-    public class FEPartCamera : VLTBaseType, IPointerObject, IReferencesStrings
+    public class FEPartCamera : VLTBaseType, IReferencesStrings
     {
         public string SlotName { get; set; }
         public RefSpec Camera { get; set; }
@@ -23,9 +23,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _slotNameText = new Text(Class, Field, Collection);
-            Camera = new RefSpec(Class, Field, Collection);
-
             _slotNameText.Read(vault, br);
             Camera.Read(vault, br);
         }
@@ -44,6 +41,7 @@ namespace VaultLib.Frameworks.Speed
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
+            _slotNameText.Value = SlotName;
             _slotNameText.WritePointerData(vault, bw);
         }
 
@@ -57,12 +55,10 @@ namespace VaultLib.Frameworks.Speed
             return _slotNameText.GetStrings();
         }
 
-        public FEPartCamera(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public FEPartCamera(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public FEPartCamera(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _slotNameText = new Text(Class, Field, Collection);
+            Camera = new RefSpec(Class, Field, Collection);
         }
     }
 }

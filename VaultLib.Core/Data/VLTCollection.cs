@@ -89,9 +89,9 @@ namespace VaultLib.Core.Data
         /// <param name="collection">The collection to add to the child list.</param>
         public void AddChild(VltCollection collection)
         {
-            if (Children.Contains(collection))
+            if (collection.Parent != null && collection.Parent.ShortPath == this.ShortPath)
             {
-                throw new ArgumentException("Attempted to add a collection as a child when it is already a child of this collection.");
+                throw new ArgumentException("Attempted to associate an already-related collection");
             }
 
             Children.Add(collection);
@@ -108,9 +108,9 @@ namespace VaultLib.Core.Data
         /// <param name="collection">The collection to remove from the child list.</param>
         public void RemoveChild(VltCollection collection)
         {
-            if (!Children.Contains(collection))
+            if (collection.Parent == null || collection.Parent.ShortPath != this.ShortPath)
             {
-                throw new ArgumentException("Attempted to remove a collection from the list of children when it is not a child of this collection.");
+                throw new ArgumentException("Attempted to disassociate a non-related collection");
             }
 
             Children.Remove(collection);

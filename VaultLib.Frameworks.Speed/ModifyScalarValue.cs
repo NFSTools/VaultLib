@@ -11,12 +11,9 @@ namespace VaultLib.Frameworks.Speed
     [VLTTypeInfo(nameof(ModifyScalarValue))]
     public class ModifyScalarValue : VLTBaseType
     {
-        public ModifyScalarValue(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public ModifyScalarValue(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public ModifyScalarValue(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            ReferencedRow = new RefSpecPacked(Class, Field, Collection);
         }
 
         public RefSpecPacked ReferencedRow { get; set; }
@@ -29,7 +26,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            ReferencedRow = new RefSpecPacked(Class, Field, Collection);
             ReferencedRow.Read(vault, br);
             IsMember = br.ReadBoolean();
             br.AlignReader(4);

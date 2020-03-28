@@ -26,9 +26,6 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            Car = new RefSpec(Class, Field, Collection);
-            _eventText = new Text(Class, Field, Collection);
-
             Car.Read(vault, br);
             _eventText.Read(vault, br);
             MinDelta = br.ReadSingle();
@@ -53,6 +50,7 @@ namespace VaultLib.Frameworks.Speed
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
+            _eventText.Value = Event;
             _eventText.WritePointerData(vault, bw);
         }
 
@@ -66,12 +64,10 @@ namespace VaultLib.Frameworks.Speed
             return _eventText.GetStrings();
         }
 
-        public TargetTimeOverrides(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public TargetTimeOverrides(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public TargetTimeOverrides(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            Car = new RefSpec(Class, Field, Collection);
+            _eventText = new Text(Class, Field, Collection);
         }
     }
 }
