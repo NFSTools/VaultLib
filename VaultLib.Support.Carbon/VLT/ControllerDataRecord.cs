@@ -27,7 +27,6 @@ namespace VaultLib.Support.Carbon.VLT
 
         public override void Read(Vault vault, BinaryReader br)
         {
-            _deviceID = new StringKey(Class, Field, Collection);
             _deviceID.Read(vault, br);
             UpdateType = br.ReadEnum<InputUpdateType>();
             LowerDZ = br.ReadSingle();
@@ -36,7 +35,6 @@ namespace VaultLib.Support.Carbon.VLT
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _deviceID = new StringKey(Class, Field, Collection) { Value = DeviceID };
             _deviceID.Write(vault, bw);
             bw.WriteEnum(UpdateType);
             bw.Write(LowerDZ);
@@ -56,6 +54,7 @@ namespace VaultLib.Support.Carbon.VLT
 
         public void WritePointerData(Vault vault, BinaryWriter bw)
         {
+            _deviceID.Value = DeviceID;
             _deviceID.WritePointerData(vault, bw);
         }
 
@@ -64,12 +63,10 @@ namespace VaultLib.Support.Carbon.VLT
             _deviceID.AddPointers(vault);
         }
 
-        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public ControllerDataRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _deviceID = new StringKey(Class, Field, Collection);
+            DeviceID = string.Empty;
         }
     }
 }
