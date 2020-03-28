@@ -71,6 +71,7 @@ namespace VaultLib.Support.MostWanted.VLT
         public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _deviceID = new StringKey64(Class, Field, Collection);
+            DeviceID = string.Empty;
         }
     }
 }

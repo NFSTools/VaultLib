@@ -68,6 +68,7 @@ namespace VaultLib.Frameworks.Speed
         {
             Car = new RefSpec(Class, Field, Collection);
             _eventText = new Text(Class, Field, Collection);
+            Event = string.Empty;
         }
     }
 }

@@ -131,6 +131,7 @@ namespace VaultLib.Support.ProStreet.VLT
         public FEPartData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _offerIdText = new Text(Class, Field, Collection);
+            OfferID = string.Empty;
         }
     }
 }

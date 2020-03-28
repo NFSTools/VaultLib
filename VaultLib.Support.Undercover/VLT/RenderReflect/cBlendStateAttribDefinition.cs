@@ -130,6 +130,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             RGBAEnableRT3 = new bool[4];
             HiPrecisionBlendEnable_XENON = new bool[4];
             BlendEnable_PS3 = new bool[4];
+            DebugName = string.Empty;
         }
     }
 }

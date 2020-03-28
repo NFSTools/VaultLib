@@ -80,6 +80,8 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         {
             _actorNameText = new Text(Class, Field, Collection);
             _carChannelNameText = new Text(Class, Field, Collection);
+            ActorName = string.Empty;
+            CarChannelName = string.Empty;
         }
     }
 }

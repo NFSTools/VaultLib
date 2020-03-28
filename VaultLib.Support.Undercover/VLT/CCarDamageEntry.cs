@@ -75,8 +75,10 @@ namespace VaultLib.Support.Undercover.VLT
         public CCarDamageEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _attachPartText = new Text(Class, Field, Collection);
+            AttachPart = string.Empty;
             Material = new RefSpec(Class, Field, Collection);
             _smackableCollisionNameText = new Text(Class, Field, Collection);
+            SmackableCollisionName = string.Empty;
             SmackableCollisionAttribute = new RefSpec(Class, Field, Collection);
         }
     }

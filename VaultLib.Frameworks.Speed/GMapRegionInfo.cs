@@ -34,10 +34,7 @@ namespace VaultLib.Frameworks.Speed
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _name = new Text(Class, Field, Collection)
-            {
-                Value = Name
-            };
+            _name.Value = Name;
             _name.Write(vault, bw);
             bw.Write(mCurveStart);
             bw.Write(mCurveCount);
@@ -70,6 +67,7 @@ namespace VaultLib.Frameworks.Speed
         public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _name = new Text(Class, Field, Collection);
+            Name = string.Empty;
         }
     }
 }

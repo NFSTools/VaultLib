@@ -65,6 +65,7 @@ namespace VaultLib.Support.World.VLT
         public IntegratedKitWheelOffset(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _kitName = new Text(Class, Field, Collection);
+            KitName = string.Empty;
         }
     }
 }

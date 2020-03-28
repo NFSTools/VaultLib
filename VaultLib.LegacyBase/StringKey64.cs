@@ -19,11 +19,8 @@ namespace VaultLib.LegacyBase
 
         private Text _text;
 
-
-
         public override void Read(Vault vault, BinaryReader br)
         {
-            _text = new Text(Class, Field, Collection);
             br.ReadInt64();
             br.ReadUInt32();
             _text.Read(vault, br);
@@ -31,10 +28,9 @@ namespace VaultLib.LegacyBase
 
         public override void Write(Vault vault, BinaryWriter bw)
         {
-            _text = new Text(Class, Field, Collection);
             _text.Value = Value;
-            bw.Write(string.IsNullOrEmpty(Value) ? 0L : VLT64Hasher.Hash(Value));
-            bw.Write(string.IsNullOrEmpty(Value) ? 0 : VLT32Hasher.Hash(Value));
+            bw.Write(VLT64Hasher.Hash(Value));
+            bw.Write(VLT32Hasher.Hash(Value));
             _text.Write(vault, bw);
         }
 
@@ -74,12 +70,10 @@ namespace VaultLib.LegacyBase
             Value = str;
         }
 
-        public StringKey64(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public StringKey64(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
-        }
-
-        public StringKey64(VltClass @class, VltClassField field) : base(@class, field)
-        {
+            _text = new Text(Class, Field, Collection);
+            Value = string.Empty;
         }
     }
 }

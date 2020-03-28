@@ -75,6 +75,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public SceneRoot(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _markerNameText = new Text(Class, Field, Collection);
+            MarkerName = string.Empty;
         }
     }
 }

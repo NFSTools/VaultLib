@@ -60,6 +60,7 @@ namespace VaultLib.Support.MostWanted.VLT
         public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             _copType = new StringKey64(Class, Field, Collection);
+            CopType = string.Empty;
         }
     }
 }
