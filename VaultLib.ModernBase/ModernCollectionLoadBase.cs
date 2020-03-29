@@ -122,7 +122,8 @@ namespace VaultLib.ModernBase
 
                 if (bw.BaseStream.Position - DestinationLayoutPointer != baseField.Offset)
                 {
-                    throw new Exception("incorrect offset");
+                    throw new Exception(
+                        $"incorrect offset before writing {Collection.ShortPath}[{baseField.Name}]; expected to be at {baseField.Offset} but we are at {bw.BaseStream.Position - DestinationLayoutPointer}");
                 }
 
                 Collection.GetRawValue(baseField.Name).Write(vault, bw);
