@@ -9,8 +9,8 @@
     <PackageId>VaultLib.ModernBase</PackageId>
     <Platforms>x86</Platforms>
     <Product>VaultLib.ModernBase</Product>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <Version>1.1.1</Version>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>1.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
