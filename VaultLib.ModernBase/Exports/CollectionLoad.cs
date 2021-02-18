@@ -63,7 +63,7 @@ namespace VaultLib.ModernBase.Exports
                 Entries.Add(attribEntry);
             }
 
-            ParentKey = HashManager.ResolveVLT(mParent);
+            ParentKey = mParent;
             vault.Database.RowManager.AddCollection(Collection);
         }
 

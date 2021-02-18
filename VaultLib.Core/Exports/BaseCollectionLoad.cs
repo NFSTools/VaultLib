@@ -12,7 +12,7 @@ namespace VaultLib.Core.Exports
         /// </summary>
         public VltCollection Collection { get; set; }
 
-        public string ParentKey { get; protected set; }
+        public ulong ParentKey { get; protected set; }
 
         public abstract void ReadPointerData(Vault vault, BinaryReader br);
         public abstract void WritePointerData(Vault vault, BinaryWriter bw);

@@ -10,7 +10,7 @@
     <Platforms>x86</Platforms>
     <Product>VaultLib.Support.World</Product>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.1.3</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

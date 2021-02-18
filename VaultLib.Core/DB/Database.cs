@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
+using VaultLib.Core.Hashing;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
 using VLT64Hasher = VaultLib.Core.Hashing.VLT64Hasher;
@@ -21,7 +22,7 @@ namespace VaultLib.Core.DB
     /// </summary>
     public class Database
     {
-        private Dictionary<VltCollection, string> _parentKeyDictionary = new Dictionary<VltCollection, string>();
+        private Dictionary<VltCollection, ulong> _parentKeyDictionary = new Dictionary<VltCollection, ulong>();
 
         /// <summary>
         /// Initializes the database. Sets up data collections.
@@ -110,18 +111,23 @@ namespace VaultLib.Core.DB
         /// </summary>
         public void CompleteLoad()
         {
+            ulong Hash(string s)
+            {
+                return Options.Type == DatabaseType.X64Database ? VLT64Hasher.Hash(s) : VLT32Hasher.Hash(s);
+            }
+            
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            Dictionary<VltClass, ulong> hashDictionary = Classes.ToDictionary(c => c, c => VLT64Hasher.Hash(c.Name));
-            Dictionary<ulong, Dictionary<string, VltCollection>> collectionDictionary =
+            Dictionary<VltClass, ulong> hashDictionary = Classes.ToDictionary(c => c, c => Hash(c.Name));
+            Dictionary<ulong, Dictionary<ulong, VltCollection>> collectionDictionary =
                 RowManager.Rows.GroupBy(r => hashDictionary[r.Class])
-                    .ToDictionary(g => g.Key, g => g.ToDictionary(c => c.Name, c => c));
+                    .ToDictionary(g => g.Key, g => g.ToDictionary(c => Hash(c.Name), c => c));
 
             for (int i = RowManager.Rows.Count - 1; i >= 0; i--)
             {
                 VltCollection row = RowManager.Rows[i];
 
-                if (_parentKeyDictionary.TryGetValue(row, out string parentKey))
+                if (_parentKeyDictionary.TryGetValue(row, out ulong parentKey))
                 {
                     VltCollection parentCollection = collectionDictionary[hashDictionary[row.Class]][parentKey];
                     parentCollection.AddChild(row);
@@ -153,10 +159,9 @@ namespace VaultLib.Core.DB
 
                 if (vaultExport is BaseCollectionLoad bcl)
                 {
-                    string parentKey = bcl.ParentKey;
-                    if (!string.IsNullOrEmpty(parentKey))
+                    if (bcl.ParentKey != 0)
                     {
-                        _parentKeyDictionary[bcl.Collection] = parentKey;
+                        _parentKeyDictionary[bcl.Collection] = bcl.ParentKey;
                     }
                 }
             }
