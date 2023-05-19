@@ -5,12 +5,12 @@
     <Company>NFSTools</Company>
     <Description>Implements the modern AttribSys format</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <LangVersion>7</LangVersion>
     <PackageId>VaultLib.ModernBase</PackageId>
-    <Platforms>x86</Platforms>
     <Product>VaultLib.ModernBase</Product>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.2.0</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>2.0.0-dev</Version>
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

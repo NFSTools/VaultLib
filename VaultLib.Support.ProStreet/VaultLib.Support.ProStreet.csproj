@@ -5,16 +5,16 @@
     <Company>NFSTools</Company>
     <Description>Support for Need for Speed: ProStreet</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <LangVersion>7</LangVersion>
     <PackageId>VaultLib.Support.ProStreet</PackageId>
-    <Platforms>x86</Platforms>
     <Product>VaultLib.Support.ProStreet</Product>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.2.0</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>2.0.0-dev</Version>
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NFSTools.Core.ModuleSystem" Version="1.0.3" />
+    <PackageReference Include="NFSTools.Core.ModuleSystem" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
