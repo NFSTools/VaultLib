@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="NFSTools.Core.ModuleSystem" Version="2.0.0" />
+    <PackageReference Include="NFSTools.CompLib" Version="1.0.0"/>
   </ItemGroup>
 
   <ItemGroup>

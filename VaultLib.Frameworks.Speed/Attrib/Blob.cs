@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
@@ -13,6 +12,8 @@ namespace VaultLib.Frameworks.Speed.Attrib
     [VLTTypeInfo("Attrib::Blob")]
     public class Blob : BaseBlob
     {
+        private CompressedBlob _blob;
+
         public Blob(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
         }
@@ -20,8 +21,6 @@ namespace VaultLib.Frameworks.Speed.Attrib
         public Blob(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
-
-        private CompressedBlob _blob;
 
         protected override byte[] ReadData(Vault vault, BinaryReader br)
         {
@@ -33,7 +32,7 @@ namespace VaultLib.Frameworks.Speed.Attrib
 
         protected override void PrepareData()
         {
-            _blob = new CompressedBlob { Type = CompressedBlob.CompressionId.LempelZiv, Data = Data };
+            _blob = new CompressedBlob { Data = Data };
             _blob.PrepareCompressedData();
         }
 
