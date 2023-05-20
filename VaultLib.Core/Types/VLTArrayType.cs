@@ -2,12 +2,12 @@
 // 
 // Created: 09/25/2019 @ 8:20 PM.
 
-using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using CoreLibraries.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types.EA.Reflection;
@@ -17,7 +17,8 @@ namespace VaultLib.Core.Types
 {
     public class VLTArrayType : VLTBaseType, IReferencesStrings, IReferencesCollections
     {
-        public VLTArrayType(VltClass @class, VltClassField field, VltCollection collection, Type itemType) : base(@class, field,
+        public VLTArrayType(VltClass @class, VltClassField field, VltCollection collection, Type itemType) : base(
+            @class, field,
             collection)
         {
             ItemType = itemType;
@@ -53,7 +54,6 @@ namespace VaultLib.Core.Types
          * The reason these functions are implemented is because arrays may contain items that have pointers.
          * This system is complicated.
          */
-
         public IEnumerable<string> GetStrings()
         {
             return Items.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings());
@@ -86,18 +86,19 @@ namespace VaultLib.Core.Types
             Items = new List<VLTBaseType>();
             FieldSize = br.ReadUInt16();
 
-            // NOTE: this is 0x8000 when Attrib::Types::Vector4 is in use. not sure why. 0 otherwise
-            br.ReadUInt16();
+            var encodedTypePad = br.ReadUInt16();
+            var pad = (encodedTypePad >> 12) & 8;
+
+            br.BaseStream.Position += pad;
 
             for (var i = 0; i < count; i++)
             {
                 var item = TypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
-
-                br.AlignReader(ItemAlignment);
-
                 var start = br.BaseStream.Position;
+                Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
                 item.Read(vault, br);
-                Debug.Assert(br.BaseStream.Position - start == FieldSize);
+                var end = br.BaseStream.Position;
+                Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
                 Items.Add(item);
             }
 
@@ -109,19 +110,30 @@ namespace VaultLib.Core.Types
             bw.Write(Capacity);
             bw.Write((ushort)Items.Count);
             bw.Write(FieldSize);
-            bw.Write((ushort)(1 << (Field.Alignment - 1)));
+
+            var dataStartPos = bw.BaseStream.Position + sizeof(ushort);
+            var alignedDataStartPos = (dataStartPos + (ItemAlignment - 1)) & ~(ItemAlignment - 1);
+            Debug.Assert(alignedDataStartPos >= dataStartPos, "alignedDataStartPos >= dataStartPos");
+            var alignmentOffset = alignedDataStartPos - dataStartPos;
+            Debug.Assert(alignmentOffset % 8 == 0, "alignmentOffset % 8 == 0");
+            Debug.Assert(alignmentOffset <= 8, "alignmentOffset <= 8");
+            bw.Write((ushort)(alignmentOffset << 12));
+
+            bw.BaseStream.Position += alignmentOffset;
 
             foreach (var t in Items)
             {
-                bw.AlignWriter(ItemAlignment);
                 var start = bw.BaseStream.Position;
+                Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
                 t.Write(vault, bw);
-                Debug.Assert(bw.BaseStream.Position - start == FieldSize);
+                var end = bw.BaseStream.Position;
+                Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
             }
 
             for (var i = 0; i < Capacity - Items.Count; i++)
             {
-                bw.AlignWriter(ItemAlignment);
+                var start = bw.BaseStream.Position;
+                Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
                 bw.Write(new byte[FieldSize]);
             }
         }
@@ -144,7 +156,7 @@ namespace VaultLib.Core.Types
                 throw new IndexOutOfRangeException($"Index must be in range [0, {Items.Count})");
             }
 
-            return (T) BaseTypeToData(Items[index]);
+            return (T)BaseTypeToData(Items[index]);
         }
 
         /// <summary>
@@ -185,24 +197,25 @@ namespace VaultLib.Core.Types
             switch (data)
             {
                 case string s:
+                {
+                    if (originalData is IStringValue sv)
                     {
-                        if (originalData is IStringValue sv)
-                        {
-                            sv.SetString(s);
-                            return originalData;
-                        }
+                        sv.SetString(s);
+                        return originalData;
+                    }
 
-                        break;
-                    }
+                    break;
+                }
                 case IConvertible ic:
+                {
+                    if (originalData is PrimitiveTypeBase ptb)
                     {
-                        if (originalData is PrimitiveTypeBase ptb)
-                        {
-                            ptb.SetValue(ic);
-                            return originalData;
-                        }
-                        break;
+                        ptb.SetValue(ic);
+                        return originalData;
                     }
+
+                    break;
+                }
                 case VLTBaseType vbt:
                     if (vbt is VLTArrayType)
                         throw new ApplicationException("Array DataToBaseType cannot accept a VLTArrayType instance!");
