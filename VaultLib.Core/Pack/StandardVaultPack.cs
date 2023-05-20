@@ -2,10 +2,11 @@
 // 
 // Created: 10/31/2019 @ 4:57 PM.
 
-using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using CoreLibraries.IO;
 using VaultLib.Core.DB;
 using VaultLib.Core.Pack.Structures;
 using VaultLib.Core.Writer;
@@ -69,9 +70,12 @@ namespace VaultLib.Core.Pack
 
         public void Save(BinaryWriter bw, IList<Vault> vaults, PackSavingOptions savingOptions = null)
         {
+            var filteredAndSortedVaults =
+                vaults.Where(v => v.Database.RowManager.GetCollectionsInVault(v).Any()).ToList();
+            filteredAndSortedVaults.Sort((x, y) => string.CompareOrdinal(x.Name, y.Name));
             Dictionary<string, VaultStreamInfo> streamDictionary = new Dictionary<string, VaultStreamInfo>();
 
-            foreach (var vault in vaults)
+            foreach (var vault in filteredAndSortedVaults)
             {
                 VaultWriter vaultWriter = new VaultWriter(vault, new VaultSaveOptions());
                 streamDictionary[vault.Name] = vaultWriter.BuildVault();
@@ -83,7 +87,7 @@ namespace VaultLib.Core.Pack
             Dictionary<string, int> nameOffsets = new Dictionary<string, int>();
             int nameOffset = 0;
 
-            foreach (var databaseVault in vaults)
+            foreach (var databaseVault in filteredAndSortedVaults)
             {
                 nameOffsets[databaseVault.Name] = nameOffset;
                 nameOffset += databaseVault.Name.Length + 1;
@@ -91,13 +95,13 @@ namespace VaultLib.Core.Pack
 
             bw.Write(nameOffset);
 
-            bw.Write(new byte[20 * vaults.Count]);
+            bw.Write(new byte[20 * filteredAndSortedVaults.Count]);
 
             bw.AlignWriter(0x40);
 
             var nameTablePos = bw.BaseStream.Position;
 
-            foreach (var databaseVault in vaults)
+            foreach (var databaseVault in filteredAndSortedVaults)
             {
                 NullTerminatedString.Write(bw, databaseVault.Name);
             }
@@ -107,7 +111,7 @@ namespace VaultLib.Core.Pack
             List<long> binOffsets = new List<long>();
             List<long> vltOffsets = new List<long>();
 
-            foreach (var vault in vaults)
+            foreach (var vault in filteredAndSortedVaults)
             {
                 bw.AlignWriter(0x80);
                 var streamInfo = streamDictionary[vault.Name];
@@ -127,7 +131,7 @@ namespace VaultLib.Core.Pack
             AttribVaultPackImage vpi = new AttribVaultPackImage();
             AttribVaultPackHeader header = new AttribVaultPackHeader
             {
-                NumEntries = (uint)vaults.Count,
+                NumEntries = (uint)filteredAndSortedVaults.Count,
                 StringBlockOffset = (uint)nameTablePos,
                 StringBlockSize = (uint)nameOffset
             };
@@ -135,9 +139,9 @@ namespace VaultLib.Core.Pack
             vpi.Header = header;
             vpi.Entries = new List<AttribVaultPackEntry>();
 
-            for (int i = 0; i < vaults.Count; i++)
+            for (var i = 0; i < filteredAndSortedVaults.Count; i++)
             {
-                Vault vault = vaults[i];
+                var vault = filteredAndSortedVaults[i];
                 var streamInfo = streamDictionary[vault.Name];
                 AttribVaultPackEntry entry = new AttribVaultPackEntry
                 {
