@@ -97,7 +97,7 @@ namespace VaultLib.LegacyBase.Exports
         {
             _dstDefinitionsPtr = bw.BaseStream.Position;
 
-            foreach (var field in Class.Fields.Values)
+            foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
             {
                 AttribDefinition definition = new AttribDefinition();
                 definition.Key = VLT32Hasher.Hash(field.Name);
