@@ -16,20 +16,18 @@ using VaultLib.ModernBase.Structures;
 
 namespace VaultLib.Support.Undercover
 {
-    [DataModuleInfo("VLT Support - Undercover", "heyitsleo", games: GameIdHelper.ID_UNDERCOVER)]
-    [Export(typeof(IDataModule))]
-    public class ModuleDef : IDataModule
+    public static class ModuleDef
     {
-        public void Load()
+        public static void Load(TypeRegistry typeRegistry)
         {
-            TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_UNDERCOVER);
+            typeRegistry.Register<StringKey>("Attrib::StringKey");
             ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_UNDERCOVER);
             ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_UNDERCOVER);
             ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_UNDERCOVER);
             ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_UNDERCOVER);
 
-            SpeedFramework.Register(GameIdHelper.ID_UNDERCOVER);
-            TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_UNDERCOVER);
+            SpeedFramework.Register(typeRegistry);
+            typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
         }
     }
 }

@@ -28,10 +28,12 @@ namespace VaultLib.Core.Types
 
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
+            var databaseTypeRegistry = vault.Database.TypeRegistry;
+            
             br.BaseStream.Position = _pointer;
             for (var i = 0; i < Items.Length; i++)
             {
-                Items[i] = (T)TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
+                Items[i] = (T)databaseTypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
                 Items[i].Read(vault, br);
             }
         }

@@ -29,7 +29,7 @@ namespace VaultLib.ModernBase.Exports
             {
                 if (HasInlineFlag())
                 {
-                    InlineData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, field, Collection);
+                    InlineData = vault.Database.TypeRegistry.CreateInstance(Collection.Class, field, Collection);
                 }
                 else
                 {

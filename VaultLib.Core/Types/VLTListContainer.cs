@@ -33,9 +33,10 @@ namespace VaultLib.Core.Types
         {
             br.BaseStream.Position = _pointer;
 
+            var databaseTypeRegistry = vault.Database.TypeRegistry;
             for (var i = 0; i < Items.Capacity; i++)
             {
-                var item = (T)TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
+                var item = (T)databaseTypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
                 //var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
                 item.Read(vault, br);
                 Items.Add(item);

@@ -30,7 +30,7 @@ namespace VaultLib.Core.Types
 
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
-            Data = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Class, Field, Collection);
+            Data = vault.Database.TypeRegistry.CreateInstance(Class, Field, Collection);
 
             Debug.Assert(Offset != 0);
             br.BaseStream.Position = Offset;

@@ -31,7 +31,7 @@ namespace VaultLib.ModernBase.Exports
 
                 if (IsInline())
                 {
-                    InlineData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, Collection.Class[Key],
+                    InlineData = vault.Database.TypeRegistry.CreateInstance(Collection.Class, Collection.Class[Key],
                         Collection);
                 }
                 else

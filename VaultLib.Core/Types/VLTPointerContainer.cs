@@ -33,7 +33,7 @@ namespace VaultLib.Core.Types
         public void ReadPointerData(Vault vault, BinaryReader br)
         {
             br.BaseStream.Position = _pointer;
-            Value = (T)TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
+            Value = (T)vault.Database.TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
             Value.Read(vault, br);
 
             if (Value is IPointerObject pointerObject) pointerObject.ReadPointerData(vault, br);

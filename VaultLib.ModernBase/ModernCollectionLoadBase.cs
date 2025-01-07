@@ -41,7 +41,7 @@ namespace VaultLib.ModernBase
                         throw new Exception($"trying to read field {baseField.Name} at offset {br.BaseStream.Position - LayoutPointer:X}, need to be at {baseField.Offset:X}");
                     }
 
-                    VLTBaseType data = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, baseField, Collection);
+                    VLTBaseType data = vault.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
                     data.Read(vault, br);
                     long endPos = br.BaseStream.Position;

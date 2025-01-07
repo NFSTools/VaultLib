@@ -2,10 +2,8 @@
 // 
 // Created: 10/31/2019 @ 9:54 PM.
 
-using CoreLibraries.GameUtilities;
-using CoreLibraries.ModuleSystem;
-using System.ComponentModel.Composition;
 using System.Reflection;
+using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
@@ -16,20 +14,18 @@ using VaultLib.ModernBase.Structures;
 
 namespace VaultLib.Support.ProStreet
 {
-    [DataModuleInfo("VLT Support - ProStreet", "heyitsleo", games: GameIdHelper.ID_PROSTREET)]
-    [Export(typeof(IDataModule))]
-    public class ModuleDef : IDataModule
+    public class ModuleDef
     {
-        public void Load()
+        public void Load(TypeRegistry typeRegistry)
         {
-            TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_PROSTREET);
+            typeRegistry.Register<StringKey>("Attrib::StringKey");
             ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_PROSTREET);
             ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_PROSTREET);
             ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_PROSTREET);
             ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_PROSTREET);
 
-            SpeedFramework.Register(GameIdHelper.ID_PROSTREET);
-            TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_PROSTREET);
+            SpeedFramework.Register(typeRegistry);
+            typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
         }
     }
 }

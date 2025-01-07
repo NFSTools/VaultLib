@@ -16,20 +16,18 @@ using VaultLib.ModernBase.Structures;
 
 namespace VaultLib.Support.World
 {
-    [DataModuleInfo("VLT Support - World", "heyitsleo", games: GameIdHelper.ID_WORLD)]
-    [Export(typeof(IDataModule))]
-    public class ModuleDef : IDataModule
+    public static class ModuleDef
     {
-        public void Load()
+        public static void Load(TypeRegistry typeRegistry)
         {
-            TypeRegistry.Register<StringKey>("Attrib::StringKey", GameIdHelper.ID_WORLD);
+            typeRegistry.Register<StringKey>("Attrib::StringKey");
             ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_WORLD);
             ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_WORLD);
             ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_WORLD);
             ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_WORLD);
 
-            SpeedFramework.Register(GameIdHelper.ID_WORLD);
-            TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)), GameIdHelper.ID_WORLD);
+            SpeedFramework.Register(typeRegistry);
+            typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
         }
     }
 }

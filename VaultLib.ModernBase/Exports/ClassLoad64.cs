@@ -116,7 +116,7 @@ namespace VaultLib.ModernBase.Exports
                 foreach (VltClassField staticField in Class.StaticFields)
                 {
                     br.AlignReader(staticField.Alignment);
-                    VLTBaseType staticData = TypeRegistry.CreateInstance(vault.Database.Options.GameId, Class, staticField, null);
+                    VLTBaseType staticData = vault.Database.TypeRegistry.CreateInstance(Class, staticField, null);
                     staticData.Read(vault, br);
                     staticField.StaticValue = staticData;
                 }

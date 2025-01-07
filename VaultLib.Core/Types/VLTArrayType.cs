@@ -91,9 +91,11 @@ namespace VaultLib.Core.Types
 
             br.BaseStream.Position += pad;
 
+            var databaseTypeRegistry = vault.Database.TypeRegistry;
+
             for (var i = 0; i < count; i++)
             {
-                var item = TypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
+                var item = databaseTypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
                 var start = br.BaseStream.Position;
                 Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
                 item.Read(vault, br);

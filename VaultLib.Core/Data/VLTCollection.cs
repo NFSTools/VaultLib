@@ -210,7 +210,7 @@ namespace VaultLib.Core.Data
 
         public T GetDataValue<T>(string key, int index)
         {
-            return (T) BaseTypeToData(GetRawValue(key, index));
+            return (T)BaseTypeToData(GetRawValue(key, index));
         }
 
         /// <summary>
@@ -245,8 +245,8 @@ namespace VaultLib.Core.Data
                 }
                 else
                 {
-                    VLTBaseType rawValue =
-                        TypeRegistry.CreateInstance(Vault.Database.Options.GameId, Class, Class[key], this);
+                    var rawValue =
+                        Vault.Database.TypeRegistry.CreateInstance(Class, Class[key], this);
                     SetRawValue(key, DataToBaseType(Class[key], rawValue, data));
                 }
             }
@@ -295,9 +295,10 @@ namespace VaultLib.Core.Data
                 }
                 else
                 {
-                    VLTBaseType rawValue =
-                        TypeRegistry.ConstructInstance(
-                            TypeRegistry.ResolveType(Vault.Database.Options.GameId, Class[key].TypeName), Class,
+                    var databaseTypeRegistry = Vault.Database.TypeRegistry;
+                    var rawValue =
+                        databaseTypeRegistry.ConstructInstance(
+                            databaseTypeRegistry.ResolveType(Class[key].TypeName), Class,
                             Class[key], this);
                     SetRawValue(key, index, DataToBaseType(Class[key], rawValue, data));
                 }
@@ -347,7 +348,9 @@ namespace VaultLib.Core.Data
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(Class, other.Class) && Equals(Vault, other.Vault) && string.Equals(Name, other.Name, StringComparison.InvariantCulture) && Equals(Parent, other.Parent) && Equals(Children, other.Children) && Equals(Data, other.Data);
+            return Equals(Class, other.Class) && Equals(Vault, other.Vault) &&
+                   string.Equals(Name, other.Name, StringComparison.InvariantCulture) && Equals(Parent, other.Parent) &&
+                   Equals(Children, other.Children) && Equals(Data, other.Data);
         }
 
         public override bool Equals(object obj)
@@ -393,24 +396,25 @@ namespace VaultLib.Core.Data
             switch (data)
             {
                 case string s:
+                {
+                    if (originalData is IStringValue sv)
                     {
-                        if (originalData is IStringValue sv)
-                        {
-                            sv.SetString(s);
-                            return originalData;
-                        }
+                        sv.SetString(s);
+                        return originalData;
+                    }
 
-                        break;
-                    }
+                    break;
+                }
                 case IConvertible ic:
+                {
+                    if (originalData is PrimitiveTypeBase ptb)
                     {
-                        if (originalData is PrimitiveTypeBase ptb)
-                        {
-                            ptb.SetValue(ic);
-                            return originalData;
-                        }
-                        break;
+                        ptb.SetValue(ic);
+                        return originalData;
                     }
+
+                    break;
+                }
                 case VLTBaseType vbt:
                     return vbt;
             }

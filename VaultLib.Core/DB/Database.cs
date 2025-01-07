@@ -35,6 +35,7 @@ namespace VaultLib.Core.DB
             Types = new List<DatabaseTypeInfo>();
             Vaults = new List<Vault>();
             RowManager = new RowManager(this);
+            TypeRegistry = new TypeRegistry();
         }
 
         public DatabaseOptions Options { get; }
@@ -44,6 +45,8 @@ namespace VaultLib.Core.DB
         public List<VltClass> Classes { get; }
 
         public List<DatabaseTypeInfo> Types { get; }
+        
+        public TypeRegistry TypeRegistry { get; }
 
         public List<Vault> Vaults { get; }
 

@@ -8,12 +8,12 @@ namespace VaultLib.Frameworks.Speed
     public static class SpeedFramework
     {
         /// <summary>
-        /// Registers the framework types with the given game IDs
+        /// Registers the framework types.
         /// </summary>
-        /// <param name="games">The game IDs to register the framework types with</param>
-        public static void Register(params string[] games)
+        /// <param name="registry">The type registry to register the types with</param>
+        public static void Register(TypeRegistry registry)
         {
-            TypeRegistry.RegisterAssemblyTypes(typeof(SpeedFramework).Assembly, games);
+            registry.RegisterAssemblyTypes(typeof(SpeedFramework).Assembly);
         }
     }
 }

@@ -148,7 +148,7 @@ namespace VaultLib.LegacyBase.Exports
                     br.AlignReader(baseField.Alignment);
 
                     VLTBaseType data =
-                        TypeRegistry.CreateInstance(vault.Database.Options.GameId, Collection.Class, baseField, Collection);
+                        vault.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
                     data.Read(vault, br);
                     long endPos = br.BaseStream.Position;

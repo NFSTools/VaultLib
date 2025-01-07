@@ -1,7 +1,5 @@
-﻿using CoreLibraries.GameUtilities;
-using CoreLibraries.ModuleSystem;
-using System.ComponentModel.Composition;
-using System.Reflection;
+﻿using System.Reflection;
+using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
@@ -12,20 +10,18 @@ using VaultLib.LegacyBase.Structures;
 
 namespace VaultLib.Support.MostWanted
 {
-    [DataModuleInfo("VLT Support - Most Wanted", "heyitsleo", games: GameIdHelper.ID_MW)]
-    [Export(typeof(IDataModule))]
-    public class ModuleDef : IDataModule
+    public static class ModuleDef
     {
-        public void Load()
+        public static void Load(TypeRegistry typeRegistry)
         {
-            TypeRegistry.Register<StringKey64>("Attrib::StringKey", GameIdHelper.ID_MW);
+            typeRegistry.Register<StringKey64>("Attrib::StringKey");
             ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_MW);
             ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_MW);
             ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_MW);
             ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_MW);
 
-            SpeedFramework.Register(GameIdHelper.ID_MW);
-            TypeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(GetType()), GameIdHelper.ID_MW);
+            SpeedFramework.Register(typeRegistry);
+            typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
         }
     }
 }
