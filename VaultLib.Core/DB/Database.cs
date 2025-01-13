@@ -28,7 +28,8 @@ namespace VaultLib.Core.DB
         /// Initializes the database. Sets up data collections.
         /// </summary>
         /// <param name="options"></param>
-        public Database(DatabaseOptions options)
+        /// <param name="exportFactory"></param>
+        public Database(DatabaseOptions options, ExportFactory exportFactory)
         {
             Options = options;
             Classes = new List<VltClass>();
@@ -36,6 +37,7 @@ namespace VaultLib.Core.DB
             Vaults = new List<Vault>();
             RowManager = new RowManager(this);
             TypeRegistry = new TypeRegistry();
+            ExportFactory = exportFactory;
         }
 
         public DatabaseOptions Options { get; }
@@ -47,6 +49,8 @@ namespace VaultLib.Core.DB
         public List<DatabaseTypeInfo> Types { get; }
         
         public TypeRegistry TypeRegistry { get; }
+        
+        public ExportFactory ExportFactory { get; }
 
         public List<Vault> Vaults { get; }
 

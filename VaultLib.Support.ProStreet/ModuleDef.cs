@@ -3,7 +3,6 @@
 // Created: 10/31/2019 @ 9:54 PM.
 
 using System.Reflection;
-using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
@@ -14,18 +13,19 @@ using VaultLib.ModernBase.Structures;
 
 namespace VaultLib.Support.ProStreet
 {
-    public class ModuleDef
+    public class ModuleDef : BaseGameModule
     {
-        public void Load(TypeRegistry typeRegistry)
+        public override void RegisterTypes(TypeRegistry typeRegistry)
         {
             typeRegistry.Register<StringKey>("Attrib::StringKey");
-            ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_PROSTREET);
-            ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_PROSTREET);
-            ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_PROSTREET);
-            ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_PROSTREET);
-
             SpeedFramework.Register(typeRegistry);
             typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
+        }
+
+        public override ExportFactory CreateExportFactory()
+        {
+            return new ExportFactory(() => new DatabaseLoad(), () => new ClassLoad(), () => new CollectionLoad(),
+                () => new ExportEntry());
         }
     }
 }

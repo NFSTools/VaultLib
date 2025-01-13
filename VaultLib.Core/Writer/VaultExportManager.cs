@@ -31,22 +31,24 @@ namespace VaultLib.Core.Writer
         {
             Exports.Clear();
 
+            var exportFactory = Vault.Database.ExportFactory;
+            
             if (Vault.IsPrimaryVault)
             {
-                Exports.Add(ExportFactory.BuildDatabaseLoad(Vault));
+                Exports.Add(exportFactory.BuildDatabaseLoad());
 
                 foreach (var vltClass in Vault.Database.Classes)
                 {
-                    Exports.Add(ExportFactory.BuildClassLoad(Vault, vltClass));
+                    Exports.Add(exportFactory.BuildClassLoad(vltClass));
                     Exports.AddRange(from collection in Vault.SaveContext.Collections
-                                     where collection.Class.Name == vltClass.Name
-                                     select ExportFactory.BuildCollectionLoad(Vault, collection));
+                        where collection.Class.Name == vltClass.Name
+                        select exportFactory.BuildCollectionLoad(collection));
                 }
             }
             else
             {
                 Exports.AddRange(from collection in Vault.SaveContext.Collections
-                                 select ExportFactory.BuildCollectionLoad(Vault, collection));
+                    select exportFactory.BuildCollectionLoad(collection));
             }
         }
 

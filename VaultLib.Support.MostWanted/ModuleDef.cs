@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using CoreLibraries.GameUtilities;
 using VaultLib.Core;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
@@ -10,18 +9,19 @@ using VaultLib.LegacyBase.Structures;
 
 namespace VaultLib.Support.MostWanted
 {
-    public static class ModuleDef
+    public class ModuleDef : BaseGameModule
     {
-        public static void Load(TypeRegistry typeRegistry)
+        public override void RegisterTypes(TypeRegistry typeRegistry)
         {
             typeRegistry.Register<StringKey64>("Attrib::StringKey");
-            ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_MW);
-            ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_MW);
-            ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_MW);
-            ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_MW);
-
             SpeedFramework.Register(typeRegistry);
             typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
+        }
+
+        public override ExportFactory CreateExportFactory()
+        {
+            return new ExportFactory(() => new DatabaseLoad(), () => new ClassLoad(), () => new CollectionLoad(),
+                () => new ExportEntry());
         }
     }
 }

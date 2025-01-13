@@ -33,7 +33,7 @@ namespace VaultLib.Core.Chunks
             var numExports = vault.Database.Options.Type == DatabaseType.X64Database ? br.ReadUInt64() : br.ReadUInt32();
             for (ulong i = 0; i < numExports; i++)
             {
-                var exportEntry = ExportFactory.BuildExportEntry(vault);
+                var exportEntry = vault.Database.ExportFactory.BuildExportEntry();
 
                 exportEntry.Read(vault, br);
 
@@ -66,13 +66,13 @@ namespace VaultLib.Core.Chunks
             {
                 case 0x5E970CBC: // Attrib::ClassLoadData
                 case 0x2A7895AC4A876152: // Attrib::ClassLoadData
-                    return ExportFactory.BuildClassLoad(vault, null);
+                    return vault.Database.ExportFactory.BuildClassLoad(null);
                 case 0xCBBC628F: // Attrib::DatabaseLoadData
                 case 0xB38846845E9C175: // Attrib::DatabaseLoadData
-                    return ExportFactory.BuildDatabaseLoad(vault);
+                    return vault.Database.ExportFactory.BuildDatabaseLoad();
                 case 0x8E112EB7:
                 case 0xAD303B8F42B3307E:
-                    return ExportFactory.BuildCollectionLoad(vault, null);
+                    return vault.Database.ExportFactory.BuildCollectionLoad(null);
                 default:
                     return null;
             }

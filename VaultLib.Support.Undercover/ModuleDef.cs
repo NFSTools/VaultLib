@@ -2,9 +2,6 @@
 // 
 // Created: 10/31/2019 @ 10:01 PM.
 
-using CoreLibraries.GameUtilities;
-using CoreLibraries.ModuleSystem;
-using System.ComponentModel.Composition;
 using System.Reflection;
 using VaultLib.Core;
 using VaultLib.Core.Exports;
@@ -16,18 +13,19 @@ using VaultLib.ModernBase.Structures;
 
 namespace VaultLib.Support.Undercover
 {
-    public static class ModuleDef
+    public class ModuleDef : BaseGameModule
     {
-        public static void Load(TypeRegistry typeRegistry)
+        public override void RegisterTypes(TypeRegistry typeRegistry)
         {
             typeRegistry.Register<StringKey>("Attrib::StringKey");
-            ExportFactory.SetClassLoadCreator<ClassLoad>(GameIdHelper.ID_UNDERCOVER);
-            ExportFactory.SetCollectionLoadCreator<CollectionLoad>(GameIdHelper.ID_UNDERCOVER);
-            ExportFactory.SetDatabaseLoadCreator<DatabaseLoad>(GameIdHelper.ID_UNDERCOVER);
-            ExportFactory.SetExportEntryCreator<ExportEntry>(GameIdHelper.ID_UNDERCOVER);
-
             SpeedFramework.Register(typeRegistry);
             typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
+        }
+
+        public override ExportFactory CreateExportFactory()
+        {
+            return new ExportFactory(() => new DatabaseLoad(), () => new ClassLoad(), () => new CollectionLoad(),
+                () => new ExportEntry());
         }
     }
 }

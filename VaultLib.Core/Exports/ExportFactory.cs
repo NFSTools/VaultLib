@@ -6,80 +6,94 @@ using VaultLib.Core.Structures;
 
 namespace VaultLib.Core.Exports
 {
-    public static class ExportFactory
+    public class ExportFactory
     {
-        private static readonly Dictionary<string, Func<IExportEntry>> ExportEntryCreatorDictionary =
-            new Dictionary<string, Func<IExportEntry>>();
+        // private static readonly Dictionary<string, Func<IExportEntry>> ExportEntryCreatorDictionary =
+        //     new Dictionary<string, Func<IExportEntry>>();
+        //
+        // private static readonly Dictionary<string, Func<IPtrRef>> PtrCreatorDictionary =
+        //     new Dictionary<string, Func<IPtrRef>>();
+        //
+        // private static readonly Dictionary<string, Func<BaseCollectionLoad>> CollectionLoadBuilderDictionary =
+        //     new Dictionary<string, Func<BaseCollectionLoad>>();
+        //
+        // private static readonly Dictionary<string, Func<BaseClassLoad>> ClassLoadBuilderDictionary =
+        //     new Dictionary<string, Func<BaseClassLoad>>();
+        //
+        // private static readonly Dictionary<string, Func<BaseDatabaseLoad>> DatabaseLoadBuilderDictionary =
+        //     new Dictionary<string, Func<BaseDatabaseLoad>>();
 
-        private static readonly Dictionary<string, Func<IPtrRef>> PtrCreatorDictionary =
-            new Dictionary<string, Func<IPtrRef>>();
+        // public static void SetPointerCreator<T>(string game) where T : IPtrRef, new()
+        // {
+        //     PtrCreatorDictionary.Add(game, () => new T());
+        // }
+        //
+        // public static void SetExportEntryCreator<T>(string game) where T : IExportEntry, new()
+        // {
+        //     ExportEntryCreatorDictionary.Add(game, () => new T());
+        // }
+        //
+        // public static void SetCollectionLoadCreator<T>(string game) where T : BaseCollectionLoad, new()
+        // {
+        //     CollectionLoadBuilderDictionary.Add(game, () => new T());
+        // }
+        //
+        // public static void SetClassLoadCreator<T>(string game) where T : BaseClassLoad, new()
+        // {
+        //     ClassLoadBuilderDictionary.Add(game, () => new T());
+        // }
+        //
+        // public static void SetDatabaseLoadCreator<T>(string game) where T : BaseDatabaseLoad, new()
+        // {
+        //     DatabaseLoadBuilderDictionary.Add(game, () => new T());
+        // }
 
-        private static readonly Dictionary<string, Func<BaseCollectionLoad>> CollectionLoadBuilderDictionary =
-            new Dictionary<string, Func<BaseCollectionLoad>>();
+        private readonly Func<BaseDatabaseLoad> _databaseLoadFactory;
+        private readonly Func<BaseClassLoad> _classLoadFactory;
+        private readonly Func<BaseCollectionLoad> _collectionLoadFactory;
+        private readonly Func<IExportEntry> _exportEntryFactory;
+        private readonly Func<IPtrRef> _ptrRefFactory;
 
-        private static readonly Dictionary<string, Func<BaseClassLoad>> ClassLoadBuilderDictionary =
-            new Dictionary<string, Func<BaseClassLoad>>();
-
-        private static readonly Dictionary<string, Func<BaseDatabaseLoad>> DatabaseLoadBuilderDictionary =
-            new Dictionary<string, Func<BaseDatabaseLoad>>();
-
-        public static void SetPointerCreator<T>(string game) where T : IPtrRef, new()
+        public ExportFactory(Func<BaseDatabaseLoad> databaseLoadFactory,
+            Func<BaseClassLoad> classLoadFactory, Func<BaseCollectionLoad> collectionLoadFactory,
+            Func<IExportEntry> exportEntryFactory, Func<IPtrRef> ptrRefFactory = null)
         {
-            PtrCreatorDictionary.Add(game, () => new T());
+            _databaseLoadFactory = databaseLoadFactory;
+            _classLoadFactory = classLoadFactory;
+            _collectionLoadFactory = collectionLoadFactory;
+            _exportEntryFactory = exportEntryFactory;
+            _ptrRefFactory = ptrRefFactory ?? (() => new AttribPtrRef());
         }
 
-        public static void SetExportEntryCreator<T>(string game) where T : IExportEntry, new()
+        public BaseCollectionLoad BuildCollectionLoad(VltCollection collection)
         {
-            ExportEntryCreatorDictionary.Add(game, () => new T());
-        }
-
-        public static void SetCollectionLoadCreator<T>(string game) where T : BaseCollectionLoad, new()
-        {
-            CollectionLoadBuilderDictionary.Add(game, () => new T());
-        }
-
-        public static void SetClassLoadCreator<T>(string game) where T : BaseClassLoad, new()
-        {
-            ClassLoadBuilderDictionary.Add(game, () => new T());
-        }
-
-        public static void SetDatabaseLoadCreator<T>(string game) where T : BaseDatabaseLoad, new()
-        {
-            DatabaseLoadBuilderDictionary.Add(game, () => new T());
-        }
-
-        public static IExportEntry BuildExportEntry(Vault vault)
-        {
-            return ExportEntryCreatorDictionary[vault.Database.Options.GameId]();
-        }
-
-        public static BaseCollectionLoad BuildCollectionLoad(Vault vault, VltCollection collection)
-        {
-            var collectionLoad = CollectionLoadBuilderDictionary[vault.Database.Options.GameId]();
-
+            var collectionLoad = _collectionLoadFactory();
             collectionLoad.Collection = collection;
 
             return collectionLoad;
         }
 
-        public static BaseClassLoad BuildClassLoad(Vault vault, VltClass vltClass)
+        public BaseClassLoad BuildClassLoad(VltClass vltClass)
         {
-            var classLoad = ClassLoadBuilderDictionary[vault.Database.Options.GameId]();
+            var classLoad = _classLoadFactory();
 
             classLoad.Class = vltClass;
             return classLoad;
         }
 
-        public static BaseDatabaseLoad BuildDatabaseLoad(Vault vault)
+        public BaseDatabaseLoad BuildDatabaseLoad()
         {
-            return DatabaseLoadBuilderDictionary[vault.Database.Options.GameId]();
+            return _databaseLoadFactory();
         }
 
-        public static IPtrRef CreatePtrRef(Vault vault)
+        public IPtrRef CreatePtrRef()
         {
-            if (PtrCreatorDictionary.TryGetValue(vault.Database.Options.GameId, out var creator))
-                return creator();
-            return new AttribPtrRef();
+            return _ptrRefFactory();
+        }
+
+        public IExportEntry BuildExportEntry()
+        {
+            return _exportEntryFactory();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace VaultLib.Core.Chunks
 
                 var endOffset = bw.BaseStream.Position;
 
-                var exportEntry = ExportFactory.BuildExportEntry(vault);
+                var exportEntry = vault.Database.ExportFactory.BuildExportEntry();
                 exportEntry.ID = t.GetExportID();
                 exportEntry.Offset = (uint)offset;
                 exportEntry.Type = vault.SaveContext.StringHash(t.GetTypeId());
