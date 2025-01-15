@@ -8,7 +8,7 @@
     <PackageId>VaultLib.Frameworks.Speed</PackageId>
     <Product>VaultLib.Frameworks.Speed</Product>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>2.0.0-dev</Version>
+    <Version>3.0.0-dev</Version>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
