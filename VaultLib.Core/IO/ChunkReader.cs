@@ -23,7 +23,7 @@ namespace VaultLib.Core.IO
         public ChunkBase NextChunk(Vault vault)
         {
             var header = new ChunkBlockHeader();
-            header.Read(vault, Reader);
+            header.Read(Reader);
             ChunkBase chunk = null;
 
             switch (header.ID)

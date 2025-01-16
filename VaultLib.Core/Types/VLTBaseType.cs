@@ -8,7 +8,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public abstract class VLTBaseType : IFileAccess
+    public abstract class VLTBaseType : IVaultFileAccess
     {
         protected VLTBaseType(VltClass @class, VltClassField field, VltCollection collection)
         {

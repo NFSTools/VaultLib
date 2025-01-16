@@ -18,7 +18,7 @@ namespace VaultLib.Core.Structures
 
         public long EndOffset => Offset + Size + 8;
 
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(BinaryReader br)
         {
             Offset = br.BaseStream.Position;
             ID = br.ReadUInt32();
@@ -28,7 +28,7 @@ namespace VaultLib.Core.Structures
                 throw new InvalidDataException($"Overflowing chunk detected @ base+0x{Offset:X}");
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(BinaryWriter bw)
         {
             throw new NotImplementedException();
         }

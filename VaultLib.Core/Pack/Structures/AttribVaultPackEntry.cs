@@ -15,7 +15,7 @@ namespace VaultLib.Core.Pack.Structures
         public uint BinOffset { get; set; }
         public uint VltOffset { get; set; }
 
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(BinaryReader br)
         {
             VaultNameOffset = br.ReadUInt32();
             BinSize = br.ReadUInt32();
@@ -24,7 +24,7 @@ namespace VaultLib.Core.Pack.Structures
             VltOffset = br.ReadUInt32();
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(BinaryWriter bw)
         {
             bw.Write(VaultNameOffset);
             bw.Write(BinSize);

@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports
 {
-    public class AttribEntry : IFileAccess, IPointerObject
+    public class AttribEntry : IVaultFileAccess, IPointerObject
     {
         public uint Key { get; set; }
         public ushort TypeIndex { get; set; }

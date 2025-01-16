@@ -3,7 +3,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.DataInterfaces
 {
-    public interface IAttribDefinition : IFileAccess
+    public interface IAttribDefinition : IVaultFileAccess
     {
         ulong Key { get; set; }
         ulong Type { get; set; }

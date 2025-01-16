@@ -11,7 +11,7 @@ namespace VaultLib.Core.Exports
     ///     An export is an object that describes an entity in the VLT database.
     ///     For example, a class is described by a "ClassLoadData" export.
     /// </summary>
-    public abstract class BaseExport : IFileAccess
+    public abstract class BaseExport : IVaultFileAccess
     {
         /// <summary>
         ///     The offset of the export data in the VLT stream.

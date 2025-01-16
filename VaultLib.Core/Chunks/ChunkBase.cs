@@ -3,7 +3,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Chunks
 {
-    public abstract class ChunkBase : IFileAccess
+    public abstract class ChunkBase : IVaultFileAccess
     {
         public abstract uint Id { get; }
         public abstract uint Size { get; set; }

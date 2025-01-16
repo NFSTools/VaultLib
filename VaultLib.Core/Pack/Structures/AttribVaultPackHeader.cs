@@ -13,7 +13,7 @@ namespace VaultLib.Core.Pack.Structures
         public uint StringBlockOffset { get; set; }
         public uint StringBlockSize { get; set; }
 
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(BinaryReader br)
         {
             if (br.ReadUInt32() != 0x4B415056) throw new InvalidDataException("Pack header invalid");
 
@@ -22,7 +22,7 @@ namespace VaultLib.Core.Pack.Structures
             StringBlockSize = br.ReadUInt32();
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(BinaryWriter bw)
         {
             bw.Write(0x4B415056);
             bw.Write(NumEntries);

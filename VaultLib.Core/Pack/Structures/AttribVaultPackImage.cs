@@ -14,27 +14,27 @@ namespace VaultLib.Core.Pack.Structures
 
         public List<AttribVaultPackEntry> Entries { get; set; }
 
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(BinaryReader br)
         {
             Entries = new List<AttribVaultPackEntry>();
             Header = new AttribVaultPackHeader();
-            Header.Read(vault, br);
+            Header.Read(br);
 
             for (var i = 0; i < Header.NumEntries; i++)
             {
                 var entry = new AttribVaultPackEntry();
-                entry.Read(vault, br);
+                entry.Read(br);
                 Entries.Add(entry);
             }
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(BinaryWriter bw)
         {
-            Header.Write(vault, bw);
+            Header.Write(bw);
 
             foreach (var entry in Entries)
             {
-                entry.Write(vault, bw);
+                entry.Write(bw);
             }
         }
     }

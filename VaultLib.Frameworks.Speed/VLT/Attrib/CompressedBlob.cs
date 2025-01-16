@@ -13,12 +13,12 @@ namespace VaultLib.Frameworks.Speed.VLT.Attrib
 
         public byte[] Data { get; set; }
 
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(BinaryReader br)
         {
             Data = BlobDecompressor.Decompress(br).ToArray();
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(BinaryWriter bw)
         {
             if (CompressedData == null)
                 throw new Exception("compressed data buffer is null");

@@ -11,6 +11,15 @@ namespace VaultLib.Core.Utils
     /// </summary>
     public interface IFileAccess
     {
+        void Read(BinaryReader br);
+        void Write(BinaryWriter bw);
+    }
+
+    /// <summary>
+    ///     Generic interface for reading and writing binary structures, with access to the containing <see cref="Vault"/>.
+    /// </summary>
+    public interface IVaultFileAccess
+    {
         void Read(Vault vault, BinaryReader br);
         void Write(Vault vault, BinaryWriter bw);
     }

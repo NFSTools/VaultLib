@@ -11,7 +11,7 @@ namespace VaultLib.Core.DataInterfaces
         PtrExport = 0x4
     }
 
-    public interface IPtrRef : IFileAccess
+    public interface IPtrRef : IVaultFileAccess
     {
         uint FixupOffset { get; set; }
         EPtrRefType PtrType { get; set; }

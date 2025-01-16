@@ -32,9 +32,9 @@ namespace VaultLib.Support.ProStreet.VLT
             MaxX = br.ReadSingle();
             MinY = br.ReadSingle();
             MaxY = br.ReadSingle();
-            _xArray.Read(vault, br);
-            _yArray.Read(vault, br);
-            _y2Array.Read(vault, br);
+            _xArray.Read(br);
+            _yArray.Read(br);
+            _y2Array.Read(br);
             br.ReadUInt32();
             //Debug.Assert(br.ReadUInt32()==0);
         }
@@ -50,9 +50,9 @@ namespace VaultLib.Support.ProStreet.VLT
             bw.Write(MinY);
             bw.Write(MaxY);
 
-            _xArray.Write(vault, bw);
-            _yArray.Write(vault, bw);
-            _y2Array.Write(vault, bw);
+            _xArray.Write(bw);
+            _yArray.Write(bw);
+            _y2Array.Write(bw);
 
             bw.Write(0); // AllocatedMemory (bool1 + 3 align bytes)
         }

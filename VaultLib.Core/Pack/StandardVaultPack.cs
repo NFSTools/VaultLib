@@ -24,7 +24,7 @@ namespace VaultLib.Core.Pack
 
             // check for VPAK header
             AttribVaultPackImage vaultPackImage = new AttribVaultPackImage();
-            vaultPackImage.Read(null, br);
+            vaultPackImage.Read(br);
 
             br.BaseStream.Position = vaultPackImage.Header.StringBlockOffset;
 
@@ -155,7 +155,7 @@ namespace VaultLib.Core.Pack
                 vpi.Entries.Add(entry);
             }
 
-            vpi.Write(null, bw);
+            vpi.Write(bw);
         }
     }
 }

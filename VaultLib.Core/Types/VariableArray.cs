@@ -16,7 +16,7 @@ namespace VaultLib.Core.Types
         private long _ptrSrc;
         public float[] Data { get; set; }
 
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(BinaryReader br)
         {
             _mArray = br.ReadPointer();
             Debug.Assert(_mArray != 0);
@@ -25,7 +25,7 @@ namespace VaultLib.Core.Types
             Data = new float[mLength];
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(BinaryWriter bw)
         {
             _ptrSrc = bw.BaseStream.Position;
             bw.Write(0);

@@ -7,7 +7,7 @@ using VaultLib.ModernBase.Exports;
 
 namespace VaultLib.ModernBase
 {
-    public abstract class AttribEntryBase : IFileAccess, IPointerObject
+    public abstract class AttribEntryBase : IVaultFileAccess, IPointerObject
     {
         public ulong Key { get; set; }
         public ushort TypeIndex { get; set; }

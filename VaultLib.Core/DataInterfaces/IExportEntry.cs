@@ -2,7 +2,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.DataInterfaces
 {
-    public interface IExportEntry : IFileAccess
+    public interface IExportEntry : IVaultFileAccess
     {
         ulong ID { get; set; }
         ulong Type { get; set; }
