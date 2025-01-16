@@ -31,9 +31,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             Chance = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            _copType.Write(vault, bw);
+            _copType.Write(context, bw);
             bw.Write(VLT32Hasher.Hash(CopType));
             bw.Write(Count);
             bw.Write(Chance);
@@ -50,15 +50,15 @@ namespace VaultLib.Frameworks.Speed.VLT
             CopType = _copType.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             _copType.Value = CopType;
-            _copType.WritePointerData(vault, bw);
+            _copType.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _copType.AddPointers(vault);
+            _copType.AddPointers(context);
         }
 
         public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

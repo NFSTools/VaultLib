@@ -24,10 +24,10 @@ namespace VaultLib.Support.World.VLT.Commerce
             _text.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _text.Value = Value;
-            _text.Write(vault, bw);
+            _text.Write(context, bw);
         }
 
         public IEnumerable<string> GetStrings()
@@ -41,14 +41,14 @@ namespace VaultLib.Support.World.VLT.Commerce
             Value = _text.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _text.WritePointerData(vault, bw);
+            _text.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _text.AddPointers(vault);
+            _text.AddPointers(context);
         }
 
         public string GetString()

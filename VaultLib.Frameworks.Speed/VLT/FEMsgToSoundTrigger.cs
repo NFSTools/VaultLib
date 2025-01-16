@@ -26,7 +26,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             SoundTrigger = br.ReadEnum<eMenuSoundTriggers>();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(FEngMsg);
             bw.WriteEnum(SoundTrigger);

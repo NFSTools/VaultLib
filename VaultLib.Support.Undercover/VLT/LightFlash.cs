@@ -26,7 +26,7 @@ namespace VaultLib.Support.Undercover.VLT
             Value2 = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Value1);
             bw.Write(Value2);

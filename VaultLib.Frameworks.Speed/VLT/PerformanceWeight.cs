@@ -27,7 +27,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Percentage = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(PerformanceType);
             bw.Write(Percentage);

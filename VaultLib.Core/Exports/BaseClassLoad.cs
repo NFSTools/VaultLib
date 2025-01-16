@@ -10,8 +10,8 @@ namespace VaultLib.Core.Exports
         public VltClass Class { get; set; }
 
         public abstract void ReadPointerData(Vault vault, BinaryReader br);
-        public abstract void WritePointerData(Vault vault, BinaryWriter bw);
-        public abstract void AddPointers(Vault vault);
+        public abstract void WritePointerData(VaultSaveContext context, BinaryWriter bw);
+        public abstract void AddPointers(VaultSaveContext context);
 
         public override ulong GetExportId()
         {

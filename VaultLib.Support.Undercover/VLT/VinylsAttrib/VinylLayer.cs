@@ -38,15 +38,15 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(PartNameHash);
             bw.Write(Mirrored);
             bw.AlignWriter(4);
-            Transform.Write(vault, bw);
+            Transform.Write(context, bw);
             for (int i = 0; i < 4; i++)
             {
-                Colors[i].Write(vault, bw);
+                Colors[i].Write(context, bw);
             }
         }
     }

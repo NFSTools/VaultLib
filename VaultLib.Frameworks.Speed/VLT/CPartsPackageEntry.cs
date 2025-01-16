@@ -25,9 +25,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             br.AlignReader(4);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            Part.Write(vault, bw);
+            Part.Write(context, bw);
             bw.Write(KitNum);
             bw.AlignWriter(4);
         }

@@ -31,7 +31,7 @@ namespace VaultLib.Support.World.VLT.GameCore
             mFlag = br.ReadEnum<BlackBoardFlag>();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(mChannel);
             bw.Write(mBlackBoardKey);

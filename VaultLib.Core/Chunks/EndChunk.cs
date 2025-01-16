@@ -14,7 +14,7 @@ namespace VaultLib.Core.Chunks
             //Debug.WriteLine("end");
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             if ((bw.BaseStream.Position - 8) % 0x10 != 0) throw new Exception();
 

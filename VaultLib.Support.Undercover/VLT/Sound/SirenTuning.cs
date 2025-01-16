@@ -62,7 +62,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             Unknown4 = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             for (int i = 0; i < OpRadiusLimit.Length; i++)
             {

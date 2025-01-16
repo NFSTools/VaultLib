@@ -29,7 +29,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Vol4 = br.ReadInt16();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Vol1);
             bw.Write(Vol2);

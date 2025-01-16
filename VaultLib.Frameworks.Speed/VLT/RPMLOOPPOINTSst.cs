@@ -51,7 +51,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             RPM_CRZ_HI_OUT = br.ReadInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(RPM_LD_LOW_PEAK);
             bw.Write(RPM_LD_LOW_OUT);

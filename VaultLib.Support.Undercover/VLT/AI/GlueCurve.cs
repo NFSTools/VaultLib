@@ -22,10 +22,10 @@ namespace VaultLib.Support.Undercover.VLT.AI
             Hard.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            Easy.Write(vault, bw);
-            Hard.Write(vault, bw);
+            Easy.Write(context, bw);
+            Hard.Write(context, bw);
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -34,16 +34,16 @@ namespace VaultLib.Support.Undercover.VLT.AI
             Hard.ReadPointerData(vault, br);
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            Easy.WritePointerData(vault, bw);
-            Hard.WritePointerData(vault, bw);
+            Easy.WritePointerData(context, bw);
+            Hard.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            Easy.AddPointers(vault);
-            Hard.AddPointers(vault);
+            Easy.AddPointers(context);
+            Hard.AddPointers(context);
         }
 
         public GlueCurve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

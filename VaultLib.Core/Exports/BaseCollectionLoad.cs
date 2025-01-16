@@ -15,8 +15,8 @@ namespace VaultLib.Core.Exports
         public ulong ParentKey { get; protected set; }
 
         public abstract void ReadPointerData(Vault vault, BinaryReader br);
-        public abstract void WritePointerData(Vault vault, BinaryWriter bw);
-        public abstract void AddPointers(Vault vault);
+        public abstract void WritePointerData(VaultSaveContext context, BinaryWriter bw);
+        public abstract void AddPointers(VaultSaveContext context);
 
         public override string GetTypeId()
         {

@@ -18,7 +18,7 @@ namespace VaultLib.Support.World.VLT.GameCore
             Entity2 = br.ReadEnum<PhysicsEntity>();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Entity1);
             bw.WriteEnum(Entity2);

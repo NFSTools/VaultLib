@@ -118,7 +118,7 @@ namespace VaultLib.ModernBase.Exports
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(VLT32Hasher.Hash(Collection.Name));
             bw.Write(VLT32Hasher.Hash(Collection.Class.Name));
@@ -145,7 +145,7 @@ namespace VaultLib.ModernBase.Exports
 
             foreach (var attribEntry in Entries)
             {
-                attribEntry.Write(vault, bw);
+                attribEntry.Write(context, bw);
             }
         }
 

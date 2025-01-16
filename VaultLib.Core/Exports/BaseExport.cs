@@ -23,7 +23,7 @@ namespace VaultLib.Core.Exports
         public uint Size { get; set; }
 
         public abstract void Read(Vault vault, BinaryReader br);
-        public abstract void Write(Vault vault, BinaryWriter bw);
+        public abstract void Write(VaultSaveContext context, BinaryWriter bw);
 
         /// <summary>
         ///     Perform any necessary preparation work before data is read.

@@ -33,7 +33,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Threshold_B = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Frequency_A);
             bw.Write(Amplitude_A);

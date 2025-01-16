@@ -33,10 +33,10 @@ namespace VaultLib.Frameworks.Speed.VLT
             Shift = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            Car.Write(vault, bw);
-            _eventText.Write(vault, bw);
+            Car.Write(context, bw);
+            _eventText.Write(context, bw);
             bw.Write(MinDelta);
             bw.Write(MaxDelta);
             bw.Write(Shift);
@@ -48,15 +48,15 @@ namespace VaultLib.Frameworks.Speed.VLT
             Event = _eventText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             _eventText.Value = Event;
-            _eventText.WritePointerData(vault, bw);
+            _eventText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _eventText.AddPointers(vault);
+            _eventText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

@@ -32,7 +32,7 @@ namespace VaultLib.Support.Undercover.VLT
             SpeechColour = br.ReadEnum<ePaintSpeechColour>();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(RGB);
             bw.WriteEnum(MaterialA);

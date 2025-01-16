@@ -49,9 +49,9 @@ namespace VaultLib.ModernBase.Exports
             Class = new VltClass(HashManager.ResolveVLT(ClassHash));
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            int collectionReserve = (from collection in vault.SaveContext.Collections
+            int collectionReserve = (from collection in context.Collections
                                      where collection.Class.Name == Class.Name
                                      select collection).Count();
 
@@ -131,7 +131,7 @@ namespace VaultLib.ModernBase.Exports
             vault.Database.AddClass(Class);
         }
 
-        public override void WritePointerData(Vault vault, BinaryWriter bw)
+        public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             _dstDefinitionsPtr = bw.BaseStream.Position;
 
@@ -145,7 +145,7 @@ namespace VaultLib.ModernBase.Exports
                 definition.Offset = field.Offset;
                 definition.Size = field.Size;
                 definition.Type = VLT64Hasher.Hash(field.TypeName);
-                definition.Write(vault, bw);
+                definition.Write(context, bw);
             }
 
             if (_srcStaticPtr != 0)
@@ -157,29 +157,29 @@ namespace VaultLib.ModernBase.Exports
                 foreach (var staticField in Class.StaticFields)
                 {
                     bw.AlignWriter(staticField.Alignment);
-                    staticField.StaticValue.Write(vault, bw);
+                    staticField.StaticValue.Write(context, bw);
                 }
 
                 foreach (var staticField in Class.StaticFields)
                 {
                     if (staticField.StaticValue is IPointerObject pointerObject)
-                        pointerObject.WritePointerData(vault, bw);
+                        pointerObject.WritePointerData(context, bw);
                 }
             }
         }
 
-        public override void AddPointers(Vault vault)
+        public override void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
+            context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
 
             if (_srcStaticPtr != 0 && _dstStaticPtr != 0)
             {
-                vault.SaveContext.AddPointer(_srcStaticPtr, _dstStaticPtr, true);
+                context.AddPointer(_srcStaticPtr, _dstStaticPtr, true);
 
                 foreach (var staticField in Class.StaticFields)
                 {
                     if (staticField.StaticValue is IPointerObject pointerObject)
-                        pointerObject.AddPointers(vault);
+                        pointerObject.AddPointers(context);
                 }
             }
         }

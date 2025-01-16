@@ -28,12 +28,12 @@ namespace VaultLib.Support.Undercover.VLT
             _pictureText.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(SubjectHALId);
             bw.Write(TextHALId);
             _pictureText.Value = Picture;
-            _pictureText.Write(vault, bw);
+            _pictureText.Write(context, bw);
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -42,14 +42,14 @@ namespace VaultLib.Support.Undercover.VLT
             Picture = _pictureText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _pictureText.WritePointerData(vault, bw);
+            _pictureText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _pictureText.AddPointers(vault);
+            _pictureText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

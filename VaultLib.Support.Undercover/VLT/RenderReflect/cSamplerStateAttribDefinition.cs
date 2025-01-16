@@ -57,10 +57,10 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             Unknown15 = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _nameText.Value = Name;
-            _nameText.Write(vault, bw);
+            _nameText.Write(context, bw);
             bw.Write(Unknown1);
             bw.Write(Unknown2);
             bw.Write(Unknown3);
@@ -84,14 +84,14 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             Name = _nameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _nameText.WritePointerData(vault, bw);
+            _nameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _nameText.AddPointers(vault);
+            _nameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

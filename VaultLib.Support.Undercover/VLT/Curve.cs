@@ -41,7 +41,7 @@ namespace VaultLib.Support.Undercover.VLT
             //Debug.Assert(br.ReadUInt32()==0);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _xArray.Data = XValues;
             _yArray.Data = YValues;
@@ -71,18 +71,18 @@ namespace VaultLib.Support.Undercover.VLT
             Y2Values = _y2Array.Data;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _xArray.WritePointerData(vault, bw);
-            _yArray.WritePointerData(vault, bw);
-            _y2Array.WritePointerData(vault, bw);
+            _xArray.WritePointerData(context, bw);
+            _yArray.WritePointerData(context, bw);
+            _y2Array.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _xArray.AddPointers(vault);
-            _yArray.AddPointers(vault);
-            _y2Array.AddPointers(vault);
+            _xArray.AddPointers(context);
+            _yArray.AddPointers(context);
+            _y2Array.AddPointers(context);
         }
 
         public Curve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

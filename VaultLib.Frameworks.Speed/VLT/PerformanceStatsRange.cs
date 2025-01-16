@@ -29,7 +29,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             mMax = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(mPerformanceType);
             bw.Write(mMin);

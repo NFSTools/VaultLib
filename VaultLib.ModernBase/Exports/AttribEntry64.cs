@@ -47,10 +47,10 @@ namespace VaultLib.ModernBase.Exports
             return false;
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Key);
-            InlineData.Write(vault, bw);
+            InlineData.Write(context, bw);
             if (HasInlineFlag())
             {
                 bw.AlignWriter(4);
@@ -76,12 +76,12 @@ namespace VaultLib.ModernBase.Exports
             throw new NotImplementedException();
         }
 
-        public override void WritePointerData(Vault vault, BinaryWriter bw)
+        public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             throw new NotImplementedException();
         }
 
-        public override void AddPointers(Vault vault)
+        public override void AddPointers(VaultSaveContext context)
         {
             throw new NotImplementedException();
         }

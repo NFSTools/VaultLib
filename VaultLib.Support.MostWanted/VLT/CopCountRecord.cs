@@ -28,10 +28,10 @@ namespace VaultLib.Support.MostWanted.VLT
             Chance = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _copType.Value = CopType;
-            _copType.Write(vault, bw);
+            _copType.Write(context, bw);
             bw.Write(Count);
             bw.Write(Chance);
         }
@@ -42,14 +42,14 @@ namespace VaultLib.Support.MostWanted.VLT
             CopType = _copType.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _copType.WritePointerData(vault, bw);
+            _copType.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _copType.AddPointers(vault);
+            _copType.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

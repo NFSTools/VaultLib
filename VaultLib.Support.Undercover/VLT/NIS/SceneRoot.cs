@@ -44,11 +44,11 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             _markerNameText.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(SceneRootType);
             _markerNameText.Value = MarkerName;
-            _markerNameText.Write(vault, bw);
+            _markerNameText.Write(context, bw);
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -57,14 +57,14 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             MarkerName = _markerNameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _markerNameText.WritePointerData(vault, bw);
+            _markerNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _markerNameText.AddPointers(vault);
+            _markerNameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

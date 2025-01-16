@@ -30,7 +30,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             UnlockTier = br.ReadInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(UnlockType);
             bw.Write(UnlockName);

@@ -83,9 +83,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             Stats = br.ReadArray(br.ReadEnum<FEPhysicsStatType>, 2);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            _slotNameText.Write(vault, bw);
+            _slotNameText.Write(context, bw);
             bw.WriteEnum(ModeFlags);
             bw.Write(SlotDesc);
             bw.Write(TuningSliderListString);
@@ -98,15 +98,15 @@ namespace VaultLib.Frameworks.Speed.VLT
             SlotName = _slotNameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             _slotNameText.Value = SlotName;
-            _slotNameText.WritePointerData(vault, bw);
+            _slotNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _slotNameText.AddPointers(vault);
+            _slotNameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

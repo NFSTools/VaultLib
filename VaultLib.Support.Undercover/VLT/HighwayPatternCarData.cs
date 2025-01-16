@@ -32,11 +32,11 @@ namespace VaultLib.Support.Undercover.VLT
                 throw new InvalidDataException();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Row);
             bw.Write(Lane);
-            Vehicle.Write(vault, bw);
+            Vehicle.Write(context, bw);
             bw.WriteEnum(Change);
             bw.Write(0);
         }

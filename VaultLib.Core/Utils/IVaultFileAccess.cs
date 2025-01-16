@@ -12,5 +12,5 @@ namespace VaultLib.Core.Utils;
 public interface IVaultFileAccess
 {
     void Read(Vault vault, BinaryReader br);
-    void Write(Vault vault, BinaryWriter bw);
+    void Write(VaultSaveContext context, BinaryWriter bw);
 }

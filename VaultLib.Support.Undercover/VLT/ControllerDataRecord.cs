@@ -34,10 +34,10 @@ namespace VaultLib.Support.Undercover.VLT
             UpperDZ = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _deviceID.Value = DeviceID;
-            _deviceID.Write(vault, bw);
+            _deviceID.Write(context, bw);
             bw.WriteEnum(UpdateType);
             bw.Write(LowerDZ);
             bw.Write(UpperDZ);
@@ -54,14 +54,14 @@ namespace VaultLib.Support.Undercover.VLT
             DeviceID = _deviceID.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _deviceID.WritePointerData(vault, bw);
+            _deviceID.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _deviceID.AddPointers(vault);
+            _deviceID.AddPointers(context);
         }
 
         public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

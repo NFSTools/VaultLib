@@ -67,10 +67,10 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             br.AlignReader(4);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _debugNameText.Value = DebugName;
-            _debugNameText.Write(vault, bw);
+            _debugNameText.Write(context, bw);
             bw.Write(BlendEnable);
             bw.Write(AlphaTestEnable);
             bw.AlignWriter(4);
@@ -82,7 +82,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.WriteArray(SourceAlpha, bw.WriteEnum);
             bw.WriteArray(DestAlpha, bw.WriteEnum);
             bw.WriteArray(OperationAlpha, bw.WriteEnum);
-            BlendFactor.Write(vault, bw);
+            BlendFactor.Write(context, bw);
             bw.WriteArray(RGBAEnableRT0, bw.Write);
             bw.WriteArray(RGBAEnableRT1, bw.Write);
             bw.WriteArray(RGBAEnableRT2, bw.Write);
@@ -100,14 +100,14 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             DebugName = _debugNameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _debugNameText.WritePointerData(vault, bw);
+            _debugNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _debugNameText.AddPointers(vault);
+            _debugNameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

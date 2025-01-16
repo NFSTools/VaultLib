@@ -30,7 +30,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             ValueMax = br.ReadArray(br.ReadSingle, 2);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Type);
             bw.Write(InputMin);

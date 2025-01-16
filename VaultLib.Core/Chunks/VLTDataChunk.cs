@@ -33,20 +33,20 @@ namespace VaultLib.Core.Chunks
             throw new NotImplementedException();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             foreach (var t in _exports)
             {
                 var offset = bw.BaseStream.Position;
 
-                t.Write(vault, bw);
+                t.Write(context, bw);
 
                 var endOffset = bw.BaseStream.Position;
 
-                var exportEntry = vault.Database.ExportFactory.BuildExportEntry();
+                var exportEntry = context.Database.ExportFactory.BuildExportEntry();
                 exportEntry.ID = t.GetExportId();
                 exportEntry.Offset = (uint)offset;
-                exportEntry.Type = vault.SaveContext.StringHash(t.GetTypeId());
+                exportEntry.Type = context.StringHash(t.GetTypeId());
                 exportEntry.Size = (uint)(endOffset - offset);
 
                 ExportEntries.Add(exportEntry);

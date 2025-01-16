@@ -23,7 +23,7 @@ namespace VaultLib.Core.Chunks
             //Debug.WriteLine("UNKNOWN CHUNK of {0} bytes - text {2} ({1:X8})", this.Size, this.ID, Encoding.ASCII.GetString(BitConverter.GetBytes(this.ID).Reverse().ToArray()));
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             throw new NotImplementedException();
         }

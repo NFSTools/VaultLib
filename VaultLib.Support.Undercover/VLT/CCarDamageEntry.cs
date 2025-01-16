@@ -35,15 +35,15 @@ namespace VaultLib.Support.Undercover.VLT
             SmackableCollisionAttribute.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(PartID);
             _attachPartText.Value = AttachPart;
-            _attachPartText.Write(vault, bw);
-            Material.Write(vault, bw);
+            _attachPartText.Write(context, bw);
+            Material.Write(context, bw);
             _smackableCollisionNameText.Value = SmackableCollisionName;
-            _smackableCollisionNameText.Write(vault, bw);
-            SmackableCollisionAttribute.Write(vault, bw);
+            _smackableCollisionNameText.Write(context, bw);
+            SmackableCollisionAttribute.Write(context, bw);
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -54,16 +54,16 @@ namespace VaultLib.Support.Undercover.VLT
             SmackableCollisionName = _smackableCollisionNameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _attachPartText.WritePointerData(vault, bw);
-            _smackableCollisionNameText.WritePointerData(vault, bw);
+            _attachPartText.WritePointerData(context, bw);
+            _smackableCollisionNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _attachPartText.AddPointers(vault);
-            _smackableCollisionNameText.AddPointers(vault);
+            _attachPartText.AddPointers(context);
+            _smackableCollisionNameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

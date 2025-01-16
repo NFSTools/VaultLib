@@ -48,7 +48,7 @@ namespace VaultLib.Support.World.VLT.Sound
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             for (int i = 0; i < StartTimeLimit.Length; i++)
             {

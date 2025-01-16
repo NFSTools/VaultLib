@@ -26,7 +26,7 @@ namespace VaultLib.Support.Undercover.VLT
             Level = br.ReadEnum<eQuickUpgradeLevels>();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Package);
             bw.WriteEnum(Level);

@@ -29,7 +29,7 @@ namespace VaultLib.Support.Undercover.VLT
             Angle = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(ElementType);
             bw.Write(OffsetX);

@@ -30,10 +30,10 @@ namespace VaultLib.Support.ProStreet.VLT
             KitNumber = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(SlotID);
-            Part.Write(vault, bw);
+            Part.Write(context, bw);
             bw.Write(PartArrayIndex);
             bw.Write(KitNumber);
         }

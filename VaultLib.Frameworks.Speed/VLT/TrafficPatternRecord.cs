@@ -29,9 +29,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             Percent = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            Vehicle.Write(vault, bw);
+            Vehicle.Write(context, bw);
             bw.Write(Rate);
             bw.Write(MaxInstances);
             bw.Write(Percent);

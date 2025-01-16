@@ -20,7 +20,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Name = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Logo);
             bw.Write(Name);

@@ -25,7 +25,7 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
             TranslationY = br.ReadInt16();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(TranslationX);
             bw.Write(TranslationY);

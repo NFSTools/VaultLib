@@ -110,7 +110,7 @@ namespace VaultLib.ModernBase
             }
         }
 
-        public override void WritePointerData(Vault vault, BinaryWriter bw)
+        public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             foreach (var baseField in Collection.Class.BaseFields)
             {
@@ -126,7 +126,7 @@ namespace VaultLib.ModernBase
                         $"incorrect offset before writing {Collection.ShortPath}[{baseField.Name}]; expected to be at {baseField.Offset} but we are at {bw.BaseStream.Position - DestinationLayoutPointer}");
                 }
 
-                Collection.GetRawValue(baseField.Name).Write(vault, bw);
+                Collection.GetRawValue(baseField.Name).Write(context, bw);
             }
 
             foreach (var dataPair in Collection.GetData())
@@ -140,14 +140,14 @@ namespace VaultLib.ModernBase
                     if (!(entry.InlineData is IPointerObject pointerObject)) continue;
 
                     bw.AlignWriter(field.Alignment);
-                    pointerObject.WritePointerData(vault, bw);
+                    pointerObject.WritePointerData(context, bw);
                 }
                 else
                 {
                     if (!(dataPair.Value is IPointerObject pointerObject)) continue;
 
                     bw.AlignWriter(field.Alignment);
-                    pointerObject.WritePointerData(vault, bw);
+                    pointerObject.WritePointerData(context, bw);
                 }
             }
 
@@ -164,15 +164,15 @@ namespace VaultLib.ModernBase
             }
         }
 
-        public override void AddPointers(Vault vault)
+        public override void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(SourceLayoutPointer, DestinationLayoutPointer, true);
+            context.AddPointer(SourceLayoutPointer, DestinationLayoutPointer, true);
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
                 if (this.Collection.GetRawValue(baseField.Name) is IPointerObject pointerObject)
                 {
-                    pointerObject.AddPointers(vault);
+                    pointerObject.AddPointers(context);
                 }
             }
 
@@ -180,7 +180,7 @@ namespace VaultLib.ModernBase
             {
                 if (entry.InlineData is IPointerObject pointerObject)
                 {
-                    pointerObject.AddPointers(vault);
+                    pointerObject.AddPointers(context);
                 }
             }
         }

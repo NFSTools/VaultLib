@@ -27,9 +27,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             Position = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            PhysicsTuningSlider.Write(vault, bw);
+            PhysicsTuningSlider.Write(context, bw);
             bw.Write(CenteredAroundPreset);
             bw.AlignWriter(4);
             bw.Write(Position);

@@ -30,18 +30,18 @@ namespace VaultLib.Core.Exports.Implementations
             }
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             _typeNamesDst = bw.BaseStream.Position;
 
-            foreach (var type in vault.Database.Types) NullTerminatedString.Write(bw, type.Name);
+            foreach (var type in context.Database.Types) NullTerminatedString.Write(bw, type.Name);
 
             bw.AlignWriter(8);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(_typeNamesSrc, _typeNamesDst, true);
+            context.AddPointer(_typeNamesSrc, _typeNamesDst, true);
         }
 
         public override void Read(Vault vault, BinaryReader br)
@@ -66,17 +66,17 @@ namespace VaultLib.Core.Exports.Implementations
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            bw.Write(vault.Database.Classes.Count);
+            bw.Write(context.Database.Classes.Count);
             // DefaultDataSize is the size, in bytes, of the largest defined type.
             // Generated AttribSys headers would have a static array of bytes of this length.
-            bw.Write(vault.Database.Types.Max(t => t.Size));
-            bw.Write(vault.Database.Types.Count);
+            bw.Write(context.Database.Types.Max(t => t.Size));
+            bw.Write(context.Database.Types.Count);
             _typeNamesSrc = bw.BaseStream.Position;
             bw.Write(0);
 
-            foreach (var databaseType in vault.Database.Types) bw.Write(databaseType.Size);
+            foreach (var databaseType in context.Database.Types) bw.Write(databaseType.Size);
         }
     }
 }

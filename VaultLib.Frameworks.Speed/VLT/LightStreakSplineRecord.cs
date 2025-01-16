@@ -25,7 +25,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             mIndex = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(mEnum);
             bw.Write(mIndex);

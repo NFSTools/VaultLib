@@ -44,10 +44,10 @@ namespace VaultLib.LegacyBase.Exports
             Debug.Assert((ushort)NodeFlags <= 0x20);
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Key);
-            InlineData.Write(vault, bw);
+            InlineData.Write(context, bw);
             bw.AlignWriter(4);
             bw.Write(TypeIndex);
             bw.WriteEnum(NodeFlags);
@@ -63,12 +63,12 @@ namespace VaultLib.LegacyBase.Exports
             throw new NotImplementedException();
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             throw new NotImplementedException();
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
             throw new NotImplementedException();
         }

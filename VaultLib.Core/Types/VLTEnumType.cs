@@ -28,7 +28,7 @@ namespace VaultLib.Core.Types
             Value = br.ReadEnum<T>();
         }
 
-        public sealed override void Write(Vault vault, BinaryWriter bw)
+        public sealed override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Value);
         }

@@ -29,7 +29,7 @@ namespace VaultLib.Core.Types.Attrib.Types
             Z = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(X);
             bw.Write(Y);

@@ -27,7 +27,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             lifespan = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(frequency_start);
             bw.Write(frequency_end);

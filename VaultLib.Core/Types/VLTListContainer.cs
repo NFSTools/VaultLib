@@ -43,16 +43,16 @@ namespace VaultLib.Core.Types
             }
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             _dstPtr = bw.BaseStream.Position;
 
-            foreach (var item in Items) item.Write(vault, bw);
+            foreach (var item in Items) item.Write(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(_srcPtr, _dstPtr, false);
+            context.AddPointer(_srcPtr, _dstPtr, false);
         }
 
         public override void Read(Vault vault, BinaryReader br)
@@ -60,7 +60,7 @@ namespace VaultLib.Core.Types
             _pointer = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _srcPtr = bw.BaseStream.Position;
             bw.Write(0);

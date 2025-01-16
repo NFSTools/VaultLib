@@ -40,10 +40,10 @@ namespace VaultLib.Support.Undercover.VLT
             mBoundsMaxY = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _name.Value = Name;
-            _name.Write(vault, bw);
+            _name.Write(context, bw);
             bw.Write(mCurveStart);
             bw.Write(mCurveCount);
             bw.Write(mTriangleStart);
@@ -60,14 +60,14 @@ namespace VaultLib.Support.Undercover.VLT
             Name = _name.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _name.WritePointerData(vault, bw);
+            _name.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _name.AddPointers(vault);
+            _name.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

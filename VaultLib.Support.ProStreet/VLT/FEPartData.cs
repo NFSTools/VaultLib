@@ -70,7 +70,7 @@ namespace VaultLib.Support.ProStreet.VLT
             _offerIdText.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(HAL_ID);
             bw.Write(CF_HAL_ID);
@@ -86,13 +86,13 @@ namespace VaultLib.Support.ProStreet.VLT
             bw.Write((byte)AutoSculptCamera2.Items.Count);
             bw.Write((byte)AutoSculptCamera3.Items.Count);
             bw.Write((byte)0);
-            AutoSculptCamera1.Write(vault, bw);
-            AutoSculptCamera2.Write(vault, bw);
-            AutoSculptCamera3.Write(vault, bw);
+            AutoSculptCamera1.Write(context, bw);
+            AutoSculptCamera2.Write(context, bw);
+            AutoSculptCamera3.Write(context, bw);
             bw.Write(DetailHash);
-            PartDetails.Write(vault, bw);
+            PartDetails.Write(context, bw);
             _offerIdText.Value = OfferID;
-            _offerIdText.Write(vault, bw);
+            _offerIdText.Write(context, bw);
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -106,22 +106,22 @@ namespace VaultLib.Support.ProStreet.VLT
             OfferID = _offerIdText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            AutoSculptCamera1.WritePointerData(vault, bw);
-            AutoSculptCamera2.WritePointerData(vault, bw);
-            AutoSculptCamera3.WritePointerData(vault, bw);
-            PartDetails.WritePointerData(vault, bw);
-            _offerIdText.WritePointerData(vault, bw);
+            AutoSculptCamera1.WritePointerData(context, bw);
+            AutoSculptCamera2.WritePointerData(context, bw);
+            AutoSculptCamera3.WritePointerData(context, bw);
+            PartDetails.WritePointerData(context, bw);
+            _offerIdText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            AutoSculptCamera1.AddPointers(vault);
-            AutoSculptCamera2.AddPointers(vault);
-            AutoSculptCamera3.AddPointers(vault);
-            PartDetails.AddPointers(vault);
-            _offerIdText.AddPointers(vault);
+            AutoSculptCamera1.AddPointers(context);
+            AutoSculptCamera2.AddPointers(context);
+            AutoSculptCamera3.AddPointers(context);
+            PartDetails.AddPointers(context);
+            _offerIdText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

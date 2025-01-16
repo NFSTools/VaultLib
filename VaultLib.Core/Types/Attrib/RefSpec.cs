@@ -56,9 +56,9 @@ namespace VaultLib.Core.Types.Attrib
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            if (vault.Database.Options.Type == DatabaseType.X64Database)
+            if (context.Database.Options.Type == DatabaseType.X64Database)
             {
                 bw.Write(VLT64Hasher.Hash(ClassKey));
                 bw.Write(VLT64Hasher.Hash(CollectionKey));

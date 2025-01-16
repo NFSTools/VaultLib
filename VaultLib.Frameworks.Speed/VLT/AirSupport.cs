@@ -32,7 +32,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Duration = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(HeliStrategy);
             bw.Write(Chance);

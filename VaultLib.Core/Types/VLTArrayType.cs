@@ -64,18 +64,18 @@ namespace VaultLib.Core.Types
             foreach (var pointerObject in Items.OfType<IPointerObject>()) pointerObject.ReadPointerData(vault, br);
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             foreach (var pointerObject in Items.OfType<IPointerObject>())
             {
                 bw.AlignWriter(ItemAlignment);
-                pointerObject.WritePointerData(vault, bw);
+                pointerObject.WritePointerData(context, bw);
             }
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            foreach (var pointerObject in Items.OfType<IPointerObject>()) pointerObject.AddPointers(vault);
+            foreach (var pointerObject in Items.OfType<IPointerObject>()) pointerObject.AddPointers(context);
         }
 
         public override void Read(Vault vault, BinaryReader br)
@@ -107,7 +107,7 @@ namespace VaultLib.Core.Types
             br.BaseStream.Position += (Capacity - count) * FieldSize;
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Capacity);
             bw.Write((ushort)Items.Count);
@@ -127,7 +127,7 @@ namespace VaultLib.Core.Types
             {
                 var start = bw.BaseStream.Position;
                 Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
-                t.Write(vault, bw);
+                t.Write(context, bw);
                 var end = bw.BaseStream.Position;
                 Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
             }

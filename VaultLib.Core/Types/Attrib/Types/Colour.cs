@@ -29,7 +29,7 @@ namespace VaultLib.Core.Types.Attrib.Types
             A = (byte) (value & 0xff);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write((R << 24) | (G << 16) | (B << 8) | (A & 0xFF));
         }

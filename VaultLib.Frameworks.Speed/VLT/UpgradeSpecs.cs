@@ -19,9 +19,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             UpgradeLevel = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            ReferencedRow.Write(vault, bw);
+            ReferencedRow.Write(context, bw);
             bw.Write(UpgradeLevel);
         }
 

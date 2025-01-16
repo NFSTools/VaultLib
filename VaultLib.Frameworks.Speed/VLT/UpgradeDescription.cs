@@ -23,9 +23,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             mBlendingPower = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            mPhysicsUpgradeSet.Write(vault, bw);
+            mPhysicsUpgradeSet.Write(context, bw);
             bw.Write(mBlendingPower);
         }
     }

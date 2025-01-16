@@ -34,7 +34,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             ChanceBigSUV = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(HeavyStrategy);
             bw.Write(Chance);

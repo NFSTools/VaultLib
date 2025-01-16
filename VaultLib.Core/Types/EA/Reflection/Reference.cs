@@ -20,7 +20,7 @@ namespace VaultLib.Core.Types.EA.Reflection
             throw new System.NotImplementedException();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             throw new System.NotImplementedException();
         }

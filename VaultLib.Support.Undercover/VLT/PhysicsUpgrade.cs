@@ -24,9 +24,9 @@ namespace VaultLib.Support.Undercover.VLT
             BlendingPower = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            ReferencedAttribute.Write(vault, bw);
+            ReferencedAttribute.Write(context, bw);
             bw.Write(BlendingPower);
         }
     }

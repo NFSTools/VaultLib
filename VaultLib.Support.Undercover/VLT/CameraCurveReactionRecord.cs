@@ -22,10 +22,10 @@ namespace VaultLib.Support.Undercover.VLT
             Curve.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(0);
-            Curve.Write(vault, bw);
+            Curve.Write(context, bw);
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -33,14 +33,14 @@ namespace VaultLib.Support.Undercover.VLT
             Curve.ReadPointerData(vault, br);
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            Curve.WritePointerData(vault, bw);
+            Curve.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            Curve.AddPointers(vault);
+            Curve.AddPointers(context);
         }
 
         public CameraCurveReactionRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

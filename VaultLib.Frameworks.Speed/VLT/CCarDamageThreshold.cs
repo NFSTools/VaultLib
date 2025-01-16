@@ -37,7 +37,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             DeltaThreshold3 = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Threshold0);
             bw.Write(Threshold1);

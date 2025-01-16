@@ -29,12 +29,12 @@ namespace VaultLib.Support.World.VLT.PowerUps
             Type = type;
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             RefSpec rs = new RefSpec(Class, Field, Collection);
             rs.ClassKey = "powerup_gamegroup";
             rs.CollectionKey = GroupKey;
-            rs.Write(vault, bw);
+            rs.Write(context, bw);
             bw.Write(Type);
         }
 

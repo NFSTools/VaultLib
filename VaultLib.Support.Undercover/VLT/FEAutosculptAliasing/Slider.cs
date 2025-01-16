@@ -20,7 +20,7 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
             Zone = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Region);
             bw.Write(Zone);

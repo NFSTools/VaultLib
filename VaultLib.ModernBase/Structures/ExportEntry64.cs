@@ -18,7 +18,7 @@ namespace VaultLib.ModernBase.Structures
             Offset = br.ReadUInt32();
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(ID);
             bw.Write(Type);

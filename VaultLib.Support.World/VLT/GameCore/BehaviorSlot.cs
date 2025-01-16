@@ -30,7 +30,7 @@ namespace VaultLib.Support.World.VLT.GameCore
             mFlags = br.ReadEnum<BehaviorFlag>();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(mBehaviorChannel);
             bw.Write(mBehaviorType);

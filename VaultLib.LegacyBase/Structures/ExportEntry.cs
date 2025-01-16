@@ -16,7 +16,7 @@ namespace VaultLib.LegacyBase.Structures
             Offset = br.ReadUInt32();
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write((uint)ID);
             bw.Write((uint)Type);

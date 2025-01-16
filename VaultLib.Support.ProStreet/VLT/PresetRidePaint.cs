@@ -34,11 +34,11 @@ namespace VaultLib.Support.ProStreet.VLT
             Variance = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(SlotID);
-            Group.Write(vault, bw);
-            Swatch.Write(vault, bw);
+            Group.Write(context, bw);
+            Swatch.Write(context, bw);
             bw.Write(KitNumber);
             bw.Write(Saturation);
             bw.Write(Variance);

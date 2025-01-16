@@ -27,10 +27,10 @@ namespace VaultLib.Frameworks.Speed.VLT
             _slotNameText.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            Parts.Write(vault, bw);
-            _slotNameText.Write(vault, bw);
+            Parts.Write(context, bw);
+            _slotNameText.Write(context, bw);
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -40,17 +40,17 @@ namespace VaultLib.Frameworks.Speed.VLT
             SlotName = _slotNameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            Parts.WritePointerData(vault, bw);
+            Parts.WritePointerData(context, bw);
             _slotNameText.Value = SlotName;
-            _slotNameText.WritePointerData(vault, bw);
+            _slotNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            Parts.AddPointers(vault);
-            _slotNameText.AddPointers(vault);
+            Parts.AddPointers(context);
+            _slotNameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

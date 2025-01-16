@@ -36,10 +36,10 @@ namespace VaultLib.Support.Undercover.VLT
             br.AlignReader(4);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(SlotID);
-            Group.Write(vault, bw);
+            Group.Write(context, bw);
             bw.Write(Swatch);
             bw.AlignWriter(4);
             bw.Write(Saturation);

@@ -23,7 +23,7 @@ namespace VaultLib.ModernBase
             Alignment = 1 << br.ReadByte();
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write((uint)Key);
             bw.Write((uint)Type);

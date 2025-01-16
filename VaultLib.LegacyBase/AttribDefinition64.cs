@@ -28,7 +28,7 @@ namespace VaultLib.LegacyBase
             }
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Key);
             bw.Write(Type);

@@ -22,10 +22,10 @@ namespace VaultLib.Support.Undercover.VLT
             Rear.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            Front.Write(vault, bw);
-            Rear.Write(vault, bw);
+            Front.Write(context, bw);
+            Rear.Write(context, bw);
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -34,16 +34,16 @@ namespace VaultLib.Support.Undercover.VLT
             Rear.ReadPointerData(vault, br);
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            Front.WritePointerData(vault, bw);
-            Rear.WritePointerData(vault, bw);
+            Front.WritePointerData(context, bw);
+            Rear.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            Front.AddPointers(vault);
-            Rear.AddPointers(vault);
+            Front.AddPointers(context);
+            Rear.AddPointers(context);
         }
 
         public AxlePairCurve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

@@ -26,10 +26,10 @@ namespace VaultLib.Frameworks.Speed.VLT
             Reaction.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Goal);
-            Reaction.Write(vault, bw);
+            Reaction.Write(context, bw);
         }
 
         public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)

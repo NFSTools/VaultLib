@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -22,7 +21,7 @@ namespace VaultLib.Frameworks.Speed.VLT.Attrib
         {
         }
 
-        protected override byte[] ReadData(Vault vault, BinaryReader br)
+        protected override byte[] ReadData(BinaryReader br)
         {
             CompressedBlob compressedBlob = new CompressedBlob();
             compressedBlob.Read(br);
@@ -36,7 +35,7 @@ namespace VaultLib.Frameworks.Speed.VLT.Attrib
             _blob.PrepareCompressedData();
         }
 
-        protected override void WriteData(Vault vault, BinaryWriter bw)
+        protected override void WriteData(BinaryWriter bw)
         {
             _blob.Write(bw);
         }

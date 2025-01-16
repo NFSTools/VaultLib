@@ -27,7 +27,7 @@ namespace VaultLib.Support.ProStreet.VLT
             TextSizeX = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(TextureHash);
             bw.Write(LanguageHash);

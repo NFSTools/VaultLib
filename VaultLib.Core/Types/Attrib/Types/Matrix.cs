@@ -22,7 +22,7 @@ namespace VaultLib.Core.Types.Attrib.Types
             for (var i = 0; i < 16; i++) Data[i] = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             for (var i = 0; i < 16; i++) bw.Write(Data[i]);
         }

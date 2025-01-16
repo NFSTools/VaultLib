@@ -19,7 +19,7 @@ namespace VaultLib.Support.World.VLT.EA.WorldMap
             Hash = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Hash);
         }

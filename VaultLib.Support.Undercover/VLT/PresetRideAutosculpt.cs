@@ -46,7 +46,7 @@ namespace VaultLib.Support.Undercover.VLT
             SculptZone10 = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(RegionID);
             bw.Write(SculptZone0);

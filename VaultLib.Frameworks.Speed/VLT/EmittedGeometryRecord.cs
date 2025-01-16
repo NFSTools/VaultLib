@@ -57,7 +57,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             //Debug.Assert(Enum.IsDefined(typeof(EmittedGeo), Value));
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Value);
             bw.Write(Index);

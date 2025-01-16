@@ -66,7 +66,7 @@ namespace VaultLib.Support.Undercover.VLT
             br.AlignReader(4);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(HAL_ID);
             bw.Write(CF_HAL_ID);
@@ -85,9 +85,9 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(BrandHALId);
             bw.Write(LogoTextureId);
             bw.Write(DetailHash);
-            PartDetails.Write(vault, bw);
+            PartDetails.Write(context, bw);
             _offerIdText.Value = OfferID;
-            _offerIdText.Write(vault, bw);
+            _offerIdText.Write(context, bw);
             bw.Write(IsOnlineLockable);
             bw.AlignWriter(4);
         }
@@ -100,16 +100,16 @@ namespace VaultLib.Support.Undercover.VLT
             OfferID = _offerIdText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            PartDetails.WritePointerData(vault, bw);
-            _offerIdText.WritePointerData(vault, bw);
+            PartDetails.WritePointerData(context, bw);
+            _offerIdText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            PartDetails.AddPointers(vault);
-            _offerIdText.AddPointers(vault);
+            PartDetails.AddPointers(context);
+            _offerIdText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

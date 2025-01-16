@@ -28,7 +28,7 @@ namespace VaultLib.Support.ProStreet.VLT
             Cost = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Level);
             bw.Write(Cost);

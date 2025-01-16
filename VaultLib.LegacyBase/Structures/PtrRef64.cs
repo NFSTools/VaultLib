@@ -18,7 +18,7 @@ namespace VaultLib.LegacyBase.Structures
             Destination = (uint)br.ReadUInt64();
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(FixupOffset);
             bw.Write((ushort)PtrType);

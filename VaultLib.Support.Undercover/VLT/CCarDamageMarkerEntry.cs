@@ -38,17 +38,17 @@ namespace VaultLib.Support.Undercover.VLT
             SmackableCollisionAttribute.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _markerNameText.Value = MarkerName;
-            _markerNameText.Write(vault, bw);
+            _markerNameText.Write(context, bw);
             bw.Write(PartID);
             bw.Write(SlotID);
             _attachPartText.Value = AttachPart;
-            _attachPartText.Write(vault, bw);
+            _attachPartText.Write(context, bw);
             _smackableCollisionNameText.Value = SmackableCollisionName;
-            _smackableCollisionNameText.Write(vault, bw);
-            SmackableCollisionAttribute.Write(vault, bw);
+            _smackableCollisionNameText.Write(context, bw);
+            SmackableCollisionAttribute.Write(context, bw);
         }
 
         public void ReadPointerData(Vault vault, BinaryReader br)
@@ -62,18 +62,18 @@ namespace VaultLib.Support.Undercover.VLT
             SmackableCollisionName = _smackableCollisionNameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _markerNameText.WritePointerData(vault, bw);
-            _attachPartText.WritePointerData(vault, bw);
-            _smackableCollisionNameText.WritePointerData(vault, bw);
+            _markerNameText.WritePointerData(context, bw);
+            _attachPartText.WritePointerData(context, bw);
+            _smackableCollisionNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _markerNameText.AddPointers(vault);
-            _attachPartText.AddPointers(vault);
-            _smackableCollisionNameText.AddPointers(vault);
+            _markerNameText.AddPointers(context);
+            _attachPartText.AddPointers(context);
+            _smackableCollisionNameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

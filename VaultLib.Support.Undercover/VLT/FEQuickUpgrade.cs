@@ -46,7 +46,7 @@ namespace VaultLib.Support.Undercover.VLT
             br.AlignReader(4);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _ptrPackagesSrc = bw.BaseStream.Position;
             bw.Write(0);
@@ -56,7 +56,7 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(Tier3_Cost);
             bw.Write(Tier4_Cost);
             _offerIdText.Value = OfferID;
-            _offerIdText.Write(vault, bw);
+            _offerIdText.Write(context, bw);
             bw.Write((byte) Entries.Count);
             bw.AlignWriter(4);
         }
@@ -79,22 +79,22 @@ namespace VaultLib.Support.Undercover.VLT
             }
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _offerIdText.WritePointerData(vault, bw);
+            _offerIdText.WritePointerData(context, bw);
             _ptrPackagesDst = bw.BaseStream.Position;
 
             foreach (var entry in Entries)
             {
-                entry.Write(vault, bw);
+                entry.Write(context, bw);
             }
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
             Debug.Assert(_ptrPackagesSrc != 0 && _ptrPackagesDst != 0);
-            vault.SaveContext.AddPointer(_ptrPackagesSrc, _ptrPackagesDst, false);
-            _offerIdText.AddPointers(vault);
+            context.AddPointer(_ptrPackagesSrc, _ptrPackagesDst, false);
+            _offerIdText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

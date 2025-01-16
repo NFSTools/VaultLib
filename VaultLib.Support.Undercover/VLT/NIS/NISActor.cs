@@ -37,12 +37,12 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             br.AlignReader(4);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _actorNameText.Value = ActorName;
             _carChannelNameText.Value = CarChannelName;
-            _actorNameText.Write(vault, bw);
-            _carChannelNameText.Write(vault, bw);
+            _actorNameText.Write(context, bw);
+            _carChannelNameText.Write(context, bw);
             bw.Write(IsDriver);
             bw.AlignWriter(4);
             bw.Write(ExitAnimSec);
@@ -59,16 +59,16 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             CarChannelName = _carChannelNameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _actorNameText.WritePointerData(vault, bw);
-            _carChannelNameText.WritePointerData(vault, bw);
+            _actorNameText.WritePointerData(context, bw);
+            _carChannelNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _actorNameText.AddPointers(vault);
-            _carChannelNameText.AddPointers(vault);
+            _actorNameText.AddPointers(context);
+            _carChannelNameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

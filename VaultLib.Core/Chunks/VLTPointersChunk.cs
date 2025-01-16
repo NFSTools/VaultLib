@@ -64,50 +64,50 @@ namespace VaultLib.Core.Chunks
                 { Type = VltPointerType.Vlt, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset });
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            var binPointers = vault.SaveContext.Pointers.Where(p => p.Type == VltPointerType.Bin).ToList();
-            var vltPointers = vault.SaveContext.Pointers.Where(p => p.Type == VltPointerType.Vlt).ToList();
+            var binPointers = context.Pointers.Where(p => p.Type == VltPointerType.Bin).ToList();
+            var vltPointers = context.Pointers.Where(p => p.Type == VltPointerType.Vlt).ToList();
 
             {
-                var targetBin = vault.Database.ExportFactory.CreatePtrRef();
+                var targetBin = context.Database.ExportFactory.CreatePtrRef();
                 targetBin.PtrType = EPtrRefType.PtrSetFixupTarget;
                 targetBin.Index = 1;
-                targetBin.Write(vault, bw);
+                targetBin.Write(context, bw);
 
                 foreach (var binPointer in binPointers)
                 {
-                    var ptr = vault.Database.ExportFactory.CreatePtrRef();
+                    var ptr = context.Database.ExportFactory.CreatePtrRef();
                     ptr.PtrType = binPointer.Destination == 0 ? EPtrRefType.PtrNull : EPtrRefType.PtrDepRelative;
                     ptr.FixupOffset = binPointer.FixUpOffset;
                     ptr.Destination = binPointer.Destination;
                     ptr.Index = 1;
-                    ptr.Write(vault, bw);
+                    ptr.Write(context, bw);
                 }
             }
 
             {
-                var targetVlt = vault.Database.ExportFactory.CreatePtrRef();
+                var targetVlt = context.Database.ExportFactory.CreatePtrRef();
 
                 targetVlt.PtrType = EPtrRefType.PtrSetFixupTarget;
                 targetVlt.Index = 0;
-                targetVlt.Write(vault, bw);
+                targetVlt.Write(context, bw);
 
                 foreach (var vltPointer in vltPointers)
                 {
-                    var ptr = vault.Database.ExportFactory.CreatePtrRef();
+                    var ptr = context.Database.ExportFactory.CreatePtrRef();
                     ptr.PtrType = vltPointer.Destination == 0 ? EPtrRefType.PtrNull : EPtrRefType.PtrDepRelative;
                     ptr.FixupOffset = vltPointer.FixUpOffset;
                     ptr.Destination = vltPointer.Destination;
                     ptr.Index = 1;
-                    ptr.Write(vault, bw);
+                    ptr.Write(context, bw);
                 }
             }
 
             {
-                var end = vault.Database.ExportFactory.CreatePtrRef();
+                var end = context.Database.ExportFactory.CreatePtrRef();
                 end.PtrType = EPtrRefType.PtrEnd;
-                end.Write(vault, bw);
+                end.Write(context, bw);
             }
 
             bw.AlignWriter(0x10);

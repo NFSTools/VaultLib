@@ -39,17 +39,17 @@ namespace VaultLib.Core.Types
             for (var i = 0; i < Data.Length; i++) Data[i] = br.ReadSingle();
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             _ptrDst = bw.BaseStream.Position;
 
             foreach (var f in Data) bw.Write(f);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
             Debug.Assert(_ptrSrc != 0 && _ptrDst != 0);
-            vault.SaveContext.AddPointer(_ptrSrc, _ptrDst, false);
+            context.AddPointer(_ptrSrc, _ptrDst, false);
         }
     }
 }

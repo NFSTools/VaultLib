@@ -23,7 +23,7 @@ namespace VaultLib.Support.MostWanted.VLT
             ScaleF = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(ClassKey);
             bw.Write(DefinitionKey);

@@ -34,7 +34,7 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
             br.AlignReader(4);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Kit);
             bw.AlignWriter(4);
@@ -57,14 +57,14 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
             }
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             _dstSlidersPtr = bw.BaseStream.Position;
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(_srcSlidersPtr, _dstSlidersPtr, false);
+            context.AddPointer(_srcSlidersPtr, _dstSlidersPtr, false);
         }
 
         public Alias(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

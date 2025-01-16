@@ -56,10 +56,10 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             FrontFace = br.ReadEnum<State_RasterizerFrontFace>();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _debugNameText.Value = DebugName;
-            _debugNameText.Write(vault, bw);
+            _debugNameText.Write(context, bw);
             bw.WriteEnum(CullMode);
             bw.Write(DepthBias);
             bw.Write(ScaleDepthBias);
@@ -67,7 +67,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.Write(PrimitiveResetEnable);
             bw.AlignWriter(4);
             bw.Write(PrimitiveResetIndex);
-            ScissorData.Write(vault, bw);
+            ScissorData.Write(context, bw);
             bw.WriteEnum(FillMode);
             bw.Write(MultiSampleAntialiasEnable);
             bw.AlignWriter(4);
@@ -85,14 +85,14 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             DebugName = _debugNameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _debugNameText.WritePointerData(vault, bw);
+            _debugNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _debugNameText.AddPointers(vault);
+            _debugNameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

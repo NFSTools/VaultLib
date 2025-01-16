@@ -47,15 +47,15 @@ namespace VaultLib.Core.Chunks
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             //bw.Write(_exports.Count);
-            if (vault.Database.Options.Type == DatabaseType.X64Database)
+            if (context.Database.Options.Type == DatabaseType.X64Database)
                 bw.Write((ulong)_exports.Count);
             else
                 bw.Write(_exports.Count);
 
-            foreach (var exportEntry in _exports) exportEntry.Write(vault, bw);
+            foreach (var exportEntry in _exports) exportEntry.Write(context, bw);
 
             bw.AlignWriter(0x10);
         }

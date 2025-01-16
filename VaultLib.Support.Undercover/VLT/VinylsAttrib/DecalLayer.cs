@@ -29,13 +29,13 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
             Color.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(PartNameHash);
             bw.Write(Mirrored);
             bw.AlignWriter(4);
-            Transform.Write(vault, bw);
-            Color.Write(vault, bw);
+            Transform.Write(context, bw);
+            Color.Write(context, bw);
         }
     }
 }

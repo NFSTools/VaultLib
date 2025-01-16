@@ -35,9 +35,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            if (vault.Database.Options.Type == DatabaseType.X86Database)
+            if (context.Database.Options.Type == DatabaseType.X86Database)
             {
                 bw.Write(VLT32Hasher.Hash(ClassKey));
                 bw.Write(VLT32Hasher.Hash(DefinitionKey));

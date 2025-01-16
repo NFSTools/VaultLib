@@ -34,7 +34,7 @@ namespace VaultLib.Support.Undercover.VLT
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(MinimumWidthRequired);
             bw.Write(RequiredVehicles);
@@ -43,7 +43,7 @@ namespace VaultLib.Support.Undercover.VLT
 
             for (int i = 0; i < 6; i++)
             {
-                Contents[i].Write(vault, bw);
+                Contents[i].Write(context, bw);
             }
         }
     }

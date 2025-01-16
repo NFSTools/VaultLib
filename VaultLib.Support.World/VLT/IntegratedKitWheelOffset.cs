@@ -33,11 +33,11 @@ namespace VaultLib.Support.World.VLT
             Offset = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(VLT32Hasher.Hash(KitName));
             _kitName.Value = KitName;
-            _kitName.Write(vault, bw);
+            _kitName.Write(context, bw);
             bw.Write(Offset);
         }
 
@@ -52,14 +52,14 @@ namespace VaultLib.Support.World.VLT
             KitName = _kitName.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _kitName.WritePointerData(vault, bw);
+            _kitName.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _kitName.AddPointers(vault);
+            _kitName.AddPointers(context);
         }
 
         public IntegratedKitWheelOffset(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

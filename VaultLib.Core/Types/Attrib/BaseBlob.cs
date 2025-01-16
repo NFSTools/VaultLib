@@ -35,7 +35,7 @@ namespace VaultLib.Core.Types.Attrib
             _dataOffset = br.ReadPointer();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             if (Data != null)
             {
@@ -56,30 +56,30 @@ namespace VaultLib.Core.Types.Attrib
             if (_dataOffset != 0)
             {
                 br.BaseStream.Position = _dataOffset;
-                Data = ReadData(vault, br);
+                Data = ReadData(br);
             }
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             if (Data != null)
             {
                 _dataPtrDst = bw.BaseStream.Position;
-                WriteData(vault, bw);
+                WriteData(bw);
             }
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(_dataPtrSrc, _dataPtrDst, false);
+            context.AddPointer(_dataPtrSrc, _dataPtrDst, false);
         }
 
         protected abstract void PrepareData();
         protected abstract int GetDataLength();
 
-        protected abstract void WriteData(Vault vault, BinaryWriter bw);
+        protected abstract void WriteData(BinaryWriter bw);
 
-        protected virtual byte[] ReadData(Vault vault, BinaryReader br)
+        protected virtual byte[] ReadData(BinaryReader br)
         {
             byte[] bytes = br.ReadBytes(Length);
 

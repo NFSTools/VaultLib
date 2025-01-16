@@ -61,14 +61,14 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             ElementsPointer = 0;
             TreePointer = 0;
             EndPointer = 0;
 
             // Obtain the full list of collections
-            List<VltCollection> allCollections = vault.SaveContext.Collections.Where(c => c.Class.Name == Class.Name).ToList();
+            List<VltCollection> allCollections = context.Collections.Where(c => c.Class.Name == Class.Name).ToList();
             Dictionary<VltCollection, uint> keys = allCollections.ToDictionary(c => c, c => VLT32Hasher.Hash(c.Name));
 
             // Group list by parent
@@ -138,16 +138,16 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
             // do nothing
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             // do nothing as well
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(ElementsPointer, ElementsDest, false);
-            vault.SaveContext.AddPointer(TreePointer, TreeDest, false);
-            vault.SaveContext.AddPointer(EndPointer, EndDest, false);
+            context.AddPointer(ElementsPointer, ElementsDest, false);
+            context.AddPointer(TreePointer, TreeDest, false);
+            context.AddPointer(EndPointer, EndDest, false);
         }
 
         public Static_Inorder_N_to_1(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

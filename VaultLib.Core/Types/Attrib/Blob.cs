@@ -25,7 +25,7 @@ namespace VaultLib.Core.Types.Attrib
             return Data.Length;
         }
 
-        protected override void WriteData(Vault vault, BinaryWriter bw)
+        protected override void WriteData(BinaryWriter bw)
         {
             bw.Write(Data);
         }

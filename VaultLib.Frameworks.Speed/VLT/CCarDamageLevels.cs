@@ -37,7 +37,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             WindowShatter = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Speed0);
             bw.Write(Speed1);

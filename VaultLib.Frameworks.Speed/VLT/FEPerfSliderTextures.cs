@@ -48,7 +48,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Logo9 = br.ReadUInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Level);
             bw.Write(Name1);

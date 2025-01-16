@@ -18,7 +18,7 @@ namespace VaultLib.LegacyBase.Structures
                 throw new InvalidDataException();
         }
 
-        public void Write(Vault vault, BinaryWriter bw)
+        public void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(ID);
             bw.Write(Type);

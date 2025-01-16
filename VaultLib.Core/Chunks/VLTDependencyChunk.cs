@@ -28,17 +28,17 @@ namespace VaultLib.Core.Chunks
             //
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(DependencyNames.Count);
 
-            if (vault.SaveContext.HashMode == VaultHashMode.Hash64)
+            if (context.HashMode == VaultHashMode.Hash64)
                 bw.Write(0);
 
             foreach (var dependencyName in DependencyNames)
             {
-                var hash = vault.SaveContext.StringHash(dependencyName);
-                if (vault.SaveContext.HashMode==VaultHashMode.Hash64)
+                var hash = context.StringHash(dependencyName);
+                if (context.HashMode==VaultHashMode.Hash64)
                     bw.Write(hash);
                 else
                     bw.Write((uint)hash);

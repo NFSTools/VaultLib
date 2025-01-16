@@ -104,7 +104,7 @@ namespace VaultLib.LegacyBase.Exports
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(VLT32Hasher.Hash(Collection.Name));
             bw.Write(VLT32Hasher.Hash(Collection.Class.Name));
@@ -124,7 +124,7 @@ namespace VaultLib.LegacyBase.Exports
 
             foreach (var entry in _entries)
             {
-                entry.Write(vault, bw);
+                entry.Write(context, bw);
             }
         }
 
@@ -184,7 +184,7 @@ namespace VaultLib.LegacyBase.Exports
             }
         }
 
-        public override void WritePointerData(Vault vault, BinaryWriter bw)
+        public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             foreach (var baseField in Collection.Class.BaseFields)
             {
@@ -199,7 +199,7 @@ namespace VaultLib.LegacyBase.Exports
                     throw new Exception("incorrect offset");
                 }
 
-                Collection.GetRawValue(baseField.Name).Write(vault, bw);
+                Collection.GetRawValue(baseField.Name).Write(context, bw);
                 //Collection.Data[baseField.Name].Write(vault, bw);
             }
 
@@ -214,29 +214,29 @@ namespace VaultLib.LegacyBase.Exports
                     if (!(entry.InlineData is IPointerObject pointerObject)) continue;
 
                     bw.AlignWriter(field.Alignment);
-                    pointerObject.WritePointerData(vault, bw);
+                    pointerObject.WritePointerData(context, bw);
                 }
                 else
                 {
                     if (!(dataPair.Value is IPointerObject pointerObject)) continue;
 
                     bw.AlignWriter(field.Alignment);
-                    pointerObject.WritePointerData(vault, bw);
+                    pointerObject.WritePointerData(context, bw);
                 }
             }
 
             bw.AlignWriter(Collection.Class.HasBaseFields ? 4 : 2);
         }
 
-        public override void AddPointers(Vault vault)
+        public override void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(_srcLayoutPtr, _dstLayoutPtr, true);
+            context.AddPointer(_srcLayoutPtr, _dstLayoutPtr, true);
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
                 if (this.Collection.GetRawValue(baseField.Name) is IPointerObject pointerObject)
                 {
-                    pointerObject.AddPointers(vault);
+                    pointerObject.AddPointers(context);
                 }
             }
 
@@ -244,7 +244,7 @@ namespace VaultLib.LegacyBase.Exports
             {
                 if (entry.InlineData is IPointerObject pointerObject)
                 {
-                    pointerObject.AddPointers(vault);
+                    pointerObject.AddPointers(context);
                 }
             }
         }

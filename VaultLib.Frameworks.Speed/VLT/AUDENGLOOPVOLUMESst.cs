@@ -33,7 +33,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             REVLMT_VOL = br.ReadInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(IDLE_VOL);
             bw.Write(CRZ_LOW_VOL);

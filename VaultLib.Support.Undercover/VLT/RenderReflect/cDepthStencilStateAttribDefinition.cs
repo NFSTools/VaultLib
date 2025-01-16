@@ -74,10 +74,10 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             br.AlignReader(4);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _debugNameText.Value = DebugName;
-            _debugNameText.Write(vault, bw);
+            _debugNameText.Write(context, bw);
             bw.Write(TwoSidedStencilMode);
             bw.Write(ZEnable);
             bw.Write(ZWriteEnable);
@@ -110,14 +110,14 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             DebugName = _debugNameText.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _debugNameText.WritePointerData(vault, bw);
+            _debugNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _debugNameText.AddPointers(vault);
+            _debugNameText.AddPointers(context);
         }
 
         public IEnumerable<string> GetStrings()

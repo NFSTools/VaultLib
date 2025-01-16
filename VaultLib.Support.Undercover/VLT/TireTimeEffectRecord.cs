@@ -33,11 +33,11 @@ namespace VaultLib.Support.Undercover.VLT
             mMaxTime = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(mTireCondition);
-            mEmitter.Write(vault, bw);
-            mEmitterLowLod.Write(vault, bw);
+            mEmitter.Write(context, bw);
+            mEmitterLowLod.Write(context, bw);
             bw.Write(mMinTime);
             bw.Write(mMaxTime);
         }

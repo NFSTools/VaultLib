@@ -81,9 +81,9 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
             // // Debugger.Break();
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            var groupedCollections = vault.Database.RowManager.EnumerateFlattenedCollections(Class.Name)
+            var groupedCollections = context.Database.RowManager.EnumerateFlattenedCollections(Class.Name)
                 .GroupBy(c => VLT32Hasher.Hash(c.Parent?.Name));
             var sortedGroups = groupedCollections.OrderBy(g => g.Key).ToList();
 
@@ -110,11 +110,11 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
                 bw.Write(VLT32Hasher.Hash(collection.Name));
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(_rootsPointer, _rootsDst, false);
-            vault.SaveContext.AddPointer(_nodesPointer, _nodesDst, false);
-            vault.SaveContext.AddPointer(_leavesPointer, _leavesDst, false);
+            context.AddPointer(_rootsPointer, _rootsDst, false);
+            context.AddPointer(_nodesPointer, _nodesDst, false);
+            context.AddPointer(_leavesPointer, _leavesDst, false);
         }
 
         public override void Read(Vault vault, BinaryReader br)
@@ -125,7 +125,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
             _leavesPointer = br.ReadPointer();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _numRootsDst = bw.BaseStream.Position;
             bw.Write(0xAAAAAAAA);

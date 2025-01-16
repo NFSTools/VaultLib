@@ -26,7 +26,7 @@ namespace VaultLib.Core.Chunks
             }
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             Assembly currentAssembly = Assembly.GetAssembly(typeof(Database));
             AssemblyMetadataAttribute metadataAttribute =
@@ -37,7 +37,7 @@ namespace VaultLib.Core.Chunks
 
             foreach (string s in Strings)
             {
-                vault.SaveContext.StringOffsets[s] = bw.BaseStream.Position;
+                context.StringOffsets[s] = bw.BaseStream.Position;
                 NullTerminatedString.Write(bw, s);
             }
 

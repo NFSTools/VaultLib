@@ -31,10 +31,10 @@ namespace VaultLib.Frameworks.Speed.VLT
             MaxSpeed = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            Surface.Write(vault, bw);
-            Effect.Write(vault, bw);
+            Surface.Write(context, bw);
+            Effect.Write(context, bw);
             bw.Write(MinSpeed);
             bw.Write(MaxSpeed);
         }

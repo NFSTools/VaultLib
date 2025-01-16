@@ -22,9 +22,9 @@ namespace VaultLib.Support.Undercover.VLT
             Chance = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            Paint.Write(vault, bw);
+            Paint.Write(context, bw);
             bw.Write(Chance);
         }
     }

@@ -41,11 +41,11 @@ namespace VaultLib.LegacyBase.Exports
             Class = new VltClass(HashManager.ResolveVLT(ClassHash));
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(VLT64Hasher.Hash(Class.Name));
 
-            int collReserve = (from collection in vault.Database.RowManager.GetFlattenedCollections(Class.Name)
+            int collReserve = (from collection in context.Database.RowManager.GetFlattenedCollections(Class.Name)
                                select collection).Count();
 
             if (collReserve == 0)
@@ -93,7 +93,7 @@ namespace VaultLib.LegacyBase.Exports
             vault.Database.AddClass(Class);
         }
 
-        public override void WritePointerData(Vault vault, BinaryWriter bw)
+        public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             _dstDefinitionsPtr = bw.BaseStream.Position;
 
@@ -108,13 +108,13 @@ namespace VaultLib.LegacyBase.Exports
                 definition.Offset = field.Offset;
                 definition.Alignment = field.Alignment;
 
-                definition.Write(vault, bw);
+                definition.Write(context, bw);
             }
         }
 
-        public override void AddPointers(Vault vault)
+        public override void AddPointers(VaultSaveContext context)
         {
-            vault.SaveContext.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
+            context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
         }
 
         private int ComputeBaseSize()

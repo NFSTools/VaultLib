@@ -33,6 +33,6 @@ namespace VaultLib.Core.Types
         }
 
         public abstract void Read(Vault vault, BinaryReader br);
-        public abstract void Write(Vault vault, BinaryWriter bw);
+        public abstract void Write(VaultSaveContext context, BinaryWriter bw);
     }
 }

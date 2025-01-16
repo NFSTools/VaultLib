@@ -23,10 +23,10 @@ namespace VaultLib.Support.ProStreet.VLT
             Camera.Read(vault, br);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(HAL_ID);
-            Camera.Write(vault, bw);
+            Camera.Write(context, bw);
         }
     }
 }

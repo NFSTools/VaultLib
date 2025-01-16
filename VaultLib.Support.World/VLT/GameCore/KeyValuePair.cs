@@ -30,10 +30,10 @@ namespace VaultLib.Support.World.VLT.GameCore
             Value = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _keyString.Value = KeyString;
-            _keyString.Write(vault, bw);
+            _keyString.Write(context, bw);
             bw.Write(VLT32Hasher.Hash(KeyString));
             bw.Write(Value);
         }
@@ -49,14 +49,14 @@ namespace VaultLib.Support.World.VLT.GameCore
             KeyString = _keyString.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            _keyString.WritePointerData(vault, bw);
+            _keyString.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            _keyString.AddPointers(vault);
+            _keyString.AddPointers(context);
         }
 
         public KeyValuePair(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

@@ -39,7 +39,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Frequency = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(FormationType);
             bw.Write(Duration);

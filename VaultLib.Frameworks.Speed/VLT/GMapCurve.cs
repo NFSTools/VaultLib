@@ -21,7 +21,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             mPointCount = br.ReadUInt16();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(mPointStart);
             bw.Write(mPointCount);

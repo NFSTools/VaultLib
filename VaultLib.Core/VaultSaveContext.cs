@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using VaultLib.Core.Data;
+using VaultLib.Core.DB;
 using VLT32Hasher = VaultLib.Core.Hashing.VLT32Hasher;
 using VLT64Hasher = VaultLib.Core.Hashing.VLT64Hasher;
 
@@ -18,6 +19,10 @@ namespace VaultLib.Core
     public class VaultSaveContext
     {
         private VaultSaveOptions Options { get; }
+        
+        public Database Database { get; }
+        
+        public Vault Vault { get; }
 
         /// <summary>
         /// A set containing every string value in the vault's data.
@@ -44,9 +49,12 @@ namespace VaultLib.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="VaultSaveContext"/> class.
         /// </summary>
+        /// <param name="vault"></param>
         /// <param name="options">The options to use in the saving process.</param>
-        public VaultSaveContext(VaultSaveOptions options)
+        public VaultSaveContext(Vault vault, VaultSaveOptions options)
         {
+            Database = vault.Database;
+            Vault = vault;
             Options = options;
         }
 

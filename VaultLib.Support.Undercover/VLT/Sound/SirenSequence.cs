@@ -34,7 +34,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             mDuration = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(mMode);
             bw.Write(mDuration);

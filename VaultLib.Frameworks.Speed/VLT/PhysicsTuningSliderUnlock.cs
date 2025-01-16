@@ -23,9 +23,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             Range = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            PhysicsTuningSlider.Write(vault, bw);
+            PhysicsTuningSlider.Write(context, bw);
             bw.Write(Range);
         }
     }

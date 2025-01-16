@@ -17,7 +17,7 @@ namespace VaultLib.Core.Chunks
             //Debug.WriteLine("VLT version is: {0:X16}", Version);
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(0x6838F8C1836A18DE);
         }

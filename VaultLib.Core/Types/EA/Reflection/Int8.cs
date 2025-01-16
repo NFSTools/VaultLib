@@ -27,7 +27,7 @@ namespace VaultLib.Core.Types.EA.Reflection
             Value = br.ReadSByte();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Value);
         }

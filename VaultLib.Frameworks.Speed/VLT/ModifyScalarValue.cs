@@ -37,9 +37,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             Value = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            ReferencedRow.Write(vault, bw);
+            ReferencedRow.Write(context, bw);
             bw.Write(IsMember);
             bw.AlignWriter(4);
             bw.Write(MemberIndex);

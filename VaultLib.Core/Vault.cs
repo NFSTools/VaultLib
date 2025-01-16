@@ -58,7 +58,7 @@ namespace VaultLib.Core
         /// </summary>
         public bool IsPrimaryVault { get; set; }
 
-        public VaultSaveContext SaveContext { get; set; }
+        // public VaultSaveContext SaveContext { get; set; }
 
         public ByteOrder ByteOrder { get; set; }
     }

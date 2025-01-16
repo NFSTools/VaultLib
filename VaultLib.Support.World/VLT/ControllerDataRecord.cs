@@ -34,10 +34,10 @@ namespace VaultLib.Support.World.VLT
             UpperDeadZone = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             InternalDeviceId.Value = DeviceId;
-            InternalDeviceId.Write(vault, bw);
+            InternalDeviceId.Write(context, bw);
             bw.WriteEnum(UpdateType);
             bw.Write(LowerDeadZone);
             bw.Write(UpperDeadZone);
@@ -54,14 +54,14 @@ namespace VaultLib.Support.World.VLT
             DeviceId = InternalDeviceId.Value;
         }
 
-        public void WritePointerData(Vault vault, BinaryWriter bw)
+        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
-            InternalDeviceId.WritePointerData(vault, bw);
+            InternalDeviceId.WritePointerData(context, bw);
         }
 
-        public void AddPointers(Vault vault)
+        public void AddPointers(VaultSaveContext context)
         {
-            InternalDeviceId.AddPointers(vault);
+            InternalDeviceId.AddPointers(context);
         }
 
         public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

@@ -35,7 +35,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             PriorityTime = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.WriteEnum(LeaderStrategy);
             bw.Write(Chance);

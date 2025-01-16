@@ -25,7 +25,7 @@ namespace VaultLib.Support.World.VLT.Commerce
             RequiredPartCount = br.ReadInt32();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             bw.Write(Handling);
             bw.Write(Acceleration);

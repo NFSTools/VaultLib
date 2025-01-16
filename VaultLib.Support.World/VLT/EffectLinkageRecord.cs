@@ -37,11 +37,11 @@ namespace VaultLib.Support.World.VLT
             SFXMaxSpeed = br.ReadSingle();
         }
 
-        public override void Write(Vault vault, BinaryWriter bw)
+        public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            Surface.Write(vault, bw);
-            Effect.Write(vault, bw);
-            Audio.Write(vault, bw);
+            Surface.Write(context, bw);
+            Effect.Write(context, bw);
+            Audio.Write(context, bw);
             bw.Write(MinSpeed);
             bw.Write(MaxSpeed);
             bw.Write(SFXMinSpeed);
