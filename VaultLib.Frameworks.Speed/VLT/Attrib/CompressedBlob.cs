@@ -5,7 +5,7 @@ using CompLib.Algorithms;
 using VaultLib.Core;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Frameworks.Speed.Attrib
+namespace VaultLib.Frameworks.Speed.VLT.Attrib
 {
     public class CompressedBlob : IFileAccess
     {

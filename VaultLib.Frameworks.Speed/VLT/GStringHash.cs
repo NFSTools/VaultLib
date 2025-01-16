@@ -2,7 +2,7 @@
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 
-namespace VaultLib.Frameworks.Speed
+namespace VaultLib.Frameworks.Speed.VLT
 {
     [VLTTypeInfo(nameof(GStringHash))]
     public class GStringHash : UInt32

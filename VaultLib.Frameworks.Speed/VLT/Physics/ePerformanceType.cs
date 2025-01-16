@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.Physics
+namespace VaultLib.Frameworks.Speed.VLT.Physics
 {
     [VLTTypeInfo("Physics::ePerformanceType")]
     public enum ePerformanceType

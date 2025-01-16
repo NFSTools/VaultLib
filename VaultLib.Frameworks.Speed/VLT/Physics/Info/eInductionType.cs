@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.Physics.Info
+namespace VaultLib.Frameworks.Speed.VLT.Physics.Info
 {
     [VLTTypeInfo("Physics::Info::eInductionType")]
     public enum eInductionType

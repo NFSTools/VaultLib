@@ -2,7 +2,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 
-namespace VaultLib.Frameworks.Speed
+namespace VaultLib.Frameworks.Speed.VLT
 {
     [VLTTypeInfo(nameof(type_bStringHash))]
     public class type_bStringHash : UInt32

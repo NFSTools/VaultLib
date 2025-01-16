@@ -10,7 +10,7 @@ using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Abstractions;
 
-namespace VaultLib.Frameworks.Speed
+namespace VaultLib.Frameworks.Speed.VLT
 {
     [VLTTypeInfo(nameof(GCollectionKey))]
     public class GCollectionKey : BaseRefSpec

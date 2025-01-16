@@ -1,4 +1,4 @@
-﻿namespace VaultLib.Frameworks.Speed.Physics.Upgrades
+﻿namespace VaultLib.Frameworks.Speed.VLT.Physics.Upgrades
 {
     public enum eModifyValueType
     {

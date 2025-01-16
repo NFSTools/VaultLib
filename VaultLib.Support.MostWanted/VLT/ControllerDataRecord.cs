@@ -11,6 +11,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 using VaultLib.Frameworks.Speed;
+using VaultLib.Frameworks.Speed.VLT;
 using VaultLib.LegacyBase;
 
 namespace VaultLib.Support.MostWanted.VLT

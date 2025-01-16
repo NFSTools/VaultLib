@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.NIS
+namespace VaultLib.Frameworks.Speed.VLT.NIS
 {
     [VLTTypeInfo("NIS::ePIP_EVENT_CATEGORY")]
     public enum ePIP_EVENT_CATEGORY

@@ -1,4 +1,4 @@
-﻿namespace VaultLib.Frameworks.Speed
+﻿namespace VaultLib.Frameworks.Speed.VLT
 {
     public enum CameraReactionType
     {

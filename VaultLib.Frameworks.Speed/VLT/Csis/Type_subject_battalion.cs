@@ -2,7 +2,7 @@
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 
-namespace VaultLib.Frameworks.Speed.Csis
+namespace VaultLib.Frameworks.Speed.VLT.Csis
 {
     [VLTTypeInfo("Csis::Type_subject_battalion")]
     public class Type_subject_battalion : UInt32

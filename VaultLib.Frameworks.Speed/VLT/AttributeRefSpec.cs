@@ -5,7 +5,7 @@ using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed
+namespace VaultLib.Frameworks.Speed.VLT
 {
     [VLTTypeInfo("AtttributeRefSpec")]
     public class AttributeRefSpec : VLTBaseType

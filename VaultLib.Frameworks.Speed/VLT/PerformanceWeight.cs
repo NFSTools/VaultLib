@@ -3,9 +3,9 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
-using VaultLib.Frameworks.Speed.Physics;
+using VaultLib.Frameworks.Speed.VLT.Physics;
 
-namespace VaultLib.Frameworks.Speed
+namespace VaultLib.Frameworks.Speed.VLT
 {
     [VLTTypeInfo(nameof(PerformanceWeight))]
     public class PerformanceWeight : VLTBaseType

@@ -4,7 +4,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
-namespace VaultLib.Frameworks.Speed.Attrib
+namespace VaultLib.Frameworks.Speed.VLT.Attrib
 {
     /// <summary>
     /// Need for Speed games by EA Black Box have compressed data stored in Attrib::Blob instances.

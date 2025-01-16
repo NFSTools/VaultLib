@@ -1,6 +1,6 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.NIS
+namespace VaultLib.Frameworks.Speed.VLT.NIS
 {
     [VLTTypeInfo("NIS::ePLATFORM_CLASS")]
     public enum ePLATFORM_CLASS

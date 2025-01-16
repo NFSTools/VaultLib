@@ -10,7 +10,7 @@ using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Frameworks.Speed
+namespace VaultLib.Frameworks.Speed.VLT
 {
     [VLTTypeInfo(nameof(GMapRegionInfo))]
     public class GMapRegionInfo : VLTBaseType, IReferencesStrings

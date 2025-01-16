@@ -7,7 +7,7 @@ using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed
+namespace VaultLib.Frameworks.Speed.VLT
 {
     [VLTTypeInfo(nameof(AUDENGRPMRANGEst))]
     public class AUDENGRPMRANGEst : VLTBaseType

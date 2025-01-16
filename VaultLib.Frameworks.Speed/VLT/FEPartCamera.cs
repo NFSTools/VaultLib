@@ -11,7 +11,7 @@ using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Frameworks.Speed
+namespace VaultLib.Frameworks.Speed.VLT
 {
     [VLTTypeInfo(nameof(FEPartCamera))]
     public class FEPartCamera : VLTBaseType, IReferencesStrings
