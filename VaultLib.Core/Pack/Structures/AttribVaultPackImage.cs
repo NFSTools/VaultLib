@@ -4,11 +4,10 @@
 
 using System.Collections.Generic;
 using System.IO;
-using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Pack.Structures
 {
-    public class AttribVaultPackImage : IFileAccess
+    public class AttribVaultPackImage
     {
         public AttribVaultPackHeader Header { get; set; }
 

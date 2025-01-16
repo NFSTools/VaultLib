@@ -3,11 +3,10 @@ using System.IO;
 using CompLib;
 using CompLib.Algorithms;
 using VaultLib.Core;
-using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT.Attrib
 {
-    public class CompressedBlob : IFileAccess
+    public class CompressedBlob
     {
         public byte[] CompressedData { get; set; }
 

@@ -8,7 +8,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class VariableArray : IFileAccess, IPointerObject
+    public class VariableArray : IPointerObject
     {
         private uint _mArray;
         private long _ptrDst;

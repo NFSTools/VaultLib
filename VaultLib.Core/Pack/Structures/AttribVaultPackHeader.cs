@@ -3,11 +3,10 @@
 // Created: 09/23/2019 @ 9:29 PM.
 
 using System.IO;
-using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Pack.Structures
 {
-    public class AttribVaultPackHeader : IFileAccess
+    public class AttribVaultPackHeader
     {
         public uint NumEntries { get; set; }
         public uint StringBlockOffset { get; set; }

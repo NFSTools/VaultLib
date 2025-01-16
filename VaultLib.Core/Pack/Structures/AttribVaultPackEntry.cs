@@ -3,11 +3,10 @@
 // Created: 09/23/2019 @ 9:29 PM.
 
 using System.IO;
-using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Pack.Structures
 {
-    public class AttribVaultPackEntry : IFileAccess
+    public class AttribVaultPackEntry
     {
         public uint VaultNameOffset { get; set; }
         public uint BinSize { get; set; }

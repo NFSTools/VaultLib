@@ -4,11 +4,10 @@
 
 using System;
 using System.IO;
-using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Structures
 {
-    public class ChunkBlockHeader : IFileAccess
+    public class ChunkBlockHeader
     {
         public long Offset { get; set; }
 
