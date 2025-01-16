@@ -2,7 +2,7 @@ namespace VaultLib.Core.Exports
 {
     public abstract class BaseDatabaseLoad : BaseExport
     {
-        public override ulong GetExportID()
+        public override ulong GetExportId()
         {
             return 0xF1DFAC8D; // constant, probably doesn't matter but I don't know the text it comes from
         }

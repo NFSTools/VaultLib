@@ -44,7 +44,7 @@ namespace VaultLib.Core.Exports
         ///     Retrieve a unique key for the export.
         /// </summary>
         /// <returns>The export's unique key.</returns>
-        public abstract ulong GetExportID();
+        public abstract ulong GetExportId();
 
         /// <summary>
         ///     Retrieve the type ID for the export.

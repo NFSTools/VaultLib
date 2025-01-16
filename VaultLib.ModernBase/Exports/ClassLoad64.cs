@@ -23,7 +23,7 @@ namespace VaultLib.ModernBase.Exports
         private long _dstDefinitionsPtr;
         private long _dstStaticPtr;
 
-        public override ulong GetExportID()
+        public override ulong GetExportId()
         {
             return VLT64Hasher.Hash(Class.Name);
         }

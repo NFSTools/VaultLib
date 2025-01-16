@@ -23,7 +23,7 @@ namespace VaultLib.Core.Exports
             return "Attrib::CollectionLoadData";
         }
 
-        public override ulong GetExportID()
+        public override ulong GetExportId()
         {
             return VLT32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }

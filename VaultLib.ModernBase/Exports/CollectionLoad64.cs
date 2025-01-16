@@ -162,7 +162,7 @@ namespace VaultLib.ModernBase.Exports
             }
         }
 
-        public override ulong GetExportID()
+        public override ulong GetExportId()
         {
             return VLT64Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }
