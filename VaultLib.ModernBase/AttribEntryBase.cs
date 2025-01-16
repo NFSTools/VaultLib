@@ -23,10 +23,9 @@ namespace VaultLib.ModernBase
         }
 
         public abstract void AddPointers(VaultSaveContext context);
-        public abstract void Read(Vault vault, BinaryReader br);
-        public abstract void ReadPointerData(Vault vault, BinaryReader br);
+        public abstract void Read(VaultLoadContext context, BinaryReader br);
+        public abstract void ReadPointerData(VaultLoadContext context, BinaryReader br);
         public abstract void Write(VaultSaveContext context, BinaryWriter bw);
         public abstract void WritePointerData(VaultSaveContext context, BinaryWriter bw);
-        public abstract bool ReadData(Vault vault, BinaryReader br);
     }
 }

@@ -27,7 +27,7 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
         public long EndPointer { get; private set; }
         public long EndDest { get; private set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             var numElements = br.ReadUInt32();
 
@@ -133,7 +133,7 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
             EndDest = bw.BaseStream.Position;
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             // do nothing
         }

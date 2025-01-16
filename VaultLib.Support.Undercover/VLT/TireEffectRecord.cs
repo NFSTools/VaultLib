@@ -24,11 +24,11 @@ namespace VaultLib.Support.Undercover.VLT
         public float mMinSpeed { get; set; }
         public float mMaxSpeed { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             mTireCondition = br.ReadEnum<TireCondition>();
-            mEmitter.Read(vault, br);
-            mEmitterLowLod.Read(vault, br);
+            mEmitter.Read(context, br);
+            mEmitterLowLod.Read(context, br);
             mMinSpeed = br.ReadSingle();
             mMaxSpeed = br.ReadSingle();
         }

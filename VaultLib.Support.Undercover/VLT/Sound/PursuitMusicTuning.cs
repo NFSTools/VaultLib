@@ -31,7 +31,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
         public float MaxPursuitDist { get; set; }
         public float MinCopCohesion { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             PlayerSpeedUR = br.ReadSingle();
             PursuitUR = br.ReadSingle();

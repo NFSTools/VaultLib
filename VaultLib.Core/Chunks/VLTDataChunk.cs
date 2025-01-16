@@ -28,7 +28,7 @@ namespace VaultLib.Core.Chunks
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             throw new NotImplementedException();
         }

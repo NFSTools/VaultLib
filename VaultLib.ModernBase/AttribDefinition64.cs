@@ -12,7 +12,7 @@ namespace VaultLib.ModernBase
 {
     public class AttribDefinition64 : IAttribDefinition
     {
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(VaultLoadContext context, BinaryReader br)
         {
             Key = br.ReadUInt64();
             Type = br.ReadUInt64();

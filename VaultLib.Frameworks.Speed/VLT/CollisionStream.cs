@@ -18,9 +18,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public RefSpec StreamMoment { get; set; }
         public byte Threshold { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            StreamMoment.Read(vault, br);
+            StreamMoment.Read(context, br);
             Threshold = br.ReadByte();
             br.AlignReader(4);
         }

@@ -13,7 +13,7 @@ namespace VaultLib.ModernBase.Exports
         {
         }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Key = br.ReadUInt32();
             InlineDataPointer = br.BaseStream.Position;
@@ -23,13 +23,13 @@ namespace VaultLib.ModernBase.Exports
             EntryFlags = br.ReadByte();
         }
 
-        public override bool ReadData(Vault vault, BinaryReader br)
+        public virtual bool ReadData(VaultLoadContext context, BinaryReader br)
         {
-            if (Collection.Class.TryGetField(Key, out VltClassField field))
+            if (Collection.Class.TryGetField(Key, out var field))
             {
                 if (HasInlineFlag())
                 {
-                    InlineData = vault.Database.TypeRegistry.CreateInstance(Collection.Class, field, Collection);
+                    InlineData = context.Database.TypeRegistry.CreateInstance(Collection.Class, field, Collection);
                 }
                 else
                 {
@@ -37,7 +37,7 @@ namespace VaultLib.ModernBase.Exports
                 }
 
                 br.BaseStream.Position = InlineDataPointer;
-                InlineData.Read(vault, br);
+                InlineData.Read(context, br);
 
                 return true;
             }
@@ -69,7 +69,7 @@ namespace VaultLib.ModernBase.Exports
             return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
         }
 
-        public override void ReadPointerData(Vault vault, BinaryReader br)
+        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             throw new NotImplementedException();
         }

@@ -33,7 +33,7 @@ namespace VaultLib.Support.Undercover.VLT
         private long _ptrPackagesDst;
         private Text _offerIdText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             _ptrPackages = br.ReadUInt32();
             Cost = br.ReadSingle();
@@ -41,7 +41,7 @@ namespace VaultLib.Support.Undercover.VLT
             Tier2_Cost = br.ReadSingle();
             Tier3_Cost = br.ReadSingle();
             Tier4_Cost = br.ReadSingle();
-            _offerIdText.Read(vault, br);
+            _offerIdText.Read(context, br);
             _packageLength = br.ReadByte();
             br.AlignReader(4);
         }
@@ -61,9 +61,9 @@ namespace VaultLib.Support.Undercover.VLT
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _offerIdText.ReadPointerData(vault, br);
+            _offerIdText.ReadPointerData(context, br);
             OfferID = _offerIdText.Value;
 
             br.BaseStream.Position = _ptrPackages;
@@ -73,7 +73,7 @@ namespace VaultLib.Support.Undercover.VLT
             for (int i = 0; i < _packageLength; i++)
             {
                 FEQuickUpgradeEntry entry = new FEQuickUpgradeEntry(Class, Field, Collection);
-                entry.Read(vault, br);
+                entry.Read(context, br);
 
                 Entries.Add(entry);
             }

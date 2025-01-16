@@ -20,7 +20,7 @@ namespace VaultLib.Support.Undercover.VLT
         public eQuickUpgradePackages Package { get; set; }
         public eQuickUpgradeLevels Level { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Package = br.ReadEnum<eQuickUpgradePackages>();
             Level = br.ReadEnum<eQuickUpgradeLevels>();

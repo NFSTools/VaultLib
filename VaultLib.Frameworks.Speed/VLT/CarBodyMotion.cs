@@ -16,7 +16,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float MaxGs { get; set; }
         public float DegPerSec { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             DegPerG = br.ReadSingle();
             MaxGs = br.ReadSingle();

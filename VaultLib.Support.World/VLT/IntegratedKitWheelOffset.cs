@@ -26,10 +26,10 @@ namespace VaultLib.Support.World.VLT
 
         private Text _kitName { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             br.ReadUInt32(); // stringhash32(KitName)
-            _kitName.Read(vault, br);
+            _kitName.Read(context, br);
             Offset = br.ReadUInt32();
         }
 
@@ -46,9 +46,9 @@ namespace VaultLib.Support.World.VLT
             return new[] { KitName };
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _kitName.ReadPointerData(vault, br);
+            _kitName.ReadPointerData(context, br);
             KitName = _kitName.Value;
         }
 

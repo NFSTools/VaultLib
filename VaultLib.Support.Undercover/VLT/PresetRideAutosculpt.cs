@@ -30,7 +30,7 @@ namespace VaultLib.Support.Undercover.VLT
         public float SculptZone9 { get; set; }
         public float SculptZone10 { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             RegionID = br.ReadEnum<PresetRideAutosculptRegion>();
             SculptZone0 = br.ReadSingle();

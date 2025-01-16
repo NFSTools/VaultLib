@@ -28,7 +28,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public int RPM_CRZ_HI_PEAK { get; set; }
         public int RPM_CRZ_HI_OUT { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             RPM_LD_LOW_PEAK = br.ReadInt32();
             RPM_LD_LOW_OUT = br.ReadInt32();

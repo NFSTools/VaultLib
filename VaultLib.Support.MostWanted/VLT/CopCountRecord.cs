@@ -21,9 +21,9 @@ namespace VaultLib.Support.MostWanted.VLT
 
         private StringKey64 _copType;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _copType.Read(vault, br);
+            _copType.Read(context, br);
             Count = br.ReadUInt32();
             Chance = br.ReadUInt32();
         }
@@ -36,9 +36,9 @@ namespace VaultLib.Support.MostWanted.VLT
             bw.Write(Chance);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _copType.ReadPointerData(vault, br);
+            _copType.ReadPointerData(context, br);
             CopType = _copType.Value;
         }
 

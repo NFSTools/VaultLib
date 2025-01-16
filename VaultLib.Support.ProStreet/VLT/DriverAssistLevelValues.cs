@@ -23,7 +23,7 @@ namespace VaultLib.Support.ProStreet.VLT
         public int BrakingAssist { get; set; }
         public int DriftAssist { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             TractionControlLevel = br.ReadInt32();
             AntilockBrakeLevel = br.ReadInt32();

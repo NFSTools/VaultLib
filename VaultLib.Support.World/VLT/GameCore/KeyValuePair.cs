@@ -22,9 +22,9 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public float Value { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _keyString.Read(vault, br);
+            _keyString.Read(context, br);
 
             br.ReadUInt32(); // stringhash32(KeyString)
             Value = br.ReadSingle();
@@ -43,9 +43,9 @@ namespace VaultLib.Support.World.VLT.GameCore
             return new[] { KeyString };
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _keyString.ReadPointerData(vault, br);
+            _keyString.ReadPointerData(context, br);
             KeyString = _keyString.Value;
         }
 

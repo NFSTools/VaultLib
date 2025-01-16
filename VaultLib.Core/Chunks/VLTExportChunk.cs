@@ -28,22 +28,22 @@ namespace VaultLib.Core.Chunks
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            var numExports = vault.Database.Options.Type == DatabaseType.X64Database ? br.ReadUInt64() : br.ReadUInt32();
+            var numExports = context.Database.Options.Type == DatabaseType.X64Database ? br.ReadUInt64() : br.ReadUInt32();
             for (ulong i = 0; i < numExports; i++)
             {
-                var exportEntry = vault.Database.ExportFactory.BuildExportEntry();
+                var exportEntry = context.Database.ExportFactory.BuildExportEntry();
 
-                exportEntry.Read(vault, br);
+                exportEntry.Read(context, br);
 
-                var export = CreateExport(vault, exportEntry.Type);
+                var export = CreateExport(context, exportEntry.Type);
 
                 if (export == null) continue;
 
                 export.Offset = exportEntry.Offset;
                 export.Size = exportEntry.Size;
-                vault.Exports.Add(export);
+                context.Vault.Exports.Add(export);
             }
         }
 
@@ -60,19 +60,19 @@ namespace VaultLib.Core.Chunks
             bw.AlignWriter(0x10);
         }
 
-        private BaseExport CreateExport(Vault vault, ulong type)
+        private BaseExport CreateExport(VaultLoadContext context, ulong type)
         {
             switch (type)
             {
                 case 0x5E970CBC: // Attrib::ClassLoadData
                 case 0x2A7895AC4A876152: // Attrib::ClassLoadData
-                    return vault.Database.ExportFactory.BuildClassLoad(null);
+                    return context.Database.ExportFactory.BuildClassLoad(null);
                 case 0xCBBC628F: // Attrib::DatabaseLoadData
                 case 0xB38846845E9C175: // Attrib::DatabaseLoadData
-                    return vault.Database.ExportFactory.BuildDatabaseLoad();
+                    return context.Database.ExportFactory.BuildDatabaseLoad();
                 case 0x8E112EB7:
                 case 0xAD303B8F42B3307E:
-                    return vault.Database.ExportFactory.BuildCollectionLoad(null);
+                    return context.Database.ExportFactory.BuildCollectionLoad(null);
                 default:
                     return null;
             }

@@ -15,7 +15,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float X { get; set; }
         public float Y { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             X = br.ReadSingle();
             Y = br.ReadSingle();

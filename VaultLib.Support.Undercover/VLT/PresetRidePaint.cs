@@ -24,10 +24,10 @@ namespace VaultLib.Support.Undercover.VLT
         public float Variance { get; set; }
         public bool Unknown { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             SlotID = br.ReadEnum<ePaintSlot>();
-            Group.Read(vault, br);
+            Group.Read(context, br);
             Swatch = br.ReadByte();
             br.AlignReader(4);
             Saturation = br.ReadSingle();

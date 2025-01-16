@@ -14,7 +14,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint Logo { get; set; }
         public uint Name { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Logo = br.ReadUInt32();
             Name = br.ReadUInt32();

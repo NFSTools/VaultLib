@@ -28,14 +28,14 @@ namespace VaultLib.Core.Types
         public uint Offset { get; set; } // pointer to bin stream
         public VLTBaseType Data { get; set; }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            Data = vault.Database.TypeRegistry.CreateInstance(Class, Field, Collection);
+            Data = context.Database.TypeRegistry.CreateInstance(Class, Field, Collection);
 
             Debug.Assert(Offset != 0);
             br.BaseStream.Position = Offset;
 
-            Data.Read(vault, br);
+            Data.Read(context, br);
 
             if (!(Data is VLTArrayType))
                 Debug.Assert(br.BaseStream.Position - Offset == Field.Size,  "br.BaseStream.Position - Offset == Field.Size");
@@ -59,7 +59,7 @@ namespace VaultLib.Core.Types
             if (Data is IPointerObject pointerObject) pointerObject.AddPointers(context);
         }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Offset = br.ReadPointer();
         }

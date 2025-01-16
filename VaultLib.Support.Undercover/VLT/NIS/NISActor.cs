@@ -25,10 +25,10 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         private Text _actorNameText, _carChannelNameText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _actorNameText.Read(vault, br);
-            _carChannelNameText.Read(vault, br);
+            _actorNameText.Read(context, br);
+            _carChannelNameText.Read(context, br);
 
             IsDriver = br.ReadBoolean();
             br.AlignReader(4);
@@ -50,10 +50,10 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _actorNameText.ReadPointerData(vault, br);
-            _carChannelNameText.ReadPointerData(vault, br);
+            _actorNameText.ReadPointerData(context, br);
+            _carChannelNameText.ReadPointerData(context, br);
 
             ActorName = _actorNameText.Value;
             CarChannelName = _carChannelNameText.Value;

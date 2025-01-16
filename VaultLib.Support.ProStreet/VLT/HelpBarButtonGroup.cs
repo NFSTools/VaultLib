@@ -20,7 +20,7 @@ namespace VaultLib.Support.ProStreet.VLT
         public uint LanguageHash { get; set; }
         public float TextSizeX { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             TextureHash = br.ReadUInt32();
             LanguageHash = br.ReadUInt32();

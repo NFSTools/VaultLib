@@ -17,7 +17,7 @@ namespace VaultLib.Support.World.VLT.Commerce
         public int TopSpeed { get; set; }
         public int RequiredPartCount { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Handling = br.ReadInt32();
             Acceleration = br.ReadInt32();

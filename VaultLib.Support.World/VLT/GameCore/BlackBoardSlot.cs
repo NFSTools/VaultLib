@@ -24,7 +24,7 @@ namespace VaultLib.Support.World.VLT.GameCore
         public uint mBlackBoardKey { get; set; }
         public BlackBoardFlag mFlag { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             mChannel = br.ReadEnum<BlackBoardChannel>();
             mBlackBoardKey = br.ReadUInt32();

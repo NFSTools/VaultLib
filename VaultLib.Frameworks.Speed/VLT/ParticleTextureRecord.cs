@@ -65,7 +65,7 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         /*  eTEG_ParticleTextures mEnum;
   unsigned int mIndex;*/
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             mEnum = br.ReadEnum<eTEG_ParticleTextures>();
             mIndex = br.ReadUInt32();

@@ -26,7 +26,7 @@ namespace VaultLib.ModernBase
 
         private long DestinationLayoutPointer { get; set; }
 
-        public override void ReadPointerData(Vault vault, BinaryReader br)
+        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             if (LayoutPointer != 0)
             {
@@ -41,9 +41,9 @@ namespace VaultLib.ModernBase
                         throw new Exception($"trying to read field {baseField.Name} at offset {br.BaseStream.Position - LayoutPointer:X}, need to be at {baseField.Offset:X}");
                     }
 
-                    VLTBaseType data = vault.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
+                    VLTBaseType data = context.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
-                    data.Read(vault, br);
+                    data.Read(context, br);
                     long endPos = br.BaseStream.Position;
 
                     if (data is PrimitiveTypeBase)
@@ -92,7 +92,7 @@ namespace VaultLib.ModernBase
                 if (entry.InlineData is VLTAttribType attribType)
                 {
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) == 0);
-                    attribType.ReadPointerData(vault, br);
+                    attribType.ReadPointerData(context, br);
                     Collection.SetRawValue(optionalField.Name, attribType.Data);
                 }
                 else
@@ -106,7 +106,7 @@ namespace VaultLib.ModernBase
             foreach (var dataEntry in Collection.GetData())
             {
                 if (dataEntry.Value is IPointerObject pointerObject)
-                    pointerObject.ReadPointerData(vault, br);
+                    pointerObject.ReadPointerData(context, br);
             }
         }
 

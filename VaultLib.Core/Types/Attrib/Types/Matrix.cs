@@ -17,7 +17,7 @@ namespace VaultLib.Core.Types.Attrib.Types
 
         public float[] Data { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             for (var i = 0; i < 16; i++) Data[i] = br.ReadSingle();
         }

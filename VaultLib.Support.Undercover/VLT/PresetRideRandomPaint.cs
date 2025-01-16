@@ -16,9 +16,9 @@ namespace VaultLib.Support.Undercover.VLT
         public PresetRidePaint Paint { get; set; }
         public float Chance { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            Paint.Read(vault, br);
+            Paint.Read(context, br);
             Chance = br.ReadSingle();
         }
 

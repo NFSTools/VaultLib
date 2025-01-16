@@ -15,9 +15,9 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VLTTypeInfo(nameof(GCollectionKey))]
     public class GCollectionKey : BaseRefSpec
     {
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            if (vault.Database.Options.Type == DatabaseType.X86Database)
+            if (context.Database.Options.Type == DatabaseType.X86Database)
             {
                 _hash32 = br.ReadUInt32();
             }

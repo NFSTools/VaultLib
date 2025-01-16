@@ -11,9 +11,9 @@ namespace VaultLib.Core.Utils
         /// <summary>
         ///     Read data stored through pointers to the BIN stream
         /// </summary>
-        /// <param name="vault"></param>
+        /// <param name="context"></param>
         /// <param name="br"></param>
-        void ReadPointerData(Vault vault, BinaryReader br);
+        void ReadPointerData(VaultLoadContext context, BinaryReader br);
 
         /// <summary>
         ///     Read data stored through pointers to the BIN stream

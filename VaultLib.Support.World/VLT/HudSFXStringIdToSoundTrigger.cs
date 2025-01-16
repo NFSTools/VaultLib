@@ -19,7 +19,7 @@ namespace VaultLib.Support.World.VLT
         public uint Value1 { get; set; }
         public uint Value2 { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Value1 = br.ReadUInt32();
             Value2 = br.ReadUInt32();

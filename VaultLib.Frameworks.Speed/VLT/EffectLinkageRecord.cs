@@ -22,10 +22,10 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float MinSpeed { get; set; }
         public float MaxSpeed { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            Surface.Read(vault, br);
-            Effect.Read(vault, br);
+            Surface.Read(context, br);
+            Effect.Read(context, br);
 
             MinSpeed = br.ReadSingle();
             MaxSpeed = br.ReadSingle();

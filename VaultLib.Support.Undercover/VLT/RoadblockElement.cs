@@ -21,7 +21,7 @@ namespace VaultLib.Support.Undercover.VLT
         public float OffsetY { get; set; }
         public float Angle { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             ElementType = br.ReadEnum<RBElementType>();
             OffsetX = br.ReadSingle();

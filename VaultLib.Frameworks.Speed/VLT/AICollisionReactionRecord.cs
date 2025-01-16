@@ -20,10 +20,10 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         public RefSpec Reaction { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Goal = br.ReadUInt32();
-            Reaction.Read(vault, br);
+            Reaction.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)

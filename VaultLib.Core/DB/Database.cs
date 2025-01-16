@@ -47,9 +47,9 @@ namespace VaultLib.Core.DB
         public List<VltClass> Classes { get; }
 
         public List<DatabaseTypeInfo> Types { get; }
-        
+
         public TypeRegistry TypeRegistry { get; }
-        
+
         public ExportFactory ExportFactory { get; }
 
         public List<Vault> Vaults { get; }
@@ -97,18 +97,20 @@ namespace VaultLib.Core.DB
             ChunkReader binChunkReader = new ChunkReader(binStreamReader);
             ChunkReader vltChunkReader = new ChunkReader(vltStreamReader);
 
+            var vaultLoadContext = new VaultLoadContext(vault);
+
             //Debug.WriteLine("Processing BIN chunks");
-            processBinChunks(vault, binChunkReader);
+            processBinChunks(vaultLoadContext, binChunkReader);
 
             //Debug.WriteLine("Processing VLT chunks");
-            processVltChunks(vault, vltChunkReader);
+            processVltChunks(vaultLoadContext, vltChunkReader);
 
             //Debug.WriteLine("Processing pointers");
             fixPointers(vault, VltPointerType.Bin, vault.BinStream);
             fixPointers(vault, VltPointerType.Vlt, vault.VltStream);
 
             //Debug.WriteLine("Reading exports");
-            ReadExports(vault, vltStreamReader, binStreamReader);
+            ReadExports(vaultLoadContext, vltStreamReader, binStreamReader);
 
             Vaults.Add(vault);
         }
@@ -122,7 +124,7 @@ namespace VaultLib.Core.DB
             {
                 return Options.Type == DatabaseType.X64Database ? VLT64Hasher.Hash(s) : VLT32Hasher.Hash(s);
             }
-            
+
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             Dictionary<VltClass, ulong> hashDictionary = Classes.ToDictionary(c => c, c => Hash(c.Name));
@@ -148,12 +150,12 @@ namespace VaultLib.Core.DB
 
         #region Internal Data Reading
 
-        private void ReadExports(Vault vault, BinaryReader vltStreamReader, BinaryReader binStreamReader)
+        private void ReadExports(VaultLoadContext context, BinaryReader vltStreamReader, BinaryReader binStreamReader)
         {
-            foreach (Exports.BaseExport vaultExport in vault.Exports)
+            foreach (Exports.BaseExport vaultExport in context.Vault.Exports)
             {
                 vltStreamReader.BaseStream.Position = vaultExport.Offset;
-                vaultExport.Read(vault, vltStreamReader);
+                vaultExport.Read(context, vltStreamReader);
 #if DEBUG
                 if ((vltStreamReader.BaseStream.Position - vaultExport.Offset) != vaultExport.Size)
                     throw new Exception();
@@ -161,7 +163,7 @@ namespace VaultLib.Core.DB
 
                 if (vaultExport is IPointerObject pointerObject)
                 {
-                    pointerObject.ReadPointerData(vault, binStreamReader);
+                    pointerObject.ReadPointerData(context, binStreamReader);
                 }
 
                 if (vaultExport is BaseCollectionLoad bcl)
@@ -173,7 +175,7 @@ namespace VaultLib.Core.DB
                 }
             }
 
-            vault.IsPrimaryVault = vault.Exports.OfType<BaseClassLoad>().Any();
+            context.Vault.IsPrimaryVault = context.Vault.Exports.OfType<BaseClassLoad>().Any();
         }
 
         private void fixPointers(Vault vault, VltPointerType pointerType, Stream stream)
@@ -199,24 +201,24 @@ namespace VaultLib.Core.DB
             }
         }
 
-        private void processBinChunks(Vault vault, ChunkReader chunkReader)
+        private void processBinChunks(VaultLoadContext context, ChunkReader chunkReader)
         {
-            chunkReader.NextChunk(vault).Read(vault, chunkReader.Reader);
+            chunkReader.NextChunk().Read(context, chunkReader.Reader);
         }
 
-        private void processVltChunks(Vault vault, ChunkReader chunkReader)
+        private void processVltChunks(VaultLoadContext context, ChunkReader chunkReader)
         {
             while (chunkReader.Reader.BaseStream.Position < chunkReader.Reader.BaseStream.Length)
             {
-                Chunks.ChunkBase chunk = chunkReader.NextChunk(vault);
+                Chunks.ChunkBase chunk = chunkReader.NextChunk();
 
                 if (chunk == null)
                 {
                     break;
                 }
 
-                chunk.Read(vault, chunkReader.Reader);
-                chunk.GoToEnd(vault.VltStream);
+                chunk.Read(context, chunkReader.Reader);
+                chunk.GoToEnd(context.Vault.VltStream);
             }
         }
 

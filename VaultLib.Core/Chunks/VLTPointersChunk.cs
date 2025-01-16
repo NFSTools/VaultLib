@@ -19,7 +19,7 @@ namespace VaultLib.Core.Chunks
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             var binPointers = new List<IPtrRef>();
             var vltPointers = new List<IPtrRef>();
@@ -28,8 +28,8 @@ namespace VaultLib.Core.Chunks
 
             while (br.BaseStream.Position < EndOffset)
             {
-                var ptr = vault.Database.ExportFactory.CreatePtrRef();
-                ptr.Read(vault, br);
+                var ptr = context.Database.ExportFactory.CreatePtrRef();
+                ptr.Read(context, br);
 
                 switch (ptr.PtrType)
                 {
@@ -40,12 +40,12 @@ namespace VaultLib.Core.Chunks
                     case EPtrRefType.PtrNull:
                         if (isVltPointer)
                         {
-                            Debug.Assert(ptr.FixupOffset <= vault.VltStream.Length);
+                            Debug.Assert(ptr.FixupOffset <= context.Vault.VltStream.Length);
                             vltPointers.Add(ptr);
                         }
                         else
                         {
-                            Debug.Assert(ptr.FixupOffset <= vault.BinStream.Length);
+                            Debug.Assert(ptr.FixupOffset <= context.Vault.BinStream.Length);
                             binPointers.Add(ptr);
                         }
 
@@ -56,11 +56,11 @@ namespace VaultLib.Core.Chunks
             }
 
             foreach (var ptrRef in binPointers)
-                vault.Pointers.Add(new VltPointer
+                context.Vault.Pointers.Add(new VltPointer
                 { Type = VltPointerType.Bin, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset });
 
             foreach (var ptrRef in vltPointers)
-                vault.Pointers.Add(new VltPointer
+                context.Vault.Pointers.Add(new VltPointer
                 { Type = VltPointerType.Vlt, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset });
         }
 

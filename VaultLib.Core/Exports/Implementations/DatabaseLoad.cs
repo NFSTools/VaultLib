@@ -19,11 +19,11 @@ namespace VaultLib.Core.Exports.Implementations
 
         private long _typeNamesSrc;
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             br.BaseStream.Position = _typeNames;
 
-            foreach (var t in vault.Database.Types)
+            foreach (var t in context.Database.Types)
             {
                 t.Name = NullTerminatedString.Read(br);
                 HashManager.AddVLT(t.Name);
@@ -44,7 +44,7 @@ namespace VaultLib.Core.Exports.Implementations
             context.AddPointer(_typeNamesSrc, _typeNamesDst, true);
         }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             br.ReadUInt32();
             br.ReadUInt32();
@@ -57,7 +57,7 @@ namespace VaultLib.Core.Exports.Implementations
             for (var i = 0; i < _numTypes; i++)
             {
                 var typeInfo = new DatabaseTypeInfo { Size = br.ReadUInt32() };
-                vault.Database.Types.Add(typeInfo);
+                context.Database.Types.Add(typeInfo);
             }
         }
 

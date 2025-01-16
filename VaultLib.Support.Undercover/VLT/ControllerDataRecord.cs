@@ -26,9 +26,9 @@ namespace VaultLib.Support.Undercover.VLT
         private StringKey _deviceID { get; set; }
 
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _deviceID.Read(vault, br);
+            _deviceID.Read(context, br);
             UpdateType = br.ReadEnum<InputUpdateType>();
             LowerDZ = br.ReadSingle();
             UpperDZ = br.ReadSingle();
@@ -48,9 +48,9 @@ namespace VaultLib.Support.Undercover.VLT
             return new[] { DeviceID };
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _deviceID.ReadPointerData(vault, br);
+            _deviceID.ReadPointerData(context, br);
             DeviceID = _deviceID.Value;
         }
 

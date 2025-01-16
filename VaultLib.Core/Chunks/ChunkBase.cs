@@ -10,7 +10,7 @@ namespace VaultLib.Core.Chunks
         public abstract long Offset { get; set; }
         public long EndOffset => Offset + Size;
 
-        public abstract void Read(Vault vault, BinaryReader br);
+        public abstract void Read(VaultLoadContext context, BinaryReader br);
         public abstract void Write(VaultSaveContext context, BinaryWriter bw);
 
         /// <summary>

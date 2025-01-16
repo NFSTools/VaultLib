@@ -26,7 +26,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint PriorityChance { get; set; }
         public float PriorityTime { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             LeaderStrategy = br.ReadEnum<LeaderSupportStrategy>();
             Chance = br.ReadUInt32();

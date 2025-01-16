@@ -21,10 +21,10 @@ namespace VaultLib.ModernBase
         private Text _text;
 
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             br.ReadUInt32();
-            _text.Read(vault, br);
+            _text.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -39,9 +39,9 @@ namespace VaultLib.ModernBase
             return new List<string>(new[] { Value });
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _text.ReadPointerData(vault, br);
+            _text.ReadPointerData(context, br);
             Value = _text.Value;
         }
 

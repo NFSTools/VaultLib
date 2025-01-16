@@ -24,12 +24,12 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         private Text _presetSkinNameText, _channelNameText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            PresetRide.Read(vault, br);
-            _presetSkinNameText.Read(vault, br);
+            PresetRide.Read(context, br);
+            _presetSkinNameText.Read(context, br);
             VehicleCategory = br.ReadUInt32();
-            _channelNameText.Read(vault, br);
+            _channelNameText.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -42,10 +42,10 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             _channelNameText.Write(context, bw);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _presetSkinNameText.ReadPointerData(vault, br);
-            _channelNameText.ReadPointerData(vault, br);
+            _presetSkinNameText.ReadPointerData(context, br);
+            _channelNameText.ReadPointerData(context, br);
 
             PresetSkinName = _presetSkinNameText.Value;
             ChannelName = _channelNameText.Value;

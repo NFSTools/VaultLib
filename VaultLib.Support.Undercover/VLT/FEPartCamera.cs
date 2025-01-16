@@ -22,11 +22,11 @@ namespace VaultLib.Support.Undercover.VLT
 
         private Text _slotNameText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _slotNameText.Read(vault, br);
-            Camera.Read(vault, br);
-            Camera_4_3.Read(vault, br);
+            _slotNameText.Read(context, br);
+            Camera.Read(context, br);
+            Camera_4_3.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -37,9 +37,9 @@ namespace VaultLib.Support.Undercover.VLT
             Camera_4_3.Write(context, bw);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _slotNameText.ReadPointerData(vault, br);
+            _slotNameText.ReadPointerData(context, br);
             SlotName = _slotNameText.Value;
         }
 

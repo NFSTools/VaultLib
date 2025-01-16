@@ -27,7 +27,7 @@ namespace VaultLib.Support.Undercover.VLT
         private VariableArray _yArray;
         private VariableArray _y2Array;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             MinX = br.ReadSingle();
             MaxX = br.ReadSingle();
@@ -60,11 +60,11 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(0); // AllocatedMemory (bool1 + 3 align bytes)
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _xArray.ReadPointerData(vault, br);
-            _yArray.ReadPointerData(vault, br);
-            _y2Array.ReadPointerData(vault, br);
+            _xArray.ReadPointerData(context, br);
+            _yArray.ReadPointerData(context, br);
+            _y2Array.ReadPointerData(context, br);
 
             XValues = _xArray.Data;
             YValues = _yArray.Data;

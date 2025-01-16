@@ -17,7 +17,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float ScaleF { get; set; }
         public float ScaleR { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             ClassKey = br.ReadUInt32();
             DefinitionKey = br.ReadUInt32();

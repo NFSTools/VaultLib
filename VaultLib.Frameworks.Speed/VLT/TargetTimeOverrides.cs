@@ -24,10 +24,10 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         private Text _eventText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            Car.Read(vault, br);
-            _eventText.Read(vault, br);
+            Car.Read(context, br);
+            _eventText.Read(context, br);
             MinDelta = br.ReadSingle();
             MaxDelta = br.ReadSingle();
             Shift = br.ReadSingle();
@@ -42,9 +42,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(Shift);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _eventText.ReadPointerData(vault, br);
+            _eventText.ReadPointerData(context, br);
             Event = _eventText.Value;
         }
 

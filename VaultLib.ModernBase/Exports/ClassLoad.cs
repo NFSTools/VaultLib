@@ -23,7 +23,7 @@ namespace VaultLib.ModernBase.Exports
         private long _dstDefinitionsPtr;
         private long _dstStaticPtr;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             ClassHash = br.ReadUInt32();
             br.ReadUInt32(); // Collection reserve
@@ -70,14 +70,14 @@ namespace VaultLib.ModernBase.Exports
             bw.Write((ushort)Class.BaseFields.Count());
         }
 
-        public override void ReadPointerData(Vault vault, BinaryReader br)
+        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             br.BaseStream.Position = _definitionsPtr;
 
             for (int i = 0; i < NumDefinitions; i++)
             {
                 AttribDefinition definition = new AttribDefinition();
-                definition.Read(vault, br);
+                definition.Read(context, br);
 
                 VltClassField field = new VltClassField(
                     definition.Key,
@@ -109,8 +109,8 @@ namespace VaultLib.ModernBase.Exports
                 foreach (VltClassField staticField in Class.StaticFields)
                 {
                     br.AlignReader(staticField.Alignment);
-                    VLTBaseType staticData = vault.Database.TypeRegistry.CreateInstance(Class, staticField, null);
-                    staticData.Read(vault, br);
+                    VLTBaseType staticData = context.Database.TypeRegistry.CreateInstance(Class, staticField, null);
+                    staticData.Read(context, br);
                     staticField.StaticValue = staticData;
                 }
             }
@@ -118,10 +118,10 @@ namespace VaultLib.ModernBase.Exports
             foreach (var staticField in Class.StaticFields)
             {
                 if (staticField.StaticValue is IPointerObject pointerObject)
-                    pointerObject.ReadPointerData(vault, br);
+                    pointerObject.ReadPointerData(context, br);
             }
 
-            vault.Database.AddClass(Class);
+            context.Database.AddClass(Class);
         }
 
         public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)

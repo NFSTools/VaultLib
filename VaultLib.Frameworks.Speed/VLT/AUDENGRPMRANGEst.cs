@@ -21,7 +21,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public int LD_HI_RPM { get; set; }
         public int REVLMT_RPM { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             IDLE_RPM = br.ReadInt32();
             CRZ_LO_RPM = br.ReadInt32();

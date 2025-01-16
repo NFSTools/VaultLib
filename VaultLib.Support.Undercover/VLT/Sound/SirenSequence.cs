@@ -28,7 +28,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
         public SirenMode mMode { get; set; }
         public float mDuration { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             mMode = br.ReadEnum<SirenMode>();
             mDuration = br.ReadSingle();

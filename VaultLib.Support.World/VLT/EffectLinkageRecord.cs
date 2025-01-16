@@ -25,11 +25,11 @@ namespace VaultLib.Support.World.VLT
         public float SFXMinSpeed { get; set; }
         public float SFXMaxSpeed { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            Surface.Read(vault, br);
-            Effect.Read(vault, br);
-            Audio.Read(vault, br);
+            Surface.Read(context, br);
+            Effect.Read(context, br);
+            Audio.Read(context, br);
 
             MinSpeed = br.ReadSingle();
             MaxSpeed = br.ReadSingle();

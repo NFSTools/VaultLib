@@ -23,10 +23,10 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint RightHash { get; set; }
         public uint HelpHash { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Ref = new RefSpec(Class, Field, Collection);
-            Ref.Read(vault, br);
+            Ref.Read(context, br);
             TitleHash = br.ReadUInt32();
             LeftHash = br.ReadUInt32();
             RightHash = br.ReadUInt32();

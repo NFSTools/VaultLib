@@ -26,7 +26,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float Duration { get; set; }
         public uint ChanceBigSUV { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             HeavyStrategy = br.ReadEnum<HeavySupportStrategy>();
             Chance = br.ReadUInt32();

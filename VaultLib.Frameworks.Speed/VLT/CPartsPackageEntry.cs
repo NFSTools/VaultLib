@@ -18,9 +18,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public RefSpec Part { get; set; }
         public byte KitNum { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            Part.Read(vault, br);
+            Part.Read(context, br);
             KitNum = br.ReadByte();
             br.AlignReader(4);
         }

@@ -44,9 +44,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         private Text _debugNameText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _debugNameText.Read(vault, br);
+            _debugNameText.Read(context, br);
 
             TwoSidedStencilMode = br.ReadBoolean();
             ZEnable = br.ReadBoolean();
@@ -104,9 +104,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _debugNameText.ReadPointerData(vault, br);
+            _debugNameText.ReadPointerData(context, br);
             DebugName = _debugNameText.Value;
         }
 

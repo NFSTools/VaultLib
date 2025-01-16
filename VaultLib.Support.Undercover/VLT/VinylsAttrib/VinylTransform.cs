@@ -19,7 +19,7 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
         public short TranslationX { get; set; }
         public short TranslationY { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             TranslationX = br.ReadInt16();
             TranslationY = br.ReadInt16();

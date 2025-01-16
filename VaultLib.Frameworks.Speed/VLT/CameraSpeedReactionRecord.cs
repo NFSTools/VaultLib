@@ -21,7 +21,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float SpeedMax { get; set; }
         public float ValueMax { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             SpeedMin = br.ReadSingle();
             ValueMin = br.ReadSingle();

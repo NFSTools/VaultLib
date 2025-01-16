@@ -20,7 +20,7 @@ namespace VaultLib.Support.Undercover.VLT.DamageFilter
         public uint Reject { get; set; }
         public float MaxCausalityTime { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Allow = br.ReadUInt32();
             Reject = br.ReadUInt32();

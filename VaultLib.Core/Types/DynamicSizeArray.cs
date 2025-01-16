@@ -26,15 +26,15 @@ namespace VaultLib.Core.Types
 
         public T[] Items { get; set; }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            var databaseTypeRegistry = vault.Database.TypeRegistry;
+            var databaseTypeRegistry = context.Database.TypeRegistry;
             
             br.BaseStream.Position = _pointer;
             for (var i = 0; i < Items.Length; i++)
             {
                 Items[i] = (T)databaseTypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
-                Items[i].Read(vault, br);
+                Items[i].Read(context, br);
             }
         }
 
@@ -49,7 +49,7 @@ namespace VaultLib.Core.Types
             context.AddPointer(_srcPtr, _dstPtr, false);
         }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             _pointer = br.ReadUInt32();
             Items = new T[br.ReadInt32()];

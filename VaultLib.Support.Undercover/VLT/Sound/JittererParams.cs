@@ -22,7 +22,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
         public float Unknown3 { get; set; }
         public float Unknown4 { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Unknown1 = br.ReadSingle();
             Unknown2 = br.ReadSingle();

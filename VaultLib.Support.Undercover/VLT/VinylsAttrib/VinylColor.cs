@@ -21,7 +21,7 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
         public sbyte Saturation { get; set; }
         public sbyte Brightness { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Swatch = br.ReadSByte();
             Saturation = br.ReadSByte();

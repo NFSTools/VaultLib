@@ -21,7 +21,7 @@ namespace VaultLib.Support.Undercover.VLT
         public float MaximumThreatLevel { get; set; }
         public RoadblockElement[] Contents { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             MinimumWidthRequired = br.ReadSingle();
             RequiredVehicles = br.ReadUInt32();
@@ -30,7 +30,7 @@ namespace VaultLib.Support.Undercover.VLT
 
             for (int i = 0; i < 6; i++)
             {
-                Contents[i].Read(vault, br);
+                Contents[i].Read(context, br);
             }
         }
 

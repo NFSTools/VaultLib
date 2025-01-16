@@ -19,9 +19,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public bool CenteredAroundPreset { get; set; }
         public float Position { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            PhysicsTuningSlider.Read(vault, br);
+            PhysicsTuningSlider.Read(context, br);
             CenteredAroundPreset = br.ReadBoolean();
             br.AlignReader(4);
             Position = br.ReadSingle();

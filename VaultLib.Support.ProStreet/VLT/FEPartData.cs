@@ -38,7 +38,7 @@ namespace VaultLib.Support.ProStreet.VLT
 
         private Text _offerIdText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             HAL_ID = br.ReadUInt32();
             CF_HAL_ID = br.ReadUInt32();
@@ -59,15 +59,15 @@ namespace VaultLib.Support.ProStreet.VLT
             if (b != 0)
                 throw new InvalidDataException();
 
-            AutoSculptCamera1.Read(vault, br);
-            AutoSculptCamera2.Read(vault, br);
-            AutoSculptCamera3.Read(vault, br);
+            AutoSculptCamera1.Read(context, br);
+            AutoSculptCamera2.Read(context, br);
+            AutoSculptCamera3.Read(context, br);
 
             DetailHash = br.ReadUInt32();
 
             PartDetails = new VLTPointerContainer<FEPartDetail>(Class, Field, Collection);
-            PartDetails.Read(vault, br);
-            _offerIdText.Read(vault, br);
+            PartDetails.Read(context, br);
+            _offerIdText.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -95,13 +95,13 @@ namespace VaultLib.Support.ProStreet.VLT
             _offerIdText.Write(context, bw);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            AutoSculptCamera1.ReadPointerData(vault, br);
-            AutoSculptCamera2.ReadPointerData(vault, br);
-            AutoSculptCamera3.ReadPointerData(vault, br);
-            PartDetails.ReadPointerData(vault, br);
-            _offerIdText.ReadPointerData(vault, br);
+            AutoSculptCamera1.ReadPointerData(context, br);
+            AutoSculptCamera2.ReadPointerData(context, br);
+            AutoSculptCamera3.ReadPointerData(context, br);
+            PartDetails.ReadPointerData(context, br);
+            _offerIdText.ReadPointerData(context, br);
 
             OfferID = _offerIdText.Value;
         }

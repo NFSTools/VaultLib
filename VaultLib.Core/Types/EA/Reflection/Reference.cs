@@ -15,7 +15,7 @@ namespace VaultLib.Core.Types.EA.Reflection
         {
         }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             throw new System.NotImplementedException();
         }

@@ -23,7 +23,7 @@ namespace VaultLib.Support.Undercover.VLT
         public float Blend { get; set; }
         public ePaintSpeechColour SpeechColour { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             RGB = br.ReadUInt32();
             MaterialA = br.ReadEnum<ePaintMaterialIndex>();

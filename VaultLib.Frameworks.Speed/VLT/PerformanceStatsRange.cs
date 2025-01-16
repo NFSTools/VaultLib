@@ -22,7 +22,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float mMin { get; set; }
         public float mMax { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             mPerformanceType = br.ReadEnum<ePerformanceType>();
             mMin = br.ReadSingle();

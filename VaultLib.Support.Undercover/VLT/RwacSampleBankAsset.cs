@@ -15,7 +15,7 @@ namespace VaultLib.Support.Undercover.VLT
         public uint Bank { get; set; }
         public uint Asset { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Bank = br.ReadUInt32();
             Asset = br.ReadUInt32();

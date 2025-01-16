@@ -14,7 +14,7 @@ namespace VaultLib.Support.World.VLT.EA.WorldMap
     {
         public uint Hash { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Hash = br.ReadUInt32();
         }

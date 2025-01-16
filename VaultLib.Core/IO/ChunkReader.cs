@@ -20,11 +20,11 @@ namespace VaultLib.Core.IO
 
         public BinaryReader Reader { get; }
 
-        public ChunkBase NextChunk(Vault vault)
+        public ChunkBase NextChunk()
         {
             var header = new ChunkBlockHeader();
             header.Read(Reader);
-            ChunkBase chunk = null;
+            ChunkBase chunk;
 
             switch (header.ID)
             {

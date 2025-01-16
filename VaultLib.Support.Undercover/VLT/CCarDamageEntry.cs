@@ -26,13 +26,13 @@ namespace VaultLib.Support.Undercover.VLT
         private Text _attachPartText;
         private Text _smackableCollisionNameText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             PartID = br.ReadInt32();
-            _attachPartText.Read(vault, br);
-            Material.Read(vault, br);
-            _smackableCollisionNameText.Read(vault, br);
-            SmackableCollisionAttribute.Read(vault, br);
+            _attachPartText.Read(context, br);
+            Material.Read(context, br);
+            _smackableCollisionNameText.Read(context, br);
+            SmackableCollisionAttribute.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -46,10 +46,10 @@ namespace VaultLib.Support.Undercover.VLT
             SmackableCollisionAttribute.Write(context, bw);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _attachPartText.ReadPointerData(vault, br);
-            _smackableCollisionNameText.ReadPointerData(vault, br);
+            _attachPartText.ReadPointerData(context, br);
+            _smackableCollisionNameText.ReadPointerData(context, br);
             AttachPart = _attachPartText.Value;
             SmackableCollisionName = _smackableCollisionNameText.Value;
         }

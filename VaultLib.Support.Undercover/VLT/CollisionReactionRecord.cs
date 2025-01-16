@@ -17,7 +17,7 @@ namespace VaultLib.Support.Undercover.VLT
         public float WeightBias { get; set; }
         public float MassScale { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Elasticity = br.ReadSingle();
             RollHeight = br.ReadSingle();

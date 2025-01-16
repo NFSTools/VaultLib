@@ -25,7 +25,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         {
         }
         
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             CurveStyle = br.ReadEnum<eSteeringCurveStyle>();
             CurvePower = br.ReadSingle();

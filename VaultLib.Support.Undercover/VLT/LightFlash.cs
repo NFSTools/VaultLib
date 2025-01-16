@@ -20,7 +20,7 @@ namespace VaultLib.Support.Undercover.VLT
         public float Value1 { get; set; }
         public float Value2 { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Value1 = br.ReadSingle();
             Value2 = br.ReadSingle();

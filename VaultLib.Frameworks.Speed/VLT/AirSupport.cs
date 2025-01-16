@@ -25,7 +25,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint Chance { get; set; }
         public float Duration { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             HeliStrategy = br.ReadEnum<AirSupportStrategy>();
             Chance = br.ReadUInt32();

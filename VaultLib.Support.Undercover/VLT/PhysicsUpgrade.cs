@@ -18,9 +18,9 @@ namespace VaultLib.Support.Undercover.VLT
         public AttributeRefSpec ReferencedAttribute { get; set; }
         public float BlendingPower { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            ReferencedAttribute.Read(vault, br);
+            ReferencedAttribute.Read(context, br);
             BlendingPower = br.ReadSingle();
         }
 

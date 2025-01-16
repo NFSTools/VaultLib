@@ -20,13 +20,13 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
         public VinylTransform Transform { get; set; }
         public VinylColor Color { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             PartNameHash = br.ReadUInt32();
             Mirrored = br.ReadBoolean();
             br.AlignReader(4);
-            Transform.Read(vault, br);
-            Color.Read(vault, br);
+            Transform.Read(context, br);
+            Color.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)

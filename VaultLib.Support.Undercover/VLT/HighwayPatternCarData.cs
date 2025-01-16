@@ -20,11 +20,11 @@ namespace VaultLib.Support.Undercover.VLT
         public RefSpec Vehicle { get; set; }
         public EAILaneChangeType Change { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Row = br.ReadInt32();
             Lane = br.ReadInt32();
-            Vehicle.Read(vault, br);
+            Vehicle.Read(context, br);
             Change = br.ReadEnum<EAILaneChangeType>();
 
             var v = br.ReadUInt32();

@@ -40,9 +40,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public bool BlendFactorF16_PS3 { get; set; }
         private Text _debugNameText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _debugNameText.Read(vault, br);
+            _debugNameText.Read(context, br);
             BlendEnable = br.ReadBoolean();
             AlphaTestEnable = br.ReadBoolean();
             br.AlignReader(4);
@@ -55,7 +55,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             DestAlpha = br.ReadArray(br.ReadEnum<State_BlendInput>, 4);
             OperationAlpha = br.ReadArray(br.ReadEnum<State_BlendOp>, 4);
             BlendFactor = new Vector4(Class, Field, Collection);
-            BlendFactor.Read(vault, br);
+            BlendFactor.Read(context, br);
             RGBAEnableRT0 = br.ReadArray(br.ReadBoolean, 4);
             RGBAEnableRT1 = br.ReadArray(br.ReadBoolean, 4);
             RGBAEnableRT2 = br.ReadArray(br.ReadBoolean, 4);
@@ -94,9 +94,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _debugNameText.ReadPointerData(vault, br);
+            _debugNameText.ReadPointerData(context, br);
             DebugName = _debugNameText.Value;
         }
 

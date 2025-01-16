@@ -20,7 +20,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint FEngMsg { get; set; }
         public eMenuSoundTriggers SoundTrigger { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             FEngMsg = br.ReadUInt32();
             SoundTrigger = br.ReadEnum<eMenuSoundTriggers>();

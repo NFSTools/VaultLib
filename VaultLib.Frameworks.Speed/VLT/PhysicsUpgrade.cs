@@ -19,9 +19,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint MemberIndex { get; set; }
         public float BlendingPower { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            ReferencedAttribute.Read(vault, br);
+            ReferencedAttribute.Read(context, br);
             IsMember = br.ReadBoolean();
             br.AlignReader(4);
             MemberIndex = br.ReadUInt32();

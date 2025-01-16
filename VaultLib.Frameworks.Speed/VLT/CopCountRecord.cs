@@ -23,9 +23,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint Count { get; set; }
         public uint Chance { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _copType.Read(vault, br);
+            _copType.Read(context, br);
             br.ReadUInt32();
             Count = br.ReadUInt32();
             Chance = br.ReadUInt32();
@@ -44,9 +44,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             return new[] { CopType };
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _copType.ReadPointerData(vault, br);
+            _copType.ReadPointerData(context, br);
             CopType = _copType.Value;
         }
 

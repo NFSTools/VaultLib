@@ -21,9 +21,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public string ClassKey { get; set; }
         public string DefinitionKey { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            if (vault.Database.Options.Type == DatabaseType.X86Database)
+            if (context.Database.Options.Type == DatabaseType.X86Database)
             {
                 ClassKey = HashManager.ResolveVLT(br.ReadUInt32());
                 DefinitionKey = HashManager.ResolveVLT(br.ReadUInt32());

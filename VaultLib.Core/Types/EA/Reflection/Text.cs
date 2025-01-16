@@ -34,7 +34,7 @@ namespace VaultLib.Core.Types.EA.Reflection
             return new List<string>(new[] { Value });
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             Debug.Assert(Pointer != 0);
             br.BaseStream.Position = Pointer;
@@ -63,7 +63,7 @@ namespace VaultLib.Core.Types.EA.Reflection
             Value = str;
         }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Debug.Assert(Class != null, "this.Class != null");
 

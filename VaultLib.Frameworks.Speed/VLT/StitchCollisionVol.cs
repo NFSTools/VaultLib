@@ -21,7 +21,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public short Vol3 { get; set; }
         public short Vol4 { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Vol1 = br.ReadInt16();
             Vol2 = br.ReadInt16();

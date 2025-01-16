@@ -27,9 +27,9 @@ namespace VaultLib.Support.Undercover.VLT
 
         private Text _name;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _name.Read(vault, br);
+            _name.Read(context, br);
             mCurveStart = br.ReadUInt16();
             mCurveCount = br.ReadUInt16();
             mTriangleStart = br.ReadUInt16();
@@ -54,9 +54,9 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(mBoundsMaxY);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _name.ReadPointerData(vault, br);
+            _name.ReadPointerData(context, br);
             Name = _name.Value;
         }
 

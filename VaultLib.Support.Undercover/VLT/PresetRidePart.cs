@@ -21,10 +21,10 @@ namespace VaultLib.Support.Undercover.VLT
         public RefSpec Part { get; set; }
         public uint KitNumber { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             SlotID = br.ReadEnum<CAR_SLOT_ID>();
-            Part.Read(vault, br);
+            Part.Read(context, br);
             KitNumber = br.ReadUInt32();
         }
 

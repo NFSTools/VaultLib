@@ -22,7 +22,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public short Value { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Value = br.ReadInt16();
         }

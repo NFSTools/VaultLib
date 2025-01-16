@@ -24,7 +24,7 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
         private long _srcSlidersPtr;
         private long _dstSlidersPtr;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Kit = br.ReadByte();
             br.AlignReader(4);
@@ -45,14 +45,14 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             br.BaseStream.Position = _slidersPointer;
 
             for (int i = 0; i < Sliders.Capacity; i++)
             {
                 Slider slider = new Slider(Class, Field, Collection);
-                slider.Read(vault, br);
+                slider.Read(context, br);
                 Sliders.Add(slider);
             }
         }

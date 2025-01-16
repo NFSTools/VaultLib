@@ -20,7 +20,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public eEndTransitionType TransitionType { get; set; }
         public float TransitionSec { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             TransitionType = br.ReadEnum<eEndTransitionType>();
             TransitionSec = br.ReadSingle();

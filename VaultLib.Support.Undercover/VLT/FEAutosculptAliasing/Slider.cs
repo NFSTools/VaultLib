@@ -14,7 +14,7 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
         public uint Region { get; set; }
         public uint Zone { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Region = br.ReadUInt32();
             Zone = br.ReadUInt32();

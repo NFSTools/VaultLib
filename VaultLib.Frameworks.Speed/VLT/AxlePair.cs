@@ -15,7 +15,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float Front { get; set; }
         public float Rear { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Front = br.ReadSingle();
             Rear = br.ReadSingle();

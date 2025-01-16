@@ -23,7 +23,7 @@ namespace VaultLib.Core.Types
 
         public T Value { get; set; }
 
-        public sealed override void Read(Vault vault, BinaryReader br)
+        public sealed override void Read(VaultLoadContext context, BinaryReader br)
         {
             Value = br.ReadEnum<T>();
         }

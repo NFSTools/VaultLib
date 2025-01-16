@@ -16,7 +16,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public ushort mPoint2 { get; set; }
         public ushort mPoint3 { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             mPoint1 = br.ReadUInt16();
             mPoint2 = br.ReadUInt16();

@@ -38,9 +38,9 @@ namespace VaultLib.Core.Types.Attrib
             set => _collectionKey = value;
         }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            if (vault.Database.Options.Type == DatabaseType.X64Database)
+            if (context.Database.Options.Type == DatabaseType.X64Database)
             {
                 // 64-bit RefSpec is 16 bytes instead of 8
                 ClassKey = HashManager.ResolveVLT(br.ReadUInt64());

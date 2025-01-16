@@ -16,7 +16,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
         public bool Value { get; set; }
         public float Duration { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Value = br.ReadBoolean();
             br.AlignReader(4);

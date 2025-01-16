@@ -23,7 +23,7 @@ namespace VaultLib.ModernBase.Exports
         private long _srcLayoutPtr;
         private long _dstLayoutPtr;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             var mKey = br.ReadUInt64();
             var mClass = br.ReadUInt64();
@@ -38,7 +38,7 @@ namespace VaultLib.ModernBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VltCollection(vault, vault.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey));
+            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey));
 
             Debug.Assert(mTypesLen >= mNumTypes);
 
@@ -59,11 +59,11 @@ namespace VaultLib.ModernBase.Exports
             {
                 var attribEntry = new AttribEntry64(Collection);
 
-                attribEntry.Read(vault, br);
+                attribEntry.Read(context, br);
 
                 // save pos
                 long pos = br.BaseStream.Position;
-                var readData = attribEntry.ReadData(vault, br);
+                var readData = attribEntry.ReadData(context, br);
                 br.BaseStream.Position = pos;
 
                 if (!readData)
@@ -76,7 +76,7 @@ namespace VaultLib.ModernBase.Exports
 
             // TODO: ParentKey
             //Collection.ParentKey = mParent;
-            vault.Database.RowManager.AddCollection(Collection);
+            context.Database.RowManager.AddCollection(Collection);
         }
 
         public override void Prepare(Vault vault)
@@ -167,7 +167,7 @@ namespace VaultLib.ModernBase.Exports
             return VLT64Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }
 
-        public override void ReadPointerData(Vault vault, BinaryReader br)
+        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             if (_layoutPointer != 0)
             {
@@ -182,9 +182,9 @@ namespace VaultLib.ModernBase.Exports
                         throw new Exception($"trying to read field {baseField.Name} at offset {br.BaseStream.Position - _layoutPointer:X}, need to be at {baseField.Offset:X}");
                     }
 
-                    VLTBaseType data = vault.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
+                    VLTBaseType data = context.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
-                    data.Read(vault, br);
+                    data.Read(context, br);
                     long endPos = br.BaseStream.Position;
 
                     if (data is PrimitiveTypeBase)
@@ -234,7 +234,7 @@ namespace VaultLib.ModernBase.Exports
                 if (entry.InlineData is VLTAttribType attribType)
                 {
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) == 0);
-                    attribType.ReadPointerData(vault, br);
+                    attribType.ReadPointerData(context, br);
                     Collection.SetRawValue(optionalField.Name, attribType.Data);
                     //Collection.Data[optionalField.Name] = attribType.Data;
                 }
@@ -250,7 +250,7 @@ namespace VaultLib.ModernBase.Exports
             foreach (var dataEntry in Collection.GetData())
             {
                 if (dataEntry.Value is IPointerObject pointerObject)
-                    pointerObject.ReadPointerData(vault, br);
+                    pointerObject.ReadPointerData(context, br);
             }
         }
 

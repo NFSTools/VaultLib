@@ -21,7 +21,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float InputMax { get; set; }
         public float[] ValueMax { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Type = br.ReadEnum<CameraReactionType>();
             InputMin = br.ReadSingle();

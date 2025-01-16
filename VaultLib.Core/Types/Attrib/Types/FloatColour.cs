@@ -24,7 +24,7 @@ namespace VaultLib.Core.Types.Attrib.Types
         public float B { get; set; }
         public float A { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             R = br.ReadSingle();
             G = br.ReadSingle();

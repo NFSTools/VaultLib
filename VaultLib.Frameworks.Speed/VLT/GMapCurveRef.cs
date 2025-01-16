@@ -21,7 +21,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public ushort mCurveIndex { get; set; }
         public GMapCurveRefFlags Flags { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             mCurveIndex = br.ReadUInt16();
             Flags = (GMapCurveRefFlags)br.ReadUInt16();

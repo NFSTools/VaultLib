@@ -26,9 +26,9 @@ namespace VaultLib.Support.World.VLT
         private StringKey InternalDeviceId { get; set; }
 
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            InternalDeviceId.Read(vault, br);
+            InternalDeviceId.Read(context, br);
             UpdateType = br.ReadEnum<InputUpdateType>();
             LowerDeadZone = br.ReadSingle();
             UpperDeadZone = br.ReadSingle();
@@ -48,9 +48,9 @@ namespace VaultLib.Support.World.VLT
             return new[] { DeviceId };
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            InternalDeviceId.ReadPointerData(vault, br);
+            InternalDeviceId.ReadPointerData(context, br);
             DeviceId = InternalDeviceId.Value;
         }
 

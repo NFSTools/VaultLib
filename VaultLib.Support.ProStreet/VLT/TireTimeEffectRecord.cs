@@ -24,11 +24,11 @@ namespace VaultLib.Support.ProStreet.VLT
         public float mMinTime { get; set; }
         public float mMaxTime { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             mTireCondition = br.ReadEnum<TireCondition>();
-            mEmitter.Read(vault, br);
-            mEmitterLowLod.Read(vault, br);
+            mEmitter.Read(context, br);
+            mEmitterLowLod.Read(context, br);
             mMinTime = br.ReadSingle();
             mMaxTime = br.ReadSingle();
         }

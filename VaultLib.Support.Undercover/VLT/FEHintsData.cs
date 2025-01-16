@@ -21,11 +21,11 @@ namespace VaultLib.Support.Undercover.VLT
 
         private Text _pictureText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             SubjectHALId = br.ReadUInt32();
             TextHALId = br.ReadUInt32();
-            _pictureText.Read(vault, br);
+            _pictureText.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -36,9 +36,9 @@ namespace VaultLib.Support.Undercover.VLT
             _pictureText.Write(context, bw);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _pictureText.ReadPointerData(vault, br);
+            _pictureText.ReadPointerData(context, br);
             Picture = _pictureText.Value;
         }
 

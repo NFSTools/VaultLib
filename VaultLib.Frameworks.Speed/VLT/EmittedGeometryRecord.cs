@@ -45,7 +45,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public EmittedGeo Value { get; set; }
         public uint Index { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Value = br.ReadEnum<EmittedGeo>();
             Index = br.ReadUInt32();

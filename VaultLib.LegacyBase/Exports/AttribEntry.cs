@@ -23,21 +23,21 @@ namespace VaultLib.LegacyBase.Exports
             Collection = collection;
         }
 
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(VaultLoadContext context, BinaryReader br)
         {
             Key = br.ReadUInt32();
 
             InlineDataPointer = br.BaseStream.Position;
             if (IsInline())
             {
-                InlineData = vault.Database.TypeRegistry.CreateInstance(Collection.Class, Collection.Class[Key],
+                InlineData = context.Database.TypeRegistry.CreateInstance(Collection.Class, Collection.Class[Key],
                     Collection);
             }
             else
             {
                 InlineData = new VLTAttribType(Collection.Class, Collection.Class[Key], Collection);
             }
-            InlineData.Read(vault, br);
+            InlineData.Read(context, br);
             br.AlignReader(4);
             TypeIndex = br.ReadUInt16();
             NodeFlags = (NodeFlagsEnum)br.ReadUInt16();
@@ -58,7 +58,7 @@ namespace VaultLib.LegacyBase.Exports
             return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             throw new NotImplementedException();
         }

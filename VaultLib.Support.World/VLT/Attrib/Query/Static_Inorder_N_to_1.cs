@@ -36,7 +36,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
         {
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             // This code only exists for testing
             // br.BaseStream.Position = _rootsPointer;
@@ -117,7 +117,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
             context.AddPointer(_leavesPointer, _leavesDst, false);
         }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             _numRoots = br.ReadUInt32();
             _rootsPointer = br.ReadPointer();

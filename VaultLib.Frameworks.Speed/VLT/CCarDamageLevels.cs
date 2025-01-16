@@ -25,7 +25,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float WindowCrack { get; set; }
         public float WindowShatter { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Speed0 = br.ReadSingle();
             Speed1 = br.ReadSingle();

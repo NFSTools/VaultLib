@@ -10,7 +10,7 @@ namespace VaultLib.ModernBase.Structures
 {
     public class PtrRef64 : IPtrRef
     {
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(VaultLoadContext context, BinaryReader br)
         {
             FixupOffset = br.ReadUInt32();
             PtrType = (EPtrRefType)br.ReadUInt16();

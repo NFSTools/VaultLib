@@ -74,9 +74,9 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         private Text _slotNameText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _slotNameText.Read(vault, br);
+            _slotNameText.Read(context, br);
             ModeFlags = br.ReadEnum<StatsModeFlag>();
             SlotDesc = br.ReadUInt32();
             TuningSliderListString = br.ReadUInt32();
@@ -92,9 +92,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.WriteArray(Stats, bw.WriteEnum);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _slotNameText.ReadPointerData(vault, br);
+            _slotNameText.ReadPointerData(context, br);
             SlotName = _slotNameText.Value;
         }
 

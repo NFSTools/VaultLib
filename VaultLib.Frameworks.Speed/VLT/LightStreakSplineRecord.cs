@@ -19,7 +19,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint mEnum { get; set; }
         public uint mIndex { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             mEnum = br.ReadUInt32();
             mIndex = br.ReadUInt32();

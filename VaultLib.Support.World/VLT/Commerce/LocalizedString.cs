@@ -19,9 +19,9 @@ namespace VaultLib.Support.World.VLT.Commerce
 
         public string Value { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _text.Read(vault, br);
+            _text.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -35,9 +35,9 @@ namespace VaultLib.Support.World.VLT.Commerce
             return new[] { Value };
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _text.ReadPointerData(vault, br);
+            _text.ReadPointerData(context, br);
             Value = _text.Value;
         }
 

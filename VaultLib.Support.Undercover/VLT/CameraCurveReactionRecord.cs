@@ -15,11 +15,11 @@ namespace VaultLib.Support.Undercover.VLT
     {
         public Curve Curve { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             if (br.ReadUInt32() != 0)
                 throw new InvalidDataException();
-            Curve.Read(vault, br);
+            Curve.Read(context, br);
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -28,9 +28,9 @@ namespace VaultLib.Support.Undercover.VLT
             Curve.Write(context, bw);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            Curve.ReadPointerData(vault, br);
+            Curve.ReadPointerData(context, br);
         }
 
         public void WritePointerData(VaultSaveContext context, BinaryWriter bw)

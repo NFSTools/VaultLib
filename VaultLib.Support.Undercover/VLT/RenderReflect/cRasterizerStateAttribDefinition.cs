@@ -34,9 +34,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         private Text _debugNameText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            _debugNameText.Read(vault, br);
+            _debugNameText.Read(context, br);
             CullMode = br.ReadEnum<State_RasterizerCullMode>();
             DepthBias = br.ReadSingle();
             ScaleDepthBias = br.ReadSingle();
@@ -44,7 +44,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             PrimitiveResetEnable = br.ReadBoolean();
             br.AlignReader(4);
             PrimitiveResetIndex = br.ReadUInt32();
-            ScissorData.Read(vault, br);
+            ScissorData.Read(context, br);
             FillMode = br.ReadEnum<State_RasterizerFillMode>();
             MultiSampleAntialiasEnable = br.ReadBoolean();
             br.AlignReader(4);
@@ -79,9 +79,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.WriteEnum(FrontFace);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            _debugNameText.ReadPointerData(vault, br);
+            _debugNameText.ReadPointerData(context, br);
             DebugName = _debugNameText.Value;
         }
 

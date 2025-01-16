@@ -26,7 +26,7 @@ namespace VaultLib.LegacyBase.Exports
         private long _srcLayoutPtr;
         private long _dstLayoutPtr;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             var mKey = br.ReadUInt32(); // 4
             var mClass = br.ReadUInt32(); // 8
@@ -39,7 +39,7 @@ namespace VaultLib.LegacyBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VltCollection(vault, vault.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey));
+            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey));
 
             _types = new uint[mNumTypes];
             for (var i = 0; i < mNumTypes; i++)
@@ -52,12 +52,12 @@ namespace VaultLib.LegacyBase.Exports
             for (var i = 0; i < mNumEntries; i++)
             {
                 var attribEntry = new AttribEntry(Collection);
-                attribEntry.Read(vault, br);
+                attribEntry.Read(context, br);
                 _entries[i] = attribEntry;
             }
 
             ParentKey = mParent;
-            vault.Database.RowManager.AddCollection(Collection);
+            context.Database.RowManager.AddCollection(Collection);
         }
 
         public override void Prepare(Vault vault)
@@ -133,7 +133,7 @@ namespace VaultLib.LegacyBase.Exports
             return VLT32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }
 
-        public override void ReadPointerData(Vault vault, BinaryReader br)
+        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             if (_layoutPointer != 0)
             {
@@ -144,9 +144,9 @@ namespace VaultLib.LegacyBase.Exports
                     br.AlignReader(baseField.Alignment);
 
                     VLTBaseType data =
-                        vault.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
+                        context.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
-                    data.Read(vault, br);
+                    data.Read(context, br);
                     long endPos = br.BaseStream.Position;
                     if (!(data is VLTArrayType))
                         Debug.Assert(endPos - startPos == baseField.Size);
@@ -166,7 +166,7 @@ namespace VaultLib.LegacyBase.Exports
 
                 if (entry.InlineData is VLTAttribType attribType)
                 {
-                    attribType.ReadPointerData(vault, br);
+                    attribType.ReadPointerData(context, br);
                     Collection.SetRawValue(optionalField.Name, attribType.Data);
                     //Collection.Data[optionalField.Name] = attribType.Data;
                 }
@@ -180,7 +180,7 @@ namespace VaultLib.LegacyBase.Exports
             foreach (var dataEntry in Collection.GetData())
             {
                 if (dataEntry.Value is IPointerObject pointerObject)
-                    pointerObject.ReadPointerData(vault, br);
+                    pointerObject.ReadPointerData(context, br);
             }
         }
 

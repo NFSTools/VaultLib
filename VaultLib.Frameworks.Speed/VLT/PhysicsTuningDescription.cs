@@ -18,9 +18,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public RefSpec PhysicsTuning { get; set; }
         public bool Increase { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            PhysicsTuning.Read(vault, br);
+            PhysicsTuning.Read(context, br);
             Increase = br.ReadBoolean();
             br.AlignReader(4);
         }

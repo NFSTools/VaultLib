@@ -13,7 +13,7 @@ namespace VaultLib.ModernBase.Exports
 {
     public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
     {
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             var mKey = br.ReadUInt32();
             var mClass = br.ReadUInt32();
@@ -27,7 +27,7 @@ namespace VaultLib.ModernBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VltCollection(vault, vault.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey));
+            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey));
 
             Debug.Assert(mTypesLen >= mNumTypes);
 
@@ -48,11 +48,11 @@ namespace VaultLib.ModernBase.Exports
             {
                 var attribEntry = new AttribEntry(Collection);
 
-                attribEntry.Read(vault, br);
+                attribEntry.Read(context, br);
 
                 // save pos
                 long pos = br.BaseStream.Position;
-                var readData = attribEntry.ReadData(vault, br);
+                var readData = attribEntry.ReadData(context, br);
                 br.BaseStream.Position = pos;
 
                 if (!readData)
@@ -64,7 +64,7 @@ namespace VaultLib.ModernBase.Exports
             }
 
             ParentKey = mParent;
-            vault.Database.RowManager.AddCollection(Collection);
+            context.Database.RowManager.AddCollection(Collection);
         }
 
         public override void Prepare(Vault vault)

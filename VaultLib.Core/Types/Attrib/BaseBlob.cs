@@ -23,7 +23,7 @@ namespace VaultLib.Core.Types.Attrib
 
         private long _dataPtrSrc;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             Length = br.ReadInt32();
 
@@ -51,7 +51,7 @@ namespace VaultLib.Core.Types.Attrib
             bw.Write(0);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             if (_dataOffset != 0)
             {

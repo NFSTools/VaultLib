@@ -9,7 +9,7 @@ namespace VaultLib.Core.Exports
     {
         public VltClass Class { get; set; }
 
-        public abstract void ReadPointerData(Vault vault, BinaryReader br);
+        public abstract void ReadPointerData(VaultLoadContext context, BinaryReader br);
         public abstract void WritePointerData(VaultSaveContext context, BinaryWriter bw);
         public abstract void AddPointers(VaultSaveContext context);
 

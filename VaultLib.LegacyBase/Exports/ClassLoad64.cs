@@ -19,7 +19,7 @@ namespace VaultLib.LegacyBase.Exports
         private long _srcDefinitionsPtr;
         private long _dstDefinitionsPtr;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             ClassHash = br.ReadUInt64();
             uint cr = br.ReadUInt32(); // collection reserve
@@ -63,14 +63,14 @@ namespace VaultLib.LegacyBase.Exports
             bw.Write((ushort)0);
         }
 
-        public override void ReadPointerData(Vault vault, BinaryReader br)
+        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             br.BaseStream.Position = _definitionsPtr;
 
             for (int i = 0; i < NumDefinitions; i++)
             {
                 AttribDefinition64 definition = new AttribDefinition64();
-                definition.Read(vault, br);
+                definition.Read(context, br);
 
                 if ((definition.Flags & DefinitionFlags.IsStatic) != 0)
                 {
@@ -90,7 +90,7 @@ namespace VaultLib.LegacyBase.Exports
                 Class.Fields.Add(definition.Key, field);
             }
 
-            vault.Database.AddClass(Class);
+            context.Database.AddClass(Class);
         }
 
         public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)

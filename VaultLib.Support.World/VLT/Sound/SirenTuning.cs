@@ -21,7 +21,7 @@ namespace VaultLib.Support.World.VLT.Sound
         public int Unknown3 { get; set; }
         public float Unknown4 { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             // TODO: investigate structure
 

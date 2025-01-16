@@ -20,7 +20,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public uint Width { get; set; }
         public uint Height { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             X = br.ReadUInt32();
             Y = br.ReadUInt32();

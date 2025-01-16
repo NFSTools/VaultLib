@@ -24,9 +24,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public eModifyValueType ModificationType { get; set; }
         public float Value { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            ReferencedRow.Read(vault, br);
+            ReferencedRow.Read(context, br);
             IsMember = br.ReadBoolean();
             br.AlignReader(4);
             MemberIndex = br.ReadUInt32();

@@ -26,7 +26,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public byte FPS { get; set; }
         public bool RandomStartFrame { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             AnimType = br.ReadEnum<EffectParticleAnimation>();
             FPS = br.ReadByte();

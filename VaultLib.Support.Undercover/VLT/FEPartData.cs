@@ -40,7 +40,7 @@ namespace VaultLib.Support.Undercover.VLT
 
         private Text _offerIdText;
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             HAL_ID = br.ReadUInt32();
             CF_HAL_ID = br.ReadUInt32();
@@ -60,8 +60,8 @@ namespace VaultLib.Support.Undercover.VLT
             LogoTextureId = br.ReadUInt32();
             DetailHash = br.ReadUInt32();
             PartDetails = new VLTPointerContainer<FEPartDetail>(Class, Field, Collection);
-            PartDetails.Read(vault, br);
-            _offerIdText.Read(vault, br);
+            PartDetails.Read(context, br);
+            _offerIdText.Read(context, br);
             IsOnlineLockable = br.ReadBoolean();
             br.AlignReader(4);
         }
@@ -92,10 +92,10 @@ namespace VaultLib.Support.Undercover.VLT
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
-            PartDetails.ReadPointerData(vault, br);
-            _offerIdText.ReadPointerData(vault, br);
+            PartDetails.ReadPointerData(context, br);
+            _offerIdText.ReadPointerData(context, br);
 
             OfferID = _offerIdText.Value;
         }

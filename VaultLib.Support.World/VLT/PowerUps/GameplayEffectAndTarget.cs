@@ -19,10 +19,10 @@ namespace VaultLib.Support.World.VLT.PowerUps
         public string GroupKey { get; set; }
         public uint Type { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             RefSpec rs = new RefSpec(Class, Field, Collection);
-            rs.Read(vault, br);
+            rs.Read(context, br);
             uint type = br.ReadUInt32();
 
             GroupKey = rs.CollectionKey;

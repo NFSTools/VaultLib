@@ -19,7 +19,7 @@ namespace VaultLib.Core.Types.Attrib.Types
         public byte B { get; set; }
         public byte A { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
             uint value = br.ReadUInt32();
 

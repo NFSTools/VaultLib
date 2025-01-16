@@ -32,7 +32,7 @@ namespace VaultLib.Core.Types
             bw.Write(Data.Length);
         }
 
-        public void ReadPointerData(Vault vault, BinaryReader br)
+        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
             br.BaseStream.Position = _mArray;
 

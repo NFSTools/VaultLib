@@ -17,9 +17,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public RefSpec PhysicsTuningSlider { get; set; }
         public float Range { get; set; }
 
-        public override void Read(Vault vault, BinaryReader br)
+        public override void Read(VaultLoadContext context, BinaryReader br)
         {
-            PhysicsTuningSlider.Read(vault, br);
+            PhysicsTuningSlider.Read(context, br);
             Range = br.ReadSingle();
         }
 

@@ -10,7 +10,7 @@ namespace VaultLib.ModernBase.Structures
 {
     public class ExportEntry : IExportEntry
     {
-        public void Read(Vault vault, BinaryReader br)
+        public void Read(VaultLoadContext context, BinaryReader br)
         {
             ID = br.ReadUInt32();
             Type = br.ReadUInt32();
