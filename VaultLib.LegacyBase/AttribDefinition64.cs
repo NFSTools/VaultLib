@@ -12,7 +12,7 @@ namespace VaultLib.LegacyBase
 {
     public class AttribDefinition64 : IAttribDefinition
     {
-        public void Read(VaultLoadContext context, BinaryReader br)
+        public void Read(VaultReadContext context, BinaryReader br)
         {
             Key = br.ReadUInt64();
             Type = br.ReadUInt64();
@@ -28,7 +28,7 @@ namespace VaultLib.LegacyBase
             }
         }
 
-        public void Write(VaultSaveContext context, BinaryWriter bw)
+        public void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Key);
             bw.Write(Type);

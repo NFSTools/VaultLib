@@ -26,7 +26,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float Duration { get; set; }
         public uint ChanceBigSUV { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             HeavyStrategy = br.ReadEnum<HeavySupportStrategy>();
             Chance = br.ReadUInt32();
@@ -34,7 +34,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             ChanceBigSUV = br.ReadUInt32();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(HeavyStrategy);
             bw.Write(Chance);

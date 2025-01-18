@@ -18,14 +18,14 @@ namespace VaultLib.Frameworks.Speed.VLT
         public RefSpec PhysicsTuning { get; set; }
         public bool Increase { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             PhysicsTuning.Read(context, br);
             Increase = br.ReadBoolean();
             br.AlignReader(4);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             PhysicsTuning.Write(context, bw);
             bw.Write(Increase);

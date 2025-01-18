@@ -19,7 +19,7 @@ namespace VaultLib.Core.Chunks
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             var binPointers = new List<IPtrRef>();
             var vltPointers = new List<IPtrRef>();
@@ -64,7 +64,7 @@ namespace VaultLib.Core.Chunks
                 { Type = VltPointerType.Vlt, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset });
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             var binPointers = context.Pointers.Where(p => p.Type == VltPointerType.Bin).ToList();
             var vltPointers = context.Pointers.Where(p => p.Type == VltPointerType.Vlt).ToList();

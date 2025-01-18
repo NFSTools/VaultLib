@@ -24,7 +24,7 @@ namespace VaultLib.Support.Undercover.VLT
         public float Variance { get; set; }
         public bool Unknown { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             SlotID = br.ReadEnum<ePaintSlot>();
             Group.Read(context, br);
@@ -36,7 +36,7 @@ namespace VaultLib.Support.Undercover.VLT
             br.AlignReader(4);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(SlotID);
             Group.Write(context, bw);

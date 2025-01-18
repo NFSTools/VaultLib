@@ -22,7 +22,7 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public float Value { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             _keyString.Read(context, br);
 
@@ -30,7 +30,7 @@ namespace VaultLib.Support.World.VLT.GameCore
             Value = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _keyString.Value = KeyString;
             _keyString.Write(context, bw);
@@ -43,18 +43,18 @@ namespace VaultLib.Support.World.VLT.GameCore
             return new[] { KeyString };
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _keyString.ReadPointerData(context, br);
             KeyString = _keyString.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _keyString.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             _keyString.AddPointers(context);
         }

@@ -26,7 +26,7 @@ namespace VaultLib.LegacyBase.Exports
         private long _srcLayoutPtr;
         private long _dstLayoutPtr;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             var mKey = br.ReadUInt32(); // 4
             var mClass = br.ReadUInt32(); // 8
@@ -104,7 +104,7 @@ namespace VaultLib.LegacyBase.Exports
             }
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Vlt32Hasher.Hash(Collection.Name));
             bw.Write(Vlt32Hasher.Hash(Collection.Class.Name));
@@ -133,7 +133,7 @@ namespace VaultLib.LegacyBase.Exports
             return Vlt32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }
 
-        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public override void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             if (_layoutPointer != 0)
             {
@@ -184,7 +184,7 @@ namespace VaultLib.LegacyBase.Exports
             }
         }
 
-        public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             foreach (var baseField in Collection.Class.BaseFields)
             {
@@ -228,7 +228,7 @@ namespace VaultLib.LegacyBase.Exports
             bw.AlignWriter(Collection.Class.HasBaseFields ? 4 : 2);
         }
 
-        public override void AddPointers(VaultSaveContext context)
+        public override void AddPointers(VaultWriteContext context)
         {
             context.AddPointer(_srcLayoutPtr, _dstLayoutPtr, true);
 

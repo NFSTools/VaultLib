@@ -10,16 +10,16 @@ namespace VaultLib.Core.Writer
     /// </summary>
     public class VaultExportManager
     {
-        private VaultSaveContext SaveContext { get; }
+        private VaultWriteContext WriteContext { get; }
         private List<BaseExport> Exports { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VaultExportManager"/> class.
         /// </summary>
-        /// <param name="saveContext">The vault to build exports for.</param>
-        public VaultExportManager(VaultSaveContext saveContext)
+        /// <param name="writeContext">The vault to build exports for.</param>
+        public VaultExportManager(VaultWriteContext writeContext)
         {
-            SaveContext = saveContext;
+            WriteContext = writeContext;
             Exports = new List<BaseExport>();
         }
 
@@ -31,23 +31,23 @@ namespace VaultLib.Core.Writer
         {
             Exports.Clear();
 
-            var exportFactory = SaveContext.Database.ExportFactory;
+            var exportFactory = WriteContext.Database.ExportFactory;
             
-            if (SaveContext.Vault.IsPrimaryVault)
+            if (WriteContext.Vault.IsPrimaryVault)
             {
                 Exports.Add(exportFactory.BuildDatabaseLoad());
 
-                foreach (var vltClass in SaveContext.Database.Classes)
+                foreach (var vltClass in WriteContext.Database.Classes)
                 {
                     Exports.Add(exportFactory.BuildClassLoad(vltClass));
-                    Exports.AddRange(from collection in SaveContext.Collections
+                    Exports.AddRange(from collection in WriteContext.Collections
                         where collection.Class.Name == vltClass.Name
                         select exportFactory.BuildCollectionLoad(collection));
                 }
             }
             else
             {
-                Exports.AddRange(from collection in SaveContext.Collections
+                Exports.AddRange(from collection in WriteContext.Collections
                     select exportFactory.BuildCollectionLoad(collection));
             }
         }
@@ -57,7 +57,7 @@ namespace VaultLib.Core.Writer
         /// </summary>
         public void PrepareExports()
         {
-            Exports.ForEach(e => e.Prepare(SaveContext.Vault));
+            Exports.ForEach(e => e.Prepare(WriteContext.Vault));
         }
 
         /// <summary>

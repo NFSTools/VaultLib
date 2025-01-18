@@ -23,7 +23,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint Count { get; set; }
         public uint Chance { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             _copType.Read(context, br);
             br.ReadUInt32();
@@ -31,7 +31,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Chance = br.ReadUInt32();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _copType.Write(context, bw);
             bw.Write(Vlt32Hasher.Hash(CopType));
@@ -44,19 +44,19 @@ namespace VaultLib.Frameworks.Speed.VLT
             return new[] { CopType };
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _copType.ReadPointerData(context, br);
             CopType = _copType.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _copType.Value = CopType;
             _copType.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             _copType.AddPointers(context);
         }

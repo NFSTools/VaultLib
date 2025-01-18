@@ -22,12 +22,12 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public long Value { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Value = br.ReadInt64();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Value);
         }

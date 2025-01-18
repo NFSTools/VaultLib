@@ -24,7 +24,7 @@ namespace VaultLib.Support.Undercover.VLT
         public float mMinTime { get; set; }
         public float mMaxTime { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             mTireCondition = br.ReadEnum<TireCondition>();
             mEmitter.Read(context, br);
@@ -33,7 +33,7 @@ namespace VaultLib.Support.Undercover.VLT
             mMaxTime = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(mTireCondition);
             mEmitter.Write(context, bw);

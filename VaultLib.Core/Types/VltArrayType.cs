@@ -59,12 +59,12 @@ namespace VaultLib.Core.Types
             return Items.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings());
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             foreach (var pointerObject in Items.OfType<IPointerObject>()) pointerObject.ReadPointerData(context, br);
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             foreach (var pointerObject in Items.OfType<IPointerObject>())
             {
@@ -73,12 +73,12 @@ namespace VaultLib.Core.Types
             }
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             foreach (var pointerObject in Items.OfType<IPointerObject>()) pointerObject.AddPointers(context);
         }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Capacity = br.ReadUInt16();
             var count = br.ReadUInt16();
@@ -107,7 +107,7 @@ namespace VaultLib.Core.Types
             br.BaseStream.Position += (Capacity - count) * FieldSize;
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Capacity);
             bw.Write((ushort)Items.Count);

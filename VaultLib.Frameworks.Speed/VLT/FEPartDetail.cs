@@ -14,13 +14,13 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint Logo { get; set; }
         public uint Name { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Logo = br.ReadUInt32();
             Name = br.ReadUInt32();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Logo);
             bw.Write(Name);

@@ -16,31 +16,31 @@ namespace VaultLib.Support.Undercover.VLT.AI
         public Curve Easy { get; set; }
         public Curve Hard { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Easy.Read(context, br);
             Hard.Read(context, br);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             Easy.Write(context, bw);
             Hard.Write(context, bw);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             Easy.ReadPointerData(context, br);
             Hard.ReadPointerData(context, br);
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             Easy.WritePointerData(context, bw);
             Hard.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             Easy.AddPointers(context);
             Hard.AddPointers(context);

@@ -24,7 +24,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         private Text _presetSkinNameText, _channelNameText;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             PresetRide.Read(context, br);
             _presetSkinNameText.Read(context, br);
@@ -32,7 +32,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             _channelNameText.Read(context, br);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             PresetRide.Write(context, bw);
             _presetSkinNameText.Value = PresetSkinName;
@@ -42,7 +42,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             _channelNameText.Write(context, bw);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _presetSkinNameText.ReadPointerData(context, br);
             _channelNameText.ReadPointerData(context, br);
@@ -51,13 +51,13 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             ChannelName = _channelNameText.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _presetSkinNameText.WritePointerData(context, bw);
             _channelNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             _presetSkinNameText.AddPointers(context);
             _channelNameText.AddPointers(context);

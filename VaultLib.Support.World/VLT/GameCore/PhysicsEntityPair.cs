@@ -12,13 +12,13 @@ namespace VaultLib.Support.World.VLT.GameCore
         public PhysicsEntity Entity1 { get; set; }
         public PhysicsEntity Entity2 { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Entity1 = br.ReadEnum<PhysicsEntity>();
             Entity2 = br.ReadEnum<PhysicsEntity>();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Entity1);
             bw.WriteEnum(Entity2);

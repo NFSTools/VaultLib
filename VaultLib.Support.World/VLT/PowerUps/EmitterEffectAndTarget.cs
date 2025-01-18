@@ -20,7 +20,7 @@ namespace VaultLib.Support.World.VLT.PowerUps
         public uint Type { get; set; }
         public float Intensity { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             RefSpec rs = new RefSpec(Class, Field, Collection);
             rs.Read(context, br);
@@ -30,7 +30,7 @@ namespace VaultLib.Support.World.VLT.PowerUps
             Intensity = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             RefSpec rs = new RefSpec(Class, Field, Collection);
             rs.ClassKey = "emittergroup";

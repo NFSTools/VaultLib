@@ -11,14 +11,14 @@ namespace VaultLib.Core
     /// <summary>
     ///     Holds instances of <see cref="BinaryReader" /> for vault loading
     /// </summary>
-    public class VaultLoadingWrapper : IDisposable
+    public class VaultReadWrapper : IDisposable
     {
         /// <summary>
         ///     Initializes the loading wrapper with the given vault.
         /// </summary>
         /// <param name="vault">The vault to create readers for.</param>
         /// <param name="byteOrder">The byte order of the data streams.</param>
-        public VaultLoadingWrapper(Vault vault, ByteOrder byteOrder = ByteOrder.Little)
+        public VaultReadWrapper(Vault vault, ByteOrder byteOrder = ByteOrder.Little)
         {
             Vault = vault;
             ByteOrder = byteOrder;

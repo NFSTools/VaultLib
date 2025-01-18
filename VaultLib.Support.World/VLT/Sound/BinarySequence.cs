@@ -16,14 +16,14 @@ namespace VaultLib.Support.World.VLT.Sound
         public bool Value { get; set; }
         public float Duration { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Value = br.ReadBoolean();
             br.AlignReader(4);
             Duration = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Value);
             bw.AlignWriter(4);

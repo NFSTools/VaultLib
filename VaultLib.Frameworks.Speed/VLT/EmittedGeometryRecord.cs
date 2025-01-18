@@ -45,7 +45,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public EmittedGeo Value { get; set; }
         public uint Index { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Value = br.ReadEnum<EmittedGeo>();
             Index = br.ReadUInt32();
@@ -57,7 +57,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             //Debug.Assert(Enum.IsDefined(typeof(EmittedGeo), Value));
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Value);
             bw.Write(Index);

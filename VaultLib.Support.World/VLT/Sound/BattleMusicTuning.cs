@@ -17,7 +17,7 @@ namespace VaultLib.Support.World.VLT.Sound
         public float TimeBehind_HiToFail { get; set; }
         public float TimeAhead_FailToHi { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             TimeAhead_HiToMed = br.ReadSingle();
             TimeAhead_MedToLo = br.ReadSingle();
@@ -25,7 +25,7 @@ namespace VaultLib.Support.World.VLT.Sound
             TimeAhead_FailToHi = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(TimeAhead_HiToMed);
             bw.Write(TimeAhead_MedToLo);

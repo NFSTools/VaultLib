@@ -28,7 +28,7 @@ namespace VaultLib.Core.Chunks
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             var numExports = context.Database.Options.Type == DatabaseType.X64Database ? br.ReadUInt64() : br.ReadUInt32();
             for (ulong i = 0; i < numExports; i++)
@@ -47,7 +47,7 @@ namespace VaultLib.Core.Chunks
             }
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             //bw.Write(_exports.Count);
             if (context.Database.Options.Type == DatabaseType.X64Database)
@@ -60,7 +60,7 @@ namespace VaultLib.Core.Chunks
             bw.AlignWriter(0x10);
         }
 
-        private BaseExport CreateExport(VaultLoadContext context, ulong type)
+        private BaseExport CreateExport(VaultReadContext context, ulong type)
         {
             switch (type)
             {

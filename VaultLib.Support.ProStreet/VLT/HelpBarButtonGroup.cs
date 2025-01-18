@@ -20,14 +20,14 @@ namespace VaultLib.Support.ProStreet.VLT
         public uint LanguageHash { get; set; }
         public float TextSizeX { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             TextureHash = br.ReadUInt32();
             LanguageHash = br.ReadUInt32();
             TextSizeX = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(TextureHash);
             bw.Write(LanguageHash);

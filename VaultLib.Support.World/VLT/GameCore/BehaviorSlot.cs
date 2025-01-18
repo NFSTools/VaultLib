@@ -23,14 +23,14 @@ namespace VaultLib.Support.World.VLT.GameCore
         public uint mBehaviorType { get; set; }
         public BehaviorFlag mFlags { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             mBehaviorChannel = br.ReadUInt32();
             mBehaviorType = br.ReadUInt32();
             mFlags = br.ReadEnum<BehaviorFlag>();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(mBehaviorChannel);
             bw.Write(mBehaviorType);

@@ -38,7 +38,7 @@ namespace VaultLib.Support.ProStreet.VLT
 
         private Text _offerIdText;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             HAL_ID = br.ReadUInt32();
             CF_HAL_ID = br.ReadUInt32();
@@ -70,7 +70,7 @@ namespace VaultLib.Support.ProStreet.VLT
             _offerIdText.Read(context, br);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(HAL_ID);
             bw.Write(CF_HAL_ID);
@@ -95,7 +95,7 @@ namespace VaultLib.Support.ProStreet.VLT
             _offerIdText.Write(context, bw);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             AutoSculptCamera1.ReadPointerData(context, br);
             AutoSculptCamera2.ReadPointerData(context, br);
@@ -106,7 +106,7 @@ namespace VaultLib.Support.ProStreet.VLT
             OfferID = _offerIdText.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             AutoSculptCamera1.WritePointerData(context, bw);
             AutoSculptCamera2.WritePointerData(context, bw);
@@ -115,7 +115,7 @@ namespace VaultLib.Support.ProStreet.VLT
             _offerIdText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             AutoSculptCamera1.AddPointers(context);
             AutoSculptCamera2.AddPointers(context);

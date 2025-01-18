@@ -23,7 +23,7 @@ namespace VaultLib.ModernBase.Exports
         private long _dstDefinitionsPtr;
         private long _dstStaticPtr;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             ClassHash = br.ReadUInt32();
             br.ReadUInt32(); // Collection reserve
@@ -44,7 +44,7 @@ namespace VaultLib.ModernBase.Exports
             Class = new VltClass(HashManager.ResolveVlt(ClassHash));
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             int collectionReserve = (from collection in context.Collections
                                      where collection.Class.Name == Class.Name
@@ -70,7 +70,7 @@ namespace VaultLib.ModernBase.Exports
             bw.Write((ushort)Class.BaseFields.Count());
         }
 
-        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public override void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             br.BaseStream.Position = _definitionsPtr;
 
@@ -124,7 +124,7 @@ namespace VaultLib.ModernBase.Exports
             context.Database.AddClass(Class);
         }
 
-        public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _dstDefinitionsPtr = bw.BaseStream.Position;
 
@@ -161,7 +161,7 @@ namespace VaultLib.ModernBase.Exports
             }
         }
 
-        public override void AddPointers(VaultSaveContext context)
+        public override void AddPointers(VaultWriteContext context)
         {
             context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
 

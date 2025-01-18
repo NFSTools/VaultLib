@@ -22,7 +22,7 @@ namespace VaultLib.Support.Undercover.VLT
         public uint Value4 { get; set; }
         public uint Value5 { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Value1 = br.ReadUInt32();
             Value2 = br.ReadUInt32();
@@ -31,7 +31,7 @@ namespace VaultLib.Support.Undercover.VLT
             Value5 = br.ReadUInt32();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Value1);
             bw.Write(Value2);

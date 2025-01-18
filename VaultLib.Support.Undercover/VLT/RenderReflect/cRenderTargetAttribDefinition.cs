@@ -30,7 +30,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public PixelFormatType TargetDepthStencilFormat { get; set; }
         public MultiSampleMode MultiSampleMode { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             NumColorSurfaces = br.ReadUInt32();
             WidthMode = br.ReadEnum<ScreenSizeMode>();
@@ -46,7 +46,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             MultiSampleMode = br.ReadEnum<MultiSampleMode>();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(NumColorSurfaces);
             bw.WriteEnum(WidthMode);

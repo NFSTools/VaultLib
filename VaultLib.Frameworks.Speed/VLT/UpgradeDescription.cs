@@ -17,13 +17,13 @@ namespace VaultLib.Frameworks.Speed.VLT
         public RefSpec mPhysicsUpgradeSet { get; set; }
         public float mBlendingPower { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             mPhysicsUpgradeSet.Read(context, br);
             mBlendingPower = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             mPhysicsUpgradeSet.Write(context, bw);
             bw.Write(mBlendingPower);

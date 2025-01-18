@@ -26,7 +26,7 @@ namespace VaultLib.Support.ProStreet.VLT
         private VariableArray _yArray;
         private VariableArray _y2Array;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             MinX = br.ReadSingle();
             MaxX = br.ReadSingle();
@@ -39,7 +39,7 @@ namespace VaultLib.Support.ProStreet.VLT
             //Debug.Assert(br.ReadUInt32()==0);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _xArray.Data = XValues;
             _yArray.Data = YValues;
@@ -57,7 +57,7 @@ namespace VaultLib.Support.ProStreet.VLT
             bw.Write(0); // AllocatedMemory (bool1 + 3 align bytes)
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _xArray.ReadPointerData(context, br);
             _yArray.ReadPointerData(context, br);
@@ -68,14 +68,14 @@ namespace VaultLib.Support.ProStreet.VLT
             Y2Values = _y2Array.Data;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _xArray.WritePointerData(context, bw);
             _yArray.WritePointerData(context, bw);
             _y2Array.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             _xArray.AddPointers(context);
             _yArray.AddPointers(context);

@@ -23,14 +23,14 @@ namespace VaultLib.Support.MostWanted.VLT
         public float Unknown { get; set; }
         public float Cost { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Level = br.ReadEnum<eFEPartUpgradeLevels>();
             Unknown = br.ReadSingle();
             Cost = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Level);
             bw.Write(Unknown);

@@ -25,7 +25,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         private Text _actorNameText, _carChannelNameText;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             _actorNameText.Read(context, br);
             _carChannelNameText.Read(context, br);
@@ -37,7 +37,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             br.AlignReader(4);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _actorNameText.Value = ActorName;
             _carChannelNameText.Value = CarChannelName;
@@ -50,7 +50,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _actorNameText.ReadPointerData(context, br);
             _carChannelNameText.ReadPointerData(context, br);
@@ -59,13 +59,13 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             CarChannelName = _carChannelNameText.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _actorNameText.WritePointerData(context, bw);
             _carChannelNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             _actorNameText.AddPointers(context);
             _carChannelNameText.AddPointers(context);

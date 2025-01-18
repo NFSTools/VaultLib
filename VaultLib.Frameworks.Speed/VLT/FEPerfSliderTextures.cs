@@ -31,7 +31,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint Logo8 { get; set; }
         public uint Logo9 { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Level = br.ReadEnum<eFEPartUpgradeLevels>();
             Name1 = br.ReadUInt32();
@@ -48,7 +48,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Logo9 = br.ReadUInt32();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Level);
             bw.Write(Name1);

@@ -10,8 +10,8 @@ namespace VaultLib.Core.Chunks
         public abstract long Offset { get; set; }
         public long EndOffset => Offset + Size;
 
-        public abstract void Read(VaultLoadContext context, BinaryReader br);
-        public abstract void Write(VaultSaveContext context, BinaryWriter bw);
+        public abstract void Read(VaultReadContext context, BinaryReader br);
+        public abstract void Write(VaultWriteContext context, BinaryWriter bw);
 
         /// <summary>
         ///     Proxy method: Jump to the end of the chunk

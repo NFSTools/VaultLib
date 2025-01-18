@@ -74,7 +74,7 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         private Text _slotNameText;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             _slotNameText.Read(context, br);
             ModeFlags = br.ReadEnum<StatsModeFlag>();
@@ -83,7 +83,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Stats = br.ReadArray(br.ReadEnum<FEPhysicsStatType>, 2);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _slotNameText.Write(context, bw);
             bw.WriteEnum(ModeFlags);
@@ -92,19 +92,19 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.WriteArray(Stats, bw.WriteEnum);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _slotNameText.ReadPointerData(context, br);
             SlotName = _slotNameText.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _slotNameText.Value = SlotName;
             _slotNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             _slotNameText.AddPointers(context);
         }

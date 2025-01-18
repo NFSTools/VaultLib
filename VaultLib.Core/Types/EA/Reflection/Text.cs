@@ -34,19 +34,19 @@ namespace VaultLib.Core.Types.EA.Reflection
             return new List<string>(new[] { Value });
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             Debug.Assert(Pointer != 0);
             br.BaseStream.Position = Pointer;
             Value = NullTerminatedString.Read(br);
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _internalPointerDst = context.StringOffsets[Value];
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             Debug.Assert(_internalPointerSrc != 0 && _internalPointerDst != 0);
 
@@ -63,7 +63,7 @@ namespace VaultLib.Core.Types.EA.Reflection
             Value = str;
         }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Debug.Assert(Class != null, "this.Class != null");
 
@@ -73,7 +73,7 @@ namespace VaultLib.Core.Types.EA.Reflection
             Pointer = br.ReadPointer();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _internalPointerSrc = bw.BaseStream.Position;
             bw.Write(0);

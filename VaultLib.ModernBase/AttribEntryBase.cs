@@ -22,10 +22,10 @@ namespace VaultLib.ModernBase
             Collection = collection;
         }
 
-        public abstract void AddPointers(VaultSaveContext context);
-        public abstract void Read(VaultLoadContext context, BinaryReader br);
-        public abstract void ReadPointerData(VaultLoadContext context, BinaryReader br);
-        public abstract void Write(VaultSaveContext context, BinaryWriter bw);
-        public abstract void WritePointerData(VaultSaveContext context, BinaryWriter bw);
+        public abstract void AddPointers(VaultWriteContext context);
+        public abstract void Read(VaultReadContext context, BinaryReader br);
+        public abstract void ReadPointerData(VaultReadContext context, BinaryReader br);
+        public abstract void Write(VaultWriteContext context, BinaryWriter bw);
+        public abstract void WritePointerData(VaultWriteContext context, BinaryWriter bw);
     }
 }

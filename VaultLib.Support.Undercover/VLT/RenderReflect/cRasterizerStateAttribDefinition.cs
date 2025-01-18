@@ -34,7 +34,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         private Text _debugNameText;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             _debugNameText.Read(context, br);
             CullMode = br.ReadEnum<State_RasterizerCullMode>();
@@ -56,7 +56,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             FrontFace = br.ReadEnum<State_RasterizerFrontFace>();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _debugNameText.Value = DebugName;
             _debugNameText.Write(context, bw);
@@ -79,18 +79,18 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.WriteEnum(FrontFace);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _debugNameText.ReadPointerData(context, br);
             DebugName = _debugNameText.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _debugNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             _debugNameText.AddPointers(context);
         }

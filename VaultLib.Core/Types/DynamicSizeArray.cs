@@ -26,7 +26,7 @@ namespace VaultLib.Core.Types
 
         public T[] Items { get; set; }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             var databaseTypeRegistry = context.Database.TypeRegistry;
             
@@ -38,24 +38,24 @@ namespace VaultLib.Core.Types
             }
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _dstPtr = bw.BaseStream.Position;
             foreach (var vltBaseType in Items) vltBaseType.Write(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             context.AddPointer(_srcPtr, _dstPtr, false);
         }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             _pointer = br.ReadUInt32();
             Items = new T[br.ReadInt32()];
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _srcPtr = bw.BaseStream.Position;
             bw.Write(0);

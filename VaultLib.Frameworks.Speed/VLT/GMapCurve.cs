@@ -15,13 +15,13 @@ namespace VaultLib.Frameworks.Speed.VLT
         public ushort mPointStart { get; set; }
         public ushort mPointCount { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             mPointStart = br.ReadUInt16();
             mPointCount = br.ReadUInt16();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(mPointStart);
             bw.Write(mPointCount);

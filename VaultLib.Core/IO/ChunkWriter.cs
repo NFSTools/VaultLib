@@ -17,16 +17,16 @@ namespace VaultLib.Core.IO
         ///     Initializes the chunk writer with a backing <see cref="BinaryWriter" /> and <see cref="VaultLib.Core.Vault" />
         /// </summary>
         /// <param name="writer">The <see cref="BinaryWriter" /> instance that will write to the stream</param>
-        /// <param name="saveContext">The <see cref="VaultLib.Core.VaultSaveContext" /> instance to provide to chunk instances</param>
-        public ChunkWriter(BinaryWriter writer, VaultSaveContext saveContext)
+        /// <param name="writeContext">The <see cref="VaultWriteContext" /> instance to provide to chunk instances</param>
+        public ChunkWriter(BinaryWriter writer, VaultWriteContext writeContext)
         {
             Writer = writer ?? throw new ArgumentNullException(nameof(writer));
-            SaveContext = saveContext ?? throw new ArgumentNullException(nameof(saveContext));
+            WriteContext = writeContext ?? throw new ArgumentNullException(nameof(writeContext));
         }
 
         private BinaryWriter Writer { get; }
 
-        private VaultSaveContext SaveContext { get; }
+        private VaultWriteContext WriteContext { get; }
 
         /// <summary>
         ///     Writes a chunk to the data stream.
@@ -39,7 +39,7 @@ namespace VaultLib.Core.IO
             var sizePos = Writer.BaseStream.Position;
             Writer.Write(0);
 
-            chunk.Write(SaveContext, Writer);
+            chunk.Write(WriteContext, Writer);
 
             var endPos = Writer.BaseStream.Position;
 

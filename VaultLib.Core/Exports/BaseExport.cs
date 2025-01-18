@@ -22,8 +22,8 @@ namespace VaultLib.Core.Exports
         /// </summary>
         public uint Size { get; set; }
 
-        public abstract void Read(VaultLoadContext context, BinaryReader br);
-        public abstract void Write(VaultSaveContext context, BinaryWriter bw);
+        public abstract void Read(VaultReadContext context, BinaryReader br);
+        public abstract void Write(VaultWriteContext context, BinaryWriter bw);
 
         /// <summary>
         ///     Perform any necessary preparation work before data is read.

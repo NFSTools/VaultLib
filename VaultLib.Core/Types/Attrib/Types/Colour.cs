@@ -19,7 +19,7 @@ namespace VaultLib.Core.Types.Attrib.Types
         public byte B { get; set; }
         public byte A { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             uint value = br.ReadUInt32();
 
@@ -29,7 +29,7 @@ namespace VaultLib.Core.Types.Attrib.Types
             A = (byte) (value & 0xff);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write((R << 24) | (G << 16) | (B << 8) | (A & 0xFF));
         }

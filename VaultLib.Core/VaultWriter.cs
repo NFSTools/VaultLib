@@ -14,19 +14,19 @@ namespace VaultLib.Core
     /// </summary>
     public class VaultWriter
     {
-        private readonly VaultSaveContext _saveContext;
+        private readonly VaultWriteContext _writeContext;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="VaultWriter"/> class.
         /// </summary>
         /// <param name="vault">The <see cref="VaultLib.Core.Vault"/> instance to generate data for.</param>
         /// <param name="options">The options for the saving process.</param>
-        public VaultWriter(Vault vault, VaultSaveOptions options)
+        public VaultWriter(Vault vault, VaultWriteOptions options)
         {
             Vault = vault;
             Options = options;
 
-            _saveContext = new VaultSaveContext(vault, options)
+            _writeContext = new VaultWriteContext(vault, options)
             {
                 Collections = vault.Database.RowManager.GetCollectionsInVault(vault).ToList(),
                 Pointers = new HashSet<VltPointer>(VltPointer.FixUpOffsetDestinationTypeComparer),
@@ -34,7 +34,7 @@ namespace VaultLib.Core
                 StringOffsets = new Dictionary<string, long>()
             };
 
-            ExportManager = new VaultExportManager(_saveContext);
+            ExportManager = new VaultExportManager(_writeContext);
             ExportManager.BuildVaultExports();
         }
 
@@ -46,7 +46,7 @@ namespace VaultLib.Core
         /// <summary>
         /// Gets the options for the saving process. 
         /// </summary>
-        public VaultSaveOptions Options { get; }
+        public VaultWriteOptions Options { get; }
 
         /// <summary>
         /// Gets the export manager.
@@ -79,10 +79,10 @@ namespace VaultLib.Core
             MemoryStream ms = new MemoryStream(8192);
             BinaryWriter bw = new BinaryWriter(ms);
 
-            ChunkWriter cw = new ChunkWriter(bw, _saveContext);
+            ChunkWriter cw = new ChunkWriter(bw, _writeContext);
             var stringsSet = new HashSet<string>();
 
-            var strings = _saveContext.Collections.SelectMany(CollectStrings).ToList();
+            var strings = _writeContext.Collections.SelectMany(CollectStrings).ToList();
             stringsSet.UnionWith(strings);
             var stringsChunk = new BinStringsChunk { Strings = new List<string>(stringsSet) };
 
@@ -96,7 +96,7 @@ namespace VaultLib.Core
         {
             MemoryStream ms = new MemoryStream(8192);
             BinaryWriter bw = new BinaryWriter(ms);
-            ChunkWriter cw = new ChunkWriter(bw, _saveContext);
+            ChunkWriter cw = new ChunkWriter(bw, _writeContext);
 
             var versionChunk = new VltVersionChunk();
             cw.WriteChunk(versionChunk);
@@ -119,7 +119,7 @@ namespace VaultLib.Core
             var binWriter = new BinaryWriter(BinStream);
 
             foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>())
-                pointerObject.WritePointerData(_saveContext, binWriter);
+                pointerObject.WritePointerData(_writeContext, binWriter);
 
             // after writing exports, we can build pointers
             BuildPointers();
@@ -135,7 +135,7 @@ namespace VaultLib.Core
         private void BuildPointers()
         {
             foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>()) 
-                pointerObject.AddPointers(_saveContext);
+                pointerObject.AddPointers(_writeContext);
         }
 
         private static IEnumerable<string> CollectStrings(VltCollection collection)

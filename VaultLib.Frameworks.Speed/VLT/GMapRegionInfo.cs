@@ -23,7 +23,7 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         private Text _name;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             _name.Read(context, br);
             mCurveStart = br.ReadUInt16();
@@ -32,7 +32,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             mTriangleCount = br.ReadUInt16();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _name.Value = Name;
             _name.Write(context, bw);
@@ -42,19 +42,19 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(mTriangleCount);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _name.ReadPointerData(context, br);
             Name = _name.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _name.Value = Name;
             _name.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             _name.AddPointers(context);
         }

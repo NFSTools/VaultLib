@@ -17,13 +17,13 @@ namespace VaultLib.Support.ProStreet.VLT
         public uint HAL_ID { get; set; }
         public RefSpec Camera { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             HAL_ID = br.ReadUInt32();
             Camera.Read(context, br);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(HAL_ID);
             Camera.Write(context, bw);

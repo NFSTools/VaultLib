@@ -15,9 +15,9 @@ namespace VaultLib.Core
     /// <summary>
     ///     Provides utilities for the saving process
     /// </summary>
-    public class VaultSaveContext
+    public class VaultWriteContext
     {
-        private VaultSaveOptions Options { get; }
+        private VaultWriteOptions Options { get; }
         
         public Database Database { get; }
         
@@ -46,11 +46,11 @@ namespace VaultLib.Core
         public VaultHashMode HashMode => Options.HashMode;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VaultSaveContext"/> class.
+        /// Initializes a new instance of the <see cref="VaultWriteContext"/> class.
         /// </summary>
         /// <param name="vault"></param>
         /// <param name="options">The options to use in the saving process.</param>
-        public VaultSaveContext(Vault vault, VaultSaveOptions options)
+        public VaultWriteContext(Vault vault, VaultWriteOptions options)
         {
             Database = vault.Database;
             Vault = vault;

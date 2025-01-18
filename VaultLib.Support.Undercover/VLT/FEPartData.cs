@@ -40,7 +40,7 @@ namespace VaultLib.Support.Undercover.VLT
 
         private Text _offerIdText;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             HAL_ID = br.ReadUInt32();
             CF_HAL_ID = br.ReadUInt32();
@@ -66,7 +66,7 @@ namespace VaultLib.Support.Undercover.VLT
             br.AlignReader(4);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(HAL_ID);
             bw.Write(CF_HAL_ID);
@@ -92,7 +92,7 @@ namespace VaultLib.Support.Undercover.VLT
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             PartDetails.ReadPointerData(context, br);
             _offerIdText.ReadPointerData(context, br);
@@ -100,13 +100,13 @@ namespace VaultLib.Support.Undercover.VLT
             OfferID = _offerIdText.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             PartDetails.WritePointerData(context, bw);
             _offerIdText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             PartDetails.AddPointers(context);
             _offerIdText.AddPointers(context);

@@ -13,7 +13,7 @@ namespace VaultLib.ModernBase.Exports
         {
         }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Key = br.ReadUInt32();
             InlineDataPointer = br.BaseStream.Position;
@@ -23,7 +23,7 @@ namespace VaultLib.ModernBase.Exports
             EntryFlags = br.ReadByte();
         }
 
-        public virtual bool ReadData(VaultLoadContext context, BinaryReader br)
+        public virtual bool ReadData(VaultReadContext context, BinaryReader br)
         {
             if (Collection.Class.TryGetField(Key, out var field))
             {
@@ -45,7 +45,7 @@ namespace VaultLib.ModernBase.Exports
             return false;
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write((uint)Key);
             InlineData.Write(context, bw);
@@ -69,17 +69,17 @@ namespace VaultLib.ModernBase.Exports
             return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
         }
 
-        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public override void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             throw new NotImplementedException();
         }
 
-        public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             throw new NotImplementedException();
         }
 
-        public override void AddPointers(VaultSaveContext context)
+        public override void AddPointers(VaultWriteContext context)
         {
             throw new NotImplementedException();
         }

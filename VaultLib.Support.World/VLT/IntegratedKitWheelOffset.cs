@@ -26,14 +26,14 @@ namespace VaultLib.Support.World.VLT
 
         private Text _kitName { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             br.ReadUInt32(); // stringhash32(KitName)
             _kitName.Read(context, br);
             Offset = br.ReadUInt32();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Vlt32Hasher.Hash(KitName));
             _kitName.Value = KitName;
@@ -46,18 +46,18 @@ namespace VaultLib.Support.World.VLT
             return new[] { KitName };
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _kitName.ReadPointerData(context, br);
             KitName = _kitName.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _kitName.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             _kitName.AddPointers(context);
         }

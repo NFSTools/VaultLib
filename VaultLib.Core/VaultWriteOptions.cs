@@ -12,7 +12,7 @@
     /// <summary>
     /// Options for the vault saving process
     /// </summary>
-    public class VaultSaveOptions
+    public class VaultWriteOptions
     {
         /// <summary>
         /// The string hash implementation to use.

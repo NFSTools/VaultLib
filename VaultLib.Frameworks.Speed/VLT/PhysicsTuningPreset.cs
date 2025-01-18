@@ -19,7 +19,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public bool CenteredAroundPreset { get; set; }
         public float Position { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             PhysicsTuningSlider.Read(context, br);
             CenteredAroundPreset = br.ReadBoolean();
@@ -27,7 +27,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             Position = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             PhysicsTuningSlider.Write(context, bw);
             bw.Write(CenteredAroundPreset);

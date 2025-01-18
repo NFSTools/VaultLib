@@ -21,7 +21,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public string ClassKey { get; set; }
         public string DefinitionKey { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             if (context.Database.Options.Type == DatabaseType.X86Database)
             {
@@ -35,7 +35,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             }
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             if (context.Database.Options.Type == DatabaseType.X86Database)
             {

@@ -32,14 +32,14 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float Duration { get; set; }
         public float Frequency { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             FormationType = br.ReadEnum<FormationTypeEnum>();
             Duration = br.ReadSingle();
             Frequency = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(FormationType);
             bw.Write(Duration);

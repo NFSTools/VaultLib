@@ -22,7 +22,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public bool mInverse { get; set; }
         public float mPercentage { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             mPerformanceType = br.ReadEnum<ePerformanceType>();
             mInverse = br.ReadBoolean();
@@ -30,7 +30,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             mPercentage = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(mPerformanceType);
             bw.Write(mInverse);

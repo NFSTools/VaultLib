@@ -23,7 +23,7 @@ namespace VaultLib.LegacyBase.Exports
             Collection = collection;
         }
 
-        public void Read(VaultLoadContext context, BinaryReader br)
+        public void Read(VaultReadContext context, BinaryReader br)
         {
             Key = br.ReadUInt32();
 
@@ -44,7 +44,7 @@ namespace VaultLib.LegacyBase.Exports
             Debug.Assert((ushort)NodeFlags <= 0x20);
         }
 
-        public void Write(VaultSaveContext context, BinaryWriter bw)
+        public void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Key);
             InlineData.Write(context, bw);
@@ -58,17 +58,17 @@ namespace VaultLib.LegacyBase.Exports
             return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             throw new NotImplementedException();
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             throw new NotImplementedException();
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             throw new NotImplementedException();
         }

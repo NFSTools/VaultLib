@@ -30,7 +30,7 @@ namespace VaultLib.Core.Types
 
         public T Value { get; set; }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             br.BaseStream.Position = _pointer;
             Value = (T)context.Database.TypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
@@ -39,7 +39,7 @@ namespace VaultLib.Core.Types
             if (Value is IPointerObject pointerObject) pointerObject.ReadPointerData(context, br);
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _ptrDst = bw.BaseStream.Position;
             Value.Write(context, bw);
@@ -47,17 +47,17 @@ namespace VaultLib.Core.Types
             if (Value is IPointerObject pointerObject) pointerObject.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             context.AddPointer(_ptrSrc, _ptrDst, false);
         }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             _pointer = br.ReadUInt32();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _ptrSrc = bw.BaseStream.Position;
             bw.Write(0);

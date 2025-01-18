@@ -22,7 +22,7 @@ namespace VaultLib.Support.MostWanted.VLT
         public float mMinSpeed { get; set; }
         public float mMaxSpeed { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             mEmitter.Read(context, br);
             mTireCondition = br.ReadEnum<TireCondition>();
@@ -30,7 +30,7 @@ namespace VaultLib.Support.MostWanted.VLT
             mMaxSpeed = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             mEmitter.Write(context, bw);
             bw.WriteEnum(mTireCondition);

@@ -57,9 +57,9 @@ namespace VaultLib.Core.Pack
                 vault.BinStream = new MemoryStream(binData);
                 vault.VltStream = new MemoryStream(vltData);
 
-                using (VaultLoadingWrapper loadingWrapper = new VaultLoadingWrapper(vault, byteOrder))
+                using (VaultReadWrapper readWrapper = new VaultReadWrapper(vault, byteOrder))
                 {
-                    database.LoadVault(vault, loadingWrapper);
+                    database.LoadVault(vault, readWrapper);
                 }
 
                 vaults.Add(vault);
@@ -77,7 +77,7 @@ namespace VaultLib.Core.Pack
 
             foreach (var vault in filteredAndSortedVaults)
             {
-                VaultWriter vaultWriter = new VaultWriter(vault, new VaultSaveOptions());
+                VaultWriter vaultWriter = new VaultWriter(vault, new VaultWriteOptions());
                 streamDictionary[vault.Name] = vaultWriter.BuildVault();
             }
 

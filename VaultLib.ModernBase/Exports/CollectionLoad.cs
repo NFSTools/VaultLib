@@ -13,7 +13,7 @@ namespace VaultLib.ModernBase.Exports
 {
     public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
     {
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             var mKey = br.ReadUInt32();
             var mClass = br.ReadUInt32();
@@ -118,7 +118,7 @@ namespace VaultLib.ModernBase.Exports
             }
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Vlt32Hasher.Hash(Collection.Name));
             bw.Write(Vlt32Hasher.Hash(Collection.Class.Name));

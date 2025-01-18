@@ -28,7 +28,7 @@ namespace VaultLib.Core.Types
         public uint Offset { get; set; } // pointer to bin stream
         public VltBaseType Data { get; set; }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             Data = context.Database.TypeRegistry.CreateInstance(Class, Field, Collection);
 
@@ -41,7 +41,7 @@ namespace VaultLib.Core.Types
                 Debug.Assert(br.BaseStream.Position - Offset == Field.Size,  "br.BaseStream.Position - Offset == Field.Size");
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             bw.AlignWriter(Field.Alignment);
             _offsetDst = bw.BaseStream.Position;
@@ -50,7 +50,7 @@ namespace VaultLib.Core.Types
             if (Data is IPointerObject pointerObject) pointerObject.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             Debug.Assert(_offsetSrc != 0 && _offsetDst != 0);
 
@@ -59,12 +59,12 @@ namespace VaultLib.Core.Types
             if (Data is IPointerObject pointerObject) pointerObject.AddPointers(context);
         }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Offset = br.ReadPointer();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _offsetSrc = bw.BaseStream.Position;
             bw.Write(0);

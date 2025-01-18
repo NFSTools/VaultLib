@@ -32,7 +32,7 @@ namespace VaultLib.Core.Types
             get { return !Field.IsInLayout && Field.Size <= 4 && !Field.IsArray; }
         }
 
-        public abstract void Read(VaultLoadContext context, BinaryReader br);
-        public abstract void Write(VaultSaveContext context, BinaryWriter bw);
+        public abstract void Read(VaultReadContext context, BinaryReader br);
+        public abstract void Write(VaultWriteContext context, BinaryWriter bw);
     }
 }

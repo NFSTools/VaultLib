@@ -13,19 +13,19 @@ namespace VaultLib.Core.Utils
         /// </summary>
         /// <param name="context"></param>
         /// <param name="br"></param>
-        void ReadPointerData(VaultLoadContext context, BinaryReader br);
+        void ReadPointerData(VaultReadContext context, BinaryReader br);
 
         /// <summary>
         ///     Read data stored through pointers to the BIN stream
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bw"></param>
-        void WritePointerData(VaultSaveContext context, BinaryWriter bw);
+        void WritePointerData(VaultWriteContext context, BinaryWriter bw);
 
         /// <summary>
         ///     Add pointer information to the vault
         /// </summary>
         /// <param name="context"></param>
-        void AddPointers(VaultSaveContext context);
+        void AddPointers(VaultWriteContext context);
     }
 }

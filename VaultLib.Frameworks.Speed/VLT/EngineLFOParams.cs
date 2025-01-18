@@ -18,7 +18,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float vol_amplitude { get; set; }
         public float lifespan { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             frequency_start = br.ReadSingle();
             frequency_end = br.ReadSingle();
@@ -27,7 +27,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             lifespan = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(frequency_start);
             bw.Write(frequency_end);

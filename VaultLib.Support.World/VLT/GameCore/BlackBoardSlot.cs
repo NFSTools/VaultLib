@@ -24,14 +24,14 @@ namespace VaultLib.Support.World.VLT.GameCore
         public uint mBlackBoardKey { get; set; }
         public BlackBoardFlag mFlag { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             mChannel = br.ReadEnum<BlackBoardChannel>();
             mBlackBoardKey = br.ReadUInt32();
             mFlag = br.ReadEnum<BlackBoardFlag>();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(mChannel);
             bw.Write(mBlackBoardKey);

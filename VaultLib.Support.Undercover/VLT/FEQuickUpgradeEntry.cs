@@ -20,13 +20,13 @@ namespace VaultLib.Support.Undercover.VLT
         public eQuickUpgradePackages Package { get; set; }
         public eQuickUpgradeLevels Level { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Package = br.ReadEnum<eQuickUpgradePackages>();
             Level = br.ReadEnum<eQuickUpgradeLevels>();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(Package);
             bw.WriteEnum(Level);

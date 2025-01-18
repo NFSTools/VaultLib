@@ -15,12 +15,12 @@ namespace VaultLib.Core.Types.EA.Reflection
         {
         }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             throw new System.NotImplementedException();
         }

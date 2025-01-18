@@ -82,21 +82,21 @@ namespace VaultLib.Core.DB
         ///     Loads data into a <see cref="Vault" /> instance.
         /// </summary>
         /// <param name="vault">The vault to be read and loaded.</param>
-        /// <param name="loadingWrapper">The provider of the vault stream readers.</param>
-        public void LoadVault(Vault vault, VaultLoadingWrapper loadingWrapper)
+        /// <param name="readWrapper">The provider of the vault stream readers.</param>
+        public void LoadVault(Vault vault, VaultReadWrapper readWrapper)
         {
             Debug.Assert(vault.Database == null, "vault.Database == null");
             Debug.Assert(vault.BinStream != null, "vault.BinStream != null");
             Debug.Assert(vault.VltStream != null, "vault.VltStream != null");
 
             vault.Database = this;
-            BinaryReader binStreamReader = loadingWrapper.BinReader;
-            BinaryReader vltStreamReader = loadingWrapper.VltReader;
+            BinaryReader binStreamReader = readWrapper.BinReader;
+            BinaryReader vltStreamReader = readWrapper.VltReader;
 
             ChunkReader binChunkReader = new ChunkReader(binStreamReader);
             ChunkReader vltChunkReader = new ChunkReader(vltStreamReader);
 
-            var vaultLoadContext = new VaultLoadContext(vault);
+            var vaultLoadContext = new VaultReadContext(vault);
 
             //Debug.WriteLine("Processing BIN chunks");
             processBinChunks(vaultLoadContext, binChunkReader);
@@ -149,7 +149,7 @@ namespace VaultLib.Core.DB
 
         #region Internal Data Reading
 
-        private void ReadExports(VaultLoadContext context, BinaryReader vltStreamReader, BinaryReader binStreamReader)
+        private void ReadExports(VaultReadContext context, BinaryReader vltStreamReader, BinaryReader binStreamReader)
         {
             foreach (Exports.BaseExport vaultExport in context.Vault.Exports)
             {
@@ -200,12 +200,12 @@ namespace VaultLib.Core.DB
             }
         }
 
-        private void processBinChunks(VaultLoadContext context, ChunkReader chunkReader)
+        private void processBinChunks(VaultReadContext context, ChunkReader chunkReader)
         {
             chunkReader.NextChunk().Read(context, chunkReader.Reader);
         }
 
-        private void processVltChunks(VaultLoadContext context, ChunkReader chunkReader)
+        private void processVltChunks(VaultReadContext context, ChunkReader chunkReader)
         {
             while (chunkReader.Reader.BaseStream.Position < chunkReader.Reader.BaseStream.Length)
             {

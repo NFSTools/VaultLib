@@ -20,7 +20,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public uint Width { get; set; }
         public uint Height { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             X = br.ReadUInt32();
             Y = br.ReadUInt32();
@@ -28,7 +28,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             Height = br.ReadUInt32();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(X);
             bw.Write(Y);

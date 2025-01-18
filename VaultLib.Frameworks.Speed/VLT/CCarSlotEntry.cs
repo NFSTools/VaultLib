@@ -21,33 +21,33 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         private Text _slotNameText;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Parts.Read(context, br);
             _slotNameText.Read(context, br);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             Parts.Write(context, bw);
             _slotNameText.Write(context, bw);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             Parts.ReadPointerData(context, br);
             _slotNameText.ReadPointerData(context, br);
             SlotName = _slotNameText.Value;
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             Parts.WritePointerData(context, bw);
             _slotNameText.Value = SlotName;
             _slotNameText.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             Parts.AddPointers(context);
             _slotNameText.AddPointers(context);

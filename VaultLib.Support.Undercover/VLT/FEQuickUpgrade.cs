@@ -33,7 +33,7 @@ namespace VaultLib.Support.Undercover.VLT
         private long _ptrPackagesDst;
         private Text _offerIdText;
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             _ptrPackages = br.ReadUInt32();
             Cost = br.ReadSingle();
@@ -46,7 +46,7 @@ namespace VaultLib.Support.Undercover.VLT
             br.AlignReader(4);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             _ptrPackagesSrc = bw.BaseStream.Position;
             bw.Write(0);
@@ -61,7 +61,7 @@ namespace VaultLib.Support.Undercover.VLT
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             _offerIdText.ReadPointerData(context, br);
             OfferID = _offerIdText.Value;
@@ -79,7 +79,7 @@ namespace VaultLib.Support.Undercover.VLT
             }
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             _offerIdText.WritePointerData(context, bw);
             _ptrPackagesDst = bw.BaseStream.Position;
@@ -90,7 +90,7 @@ namespace VaultLib.Support.Undercover.VLT
             }
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             Debug.Assert(_ptrPackagesSrc != 0 && _ptrPackagesDst != 0);
             context.AddPointer(_ptrPackagesSrc, _ptrPackagesDst, false);

@@ -28,13 +28,13 @@ namespace VaultLib.Support.Undercover.VLT.Sound
         public SirenMode mMode { get; set; }
         public float mDuration { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             mMode = br.ReadEnum<SirenMode>();
             mDuration = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.WriteEnum(mMode);
             bw.Write(mDuration);

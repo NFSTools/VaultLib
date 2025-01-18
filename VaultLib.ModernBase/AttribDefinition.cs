@@ -12,7 +12,7 @@ namespace VaultLib.ModernBase
 {
     public class AttribDefinition : IAttribDefinition
     {
-        public void Read(VaultLoadContext context, BinaryReader br)
+        public void Read(VaultReadContext context, BinaryReader br)
         {
             Key = br.ReadUInt32();
             Type = br.ReadUInt32();
@@ -23,7 +23,7 @@ namespace VaultLib.ModernBase
             Alignment = 1 << br.ReadByte();
         }
 
-        public void Write(VaultSaveContext context, BinaryWriter bw)
+        public void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write((uint)Key);
             bw.Write((uint)Type);

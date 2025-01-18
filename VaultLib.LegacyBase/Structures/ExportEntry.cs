@@ -6,7 +6,7 @@ namespace VaultLib.LegacyBase.Structures
 {
     public class ExportEntry : IExportEntry
     {
-        public void Read(VaultLoadContext context, BinaryReader br)
+        public void Read(VaultReadContext context, BinaryReader br)
         {
             ID = br.ReadUInt32();
             Type = br.ReadUInt32();
@@ -16,7 +16,7 @@ namespace VaultLib.LegacyBase.Structures
             Offset = br.ReadUInt32();
         }
 
-        public void Write(VaultSaveContext context, BinaryWriter bw)
+        public void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write((uint)ID);
             bw.Write((uint)Type);

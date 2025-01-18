@@ -26,7 +26,7 @@ namespace VaultLib.ModernBase
 
         private long DestinationLayoutPointer { get; set; }
 
-        public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public override void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             if (LayoutPointer != 0)
             {
@@ -110,7 +110,7 @@ namespace VaultLib.ModernBase
             }
         }
 
-        public override void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             foreach (var baseField in Collection.Class.BaseFields)
             {
@@ -164,7 +164,7 @@ namespace VaultLib.ModernBase
             }
         }
 
-        public override void AddPointers(VaultSaveContext context)
+        public override void AddPointers(VaultWriteContext context)
         {
             context.AddPointer(SourceLayoutPointer, DestinationLayoutPointer, true);
 

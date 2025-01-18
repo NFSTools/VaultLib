@@ -17,7 +17,7 @@ namespace VaultLib.Core.Chunks
         public override uint Size { get; set; }
         public override long Offset { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             while (br.BaseStream.Position < EndOffset)
             {
@@ -26,7 +26,7 @@ namespace VaultLib.Core.Chunks
             }
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             Assembly currentAssembly = Assembly.GetAssembly(typeof(Database));
             AssemblyMetadataAttribute metadataAttribute =

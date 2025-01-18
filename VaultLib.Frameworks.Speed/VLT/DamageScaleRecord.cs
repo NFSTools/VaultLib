@@ -15,13 +15,13 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float VisualScale { get; set; }
         public float HitPointScale { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             VisualScale = br.ReadSingle();
             HitPointScale = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(VisualScale);
             bw.Write(HitPointScale);

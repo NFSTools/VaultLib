@@ -19,7 +19,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float StunSpeed { get; set; }
         public float StunTime { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Elasticity = br.ReadSingle();
             RollHeight = br.ReadSingle();
@@ -29,7 +29,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             StunTime = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Elasticity);
             bw.Write(RollHeight);

@@ -16,31 +16,31 @@ namespace VaultLib.Support.Undercover.VLT
         public Curve Front { get; set; }
         public Curve Rear { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             Front.Read(context, br);
             Rear.Read(context, br);
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             Front.Write(context, bw);
             Rear.Write(context, bw);
         }
 
-        public void ReadPointerData(VaultLoadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
             Front.ReadPointerData(context, br);
             Rear.ReadPointerData(context, br);
         }
 
-        public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             Front.WritePointerData(context, bw);
             Rear.WritePointerData(context, bw);
         }
 
-        public void AddPointers(VaultSaveContext context)
+        public void AddPointers(VaultWriteContext context)
         {
             Front.AddPointers(context);
             Rear.AddPointers(context);

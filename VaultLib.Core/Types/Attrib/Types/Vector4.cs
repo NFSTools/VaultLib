@@ -23,7 +23,7 @@ namespace VaultLib.Core.Types.Attrib.Types
         public float Z { get; set; }
         public float W { get; set; }
 
-        public override void Read(VaultLoadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, BinaryReader br)
         {
             X = br.ReadSingle();
             Y = br.ReadSingle();
@@ -31,7 +31,7 @@ namespace VaultLib.Core.Types.Attrib.Types
             W = br.ReadSingle();
         }
 
-        public override void Write(VaultSaveContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(X);
             bw.Write(Y);
