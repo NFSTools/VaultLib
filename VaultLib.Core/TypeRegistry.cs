@@ -93,6 +93,36 @@ namespace VaultLib.Core
             _writers[type] = (instance, _, w) => writer((T)instance, w);
         }
 
+        private static Func<BinaryReader, object> CreateEnumReader(Type enumType)
+        {
+            var underlyingType = Enum.GetUnderlyingType(enumType);
+
+            if (underlyingType == typeof(uint))
+                return r => Enum.ToObject(enumType, r.ReadUInt32());
+            if (underlyingType == typeof(int))
+                return r => Enum.ToObject(enumType, r.ReadInt32());
+            if (underlyingType == typeof(ushort))
+                return r => Enum.ToObject(enumType, r.ReadUInt16());
+            if (underlyingType == typeof(short))
+                return r => Enum.ToObject(enumType, r.ReadInt16());
+            throw new InvalidOperationException($"Unsupported enum underlying type: {underlyingType.FullName}");
+        }
+
+        private static Action<object, BinaryWriter> CreateEnumWriter(Type enumType)
+        {
+            var underlyingType = Enum.GetUnderlyingType(enumType);
+
+            if (underlyingType == typeof(uint))
+                return (v, w) => w.Write((uint)v);
+            if (underlyingType == typeof(int))
+                return (v, w) => w.Write((int)v);
+            if (underlyingType == typeof(ushort))
+                return (v, w) => w.Write((ushort)v);
+            if (underlyingType == typeof(short))
+                return (v, w) => w.Write((short)v);
+            throw new InvalidOperationException($"Unsupported enum underlying type: {underlyingType.FullName}");
+        }
+
         /// <summary>
         ///     Registers all defined types in the given assembly.
         /// </summary>
@@ -119,18 +149,28 @@ namespace VaultLib.Core
                 {
                     _typeDictionary[typeInfoAttribute.Name] = typeInfoAttribute.MappedTo;
                 }
+                else if (type.IsEnum)
+                {
+                    _typeDictionary[typeInfoAttribute.Name] = type;
+                    var defaultValue = Activator.CreateInstance(type);
+                    _activators[type] = _ => defaultValue;
+
+                    var reader = CreateEnumReader(type);
+                    var writer = CreateEnumWriter(type);
+
+                    _readers[type] = (_, _, r) => reader(r);
+                    _writers[type] = (instance, _, w) => writer(instance, w);
+                }
                 else
                 {
-                    var finalType = type.IsEnum ? typeof(VltEnumType<>).MakeGenericType(type) : type;
-
-                    if (finalType.GetCustomAttribute<PrimitiveInfoAttribute>() != null && finalType != typeof(Text))
+                    if (type.GetCustomAttribute<PrimitiveInfoAttribute>() != null && type != typeof(Text))
                     {
                         Debug.WriteLine("MIGRATION: skipping type {0} derived from PrimitiveTypeBase",
                             new object[] { type.FullName });
                         continue;
                     }
 
-                    RegisterVltBaseType(typeInfoAttribute.Name, finalType);
+                    RegisterVltBaseType(typeInfoAttribute.Name, type);
                 }
             }
         }
