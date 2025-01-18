@@ -17,21 +17,18 @@ namespace VaultLib.LegacyBase
     {
         public string Value { get; set; } = string.Empty;
 
-        private Text _text = new();
-
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             br.ReadInt64();
             br.ReadUInt32();
-            _text.Read(context, fieldContext, br);
+            Value = context.ReadString(br);
         }
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _text.Value = Value;
             bw.Write(Vlt64Hasher.Hash(Value));
             bw.Write(Vlt32Hasher.Hash(Value));
-            _text.Write(context, fieldContext, bw);
+            context.WriteString(Value, fieldContext, bw);
         }
 
         public IEnumerable<string> GetStrings()
@@ -41,18 +38,14 @@ namespace VaultLib.LegacyBase
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _text.ReadPointerData(context, fieldContext, br);
-            Value = _text.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _text.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _text.AddPointers(context, fieldContext);
         }
 
         public override string ToString()

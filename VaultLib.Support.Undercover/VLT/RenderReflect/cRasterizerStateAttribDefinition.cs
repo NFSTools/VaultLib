@@ -31,11 +31,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public State_RasterizerShadeMode ShadeMode { get; set; }
         public State_RasterizerFrontFace FrontFace { get; set; }
 
-        private Text _debugNameText = new();
-
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _debugNameText.Read(context, fieldContext, br);
+            DebugName = context.ReadString(br);
             CullMode = br.ReadEnum<State_RasterizerCullMode>();
             DepthBias = br.ReadSingle();
             ScaleDepthBias = br.ReadSingle();
@@ -57,8 +55,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _debugNameText.Value = DebugName;
-            _debugNameText.Write(context, fieldContext, bw);
+            context.WriteString(DebugName, fieldContext, bw);
             bw.WriteEnum(CullMode);
             bw.Write(DepthBias);
             bw.Write(ScaleDepthBias);
@@ -80,23 +77,19 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _debugNameText.ReadPointerData(context, fieldContext, br);
-            DebugName = _debugNameText.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _debugNameText.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _debugNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return _debugNameText.GetStrings();
+            return new[] { DebugName };
         }
     }
 }

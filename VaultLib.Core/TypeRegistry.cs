@@ -50,7 +50,7 @@ namespace VaultLib.Core
             _typeDictionary["EA::Reflection::Text"] = typeof(string);
             _activators[typeof(string)] = _ => null;
             _readers[typeof(string)] = (_, ctx, _, br) => ctx.ReadString(br);
-            _writers[typeof(string)] = (s, ctx, fieldCtx, bw) => ctx.WriteString(fieldCtx, (string)s, bw);
+            _writers[typeof(string)] = (s, ctx, fieldCtx, bw) => ctx.WriteString((string)s, fieldCtx, bw);
         }
 
         /// <summary>

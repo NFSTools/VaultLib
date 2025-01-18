@@ -27,11 +27,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public uint Unknown14 { get; set; }
         public uint Unknown15 { get; set; }
 
-        private Text _nameText = new();
-
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _nameText.Read(context, fieldContext, br);
+            Name = context.ReadString(br);
             Unknown1 = br.ReadUInt32();
             Unknown2 = br.ReadUInt32();
             Unknown3 = br.ReadUInt32();
@@ -51,8 +49,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _nameText.Value = Name;
-            _nameText.Write(context, fieldContext, bw);
+            context.WriteString(Name, fieldContext, bw);
             bw.Write(Unknown1);
             bw.Write(Unknown2);
             bw.Write(Unknown3);
@@ -72,23 +69,19 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _nameText.ReadPointerData(context, fieldContext, br);
-            Name = _nameText.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _nameText.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _nameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return _nameText.GetStrings();
+            return new[] { Name };
         }
     }
 }

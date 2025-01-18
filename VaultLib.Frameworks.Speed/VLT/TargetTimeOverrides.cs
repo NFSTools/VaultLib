@@ -21,12 +21,10 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float MaxDelta { get; set; }
         public float Shift { get; set; }
 
-        private Text _eventText = new();
-
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Car.Read(context, fieldContext, br);
-            _eventText.Read(context, fieldContext, br);
+            Event = context.ReadString(br);
             MinDelta = br.ReadSingle();
             MaxDelta = br.ReadSingle();
             Shift = br.ReadSingle();
@@ -35,7 +33,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             Car.Write(context, fieldContext, bw);
-            _eventText.Write(context, fieldContext, bw);
+            context.WriteString(Event, fieldContext, bw);
             bw.Write(MinDelta);
             bw.Write(MaxDelta);
             bw.Write(Shift);
@@ -43,24 +41,19 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _eventText.ReadPointerData(context, fieldContext, br);
-            Event = _eventText.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _eventText.Value = Event;
-            _eventText.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _eventText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return _eventText.GetStrings();
+            return new[] { Event };
         }
     }
 }

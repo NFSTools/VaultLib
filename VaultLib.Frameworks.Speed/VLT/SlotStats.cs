@@ -71,11 +71,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint TuningSliderListString { get; set; }
         public FEPhysicsStatType[] Stats { get; set; } = new FEPhysicsStatType[2];
 
-        private Text _slotNameText = new();
-
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _slotNameText.Read(context, fieldContext, br);
+            SlotName = context.ReadString(br);
             ModeFlags = br.ReadEnum<StatsModeFlag>();
             SlotDesc = br.ReadUInt32();
             TuningSliderListString = br.ReadUInt32();
@@ -84,7 +82,7 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _slotNameText.Write(context, fieldContext, bw);
+            context.WriteString(SlotName, fieldContext, bw);
             bw.WriteEnum(ModeFlags);
             bw.Write(SlotDesc);
             bw.Write(TuningSliderListString);
@@ -93,24 +91,19 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _slotNameText.ReadPointerData(context, fieldContext, br);
-            SlotName = _slotNameText.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _slotNameText.Value = SlotName;
-            _slotNameText.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _slotNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return _slotNameText.GetStrings();
+            return new[] { SlotName };
         }
     }
 }

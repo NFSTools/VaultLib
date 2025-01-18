@@ -16,50 +16,36 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(CCarKitSlotEntry))]
     public class CCarKitSlotEntry : VltBaseType, IReferencesStrings
     {
-        public RefSpec Part { get; set; }
-        public string SlotName { get; set; }
-
-        private Text _slotNameText;
+        public RefSpec Part { get; set; } = new();
+        public string SlotName { get; set; } = string.Empty;
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Part.Read(context, fieldContext, br);
-            _slotNameText.Read(context, fieldContext, br);
+            SlotName = context.ReadString(br);
         }
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             Part.Write(context, fieldContext, bw);
-            _slotNameText.Write(context, fieldContext, bw);
+            context.WriteString(SlotName, fieldContext, bw);
         }
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _slotNameText.ReadPointerData(context, fieldContext, br);
-            SlotName = _slotNameText.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _slotNameText.Value = SlotName;
-            _slotNameText.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _slotNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return _slotNameText.GetStrings();
-        }
-
-        public CCarKitSlotEntry()
-        {
-            Part = new RefSpec();
-            _slotNameText = new Text();
-            SlotName = string.Empty;
+            return new[] { SlotName };
         }
     }
 }

@@ -37,11 +37,10 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public bool[] HiPrecisionBlendEnable_XENON { get; set; } = new bool[4];
         public bool[] BlendEnable_PS3 { get; set; } = new bool[4];
         public bool BlendFactorF16_PS3 { get; set; }
-        private Text _debugNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _debugNameText.Read(context, fieldContext, br);
+            DebugName = context.ReadString(br);
             BlendEnable = br.ReadBoolean();
             AlphaTestEnable = br.ReadBoolean();
             br.AlignReader(4);
@@ -68,8 +67,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _debugNameText.Value = DebugName;
-            _debugNameText.Write(context, fieldContext, bw);
+            context.WriteString(DebugName, fieldContext, bw);
             bw.Write(BlendEnable);
             bw.Write(AlphaTestEnable);
             bw.AlignWriter(4);
@@ -95,23 +93,19 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _debugNameText.ReadPointerData(context, fieldContext, br);
-            DebugName = _debugNameText.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _debugNameText.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _debugNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return _debugNameText.GetStrings();
+            return new[] { DebugName };
         }
     }
 }

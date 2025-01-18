@@ -104,7 +104,7 @@ namespace VaultLib.Core
             }
         }
 
-        public void WriteString(FieldReadWriteContext fieldContext, string str, BinaryWriter bw)
+        public void WriteString(string str, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             if (!StringOffsets.TryGetValue(str, out var strPtr))
                 throw new KeyNotFoundException($"String offset table does not have an entry for: {str}");

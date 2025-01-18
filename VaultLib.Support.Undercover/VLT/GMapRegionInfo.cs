@@ -24,11 +24,9 @@ namespace VaultLib.Support.Undercover.VLT
         public float mBoundsMaxX { get; set; }
         public float mBoundsMaxY { get; set; }
 
-        private Text _name = new();
-
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _name.Read(context, fieldContext, br);
+            Name = context.ReadString(br);
             mCurveStart = br.ReadUInt16();
             mCurveCount = br.ReadUInt16();
             mTriangleStart = br.ReadUInt16();
@@ -41,8 +39,7 @@ namespace VaultLib.Support.Undercover.VLT
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _name.Value = Name;
-            _name.Write(context, fieldContext, bw);
+            context.WriteString(Name, fieldContext, bw);
             bw.Write(mCurveStart);
             bw.Write(mCurveCount);
             bw.Write(mTriangleStart);
@@ -55,18 +52,17 @@ namespace VaultLib.Support.Undercover.VLT
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _name.ReadPointerData(context, fieldContext, br);
-            Name = _name.Value;
+            //
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _name.WritePointerData(context, fieldContext, bw);
+            //
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _name.AddPointers(context, fieldContext);
+            //
         }
 
         public IEnumerable<string> GetStrings()

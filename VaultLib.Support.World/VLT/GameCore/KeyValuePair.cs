@@ -7,7 +7,6 @@ using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.World.VLT.GameCore
@@ -15,15 +14,13 @@ namespace VaultLib.Support.World.VLT.GameCore
     [VltTypeInfo("GameCore::KeyValuePair")]
     public class KeyValuePair : VltBaseType, IReferencesStrings
     {
-        private Text _keyString = new();
-
         public string KeyString { get; set; } = string.Empty;
 
         public float Value { get; set; }
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _keyString.Read(context, fieldContext, br);
+            KeyString = context.ReadString(br);
 
             br.ReadUInt32(); // stringhash32(KeyString)
             Value = br.ReadSingle();
@@ -31,8 +28,7 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _keyString.Value = KeyString;
-            _keyString.Write(context, fieldContext, bw);
+            context.WriteString(KeyString, fieldContext, bw);
             bw.Write(Vlt32Hasher.Hash(KeyString));
             bw.Write(Value);
         }
@@ -44,18 +40,17 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _keyString.ReadPointerData(context, fieldContext, br);
-            KeyString = _keyString.Value;
+            //
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _keyString.WritePointerData(context, fieldContext, bw);
+            //
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _keyString.AddPointers(context, fieldContext);
+            //
         }
     }
 }

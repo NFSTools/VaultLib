@@ -35,40 +35,33 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public eSceneRoot SceneRootType { get; set; }
         public string MarkerName { get; set; } = string.Empty;
 
-        private Text _markerNameText = new();
-
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             SceneRootType = br.ReadEnum<eSceneRoot>();
-            _markerNameText.Read(context, fieldContext, br);
+            MarkerName = context.ReadString(br);
         }
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.WriteEnum(SceneRootType);
-            _markerNameText.Value = MarkerName;
-            _markerNameText.Write(context, fieldContext, bw);
+            context.WriteString(MarkerName, fieldContext, bw);
         }
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _markerNameText.ReadPointerData(context, fieldContext, br);
-            MarkerName = _markerNameText.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _markerNameText.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _markerNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return _markerNameText.GetStrings();
+            return new[] { MarkerName };
         }
     }
 }

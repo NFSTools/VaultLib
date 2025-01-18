@@ -16,8 +16,6 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(CopCountRecord))]
     public class CopCountRecord : VltBaseType, IReferencesStrings
     {
-        private Text _copType = new();
-
         public string CopType { get; set; } = string.Empty;
 
         public uint Count { get; set; }
@@ -25,7 +23,7 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _copType.Read(context, fieldContext, br);
+            CopType = context.ReadString(br);
             br.ReadUInt32();
             Count = br.ReadUInt32();
             Chance = br.ReadUInt32();
@@ -33,7 +31,7 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _copType.Write(context, fieldContext, bw);
+            context.WriteString(CopType, fieldContext, bw);
             bw.Write(Vlt32Hasher.Hash(CopType));
             bw.Write(Count);
             bw.Write(Chance);
@@ -46,19 +44,14 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _copType.ReadPointerData(context, fieldContext, br);
-            CopType = _copType.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _copType.Value = CopType;
-            _copType.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _copType.AddPointers(context, fieldContext);
         }
     }
 }

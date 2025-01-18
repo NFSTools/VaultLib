@@ -36,8 +36,6 @@ namespace VaultLib.Support.Undercover.VLT
         public string OfferID { get; set; } = string.Empty;
         public bool IsOnlineLockable { get; set; }
 
-        private Text _offerIdText = new();
-
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             HAL_ID = br.ReadUInt32();
@@ -59,7 +57,7 @@ namespace VaultLib.Support.Undercover.VLT
             DetailHash = br.ReadUInt32();
             PartDetails = new VltPointerContainer<FEPartDetail>();
             PartDetails.Read(context, fieldContext, br);
-            _offerIdText.Read(context, fieldContext, br);
+            OfferID = context.ReadString(br);
             IsOnlineLockable = br.ReadBoolean();
             br.AlignReader(4);
         }
@@ -84,8 +82,7 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(LogoTextureId);
             bw.Write(DetailHash);
             PartDetails.Write(context, fieldContext, bw);
-            _offerIdText.Value = OfferID;
-            _offerIdText.Write(context, fieldContext, bw);
+            context.WriteString(OfferID, fieldContext, bw);
             bw.Write(IsOnlineLockable);
             bw.AlignWriter(4);
         }
@@ -93,26 +90,21 @@ namespace VaultLib.Support.Undercover.VLT
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             PartDetails.ReadPointerData(context, fieldContext, br);
-            _offerIdText.ReadPointerData(context, fieldContext, br);
-
-            OfferID = _offerIdText.Value;
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             PartDetails.WritePointerData(context, fieldContext, bw);
-            _offerIdText.WritePointerData(context, fieldContext, bw);
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             PartDetails.AddPointers(context, fieldContext);
-            _offerIdText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return _offerIdText.GetStrings();
+            return new[] { OfferID };
         }
     }
 }

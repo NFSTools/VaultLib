@@ -24,7 +24,6 @@ namespace VaultLib.Support.Undercover.VLT
         private uint _ptrPackages;
         private long _ptrPackagesSrc;
         private long _ptrPackagesDst;
-        private Text _offerIdText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -34,7 +33,7 @@ namespace VaultLib.Support.Undercover.VLT
             Tier2_Cost = br.ReadSingle();
             Tier3_Cost = br.ReadSingle();
             Tier4_Cost = br.ReadSingle();
-            _offerIdText.Read(context, fieldContext, br);
+            OfferID = context.ReadString(br);
             _packageLength = br.ReadByte();
             br.AlignReader(4);
         }
@@ -48,17 +47,13 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(Tier2_Cost);
             bw.Write(Tier3_Cost);
             bw.Write(Tier4_Cost);
-            _offerIdText.Value = OfferID;
-            _offerIdText.Write(context, fieldContext, bw);
-            bw.Write((byte) Entries.Count);
+            context.WriteString(OfferID, fieldContext, bw);
+            bw.Write((byte)Entries.Count);
             bw.AlignWriter(4);
         }
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _offerIdText.ReadPointerData(context, fieldContext, br);
-            OfferID = _offerIdText.Value;
-
             br.BaseStream.Position = _ptrPackages;
 
             Entries = new List<FEQuickUpgradeEntry>();
@@ -74,7 +69,6 @@ namespace VaultLib.Support.Undercover.VLT
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _offerIdText.WritePointerData(context, fieldContext, bw);
             _ptrPackagesDst = bw.BaseStream.Position;
 
             foreach (var entry in Entries)
@@ -87,12 +81,11 @@ namespace VaultLib.Support.Undercover.VLT
         {
             Debug.Assert(_ptrPackagesSrc != 0 && _ptrPackagesDst != 0);
             context.AddPointer(_ptrPackagesSrc, _ptrPackagesDst, false);
-            _offerIdText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
         {
-            return _offerIdText.GetStrings();
+            return new[] { OfferID };
         }
     }
 }
