@@ -15,7 +15,7 @@ namespace VaultLib.Core
     public class VaultWriter
     {
         private readonly VaultWriteContext _writeContext;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VaultWriter"/> class.
         /// </summary>
@@ -134,13 +134,30 @@ namespace VaultLib.Core
 
         private void BuildPointers()
         {
-            foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>()) 
+            foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>())
                 pointerObject.AddPointers(_writeContext);
         }
 
         private static IEnumerable<string> CollectStrings(VltCollection collection)
         {
-            return collection.GetData().Values.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings());
+            foreach (var value in collection.GetData().Values)
+            {
+                switch (value)
+                {
+                    case string stringValue:
+                        yield return stringValue;
+                        break;
+                    case IReferencesStrings referencesStrings:
+                    {
+                        foreach (var s in referencesStrings.GetStrings())
+                        {
+                            yield return s;
+                        }
+
+                        break;
+                    }
+                }
+            }
         }
 
         #endregion

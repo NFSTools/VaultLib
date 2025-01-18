@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
@@ -18,9 +19,9 @@ namespace VaultLib.Core
     public class VaultWriteContext
     {
         private VaultWriteOptions Options { get; }
-        
+
         public Database Database { get; }
-        
+
         public Vault Vault { get; }
 
         /// <summary>
@@ -86,7 +87,8 @@ namespace VaultLib.Core
         /// <remarks>Strings beginning with "0x" will be converted to numeric values.</remarks>
         public ulong StringHash(string text)
         {
-            if (text.StartsWith("0x") && ulong.TryParse(text.Substring(2), System.Globalization.NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out ulong l))
+            if (text.StartsWith("0x") && ulong.TryParse(text.Substring(2),
+                    System.Globalization.NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out ulong l))
             {
                 return l;
             }
@@ -100,6 +102,18 @@ namespace VaultLib.Core
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public void WriteString(FieldReadWriteContext fieldContext, string str, BinaryWriter bw)
+        {
+            if (!StringOffsets.TryGetValue(str, out var strPtr))
+                throw new KeyNotFoundException($"String offset table does not have an entry for: {str}");
+            
+            var ptrPos = bw.BaseStream.Position;
+            
+            bw.Write(0u);
+
+            AddPointer(ptrPos, strPtr, fieldContext.IsInVlt);
         }
     }
 }

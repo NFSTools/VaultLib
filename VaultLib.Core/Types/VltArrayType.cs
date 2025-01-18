@@ -55,12 +55,31 @@ namespace VaultLib.Core.Types
          */
         public IEnumerable<string> GetStrings()
         {
-            return Items.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings());
+            foreach (var value in Items)
+            {
+                switch (value)
+                {
+                    case string stringValue:
+                        yield return stringValue;
+                        break;
+                    case IReferencesStrings referencesStrings:
+                    {
+                        foreach (var s in referencesStrings.GetStrings())
+                        {
+                            yield return s;
+                        }
+
+                        break;
+                    }
+                }
+            }
+            // return Items.OfType<string>().Concat(Items.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings()));
         }
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            foreach (var pointerObject in Items.OfType<IVltPointerObject>()) pointerObject.ReadPointerData(context, fieldContext, br);
+            foreach (var pointerObject in Items.OfType<IVltPointerObject>())
+                pointerObject.ReadPointerData(context, fieldContext, br);
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
@@ -74,7 +93,8 @@ namespace VaultLib.Core.Types
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            foreach (var pointerObject in Items.OfType<IVltPointerObject>()) pointerObject.AddPointers(context, fieldContext);
+            foreach (var pointerObject in Items.OfType<IVltPointerObject>())
+                pointerObject.AddPointers(context, fieldContext);
         }
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
@@ -191,39 +211,40 @@ namespace VaultLib.Core.Types
         //     };
         // }
 
-    //     private VltBaseType DataToBaseType(VltClassField field, VltBaseType originalData, object data)
-    //     {
-    //         switch (data)
-    //         {
-    //             case string s:
-    //             {
-    //                 if (originalData is IStringValue sv)
-    //                 {
-    //                     sv.SetString(s);
-    //                     return originalData;
-    //                 }
-    //
-    //                 break;
-    //             }
-    //             case IConvertible ic:
-    //             {
-    //                 if (originalData is PrimitiveTypeBase ptb)
-    //                 {
-    //                     ptb.SetValue(ic);
-    //                     return originalData;
-    //                 }
-    //
-    //                 break;
-    //             }
-    //             case VltBaseType vbt:
-    //                 if (vbt is VltArrayType)
-    //                     throw new ApplicationException("Array DataToBaseType cannot accept a VLTArrayType instance!");
-    //                 return vbt;
-    //         }
-    //
-    //         throw new ArgumentException($"Cannot convert {data.GetType()} to VLTBaseType.");
-    //     }
-    //
-    #endregion
+        //     private VltBaseType DataToBaseType(VltClassField field, VltBaseType originalData, object data)
+        //     {
+        //         switch (data)
+        //         {
+        //             case string s:
+        //             {
+        //                 if (originalData is IStringValue sv)
+        //                 {
+        //                     sv.SetString(s);
+        //                     return originalData;
+        //                 }
+        //
+        //                 break;
+        //             }
+        //             case IConvertible ic:
+        //             {
+        //                 if (originalData is PrimitiveTypeBase ptb)
+        //                 {
+        //                     ptb.SetValue(ic);
+        //                     return originalData;
+        //                 }
+        //
+        //                 break;
+        //             }
+        //             case VltBaseType vbt:
+        //                 if (vbt is VltArrayType)
+        //                     throw new ApplicationException("Array DataToBaseType cannot accept a VLTArrayType instance!");
+        //                 return vbt;
+        //         }
+        //
+        //         throw new ArgumentException($"Cannot convert {data.GetType()} to VLTBaseType.");
+        //     }
+        //
+
+        #endregion
     }
 }

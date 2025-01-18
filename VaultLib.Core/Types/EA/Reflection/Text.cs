@@ -15,20 +15,14 @@ namespace VaultLib.Core.Types.EA.Reflection
     [VltTypeInfo("EA::Reflection::Text")]
     [PrimitiveInfo(typeof(string))]
     [Obsolete("EA::Reflection types are deprecated, please use type mappings instead.")]
-    public class Text : PrimitiveTypeBase, IReferencesStrings, IStringValue
+    public class Text : VltBaseType, IReferencesStrings, IStringValue
     {
-        private long _internalPointerDst;
-
-        private long _internalPointerSrc;
-
         public Text(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
             Value = string.Empty;
         }
 
         public string Value { get; set; }
-
-        private uint Pointer { get; set; }
 
         public IEnumerable<string> GetStrings()
         {
@@ -37,21 +31,17 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Debug.Assert(Pointer != 0);
-            br.BaseStream.Position = Pointer;
-            Value = NullTerminatedString.Read(br);
+            //
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _internalPointerDst = context.StringOffsets[Value];
+            //
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            Debug.Assert(_internalPointerSrc != 0 && _internalPointerDst != 0);
-
-            context.AddPointer(_internalPointerSrc, _internalPointerDst, IsInVlt);
+            //
         }
 
         public string GetString()
@@ -66,33 +56,12 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Debug.Assert(Class != null, "this.Class != null");
-
-            // NOTE 11.01.19: since Text can be in static data, we cannot require a collection
-            //Debug.Assert(this.Collection != null, "this.Collection != null");
-            Debug.Assert(Field != null, "this.Field != null");
-            Pointer = br.ReadPointer();
+            Value = context.Strings[br.ReadPointer()];
         }
 
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _internalPointerSrc = bw.BaseStream.Position;
-            bw.Write(0);
-        }
-
-        public void Bootstrap()
-        {
-            Value = string.Empty;
-        }
-
-        public override IConvertible GetValue()
-        {
-            return GetString();
-        }
-
-        public override void SetValue(IConvertible value)
-        {
-            SetString((string)value);
+            context.WriteString(fieldContext, Value, bw);
         }
     }
 }

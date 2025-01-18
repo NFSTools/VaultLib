@@ -46,6 +46,11 @@ namespace VaultLib.Core
             RegisterPrimitive<long>("EA::Reflection::Int64", r => r.ReadInt64(), (v, w) => w.Write(v));
             RegisterPrimitive<ulong>("EA::Reflection::UInt64", r => r.ReadUInt64(), (v, w) => w.Write(v));
             RegisterPrimitive<float>("EA::Reflection::Float", r => r.ReadSingle(), (v, w) => w.Write(v));
+
+            _typeDictionary["EA::Reflection::Text"] = typeof(string);
+            _activators[typeof(string)] = _ => null;
+            _readers[typeof(string)] = (_, ctx, _, br) => ctx.ReadString(br);
+            _writers[typeof(string)] = (s, ctx, fieldCtx, bw) => ctx.WriteString(fieldCtx, (string)s, bw);
         }
 
         /// <summary>
@@ -166,7 +171,7 @@ namespace VaultLib.Core
                 }
                 else
                 {
-                    if (type.GetCustomAttribute<PrimitiveInfoAttribute>() != null && type != typeof(Text))
+                    if (type.GetCustomAttribute<PrimitiveInfoAttribute>() != null /*&& type != typeof(Text)*/)
                     {
                         Debug.WriteLine("MIGRATION: skipping type {0} derived from PrimitiveTypeBase",
                             new object[] { type.FullName });

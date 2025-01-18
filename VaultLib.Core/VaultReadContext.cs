@@ -2,6 +2,8 @@
 // 
 // Created: 09/30/2019 @ 9:46 AM.
 
+using System.Collections.Generic;
+using System.IO;
 using VaultLib.Core.DB;
 
 namespace VaultLib.Core
@@ -15,6 +17,8 @@ namespace VaultLib.Core
 
         public Vault Vault { get; }
 
+        public Dictionary<long, string> Strings { get; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VaultReadContext"/> class.
         /// </summary>
@@ -23,6 +27,19 @@ namespace VaultLib.Core
         {
             Database = vault.Database;
             Vault = vault;
+            Strings = new Dictionary<long, string>();
+        }
+
+        public string ReadString(BinaryReader binaryReader)
+        {
+            var ptr = binaryReader.ReadUInt32();
+
+            if (!Strings.TryGetValue(ptr, out var value))
+            {
+                throw new InvalidDataException($"Could not find string at {ptr}");
+            }
+
+            return value;
         }
     }
 }
