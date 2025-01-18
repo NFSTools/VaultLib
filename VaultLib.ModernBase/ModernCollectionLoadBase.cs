@@ -46,7 +46,7 @@ namespace VaultLib.ModernBase
 
                     var startPos = br.BaseStream.Position;
                     var data =
-                        context.Database.TypeRegistry.ReadFieldValue(Collection.Class, baseField, Collection, context,
+                        context.Database.TypeRegistry.ReadFieldValue(context,
                             fieldContext, br);
                     var endPos = br.BaseStream.Position;
 
@@ -139,7 +139,7 @@ namespace VaultLib.ModernBase
                 }
 
                 var rawValue = Collection.GetRawValue(baseField.Name);
-                context.Database.TypeRegistry.WriteFieldValue(baseField, rawValue, context, fieldContext, bw);
+                context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
             }
 
             foreach (var dataPair in Collection.GetData())

@@ -33,8 +33,7 @@ namespace VaultLib.ModernBase.Exports
 
                 if (IsInline())
                 {
-                    InlineData = context.Database.TypeRegistry.ReadFieldValue(Collection.Class, Collection.Class[Key],
-                        Collection, context, fieldContext, br);
+                    InlineData = context.Database.TypeRegistry.ReadFieldValue(context, fieldContext, br);
                 }
                 else
                 {
@@ -61,7 +60,7 @@ namespace VaultLib.ModernBase.Exports
             }
             else
             {
-                context.Database.TypeRegistry.WriteFieldValue(Collection.Class[Key], InlineData, context, fieldContext,
+                context.Database.TypeRegistry.WriteFieldValue(InlineData, context, fieldContext,
                     bw);
             }
 

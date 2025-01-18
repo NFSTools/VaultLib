@@ -187,36 +187,17 @@ namespace VaultLib.Core
             }
         }
 
-        /// <summary>
-        ///     Creates the appropriate instance type for the given field.
-        /// </summary>
-        /// <remarks>Returns a <see cref="VltArrayType" /> if the field is an array.</remarks>
-        /// <param name="vltClass"></param>
-        /// <param name="vltClassField"></param>
-        /// <param name="collection"></param>
-        /// <returns></returns>
-        public object ConstructFieldValue(VltClass vltClass, VltClassField vltClassField,
-            VltCollection collection)
+        public object ConstructTypeInstance(Type type, VltClassField vltClassField)
         {
-            var type = ResolveType(vltClassField.TypeName);
+            Debug.Assert(type == ResolveType(vltClassField.TypeName));
 
-            if (vltClassField.IsArray)
-                return new VltArrayType(type)
-                    { ItemAlignment = vltClassField.Alignment };
-            return ConstructTypeInstance(type, vltClass, vltClassField, collection);
+            return _activators[type]();
         }
 
-        public object ConstructTypeInstance(Type type, VltClass vltClass, VltClassField vltClassField,
-            VltCollection collection)
+        public object ReadFieldValue(VaultReadContext readContext, FieldReadWriteContext fieldContext,
+            BinaryReader binaryReader)
         {
-            var activator = _activators[type];
-
-            return activator(vltClass, vltClassField, collection);
-        }
-
-        public object ReadFieldValue(VltClass vltClass, VltClassField vltClassField, VltCollection collection,
-            VaultReadContext readContext, FieldReadWriteContext fieldContext, BinaryReader binaryReader)
-        {
+            var vltClassField = fieldContext.Field;
             var type = ResolveType(vltClassField.TypeName);
             if (vltClassField.IsArray)
             {
@@ -226,21 +207,22 @@ namespace VaultLib.Core
                 return array;
             }
 
-            return ReadTypeInstance(vltClass, vltClassField, collection, readContext, fieldContext, binaryReader);
+            return ReadTypeInstance(readContext, fieldContext, binaryReader);
         }
 
-        public object ReadTypeInstance(VltClass vltClass, VltClassField vltClassField, VltCollection collection,
-            VaultReadContext readContext, FieldReadWriteContext fieldContext, BinaryReader binaryReader)
+        public object ReadTypeInstance(VaultReadContext readContext, FieldReadWriteContext fieldContext,
+            BinaryReader binaryReader)
         {
+            var vltClassField = fieldContext.Field;
             var type = ResolveType(vltClassField.TypeName);
-            var init = ConstructTypeInstance(type, vltClass, vltClassField, collection);
+            var init = ConstructTypeInstance(type, vltClassField);
             return _readers[type](init, readContext, fieldContext, binaryReader);
         }
 
-        public void WriteFieldValue(VltClassField vltClassField,
-            object instance,
+        public void WriteFieldValue(object instance,
             VaultWriteContext writeContext, FieldReadWriteContext fieldContext, BinaryWriter binaryWriter)
         {
+            var vltClassField = fieldContext.Field;
             if (vltClassField.IsArray)
             {
                 var array = (VltArrayType)instance;

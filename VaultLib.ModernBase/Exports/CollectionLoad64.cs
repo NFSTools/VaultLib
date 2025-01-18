@@ -186,8 +186,7 @@ namespace VaultLib.ModernBase.Exports
 
                     long startPos = br.BaseStream.Position;
                     var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
-                    var data = context.Database.TypeRegistry.ReadFieldValue(Collection.Class, baseField, Collection,
-                        context, fieldContext, br);
+                    var data = context.Database.TypeRegistry.ReadFieldValue(context, fieldContext, br);
                     long endPos = br.BaseStream.Position;
 
                     if (data is PrimitiveTypeBase)
@@ -281,7 +280,7 @@ namespace VaultLib.ModernBase.Exports
                 }
 
                 var rawValue = Collection.GetRawValue(baseField.Name);
-                context.Database.TypeRegistry.WriteFieldValue(baseField, rawValue, context, fieldContext, bw);
+                context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
             }
 
             foreach (var dataPair in Collection.GetData())

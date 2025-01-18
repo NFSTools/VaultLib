@@ -117,7 +117,7 @@ namespace VaultLib.ModernBase.Exports
                     br.AlignReader(staticField.Alignment);
                     var fieldContext = new FieldReadWriteContext(Class, staticField, null);
                     var staticData =
-                        context.Database.TypeRegistry.ReadFieldValue(Class, staticField, null, context, fieldContext,
+                        context.Database.TypeRegistry.ReadFieldValue(context, fieldContext,
                             br);
                     staticField.StaticValue = staticData;
                 }
@@ -162,7 +162,7 @@ namespace VaultLib.ModernBase.Exports
                 {
                     bw.AlignWriter(staticField.Alignment);
                     var fieldContext = new FieldReadWriteContext(Class, staticField, null);
-                    context.Database.TypeRegistry.WriteFieldValue(staticField, staticField.StaticValue, context,
+                    context.Database.TypeRegistry.WriteFieldValue(staticField.StaticValue, context,
                         fieldContext, bw);
                 }
 

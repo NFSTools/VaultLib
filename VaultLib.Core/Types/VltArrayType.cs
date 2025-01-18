@@ -109,8 +109,7 @@ namespace VaultLib.Core.Types
             {
                 var start = br.BaseStream.Position;
                 Debug.Assert(start % fieldContext.Field.Alignment == 0, "start % Field.Alignment == 0");
-                var item = databaseTypeRegistry.ReadTypeInstance(fieldContext.Class, fieldContext.Field,
-                    fieldContext.Collection, context, fieldContext, br);
+                var item = databaseTypeRegistry.ReadTypeInstance(context, fieldContext, br);
                 var end = br.BaseStream.Position;
                 Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
                 Items.Add(item);
