@@ -65,8 +65,13 @@ namespace VaultLib.Core
 
         private void RegisterVltBaseType(string typeId, Type type)
         {
+            var constructorInfo = type.GetConstructor(Type.EmptyTypes);
+            if (constructorInfo == null)
+                throw new MissingMethodException(
+                    $"Could not find zero-parameter constructor for type {type} (registered as {typeId})");
+
             _typeDictionary[typeId] = type;
-            _activators[type] = ReflectionUtils.GetActivator<object>(type.GetConstructor(Type.EmptyTypes));
+            _activators[type] = ReflectionUtils.GetActivator<object>(constructorInfo);
 
             _readers[type] = (instance, context, fieldContext, reader) =>
             {
