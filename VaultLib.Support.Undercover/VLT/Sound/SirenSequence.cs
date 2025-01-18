@@ -39,13 +39,5 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             bw.WriteEnum(mMode);
             bw.Write(mDuration);
         }
-
-        public SirenSequence(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public SirenSequence(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

@@ -2,7 +2,6 @@
 // 
 // Created: 09/27/2019 @ 4:45 PM.
 
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib.Gen;
 
@@ -11,11 +10,7 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Gen
     [VltTypeInfo("Attrib::Gen::ClassRefSpec_pursuit_threat_select")]
     public class ClassRefSpec_pursuit_threat_select : ClassRefSpec_template
     {
-        public ClassRefSpec_pursuit_threat_select(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection, "pursuit_threat_select")
-        {
-        }
-
-        public ClassRefSpec_pursuit_threat_select(VltClass @class, VltClassField field) : base(@class, field, "pursuit_threat_select")
+        public ClassRefSpec_pursuit_threat_select() : base("pursuit_threat_select")
         {
         }
     }

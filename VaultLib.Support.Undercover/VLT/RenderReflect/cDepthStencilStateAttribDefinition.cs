@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -16,7 +15,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
     [VltTypeInfo("RenderReflect::cDepthStencilStateAttribDefinition")]
     public class cDepthStencilStateAttribDefinition : VltBaseType, IReferencesStrings
     {
-        public string DebugName { get; set; }
+        public string DebugName { get; set; } = string.Empty;
 
         public bool TwoSidedStencilMode { get; set; }
         public bool ZEnable { get; set; }
@@ -42,7 +41,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public bool HiStencilEnable { get; set; }
         public bool HiStencilWriteEnable { get; set; }
 
-        private Text _debugNameText;
+        private Text _debugNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -123,12 +122,6 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public IEnumerable<string> GetStrings()
         {
             return _debugNameText.GetStrings();
-        }
-
-        public cDepthStencilStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _debugNameText = new Text(Class, Field, Collection);
-            DebugName = string.Empty;
         }
     }
 }

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -17,16 +16,16 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(CCarDamageMarkerEntry))]
     public class CCarDamageMarkerEntry : VltBaseType, IReferencesStrings
     {
-        public string MarkerName { get; set; }
+        public string MarkerName { get; set; } = string.Empty;
         public int PartID { get; set; }
         public int SlotID { get; set; }
-        public string AttachPart { get; set; }
-        public string SmackableCollisionName { get; set; }
-        public RefSpec SmackableCollisionAttribute { get; set; }
+        public string AttachPart { get; set; } = string.Empty;
+        public string SmackableCollisionName { get; set; } = string.Empty;
+        public RefSpec SmackableCollisionAttribute { get; set; } = new();
 
-        private Text _markerNameText;
-        private Text _attachPartText;
-        private Text _smackableCollisionNameText;
+        private Text _markerNameText = new();
+        private Text _attachPartText = new();
+        private Text _smackableCollisionNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -80,15 +79,6 @@ namespace VaultLib.Support.Undercover.VLT
         {
             return _markerNameText.GetStrings().Concat(_attachPartText.GetStrings())
                 .Concat(_smackableCollisionNameText.GetStrings());
-        }
-
-        public CCarDamageMarkerEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _markerNameText = new Text(Class, Field, Collection);
-            _attachPartText = new Text(Class, Field, Collection);
-            _smackableCollisionNameText = new Text(Class, Field, Collection);
-            MarkerName = AttachPart = SmackableCollisionName = string.Empty;
-            SmackableCollisionAttribute = new RefSpec(Class, Field, Collection);
         }
     }
 }

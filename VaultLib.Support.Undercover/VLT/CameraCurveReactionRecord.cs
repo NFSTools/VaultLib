@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -13,7 +12,7 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(CameraCurveReactionRecord))]
     public class CameraCurveReactionRecord : VltBaseType, IVltPointerObject
     {
-        public Curve Curve { get; set; }
+        public Curve Curve { get; set; } = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -41,11 +40,6 @@ namespace VaultLib.Support.Undercover.VLT
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             Curve.AddPointers(context, fieldContext);
-        }
-
-        public CameraCurveReactionRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Curve = new Curve(Class, Field, Collection);
         }
     }
 }

@@ -1,19 +1,10 @@
 ﻿using System.IO;
-using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib
 {
     public abstract class BaseBlob : VltBaseType, IVltPointerObject
     {
-        protected BaseBlob(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        protected BaseBlob(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public byte[] Data { get; set; }
 
         private int Length { get; set; }

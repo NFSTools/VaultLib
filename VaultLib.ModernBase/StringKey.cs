@@ -15,9 +15,9 @@ namespace VaultLib.ModernBase
 {
     public class StringKey : VltBaseType, IReferencesStrings, IStringValue
     {
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
 
-        private Text _text;
+        private Text _text = new();
 
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
@@ -67,12 +67,6 @@ namespace VaultLib.ModernBase
         public void SetString(string str)
         {
             Value = str;
-        }
-
-        public StringKey(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _text = new Text(Class, Field, Collection);
-            Value = string.Empty;
         }
     }
 }

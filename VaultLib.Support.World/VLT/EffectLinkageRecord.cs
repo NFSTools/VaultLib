@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -17,9 +16,9 @@ namespace VaultLib.Support.World.VLT
     [VltTypeInfo(nameof(EffectLinkageRecord))]
     public class EffectLinkageRecord : VltBaseType, IReferencesCollections
     {
-        public RefSpec Surface { get; set; }
-        public RefSpec Effect { get; set; }
-        public RefSpec Audio { get; set; }
+        public RefSpec Surface { get; set; } = new();
+        public RefSpec Effect { get; set; } = new();
+        public RefSpec Audio { get; set; } = new();
         public float MinSpeed { get; set; }
         public float MaxSpeed { get; set; }
         public float SFXMinSpeed { get; set; }
@@ -60,13 +59,6 @@ namespace VaultLib.Support.World.VLT
             return Surface.ReferencesCollection(classKey, collectionKey)
                    || Effect.ReferencesCollection(classKey, collectionKey)
                    || Audio.ReferencesCollection(classKey, collectionKey);
-        }
-
-        public EffectLinkageRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Surface = new RefSpec(Class, Field, Collection);
-            Effect = new RefSpec(Class, Field, Collection);
-            Audio = new RefSpec(Class, Field, Collection);
         }
     }
 }

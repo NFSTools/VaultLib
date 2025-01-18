@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.NIS
@@ -9,14 +8,6 @@ namespace VaultLib.Support.Undercover.VLT.NIS
     [VltTypeInfo("NIS::EndTransition")]
     public class EndTransition : VltBaseType
     {
-        public EndTransition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public EndTransition(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public eEndTransitionType TransitionType { get; set; }
         public float TransitionSec { get; set; }
 

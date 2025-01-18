@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -18,7 +17,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     {
         public uint Goal { get; set; }
 
-        public RefSpec Reaction { get; set; }
+        public RefSpec Reaction { get; set; } = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -40,11 +39,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         public bool ReferencesCollection(string classKey, string collectionKey)
         {
             throw new System.NotImplementedException();
-        }
-
-        public AICollisionReactionRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Reaction = new RefSpec(Class, Field, Collection);
         }
     }
 }

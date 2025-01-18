@@ -6,7 +6,6 @@ using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 using VaultLib.Frameworks.Speed.VLT;
@@ -17,12 +16,12 @@ namespace VaultLib.Support.World.VLT
     [VltTypeInfo(nameof(ControllerDataRecord))]
     public class ControllerDataRecord : VltBaseType, IReferencesStrings
     {
-        public string DeviceId { get; set; }
+        public string DeviceId { get; set; } = string.Empty;
         public InputUpdateType UpdateType { get; set; }
         public float LowerDeadZone { get; set; }
         public float UpperDeadZone { get; set; }
 
-        private StringKey InternalDeviceId { get; set; }
+        private StringKey InternalDeviceId { get; set; } = new();
 
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
@@ -61,12 +60,6 @@ namespace VaultLib.Support.World.VLT
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             InternalDeviceId.AddPointers(context, fieldContext);
-        }
-
-        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            InternalDeviceId = new StringKey(Class, Field, Collection);
-            DeviceId = string.Empty;
         }
     }
 }

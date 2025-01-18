@@ -100,7 +100,7 @@ namespace VaultLib.ModernBase.Exports
                 else
                 {
                     entry.InlineData =
-                        new VltAttribType(Collection.Class, vltClassField, Collection)
+                        new VltAttribType()
                         { Data = optionalDataColumn.Value };
                 }
 

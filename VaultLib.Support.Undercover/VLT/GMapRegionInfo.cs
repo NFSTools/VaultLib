@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -15,7 +14,7 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(GMapRegionInfo))]
     public class GMapRegionInfo : VltBaseType, IReferencesStrings
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public ushort mCurveStart { get; set; }
         public ushort mCurveCount { get; set; }
         public ushort mTriangleStart { get; set; }
@@ -25,7 +24,7 @@ namespace VaultLib.Support.Undercover.VLT
         public float mBoundsMaxX { get; set; }
         public float mBoundsMaxY { get; set; }
 
-        private Text _name;
+        private Text _name = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -73,12 +72,6 @@ namespace VaultLib.Support.Undercover.VLT
         public IEnumerable<string> GetStrings()
         {
             return new[] { Name };
-        }
-
-        public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _name = new Text(Class, Field, Collection);
-            Name = string.Empty;
         }
     }
 }

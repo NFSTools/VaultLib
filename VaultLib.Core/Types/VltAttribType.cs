@@ -5,7 +5,6 @@
 using CoreLibraries.IO;
 using System.Diagnostics;
 using System.IO;
-using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
@@ -16,15 +15,6 @@ namespace VaultLib.Core.Types
 
         private long _offsetSrc;
 
-        public VltAttribType(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
-            collection)
-        {
-        }
-
-        public VltAttribType(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public uint Offset { get; set; } // pointer to bin stream
         public object Data { get; set; }
 
@@ -33,18 +23,18 @@ namespace VaultLib.Core.Types
             Debug.Assert(Offset != 0);
 
             br.BaseStream.Position = Offset;
-            Data = context.Database.TypeRegistry.ReadFieldValue(Class, Field, Collection, context, fieldContext, br);
+            Data = context.Database.TypeRegistry.ReadFieldValue(fieldContext.Class, fieldContext.Field, fieldContext.Collection, context, fieldContext, br);
 
             if (!(Data is VltArrayType))
-                Debug.Assert(br.BaseStream.Position - Offset == Field.Size,
-                    "br.BaseStream.Position - Offset == Field.Size");
+                Debug.Assert(br.BaseStream.Position - Offset == fieldContext.Field.Size,
+                    "br.BaseStream.Position - Offset == fieldContext.Field.Size");
         }
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            bw.AlignWriter(Field.Alignment);
+            bw.AlignWriter(fieldContext.Field.Alignment);
             _offsetDst = bw.BaseStream.Position;
-            context.Database.TypeRegistry.WriteFieldValue(Field, Data, context, fieldContext, bw);
+            context.Database.TypeRegistry.WriteFieldValue(fieldContext.Field, Data, context, fieldContext, bw);
 
             if (Data is IVltPointerObject vltPointerObject)
             {

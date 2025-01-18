@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
@@ -25,14 +24,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         {
             bw.Write(mPointStart);
             bw.Write(mPointCount);
-        }
-
-        public GMapCurve(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public GMapCurve(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

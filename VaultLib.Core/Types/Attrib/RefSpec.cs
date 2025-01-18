@@ -3,7 +3,6 @@
 // Created: 09/26/2019 @ 4:15 PM.
 
 using System.IO;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
@@ -13,14 +12,6 @@ namespace VaultLib.Core.Types.Attrib
     [VltTypeInfo("Attrib::RefSpec")]
     public class RefSpec : BaseRefSpec
     {
-        public RefSpec(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public RefSpec(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public override string ClassKey { get; set; }
 
         public override string CollectionKey
@@ -34,7 +25,9 @@ namespace VaultLib.Core.Types.Attrib
 
                 return _collectionHash32 != 0
                     ? HashManager.ResolveVlt(_collectionHash32)
-                    : _collectionHash64 != 0 ? HashManager.ResolveVlt(_collectionHash64) : string.Empty;
+                    : _collectionHash64 != 0
+                        ? HashManager.ResolveVlt(_collectionHash64)
+                        : string.Empty;
             }
             set => _collectionKey = value;
         }

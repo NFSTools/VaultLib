@@ -2,10 +2,9 @@
 // 
 // Created: 10/07/2019 @ 3:31 PM.
 
-using CoreLibraries.IO;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore
@@ -35,14 +34,6 @@ namespace VaultLib.Support.World.VLT.GameCore
             bw.Write(mBehaviorChannel);
             bw.Write(mBehaviorType);
             bw.WriteEnum(mFlags);
-        }
-
-        public BehaviorSlot(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public BehaviorSlot(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

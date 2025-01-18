@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
@@ -9,14 +8,6 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
     [VltTypeInfo(nameof(VinylColor))]
     public class VinylColor : VltBaseType
     {
-        public VinylColor(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public VinylColor(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public sbyte Swatch { get; set; }
         public sbyte Saturation { get; set; }
         public sbyte Brightness { get; set; }

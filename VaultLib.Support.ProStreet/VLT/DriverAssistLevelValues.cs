@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.ProStreet.VLT
@@ -8,14 +7,6 @@ namespace VaultLib.Support.ProStreet.VLT
     [VltTypeInfo(nameof(DriverAssistLevelValues))]
     public class DriverAssistLevelValues : VltBaseType
     {
-        public DriverAssistLevelValues(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public DriverAssistLevelValues(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public int TractionControlLevel { get; set; }
         public int AntilockBrakeLevel { get; set; }
         public int StabilityControlLevel { get; set; }

@@ -39,7 +39,7 @@ namespace VaultLib.ModernBase.Exports
                 }
                 else
                 {
-                    var attrib = new VltAttribType(Collection.Class, field, Collection);
+                    var attrib = new VltAttribType();
                     attrib.Read(context, fieldContext, br);
                     InlineData = attrib;
                 }

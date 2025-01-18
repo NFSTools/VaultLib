@@ -3,21 +3,12 @@
 // Created: 09/28/2019 @ 3:52 PM.
 
 using System.IO;
-using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.Attrib.Types
 {
     [VltTypeInfo("Attrib::Types::Vector2")]
     public class Vector2 : VltBaseType
     {
-        public Vector2(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Vector2(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public float X { get; set; }
         public float Y { get; set; }
 

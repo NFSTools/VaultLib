@@ -1,6 +1,5 @@
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.Sound
@@ -8,13 +7,13 @@ namespace VaultLib.Support.Undercover.VLT.Sound
     [VltTypeInfo("Sound::SirenTuning")]
     public class SirenTuning : VltBaseType
     {
-        public float[] OpRadiusLimit { get; set; }
+        public float[] OpRadiusLimit { get; set; } = new float[2];
         public float SpeedThresh { get; set; }
-        public float[] HornLimit { get; set; }
-        public float[] PriorityLimit { get; set; }
-        public float[] WailLimit { get; set; }
-        public float[] YelpLimit { get; set; }
-        public float[] LoopXFadeRange { get; set; }
+        public float[] HornLimit { get; set; } = new float[2];
+        public float[] PriorityLimit { get; set; } = new float[2];
+        public float[] WailLimit { get; set; } = new float[2];
+        public float[] YelpLimit { get; set; } = new float[2];
+        public float[] LoopXFadeRange { get; set; } = new float[2];
 
         public int Unknown1 { get; set; }
         public int Unknown2 { get; set; }
@@ -100,16 +99,6 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             bw.Write(Unknown2);
             bw.Write(Unknown3);
             bw.Write(Unknown4);
-        }
-
-        public SirenTuning(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            OpRadiusLimit = new float[2];
-            HornLimit = new float[2];
-            PriorityLimit = new float[2];
-            WailLimit = new float[2];
-            YelpLimit = new float[2];
-            LoopXFadeRange = new float[2];
         }
     }
 }

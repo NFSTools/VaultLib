@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Frameworks.Speed.VLT;
@@ -11,13 +10,8 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(PresetRidePaint))]
     public class PresetRidePaint : VltBaseType
     {
-        public PresetRidePaint(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Group = new RefSpec(Class, Field, Collection);
-        }
-
         public ePaintSlot SlotID { get; set; }
-        public RefSpec Group { get; set; }
+        public RefSpec Group { get; set; } = new();
         public byte Swatch { get; set; }
         public float Saturation { get; set; }
         public float Variance { get; set; }

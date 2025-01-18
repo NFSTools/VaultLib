@@ -58,11 +58,10 @@ namespace VaultLib.Frameworks.Speed.VLT
             return _slotNameText.GetStrings();
         }
 
-        public CCarSlotEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class,
-            field, collection)
+        public CCarSlotEntry()
         {
-            Parts = new DynamicSizeArray<RefSpec>(Class, Field, Collection);
-            _slotNameText = new Text(Class, Field, Collection);
+            Parts = new DynamicSizeArray<RefSpec>();
+            _slotNameText = new Text();
             SlotName = string.Empty;
         }
     }

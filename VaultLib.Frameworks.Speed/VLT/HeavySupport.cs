@@ -41,13 +41,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(Duration);
             bw.Write(ChanceBigSUV);
         }
-
-        public HeavySupport(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public HeavySupport(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

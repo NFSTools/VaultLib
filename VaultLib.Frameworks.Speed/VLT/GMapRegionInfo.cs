@@ -15,13 +15,13 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(GMapRegionInfo))]
     public class GMapRegionInfo : VltBaseType, IReferencesStrings
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public ushort mCurveStart { get; set; }
         public ushort mCurveCount { get; set; }
         public ushort mTriangleStart { get; set; }
         public ushort mTriangleCount { get; set; }
 
-        private Text _name;
+        private Text _name = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -62,12 +62,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         public IEnumerable<string> GetStrings()
         {
             return new[] { Name };
-        }
-
-        public GMapRegionInfo(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _name = new Text(Class, Field, Collection);
-            Name = string.Empty;
         }
     }
 }

@@ -44,13 +44,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(LD_HI_RPM);
             bw.Write(REVLMT_RPM);
         }
-
-        public AUDENGRPMRANGEst(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public AUDENGRPMRANGEst(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

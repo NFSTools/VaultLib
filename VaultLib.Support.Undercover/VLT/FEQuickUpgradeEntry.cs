@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
@@ -9,14 +8,6 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(FEQuickUpgradeEntry))]
     public class FEQuickUpgradeEntry : VltBaseType
     {
-        public FEQuickUpgradeEntry(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public FEQuickUpgradeEntry(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public eQuickUpgradePackages Package { get; set; }
         public eQuickUpgradeLevels Level { get; set; }
 

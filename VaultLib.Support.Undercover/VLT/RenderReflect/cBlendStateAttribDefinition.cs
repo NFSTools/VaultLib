@@ -6,7 +6,6 @@ using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib.Types;
 using VaultLib.Core.Types.EA.Reflection;
@@ -17,28 +16,28 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
     [VltTypeInfo("RenderReflect::cBlendStateAttribDefinition")]
     public class cBlendStateAttribDefinition : VltBaseType, IReferencesStrings
     {
-        public string DebugName { get; set; }
+        public string DebugName { get; set; } = string.Empty;
 
         public bool BlendEnable { get; set; }
         public bool AlphaTestEnable { get; set; }
         public uint AlphaTestRef { get; set; }
         public State_BlendFunc AlphaTestFunc { get; set; }
-        public State_BlendInput[] SourceColor { get; set; }
-        public State_BlendInput[] DestColor { get; set; }
-        public State_BlendOp[] OperationColor { get; set; }
-        public State_BlendInput[] SourceAlpha { get; set; }
-        public State_BlendInput[] DestAlpha { get; set; }
-        public State_BlendOp[] OperationAlpha { get; set; }
+        public State_BlendInput[] SourceColor { get; set; } = new State_BlendInput[4];
+        public State_BlendInput[] DestColor { get; set; } = new State_BlendInput[4];
+        public State_BlendOp[] OperationColor { get; set; } = new State_BlendOp[4];
+        public State_BlendInput[] SourceAlpha { get; set; } = new State_BlendInput[4];
+        public State_BlendInput[] DestAlpha { get; set; } = new State_BlendInput[4];
+        public State_BlendOp[] OperationAlpha { get; set; } = new State_BlendOp[4];
         public Vector4 BlendFactor { get; set; }
-        public bool[] RGBAEnableRT0 { get; set; }
-        public bool[] RGBAEnableRT1 { get; set; }
-        public bool[] RGBAEnableRT2 { get; set; }
-        public bool[] RGBAEnableRT3 { get; set; }
+        public bool[] RGBAEnableRT0 { get; set; } = new bool[4];
+        public bool[] RGBAEnableRT1 { get; set; } = new bool[4];
+        public bool[] RGBAEnableRT2 { get; set; } = new bool[4];
+        public bool[] RGBAEnableRT3 { get; set; } = new bool[4];
         public bool AlphaToMaskEnable_XENON { get; set; }
-        public bool[] HiPrecisionBlendEnable_XENON { get; set; }
-        public bool[] BlendEnable_PS3 { get; set; }
+        public bool[] HiPrecisionBlendEnable_XENON { get; set; } = new bool[4];
+        public bool[] BlendEnable_PS3 { get; set; } = new bool[4];
         public bool BlendFactorF16_PS3 { get; set; }
-        private Text _debugNameText;
+        private Text _debugNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -54,7 +53,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             SourceAlpha = br.ReadArray(br.ReadEnum<State_BlendInput>, 4);
             DestAlpha = br.ReadArray(br.ReadEnum<State_BlendInput>, 4);
             OperationAlpha = br.ReadArray(br.ReadEnum<State_BlendOp>, 4);
-            BlendFactor = new Vector4(Class, Field, Collection);
+            BlendFactor = new Vector4();
             BlendFactor.Read(context, fieldContext, br);
             RGBAEnableRT0 = br.ReadArray(br.ReadBoolean, 4);
             RGBAEnableRT1 = br.ReadArray(br.ReadBoolean, 4);
@@ -113,24 +112,6 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public IEnumerable<string> GetStrings()
         {
             return _debugNameText.GetStrings();
-        }
-
-        public cBlendStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _debugNameText = new Text(Class, Field, Collection);
-            SourceColor = new State_BlendInput[4];
-            DestColor = new State_BlendInput[4];
-            OperationColor = new State_BlendOp[4];
-            SourceAlpha = new State_BlendInput[4];
-            DestAlpha = new State_BlendInput[4];
-            OperationAlpha = new State_BlendOp[4];
-            RGBAEnableRT0 = new bool[4];
-            RGBAEnableRT1 = new bool[4];
-            RGBAEnableRT2 = new bool[4];
-            RGBAEnableRT3 = new bool[4];
-            HiPrecisionBlendEnable_XENON = new bool[4];
-            BlendEnable_PS3 = new bool[4];
-            DebugName = string.Empty;
         }
     }
 }

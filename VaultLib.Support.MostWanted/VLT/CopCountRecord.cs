@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 using VaultLib.LegacyBase;
@@ -15,11 +14,11 @@ namespace VaultLib.Support.MostWanted.VLT
     [VltTypeInfo(nameof(CopCountRecord))]
     public class CopCountRecord : VltBaseType, IReferencesStrings
     {
-        public string CopType { get; set; }
+        public string CopType { get; set; } = string.Empty;
         public uint Count { get; set; }
         public uint Chance { get; set; }
 
-        private StringKey64 _copType;
+        private StringKey64 _copType = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -55,12 +54,6 @@ namespace VaultLib.Support.MostWanted.VLT
         public IEnumerable<string> GetStrings()
         {
             return new[] { CopType };
-        }
-
-        public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _copType = new StringKey64(Class, Field, Collection);
-            CopType = string.Empty;
         }
     }
 }

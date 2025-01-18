@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
@@ -9,12 +8,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(UpgradeDescription))]
     public class UpgradeDescription : VltBaseType
     {
-        public UpgradeDescription(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            mPhysicsUpgradeSet = new RefSpec(Class, Field, Collection);
-        }
-
-        public RefSpec mPhysicsUpgradeSet { get; set; }
+        public RefSpec mPhysicsUpgradeSet { get; set; } = new();
         public float mBlendingPower { get; set; }
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)

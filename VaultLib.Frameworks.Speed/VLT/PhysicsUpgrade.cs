@@ -9,12 +9,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(PhysicsUpgrade))]
     public class PhysicsUpgrade : VltBaseType
     {
-        public PhysicsUpgrade(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            ReferencedAttribute = new AttributeRefSpec(Class, Field, Collection);
-        }
-
-        public AttributeRefSpec ReferencedAttribute { get; set; }
+        public AttributeRefSpec ReferencedAttribute { get; set; } = new();
         public bool IsMember { get; set; }
         public uint MemberIndex { get; set; }
         public float BlendingPower { get; set; }

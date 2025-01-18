@@ -2,12 +2,11 @@
 // 
 // Created: 10/20/2019 @ 11:46 AM.
 
-using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -17,13 +16,13 @@ namespace VaultLib.Support.Undercover.VLT.NIS
     [VltTypeInfo("NIS::NISActor")]
     public class NISActor : VltBaseType, IReferencesStrings
     {
-        public string ActorName { get; set; }
-        public string CarChannelName { get; set; }
+        public string ActorName { get; set; } = string.Empty;
+        public string CarChannelName { get; set; } = string.Empty;
         public bool IsDriver { get; set; }
         public float ExitAnimSec { get; set; }
         public bool IsFacePixelation { get; set; }
 
-        private Text _actorNameText, _carChannelNameText;
+        private Text _actorNameText = new(), _carChannelNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -74,14 +73,6 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public IEnumerable<string> GetStrings()
         {
             return _actorNameText.GetStrings().Concat(_carChannelNameText.GetStrings());
-        }
-
-        public NISActor(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _actorNameText = new Text(Class, Field, Collection);
-            _carChannelNameText = new Text(Class, Field, Collection);
-            ActorName = string.Empty;
-            CarChannelName = string.Empty;
         }
     }
 }

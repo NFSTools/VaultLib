@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -22,14 +21,6 @@ namespace VaultLib.Support.World.VLT
         public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(Hash);
-        }
-
-        public SkyDomeModelStruct(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public SkyDomeModelStruct(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

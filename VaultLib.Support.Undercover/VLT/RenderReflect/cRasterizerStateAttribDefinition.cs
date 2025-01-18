@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -16,14 +15,14 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
     [VltTypeInfo("RenderReflect::cRasterizerStateAttribDefinition")]
     public class cRasterizerStateAttribDefinition : VltBaseType, IReferencesStrings
     {
-        public string DebugName { get; set; }
+        public string DebugName { get; set; } = string.Empty;
         public State_RasterizerCullMode CullMode { get; set; }
         public float DepthBias { get; set; }
         public float ScaleDepthBias { get; set; }
         public bool ScissorTestEnable { get; set; }
         public bool PrimitiveResetEnable { get; set; }
         public uint PrimitiveResetIndex { get; set; }
-        public ScissorData ScissorData { get; set; }
+        public ScissorData ScissorData { get; set; } = new();
         public State_RasterizerFillMode FillMode { get; set; }
         public bool MultiSampleAntialiasEnable { get; set; }
         public uint MultiSampleMask { get; set; }
@@ -32,7 +31,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public State_RasterizerShadeMode ShadeMode { get; set; }
         public State_RasterizerFrontFace FrontFace { get; set; }
 
-        private Text _debugNameText;
+        private Text _debugNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -98,13 +97,6 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public IEnumerable<string> GetStrings()
         {
             return _debugNameText.GetStrings();
-        }
-
-        public cRasterizerStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            ScissorData = new ScissorData(Class, Field, Collection);
-            _debugNameText = new Text(Class, Field, Collection);
-            DebugName = string.Empty;
         }
     }
 }

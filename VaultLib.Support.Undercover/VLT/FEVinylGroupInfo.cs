@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
@@ -8,14 +7,6 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(FEVinylGroupInfo))]
     public class FEVinylGroupInfo : VltBaseType
     {
-        public FEVinylGroupInfo(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public FEVinylGroupInfo(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public uint Value1 { get; set; }
         public uint Value2 { get; set; }
         public uint Value3 { get; set; }

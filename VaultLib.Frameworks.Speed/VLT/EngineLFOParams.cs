@@ -35,13 +35,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(vol_amplitude);
             bw.Write(lifespan);
         }
-
-        public EngineLFOParams(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public EngineLFOParams(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

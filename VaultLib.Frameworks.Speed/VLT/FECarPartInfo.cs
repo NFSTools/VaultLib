@@ -9,14 +9,6 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(FECarPartInfo))]
     public class FECarPartInfo : VltBaseType
     {
-        public FECarPartInfo(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public FECarPartInfo(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public eFEPartUpgradeLevels Level { get; set; }
         public float Cost { get; set; }
 

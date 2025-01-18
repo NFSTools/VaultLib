@@ -7,14 +7,6 @@ namespace VaultLib.Core.Types.EA.Reflection
     [VltTypeInfo("EA::Reflection::Reference")]
     public class Reference : VltBaseType
     {
-        public Reference(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Reference(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             throw new System.NotImplementedException();

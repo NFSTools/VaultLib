@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -16,7 +15,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(TrafficPatternRecord))]
     public class TrafficPatternRecord : VltBaseType, IReferencesCollections
     {
-        public RefSpec Vehicle { get; set; }
+        public RefSpec Vehicle { get; set; } = new();
         public float Rate { get; set; }
         public uint MaxInstances { get; set; }
         public uint Percent { get; set; }
@@ -50,11 +49,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         public bool ReferencesCollection(string classKey, string collectionKey)
         {
             return Vehicle.ClassKey == classKey && Vehicle.CollectionKey == collectionKey;
-        }
-
-        public TrafficPatternRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Vehicle = new RefSpec(Class, Field, Collection);
         }
     }
 }

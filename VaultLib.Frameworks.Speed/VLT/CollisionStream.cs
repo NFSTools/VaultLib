@@ -10,11 +10,6 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(CollisionStream))]
     public class CollisionStream : VltBaseType
     {
-        public CollisionStream(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            StreamMoment = new RefSpec(Class, Field, Collection);
-        }
-
         public RefSpec StreamMoment { get; set; }
         public byte Threshold { get; set; }
 

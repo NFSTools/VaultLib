@@ -1,6 +1,5 @@
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
@@ -9,7 +8,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(UpgradeSpecs))]
     public class UpgradeSpecs : VltBaseType
     {
-        public RefSpec ReferencedRow { get; set; }
+        public RefSpec ReferencedRow { get; set; } = new();
 
         public uint UpgradeLevel { get; set; }
 
@@ -23,11 +22,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         {
             ReferencedRow.Write(context, fieldContext, bw);
             bw.Write(UpgradeLevel);
-        }
-
-        public UpgradeSpecs(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            ReferencedRow = new RefSpec(Class, Field, Collection);
         }
     }
 }

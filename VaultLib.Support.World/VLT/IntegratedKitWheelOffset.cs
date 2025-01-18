@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
@@ -20,11 +19,11 @@ namespace VaultLib.Support.World.VLT
         //private uint _kitHash;
         //private uint _u2;
 
-        public string KitName { get; set; }
+        public string KitName { get; set; } = string.Empty;
 
         public uint Offset { get; set; }
 
-        private Text _kitName { get; set; }
+        private Text _kitName { get; set; } = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -60,12 +59,6 @@ namespace VaultLib.Support.World.VLT
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             _kitName.AddPointers(context, fieldContext);
-        }
-
-        public IntegratedKitWheelOffset(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _kitName = new Text(Class, Field, Collection);
-            KitName = string.Empty;
         }
     }
 }

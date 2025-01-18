@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Frameworks.Speed.VLT.Physics.Upgrades;
@@ -11,12 +10,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(ModifyScalarValue))]
     public class ModifyScalarValue : VltBaseType
     {
-        public ModifyScalarValue(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            ReferencedRow = new RefSpecPacked(Class, Field, Collection);
-        }
-
-        public RefSpecPacked ReferencedRow { get; set; }
+        public RefSpecPacked ReferencedRow { get; set; } = new();
         public bool IsMember { get; set; }
         public uint MemberIndex { get; set; }
         public bool IsElement { get; set; }

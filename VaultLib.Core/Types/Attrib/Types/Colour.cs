@@ -6,14 +6,6 @@ namespace VaultLib.Core.Types.Attrib.Types
     [VltTypeInfo("Attrib::Types::Colour")]
     public class Colour : VltBaseType
     {
-        public Colour(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Colour(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public byte R { get; set; }
         public byte G { get; set; }
         public byte B { get; set; }

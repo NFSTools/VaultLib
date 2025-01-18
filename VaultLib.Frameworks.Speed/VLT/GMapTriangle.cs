@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
@@ -28,14 +27,6 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(mPoint1);
             bw.Write(mPoint2);
             bw.Write(mPoint3);
-        }
-
-        public GMapTriangle(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public GMapTriangle(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

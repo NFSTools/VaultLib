@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -16,11 +15,11 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(FEPartCamera))]
     public class FEPartCamera : VltBaseType, IVltPointerObject, IReferencesStrings
     {
-        public string SlotName { get; set; }
-        public RefSpec Camera { get; set; }
-        public RefSpec Camera_4_3 { get; set; }
+        public string SlotName { get; set; } = string.Empty;
+        public RefSpec Camera { get; set; } = new();
+        public RefSpec Camera_4_3 { get; set; } = new();
 
-        private Text _slotNameText;
+        private Text _slotNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -56,14 +55,6 @@ namespace VaultLib.Support.Undercover.VLT
         public IEnumerable<string> GetStrings()
         {
             return _slotNameText.GetStrings();
-        }
-
-        public FEPartCamera(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _slotNameText = new Text(Class, Field, Collection);
-            Camera = new RefSpec(Class, Field, Collection);
-            Camera_4_3 = new RefSpec(Class, Field, Collection);
-            SlotName = string.Empty;
         }
     }
 }

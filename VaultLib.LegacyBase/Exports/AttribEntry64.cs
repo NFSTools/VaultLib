@@ -38,7 +38,7 @@ namespace VaultLib.LegacyBase.Exports
             }
             else
             {
-                var attrib = new VltAttribType(Collection.Class, Collection.Class[Key], Collection);
+                var attrib = new VltAttribType();
                 attrib.Read(context, fieldContext, br);
                 InlineData = attrib;
             }

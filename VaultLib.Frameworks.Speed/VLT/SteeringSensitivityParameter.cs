@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
@@ -17,14 +16,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float OuterDeadZone { get; set; }
         public ushort NumberOfSteps { get; set; }
 
-        public SteeringSensitivityParameter(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public SteeringSensitivityParameter(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-        
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             CurveStyle = br.ReadEnum<eSteeringCurveStyle>();

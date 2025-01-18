@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -13,25 +12,19 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(FEQuickUpgrade))]
     public class FEQuickUpgrade : VltBaseType, IVltPointerObject, IReferencesStrings
     {
-        public FEQuickUpgrade(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _offerIdText = new Text(Class, Field, Collection);
-            OfferID = string.Empty;
-        }
-
         public float Cost { get; set; }
         public float Tier1_Cost { get; set; }
         public float Tier2_Cost { get; set; }
         public float Tier3_Cost { get; set; }
         public float Tier4_Cost { get; set; }
-        public string OfferID { get; set; }
+        public string OfferID { get; set; } = string.Empty;
         public List<FEQuickUpgradeEntry> Entries { get; set; }
 
         private byte _packageLength;
         private uint _ptrPackages;
         private long _ptrPackagesSrc;
         private long _ptrPackagesDst;
-        private Text _offerIdText;
+        private Text _offerIdText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -72,7 +65,7 @@ namespace VaultLib.Support.Undercover.VLT
 
             for (int i = 0; i < _packageLength; i++)
             {
-                FEQuickUpgradeEntry entry = new FEQuickUpgradeEntry(Class, Field, Collection);
+                FEQuickUpgradeEntry entry = new FEQuickUpgradeEntry();
                 entry.Read(context, fieldContext, br);
 
                 Entries.Add(entry);

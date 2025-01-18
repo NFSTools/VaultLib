@@ -2,12 +2,12 @@
 // 
 // Created: 09/27/2019 @ 5:45 PM.
 
-using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Hashing;
@@ -68,16 +68,19 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
             EndPointer = 0;
 
             // Obtain the full list of collections
-            List<VltCollection> allCollections = context.Collections.Where(c => c.Class.Name == Class.Name).ToList();
+            List<VltCollection> allCollections =
+                context.Collections.Where(c => c.Class.Name == fieldContext.Class.Name).ToList();
             Dictionary<VltCollection, uint> keys = allCollections.ToDictionary(c => c, c => Vlt32Hasher.Hash(c.Name));
 
             // Group list by parent
-            Dictionary<uint, List<VltCollection>> groupedByParent = allCollections.GroupBy(c => c.Parent != null ? keys[c.Parent] : 0)
+            Dictionary<uint, List<VltCollection>> groupedByParent = allCollections
+                .GroupBy(c => c.Parent != null ? keys[c.Parent] : 0)
                 .ToDictionary(g => g.Key, g => g.ToList());
 
 
             // Filter list to collections with children
-            List<VltCollection> withChildren = allCollections.Where(c => groupedByParent.ContainsKey(keys[c])).OrderBy(c => keys[c]).ToList();
+            List<VltCollection> withChildren = allCollections.Where(c => groupedByParent.ContainsKey(keys[c]))
+                .OrderBy(c => keys[c]).ToList();
 
             // Get list of top-level (no parent) collections
             List<VltCollection> topLevel = allCollections.Where(c => c.Parent == null).ToList();
@@ -148,14 +151,6 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
             context.AddPointer(ElementsPointer, ElementsDest, false);
             context.AddPointer(TreePointer, TreeDest, false);
             context.AddPointer(EndPointer, EndDest, false);
-        }
-
-        public Static_Inorder_N_to_1(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Static_Inorder_N_to_1(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

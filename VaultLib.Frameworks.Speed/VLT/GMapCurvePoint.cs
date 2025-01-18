@@ -26,13 +26,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(X);
             bw.Write(Y);
         }
-
-        public GMapCurvePoint(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public GMapCurvePoint(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

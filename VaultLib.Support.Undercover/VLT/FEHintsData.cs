@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -17,9 +16,9 @@ namespace VaultLib.Support.Undercover.VLT
     {
         public uint SubjectHALId { get; set; }
         public uint TextHALId { get; set; }
-        public string Picture { get; set; }
+        public string Picture { get; set; } = string.Empty;
 
-        private Text _pictureText;
+        private Text _pictureText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -55,12 +54,6 @@ namespace VaultLib.Support.Undercover.VLT
         public IEnumerable<string> GetStrings()
         {
             return _pictureText.GetStrings();
-        }
-
-        public FEHintsData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _pictureText = new Text(Class, Field, Collection);
-            Picture = string.Empty;
         }
     }
 }

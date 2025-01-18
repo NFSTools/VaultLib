@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
@@ -16,13 +15,13 @@ namespace VaultLib.Support.World.VLT.Sound
         public float PursuitUR { get; set; }
         public float PursuitDistThresh { get; set; }
         public float Evade2OutrunSpeedThresh { get; set; }
-        public float[] HighTimeLimit { get; set; }
-        public float[] LowTimeLimit { get; set; }
-        public float[] EvadeTimeLimit { get; set; }
-        public float[] NormalTimeLimit { get; set; }
-        public float[] OutrunTimeLimit { get; set; }
-        public float[] SafeTimeLimit { get; set; }
-        public float[] UnsafeTimeLimit { get; set; }
+        public float[] HighTimeLimit { get; set; } = new float[2];
+        public float[] LowTimeLimit { get; set; } = new float[2];
+        public float[] EvadeTimeLimit { get; set; } = new float[2];
+        public float[] NormalTimeLimit { get; set; } = new float[2];
+        public float[] OutrunTimeLimit { get; set; } = new float[2];
+        public float[] SafeTimeLimit { get; set; } = new float[2];
+        public float[] UnsafeTimeLimit { get; set; } = new float[2];
         public float StartupDelay { get; set; }
         public float PctMaxVel_Low { get; set; }
         public float MinTimeLost { get; set; }
@@ -130,17 +129,6 @@ namespace VaultLib.Support.World.VLT.Sound
             bw.Write(PctMaxVel_High);
             bw.Write(MaxPursuitDist);
             bw.Write(MinCopCohesion);
-        }
-
-        public PursuitMusicTuning(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            HighTimeLimit = new float[2];
-            LowTimeLimit = new float[2];
-            EvadeTimeLimit = new float[2];
-            NormalTimeLimit = new float[2];
-            OutrunTimeLimit = new float[2];
-            SafeTimeLimit = new float[2];
-            UnsafeTimeLimit = new float[2];
         }
     }
 }

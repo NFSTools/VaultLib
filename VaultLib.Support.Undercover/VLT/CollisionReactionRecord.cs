@@ -32,13 +32,5 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(WeightBias);
             bw.Write(MassScale);
         }
-
-        public CollisionReactionRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public CollisionReactionRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -66,13 +65,13 @@ namespace VaultLib.Frameworks.Speed.VLT
             WEIGHT_TO_POWER_RATIO = 0x24,
         }
 
-        public string SlotName { get; set; }
+        public string SlotName { get; set; } = string.Empty;
         public StatsModeFlag ModeFlags { get; set; }
         public uint SlotDesc { get; set; }
         public uint TuningSliderListString { get; set; }
-        public FEPhysicsStatType[] Stats { get; set; }
+        public FEPhysicsStatType[] Stats { get; set; } = new FEPhysicsStatType[2];
 
-        private Text _slotNameText;
+        private Text _slotNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -112,13 +111,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         public IEnumerable<string> GetStrings()
         {
             return _slotNameText.GetStrings();
-        }
-
-        public SlotStats(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Stats = new FEPhysicsStatType[2];
-            _slotNameText = new Text(Class, Field, Collection);
-            SlotName = string.Empty;
         }
     }
 }

@@ -5,7 +5,6 @@
 using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
@@ -40,14 +39,6 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(FPS);
             bw.Write(RandomStartFrame);
             bw.AlignWriter(4);
-        }
-
-        public ParticleAnimationInfo(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public ParticleAnimationInfo(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

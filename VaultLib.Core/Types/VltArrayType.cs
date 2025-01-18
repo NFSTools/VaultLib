@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using CoreLibraries.IO;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Utils;
 
@@ -16,16 +15,10 @@ namespace VaultLib.Core.Types
 {
     public class VltArrayType : VltBaseType, IReferencesStrings, IReferencesCollections
     {
-        public VltArrayType(VltClass @class, VltClassField field, VltCollection collection, Type itemType) : base(
-            @class, field,
-            collection)
+        public VltArrayType(Type itemType)
         {
             ItemType = itemType;
             Items = new List<object>();
-        }
-
-        public VltArrayType(VltClass @class, VltClassField field, Type itemType) : this(@class, field, null, itemType)
-        {
         }
 
         public ushort FieldSize { get; set; }
@@ -115,8 +108,9 @@ namespace VaultLib.Core.Types
             for (var i = 0; i < count; i++)
             {
                 var start = br.BaseStream.Position;
-                Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
-                var item = databaseTypeRegistry.ReadTypeInstance(Class, Field, Collection, context, fieldContext, br);
+                Debug.Assert(start % fieldContext.Field.Alignment == 0, "start % Field.Alignment == 0");
+                var item = databaseTypeRegistry.ReadTypeInstance(fieldContext.Class, fieldContext.Field,
+                    fieldContext.Collection, context, fieldContext, br);
                 var end = br.BaseStream.Position;
                 Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
                 Items.Add(item);
@@ -144,8 +138,8 @@ namespace VaultLib.Core.Types
             foreach (var t in Items)
             {
                 var start = bw.BaseStream.Position;
-                Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
-                context.Database.TypeRegistry.WriteTypeInstance(Field, t, context, fieldContext, bw);
+                Debug.Assert(start % fieldContext.Field.Alignment == 0, "start % Field.Alignment == 0");
+                context.Database.TypeRegistry.WriteTypeInstance(fieldContext.Field, t, context, fieldContext, bw);
                 var end = bw.BaseStream.Position;
                 Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
             }
@@ -153,7 +147,7 @@ namespace VaultLib.Core.Types
             for (var i = 0; i < Capacity - Items.Count; i++)
             {
                 var start = bw.BaseStream.Position;
-                Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
+                Debug.Assert(start % fieldContext.Field.Alignment == 0, "start % Field.Alignment == 0");
                 bw.Write(new byte[FieldSize]);
             }
         }

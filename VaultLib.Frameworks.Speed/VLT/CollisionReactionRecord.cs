@@ -38,13 +38,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(StunSpeed);
             bw.Write(StunTime);
         }
-
-        public CollisionReactionRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public CollisionReactionRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

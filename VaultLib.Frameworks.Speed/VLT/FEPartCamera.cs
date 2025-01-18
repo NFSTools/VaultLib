@@ -16,10 +16,10 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(FEPartCamera))]
     public class FEPartCamera : VltBaseType, IReferencesStrings
     {
-        public string SlotName { get; set; }
-        public RefSpec Camera { get; set; }
+        public string SlotName { get; set; } = string.Empty;
+        public RefSpec Camera { get; set; } = new();
 
-        private Text _slotNameText;
+        private Text _slotNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -53,13 +53,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         public IEnumerable<string> GetStrings()
         {
             return _slotNameText.GetStrings();
-        }
-
-        public FEPartCamera(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _slotNameText = new Text(Class, Field, Collection);
-            SlotName = string.Empty;
-            Camera = new RefSpec(Class, Field, Collection);
         }
     }
 }

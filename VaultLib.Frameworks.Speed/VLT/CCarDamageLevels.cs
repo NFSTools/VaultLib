@@ -8,14 +8,6 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(CCarDamageLevels))]
     public class CCarDamageLevels : VltBaseType
     {
-        public CCarDamageLevels(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public CCarDamageLevels(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public float Speed0 { get; set; }
         public float Speed1 { get; set; }
         public float Speed2 { get; set; }

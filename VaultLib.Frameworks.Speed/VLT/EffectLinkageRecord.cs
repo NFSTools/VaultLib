@@ -17,8 +17,8 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(EffectLinkageRecord))]
     public class EffectLinkageRecord : VltBaseType, IReferencesCollections
     {
-        public RefSpec Surface { get; set; }
-        public RefSpec Effect { get; set; }
+        public RefSpec Surface { get; set; } = new();
+        public RefSpec Effect { get; set; } = new();
         public float MinSpeed { get; set; }
         public float MaxSpeed { get; set; }
 
@@ -49,12 +49,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         {
             return Surface.ReferencesCollection(classKey, collectionKey)
                    || Effect.ReferencesCollection(classKey, collectionKey);
-        }
-
-        public EffectLinkageRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Surface = new RefSpec(Class, Field, Collection);
-            Effect = new RefSpec(Class, Field, Collection);
         }
     }
 }

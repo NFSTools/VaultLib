@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
@@ -8,11 +7,11 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(RoadblockSetup))]
     public class RoadblockSetup : VltBaseType
     {
-        public RoadblockSetup(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
+        public RoadblockSetup()
         {
             Contents = new RoadblockElement[6];
-            for (int i = 0; i < 6; i++)
-                Contents[i] = new RoadblockElement(Class, Field, Collection);
+            for (var i = 0; i < 6; i++)
+                Contents[i] = new RoadblockElement();
         }
 
         public float MinimumWidthRequired { get; set; }

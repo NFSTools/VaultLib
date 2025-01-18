@@ -8,14 +8,6 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(CCarDamageThreshold))]
     public class CCarDamageThreshold : VltBaseType
     {
-        public CCarDamageThreshold(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public CCarDamageThreshold(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public float Threshold0 { get; set; }
         public float Threshold1 { get; set; }
         public float Threshold2 { get; set; }

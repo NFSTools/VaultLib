@@ -9,14 +9,6 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(FEDefaultUnlockable))]
     public class FEDefaultUnlockable : VltBaseType
     {
-        public FEDefaultUnlockable(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public FEDefaultUnlockable(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public eUnlockableEntity UnlockType { get; set; }
         public uint UnlockName { get; set; }
         public int UnlockLevel { get; set; }

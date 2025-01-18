@@ -10,28 +10,6 @@ namespace VaultLib.Core.Types
 {
     public abstract class VltBaseType
     {
-        protected VltBaseType(VltClass @class, VltClassField field, VltCollection collection)
-        {
-            Class = @class;
-            Field = field;
-            Collection = collection;
-        }
-
-        protected VltBaseType(VltClass @class, VltClassField field)
-        {
-            Class = @class;
-            Field = field;
-        }
-
-        protected VltClass Class { get; set; }
-        protected VltClassField Field { get; set; }
-        protected VltCollection Collection { get; set; }
-
-        protected bool IsInVlt
-        {
-            get { return !Field.IsInLayout && Field.Size <= 4 && !Field.IsArray; }
-        }
-
         public abstract void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br);
         public abstract void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw);
     }

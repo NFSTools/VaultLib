@@ -6,7 +6,6 @@ using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 using VaultLib.Frameworks.Speed.VLT;
@@ -17,12 +16,12 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(ControllerDataRecord))]
     public class ControllerDataRecord : VltBaseType, IReferencesStrings
     {
-        public string DeviceID { get; set; }
+        public string DeviceID { get; set; } = string.Empty;
         public InputUpdateType UpdateType { get; set; }
         public float LowerDZ { get; set; }
         public float UpperDZ { get; set; }
 
-        private StringKey _deviceID { get; set; }
+        private StringKey _deviceID { get; set; } = new();
 
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
@@ -61,12 +60,6 @@ namespace VaultLib.Support.Undercover.VLT
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             _deviceID.AddPointers(context, fieldContext);
-        }
-
-        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _deviceID = new StringKey(Class, Field, Collection);
-            DeviceID = string.Empty;
         }
     }
 }

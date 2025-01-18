@@ -62,13 +62,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.WriteEnum(Value);
             bw.Write(Index);
         }
-
-        public EmittedGeometryRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public EmittedGeometryRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

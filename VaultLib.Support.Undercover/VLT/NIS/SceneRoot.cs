@@ -2,11 +2,10 @@
 // 
 // Created: 10/20/2019 @ 11:43 AM.
 
-using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -34,9 +33,9 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         }
 
         public eSceneRoot SceneRootType { get; set; }
-        public string MarkerName { get; set; }
+        public string MarkerName { get; set; } = string.Empty;
 
-        private Text _markerNameText;
+        private Text _markerNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -70,12 +69,6 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public IEnumerable<string> GetStrings()
         {
             return _markerNameText.GetStrings();
-        }
-
-        public SceneRoot(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _markerNameText = new Text(Class, Field, Collection);
-            MarkerName = string.Empty;
         }
     }
 }

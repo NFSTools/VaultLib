@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Frameworks.Speed.VLT.Physics;
 
@@ -10,14 +9,6 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(PerformanceWeight))]
     public class PerformanceWeight : VltBaseType
     {
-        public PerformanceWeight(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public PerformanceWeight(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public ePerformanceType PerformanceType { get; set; }
         public float Percentage { get; set; }
 

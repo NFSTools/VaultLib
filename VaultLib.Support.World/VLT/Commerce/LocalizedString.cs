@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -15,9 +14,9 @@ namespace VaultLib.Support.World.VLT.Commerce
     [VltTypeInfo("Commerce::LocalizedString")]
     public class LocalizedString : VltBaseType, IReferencesStrings, IStringValue
     {
-        private Text _text;
+        private Text _text = new();
 
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -59,12 +58,6 @@ namespace VaultLib.Support.World.VLT.Commerce
         public void SetString(string str)
         {
             Value = str;
-        }
-
-        public LocalizedString(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _text = new Text(Class, Field, Collection);
-            Value = string.Empty;
         }
     }
 }

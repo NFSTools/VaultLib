@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -16,13 +15,13 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(TargetTimeOverrides))]
     public class TargetTimeOverrides : VltBaseType, IReferencesStrings
     {
-        public RefSpec Car { get; set; }
-        public string Event { get; set; }
+        public RefSpec Car { get; set; } = new();
+        public string Event { get; set; } = string.Empty;
         public float MinDelta { get; set; }
         public float MaxDelta { get; set; }
         public float Shift { get; set; }
 
-        private Text _eventText;
+        private Text _eventText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -62,13 +61,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         public IEnumerable<string> GetStrings()
         {
             return _eventText.GetStrings();
-        }
-
-        public TargetTimeOverrides(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Car = new RefSpec(Class, Field, Collection);
-            _eventText = new Text(Class, Field, Collection);
-            Event = string.Empty;
         }
     }
 }

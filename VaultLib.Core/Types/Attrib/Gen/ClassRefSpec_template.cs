@@ -3,7 +3,6 @@
 // Created: 09/27/2019 @ 4:43 PM.
 
 using System.IO;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
@@ -12,13 +11,7 @@ namespace VaultLib.Core.Types.Attrib.Gen
 {
     public abstract class ClassRefSpec_template : BaseRefSpec
     {
-        protected ClassRefSpec_template(VltClass @class, VltClassField field, VltCollection collection, string classKey)
-            : base(@class, field, collection)
-        {
-            ClassKey = classKey;
-        }
-
-        protected ClassRefSpec_template(VltClass @class, VltClassField field, string classKey) : base(@class, field)
+        protected ClassRefSpec_template(string classKey)
         {
             ClassKey = classKey;
         }

@@ -66,10 +66,7 @@ namespace VaultLib.Core
         private void RegisterVltBaseType(string typeId, Type type)
         {
             _typeDictionary[typeId] = type;
-            _activators[type] = ReflectionUtils.GetActivator<object>(type.GetConstructor(new[]
-            {
-                typeof(VltClass), typeof(VltClassField), typeof(VltCollection)
-            }));
+            _activators[type] = ReflectionUtils.GetActivator<object>(type.GetConstructor(Type.EmptyTypes));
 
             _readers[type] = (instance, context, fieldContext, reader) =>
             {
@@ -199,7 +196,7 @@ namespace VaultLib.Core
             var type = ResolveType(vltClassField.TypeName);
 
             if (vltClassField.IsArray)
-                return new VltArrayType(vltClass, vltClassField, collection, type)
+                return new VltArrayType(type)
                     { ItemAlignment = vltClassField.Alignment };
             return ConstructTypeInstance(type, vltClass, vltClassField, collection);
         }
@@ -218,7 +215,7 @@ namespace VaultLib.Core
             var type = ResolveType(vltClassField.TypeName);
             if (vltClassField.IsArray)
             {
-                var array = new VltArrayType(vltClass, vltClassField, collection, type)
+                var array = new VltArrayType(type)
                     { ItemAlignment = vltClassField.Alignment };
                 array.Read(readContext, fieldContext, binaryReader);
                 return array;

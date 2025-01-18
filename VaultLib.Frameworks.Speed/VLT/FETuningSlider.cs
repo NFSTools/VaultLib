@@ -9,15 +9,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(FETuningSlider))]
     public class FETuningSlider : VltBaseType
     {
-        public FETuningSlider(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public FETuningSlider(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
-        public RefSpec Ref { get; set; }
+        public RefSpec Ref { get; set; } = new();
         public uint TitleHash { get; set; }
         public uint LeftHash { get; set; }
         public uint RightHash { get; set; }
@@ -25,7 +17,6 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Ref = new RefSpec(Class, Field, Collection);
             Ref.Read(context, fieldContext, br);
             TitleHash = br.ReadUInt32();
             LeftHash = br.ReadUInt32();

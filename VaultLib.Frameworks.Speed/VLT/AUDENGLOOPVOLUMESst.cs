@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
@@ -43,14 +42,6 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(LD_MED_VOL);
             bw.Write(LD_HI_VOL);
             bw.Write(REVLMT_VOL);
-        }
-
-        public AUDENGLOOPVOLUMESst(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public AUDENGLOOPVOLUMESst(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

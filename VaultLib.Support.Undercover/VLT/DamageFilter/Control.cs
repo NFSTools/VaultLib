@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.DamageFilter
@@ -8,14 +7,6 @@ namespace VaultLib.Support.Undercover.VLT.DamageFilter
     [VltTypeInfo("DamageFilter::Control")]
     public class Control : VltBaseType
     {
-        public Control(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Control(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public uint Allow { get; set; }
         public uint Reject { get; set; }
         public float MaxCausalityTime { get; set; }

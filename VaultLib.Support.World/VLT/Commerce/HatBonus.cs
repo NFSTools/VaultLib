@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Commerce
@@ -31,14 +30,6 @@ namespace VaultLib.Support.World.VLT.Commerce
             bw.Write(Acceleration);
             bw.Write(TopSpeed);
             bw.Write(RequiredPartCount);
-        }
-
-        public HatBonus(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public HatBonus(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

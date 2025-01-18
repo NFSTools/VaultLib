@@ -32,13 +32,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(MinSpeed);
             bw.Write(MaxSpeed);
         }
-
-        public RoadNoiseRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public RoadNoiseRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

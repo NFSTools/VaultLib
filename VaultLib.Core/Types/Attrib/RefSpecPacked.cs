@@ -3,7 +3,6 @@
 // Created: 09/26/2019 @ 4:15 PM.
 
 using System.IO;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
@@ -12,14 +11,6 @@ namespace VaultLib.Core.Types.Attrib
 {
     public class RefSpecPacked : BaseRefSpec
     {
-        public RefSpecPacked(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public RefSpecPacked(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public override string ClassKey { get; set; }
 
         public override string CollectionKey

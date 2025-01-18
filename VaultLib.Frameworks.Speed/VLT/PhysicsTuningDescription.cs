@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
@@ -10,12 +9,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(PhysicsTuningDescription))]
     public class PhysicsTuningDescription : VltBaseType
     {
-        public PhysicsTuningDescription(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            PhysicsTuning = new RefSpec(Class, Field, Collection);
-        }
-
-        public RefSpec PhysicsTuning { get; set; }
+        public RefSpec PhysicsTuning { get; set; } = new();
         public bool Increase { get; set; }
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)

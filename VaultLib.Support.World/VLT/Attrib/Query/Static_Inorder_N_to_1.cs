@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
@@ -26,15 +25,6 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
         private long _numRootsDst;
         private long _rootsDst;
         private long _rootsPointer;
-
-        public Static_Inorder_N_to_1(VltClass @class, VltClassField field, VltCollection collection) : base(@class,
-            field, collection)
-        {
-        }
-
-        public Static_Inorder_N_to_1(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -83,7 +73,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            var groupedCollections = context.Database.RowManager.EnumerateFlattenedCollections(Class.Name)
+            var groupedCollections = context.Database.RowManager.EnumerateFlattenedCollections(fieldContext.Class.Name)
                 .GroupBy(c => Vlt32Hasher.Hash(c.Parent?.Name));
             var sortedGroups = groupedCollections.OrderBy(g => g.Key).ToList();
 

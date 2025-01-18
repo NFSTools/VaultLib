@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -17,12 +16,12 @@ namespace VaultLib.Support.Undercover.VLT.NIS
     [VltTypeInfo("NIS::NISCar")]
     public class NISCar : VltBaseType, IReferencesStrings
     {
-        public RefSpec PresetRide { get; set; }
-        public string PresetSkinName { get; set; }
+        public RefSpec PresetRide { get; set; } = new();
+        public string PresetSkinName { get; set; } = string.Empty;
         public uint VehicleCategory { get; set; }
-        public string ChannelName { get; set; }
+        public string ChannelName { get; set; } = string.Empty;
 
-        private Text _presetSkinNameText, _channelNameText;
+        private Text _presetSkinNameText = new(), _channelNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -66,14 +65,6 @@ namespace VaultLib.Support.Undercover.VLT.NIS
         public IEnumerable<string> GetStrings()
         {
             return _presetSkinNameText.GetStrings().Concat(_channelNameText.GetStrings());
-        }
-
-        public NISCar(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            PresetRide = new RefSpec(Class, Field, Collection);
-            _presetSkinNameText = new Text(Class, Field, Collection);
-            _channelNameText = new Text(Class, Field, Collection);
-            PresetSkinName = ChannelName = string.Empty;
         }
     }
 }

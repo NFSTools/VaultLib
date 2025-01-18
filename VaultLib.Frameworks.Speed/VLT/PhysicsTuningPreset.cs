@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
@@ -10,12 +9,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(PhysicsTuningPreset))]
     public class PhysicsTuningPreset : VltBaseType
     {
-        public PhysicsTuningPreset(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            PhysicsTuningSlider = new RefSpec(Class, Field, Collection);
-        }
-
-        public RefSpec PhysicsTuningSlider { get; set; }
+        public RefSpec PhysicsTuningSlider { get; set; } = new();
         public bool CenteredAroundPreset { get; set; }
         public float Position { get; set; }
 

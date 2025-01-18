@@ -73,13 +73,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(RPM_CRZ_HI_PEAK);
             bw.Write(RPM_CRZ_HI_OUT);
         }
-
-        public RPMLOOPPOINTSst(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public RPMLOOPPOINTSst(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

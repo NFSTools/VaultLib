@@ -17,12 +17,7 @@ namespace VaultLib.Core.Types.EA.Reflection
     [Obsolete("EA::Reflection types are deprecated, please use type mappings instead.")]
     public class Text : VltBaseType, IReferencesStrings, IStringValue
     {
-        public Text(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Value = string.Empty;
-        }
-
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
 
         public IEnumerable<string> GetStrings()
         {

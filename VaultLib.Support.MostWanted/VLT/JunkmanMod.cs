@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.MostWanted.VLT
@@ -28,14 +27,6 @@ namespace VaultLib.Support.MostWanted.VLT
             bw.Write(ClassKey);
             bw.Write(DefinitionKey);
             bw.Write(ScaleF);
-        }
-
-        public JunkmanMod(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public JunkmanMod(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

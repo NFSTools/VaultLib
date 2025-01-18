@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -11,13 +10,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
     [VltTypeInfo("RenderReflect::cSamplerStateAttribDefinition")]
     public class cSamplerStateAttribDefinition : VltBaseType, IReferencesStrings
     {
-        public cSamplerStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _nameText = new Text(Class, Field, Collection);
-            Name = string.Empty;
-        }
-
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public uint Unknown1 { get; set; }
         public uint Unknown2 { get; set; }
         public uint Unknown3 { get; set; }
@@ -34,7 +27,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public uint Unknown14 { get; set; }
         public uint Unknown15 { get; set; }
 
-        private Text _nameText;
+        private Text _nameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {

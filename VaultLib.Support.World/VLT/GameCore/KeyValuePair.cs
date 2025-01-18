@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
@@ -16,9 +15,9 @@ namespace VaultLib.Support.World.VLT.GameCore
     [VltTypeInfo("GameCore::KeyValuePair")]
     public class KeyValuePair : VltBaseType, IReferencesStrings
     {
-        private Text _keyString;
+        private Text _keyString = new();
 
-        public string KeyString { get; set; }
+        public string KeyString { get; set; } = string.Empty;
 
         public float Value { get; set; }
 
@@ -57,12 +56,6 @@ namespace VaultLib.Support.World.VLT.GameCore
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             _keyString.AddPointers(context, fieldContext);
-        }
-
-        public KeyValuePair(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _keyString = new Text(Class, Field, Collection);
-            KeyString = string.Empty;
         }
     }
 }

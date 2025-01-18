@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.RenderReflect
@@ -9,14 +8,6 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
     [VltTypeInfo("RenderReflect::cRenderTargetAttribDefinition")]
     public class cRenderTargetAttribDefinition : VltBaseType
     {
-        public cRenderTargetAttribDefinition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public cRenderTargetAttribDefinition(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public uint NumColorSurfaces { get; set; }
         public ScreenSizeMode WidthMode { get; set; }
         public uint Width { get; set; }

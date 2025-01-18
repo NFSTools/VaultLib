@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
@@ -60,14 +59,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         public override string ToString()
         {
             return $"gameplay -> {CollectionKey}";
-        }
-
-        public GCollectionKey(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public GCollectionKey(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
 
         // https://github.com/NFSTools/VaultLib/issues/13

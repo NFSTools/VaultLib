@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.Sound
@@ -9,14 +8,6 @@ namespace VaultLib.Support.Undercover.VLT.Sound
     // TODO: determine what this is
     public class JittererParams : VltBaseType
     {
-        public JittererParams(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public JittererParams(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public float Unknown1 { get; set; }
         public float Unknown2 { get; set; }
         public float Unknown3 { get; set; }

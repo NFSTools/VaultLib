@@ -15,9 +15,9 @@ namespace VaultLib.LegacyBase
 {
     public class StringKey64 : VltBaseType, IReferencesStrings, IStringValue
     {
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
 
-        private Text _text;
+        private Text _text = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -68,12 +68,6 @@ namespace VaultLib.LegacyBase
         public void SetString(string str)
         {
             Value = str;
-        }
-
-        public StringKey64(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _text = new Text(Class, Field, Collection);
-            Value = string.Empty;
         }
     }
 }

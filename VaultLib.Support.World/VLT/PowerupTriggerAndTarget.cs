@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -8,14 +7,6 @@ namespace VaultLib.Support.World.VLT
     [VltTypeInfo(nameof(PowerupTriggerAndTarget))]
     public class PowerupTriggerAndTarget : VltBaseType
     {
-        public PowerupTriggerAndTarget(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public PowerupTriggerAndTarget(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public uint Value1 { get; set; }
         public uint Value2 { get; set; }
 

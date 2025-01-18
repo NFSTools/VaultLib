@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
@@ -9,14 +8,6 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(CarPaintSwatch))]
     public class CarPaintSwatch : VltBaseType
     {
-        public CarPaintSwatch(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public CarPaintSwatch(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public uint RGB { get; set; }
         public ePaintMaterialIndex MaterialA { get; set; }
         public ePaintMaterialIndex MaterialB { get; set; }

@@ -2,11 +2,10 @@
 // 
 // Created: 10/19/2019 @ 4:27 PM.
 
-using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
@@ -34,10 +33,10 @@ namespace VaultLib.Support.Undercover.VLT
         public uint LogoTextureId { get; set; }
         public uint DetailHash { get; set; }
         public VltPointerContainer<FEPartDetail> PartDetails { get; set; }
-        public string OfferID { get; set; }
+        public string OfferID { get; set; } = string.Empty;
         public bool IsOnlineLockable { get; set; }
 
-        private Text _offerIdText;
+        private Text _offerIdText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -58,7 +57,7 @@ namespace VaultLib.Support.Undercover.VLT
             BrandHALId = br.ReadUInt32();
             LogoTextureId = br.ReadUInt32();
             DetailHash = br.ReadUInt32();
-            PartDetails = new VltPointerContainer<FEPartDetail>(Class, Field, Collection);
+            PartDetails = new VltPointerContainer<FEPartDetail>();
             PartDetails.Read(context, fieldContext, br);
             _offerIdText.Read(context, fieldContext, br);
             IsOnlineLockable = br.ReadBoolean();
@@ -114,13 +113,6 @@ namespace VaultLib.Support.Undercover.VLT
         public IEnumerable<string> GetStrings()
         {
             return _offerIdText.GetStrings();
-        }
-
-        public FEPartData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field,
-            collection)
-        {
-            _offerIdText = new Text(Class, Field, Collection);
-            OfferID = string.Empty;
         }
     }
 }

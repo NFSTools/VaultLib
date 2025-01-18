@@ -31,13 +31,5 @@ namespace VaultLib.Frameworks.Speed.VLT
         {
             return $"[{Front}, {Rear}]";
         }
-
-        public AxlePair(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public AxlePair(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

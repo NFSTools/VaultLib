@@ -45,13 +45,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(Duration);
             bw.Write(Frequency);
         }
-
-        public CopFormationRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public CopFormationRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

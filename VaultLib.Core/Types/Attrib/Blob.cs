@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.Attrib
 {
@@ -7,14 +6,6 @@ namespace VaultLib.Core.Types.Attrib
     [VltTypeInfo("Attrib::Blob")]
     public class Blob : BaseBlob
     {
-        public Blob(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Blob(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         protected override void PrepareData()
         {
             //

@@ -3,7 +3,6 @@
 // Created: 10/19/2019 @ 4:56 PM.
 
 using System.IO;
-using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
@@ -19,21 +18,13 @@ namespace VaultLib.Core.Types
 
         private long _ptrSrc;
 
-        public VltPointerContainer(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
-            collection)
-        {
-        }
-
-        public VltPointerContainer(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public T Value { get; set; }
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             br.BaseStream.Position = _pointer;
-            Value = (T)context.Database.TypeRegistry.ConstructTypeInstance(typeof(T), Class, Field, Collection);
+            Value = (T)context.Database.TypeRegistry.ConstructTypeInstance(typeof(T), fieldContext.Class,
+                fieldContext.Field, fieldContext.Collection);
             Value.Read(context, fieldContext, br);
 
             if (Value is IVltPointerObject vltPointerObject)

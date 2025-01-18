@@ -2,10 +2,9 @@
 // 
 // Created: 10/07/2019 @ 3:34 PM.
 
-using CoreLibraries.IO;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore
@@ -36,14 +35,6 @@ namespace VaultLib.Support.World.VLT.GameCore
             bw.WriteEnum(mChannel);
             bw.Write(mBlackBoardKey);
             bw.WriteEnum(mFlag);
-        }
-
-        public BlackBoardSlot(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public BlackBoardSlot(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

@@ -2,10 +2,9 @@
 // 
 // Created: 10/06/2019 @ 9:06 PM.
 
-using CoreLibraries.IO;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
@@ -38,14 +37,6 @@ namespace VaultLib.Support.World.VLT.Sound
         {
             bw.WriteEnum(mMode);
             bw.Write(mDuration);
-        }
-
-        public SirenSequence(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public SirenSequence(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

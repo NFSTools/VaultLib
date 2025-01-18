@@ -9,17 +9,11 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(CameraReactionRecord))]
     public class CameraReactionRecord : VltBaseType
     {
-        public CameraReactionRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            ValueMin = new float[2];
-            ValueMax = new float[2];
-        }
-
         public CameraReactionType Type { get; set; }
         public float InputMin { get; set; }
-        public float[] ValueMin { get; set; }
+        public float[] ValueMin { get; set; } = new float[2];
         public float InputMax { get; set; }
-        public float[] ValueMax { get; set; }
+        public float[] ValueMax { get; set; } = new float[2];
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {

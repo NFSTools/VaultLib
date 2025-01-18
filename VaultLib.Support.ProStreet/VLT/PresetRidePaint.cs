@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Frameworks.Speed.VLT;
@@ -11,15 +10,9 @@ namespace VaultLib.Support.ProStreet.VLT
     [VltTypeInfo(nameof(PresetRidePaint))]
     public class PresetRidePaint : VltBaseType
     {
-        public PresetRidePaint(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Group = new RefSpec(Class, Field, Collection);
-            Swatch = new RefSpec(Class, Field, Collection);
-        }
-
         public ePaintSlot SlotID { get; set; }
-        public RefSpec Group { get; set; }
-        public RefSpec Swatch { get; set; }
+        public RefSpec Group { get; set; } = new();
+        public RefSpec Swatch { get; set; } = new();
         public uint KitNumber { get; set; }
         public float Saturation { get; set; }
         public float Variance { get; set; }

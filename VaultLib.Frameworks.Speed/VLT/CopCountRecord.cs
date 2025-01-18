@@ -16,9 +16,9 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(CopCountRecord))]
     public class CopCountRecord : VltBaseType, IReferencesStrings
     {
-        private Text _copType;
+        private Text _copType = new();
 
-        public string CopType { get; set; }
+        public string CopType { get; set; } = string.Empty;
 
         public uint Count { get; set; }
         public uint Chance { get; set; }
@@ -59,12 +59,6 @@ namespace VaultLib.Frameworks.Speed.VLT
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             _copType.AddPointers(context, fieldContext);
-        }
-
-        public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _copType = new Text(Class, Field, Collection);
-            CopType = string.Empty;
         }
     }
 }

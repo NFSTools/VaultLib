@@ -25,13 +25,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(Logo);
             bw.Write(Name);
         }
-
-        public FEPartDetail(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public FEPartDetail(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

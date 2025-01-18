@@ -32,13 +32,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(mCurveIndex);
             bw.WriteEnum(Flags);
         }
-
-        public GMapCurveRef(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public GMapCurveRef(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

@@ -10,12 +10,7 @@ namespace VaultLib.Core.Types.Attrib.Types
     [VltTypeInfo("Attrib::Types::Matrix")]
     public class Matrix : VltBaseType
     {
-        public Matrix(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Data = new float[16];
-        }
-
-        public float[] Data { get; set; }
+        public float[] Data { get; set; } = new float[16];
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {

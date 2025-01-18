@@ -3,7 +3,6 @@
 // Created: 10/12/2019 @ 10:31 AM.
 
 using System.Collections.Generic;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Utils;
 
@@ -11,15 +10,6 @@ namespace VaultLib.Core.Types.Abstractions
 {
     public abstract class BaseRefSpec : VltBaseType, IReferencesCollections
     {
-        protected BaseRefSpec(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
-            collection)
-        {
-        }
-
-        protected BaseRefSpec(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public abstract string ClassKey { get; set; }
         public abstract string CollectionKey { get; set; }
 

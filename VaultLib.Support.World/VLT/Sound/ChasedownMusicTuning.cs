@@ -1,6 +1,5 @@
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
@@ -8,12 +7,12 @@ namespace VaultLib.Support.World.VLT.Sound
     [VltTypeInfo("Sound::ChasedownMusicTuning")]
     public class ChasedownMusicTuning : VltBaseType
     {
-        public float[] StartTimeLimit { get; set; }
-        public float[] LowTimeLimit { get; set; }
-        public float[] FailureTimeLimit { get; set; }
-        public float[] MediumTimeLimit { get; set; }
-        public float[] HighTimeLimit { get; set; }
-        public float[] OpponentDamageThreshold { get; set; }
+        public float[] StartTimeLimit { get; set; } = new float[2];
+        public float[] LowTimeLimit { get; set; } = new float[2];
+        public float[] FailureTimeLimit { get; set; } = new float[2];
+        public float[] MediumTimeLimit { get; set; } = new float[2];
+        public float[] HighTimeLimit { get; set; } = new float[2];
+        public float[] OpponentDamageThreshold { get; set; } = new float[2];
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -79,16 +78,6 @@ namespace VaultLib.Support.World.VLT.Sound
             {
                 bw.Write(OpponentDamageThreshold[i]);
             }
-        }
-
-        public ChasedownMusicTuning(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            StartTimeLimit = new float[2];
-            LowTimeLimit = new float[2];
-            FailureTimeLimit = new float[2];
-            MediumTimeLimit = new float[2];
-            HighTimeLimit = new float[2];
-            OpponentDamageThreshold = new float[2];
         }
     }
 }

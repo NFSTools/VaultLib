@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -22,9 +21,9 @@ namespace VaultLib.Support.ProStreet.VLT
         public float[] YValues { get; set; }
         public float[] Y2Values { get; set; }
 
-        private VariableArray _xArray;
-        private VariableArray _yArray;
-        private VariableArray _y2Array;
+        private VariableArray _xArray = new();
+        private VariableArray _yArray = new();
+        private VariableArray _y2Array = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -80,13 +79,6 @@ namespace VaultLib.Support.ProStreet.VLT
             _xArray.AddPointers(context);
             _yArray.AddPointers(context);
             _y2Array.AddPointers(context);
-        }
-
-        public Curve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _xArray = new VariableArray();
-            _yArray = new VariableArray();
-            _y2Array = new VariableArray();
         }
     }
 }

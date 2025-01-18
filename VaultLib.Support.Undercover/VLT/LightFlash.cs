@@ -9,14 +9,6 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(LightFlash))]
     public class LightFlash : VltBaseType
     {
-        public LightFlash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public LightFlash(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public float Value1 { get; set; }
         public float Value2 { get; set; }
 

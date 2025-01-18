@@ -9,14 +9,6 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(PresetRideAutosculpt))]
     public class PresetRideAutosculpt : VltBaseType
     {
-        public PresetRideAutosculpt(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public PresetRideAutosculpt(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public PresetRideAutosculptRegion RegionID { get; set; }
         public float SculptZone0 { get; set; }
         public float SculptZone1 { get; set; }

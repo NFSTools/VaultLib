@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
@@ -9,13 +8,13 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
     [VltTypeInfo("VinylsAttrib::VinylLayer")]
     public class VinylLayer : VltBaseType
     {
-        public VinylLayer(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
+        public VinylLayer()
         {
-            Transform = new VinylTransform(Class, Field, Collection);
+            Transform = new VinylTransform();
             Colors = new VinylColor[4];
             for (int i = 0; i < 4; i++)
             {
-                Colors[i] = new VinylColor(Class, Field, Collection);
+                Colors[i] = new VinylColor();
             }
         }
 

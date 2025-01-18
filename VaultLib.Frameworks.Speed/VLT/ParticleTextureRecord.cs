@@ -87,13 +87,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.WriteEnum(mEnum);
             bw.Write(mIndex);
         }
-
-        public ParticleTextureRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public ParticleTextureRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

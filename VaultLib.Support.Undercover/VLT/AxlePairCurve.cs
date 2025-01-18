@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -13,8 +12,8 @@ namespace VaultLib.Support.Undercover.VLT
     [VltTypeInfo(nameof(AxlePairCurve))]
     public class AxlePairCurve : VltBaseType, IVltPointerObject
     {
-        public Curve Front { get; set; }
-        public Curve Rear { get; set; }
+        public Curve Front { get; set; } = new();
+        public Curve Rear { get; set; } = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -44,12 +43,6 @@ namespace VaultLib.Support.Undercover.VLT
         {
             Front.AddPointers(context, fieldContext);
             Rear.AddPointers(context, fieldContext);
-        }
-
-        public AxlePairCurve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            Front = new Curve(Class, Field, Collection);
-            Rear = new Curve(Class, Field, Collection);
         }
     }
 }

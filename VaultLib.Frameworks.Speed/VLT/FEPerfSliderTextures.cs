@@ -9,14 +9,6 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(FEPerfSliderTextures))]
     public class FEPerfSliderTextures : VltBaseType
     {
-        public FEPerfSliderTextures(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public FEPerfSliderTextures(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public eFEPartUpgradeLevels Level { get; set; }
         public uint Name1 { get; set; }
         public uint Name2 { get; set; }

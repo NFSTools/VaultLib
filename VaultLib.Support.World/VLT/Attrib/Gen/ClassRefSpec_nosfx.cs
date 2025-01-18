@@ -2,7 +2,6 @@
 // 
 // Created: 09/27/2019 @ 4:48 PM.
 
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib.Gen;
 
@@ -11,14 +10,8 @@ namespace VaultLib.Support.World.VLT.Attrib.Gen
     [VltTypeInfo("Attrib::Gen::ClassRefSpec_nosfx")]
     public class ClassRefSpec_nosfx : ClassRefSpec_template
     {
-        public ClassRefSpec_nosfx(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection, "nosfx")
+        public ClassRefSpec_nosfx() : base("nosfx")
         {
-
-        }
-
-        public ClassRefSpec_nosfx(VltClass @class, VltClassField field) : base(@class, field, "nosfx")
-        {
-
         }
     }
 }

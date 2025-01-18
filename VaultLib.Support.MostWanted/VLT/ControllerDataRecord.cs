@@ -18,12 +18,12 @@ namespace VaultLib.Support.MostWanted.VLT
     [VltTypeInfo(nameof(ControllerDataRecord))]
     public class ControllerDataRecord : VltBaseType, IReferencesStrings
     {
-        public string DeviceID { get; set; }
+        public string DeviceID { get; set; } = string.Empty;
         public InputUpdateType UpdateType { get; set; }
         public float LowerDZ { get; set; }
         public float UpperDZ { get; set; }
 
-        private StringKey64 _deviceID { get; set; }
+        private StringKey64 _deviceID { get; set; } = new();
 
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
@@ -66,12 +66,6 @@ namespace VaultLib.Support.MostWanted.VLT
         public IEnumerable<string> GetStrings()
         {
             return new[] { DeviceID };
-        }
-
-        public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _deviceID = new StringKey64(Class, Field, Collection);
-            DeviceID = string.Empty;
         }
     }
 }

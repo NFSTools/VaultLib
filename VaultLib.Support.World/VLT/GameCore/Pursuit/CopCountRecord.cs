@@ -2,20 +2,12 @@
 // 
 // Created: 09/30/2019 @ 9:27 AM.
 
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore.Pursuit
 {
-    [VltTypeInfo("GameCore::Pursuit::CopCountRecord")]
-    public class CopCountRecord : Frameworks.Speed.VLT.CopCountRecord
+    [VltTypeInfo("GameCore::Pursuit::CopCountRecord", MappedTo = typeof(Frameworks.Speed.VLT.CopCountRecord))]
+    public class CopCountRecord
     {
-        public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public CopCountRecord(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

@@ -10,14 +10,6 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo("AtttributeRefSpec")]
     public class AttributeRefSpec : VltBaseType
     {
-        public AttributeRefSpec(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public AttributeRefSpec(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public string ClassKey { get; set; }
         public string DefinitionKey { get; set; }
 

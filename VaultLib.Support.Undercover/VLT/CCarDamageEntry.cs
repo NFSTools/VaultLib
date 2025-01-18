@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
@@ -18,13 +17,13 @@ namespace VaultLib.Support.Undercover.VLT
     public class CCarDamageEntry : VltBaseType, IReferencesStrings
     {
         public int PartID { get; set; }
-        public string AttachPart { get; set; }
-        public RefSpec Material { get; set; }
-        public string SmackableCollisionName { get; set; }
-        public RefSpec SmackableCollisionAttribute { get; set; }
+        public string AttachPart { get; set; } = string.Empty;
+        public RefSpec Material { get; set; } = new();
+        public string SmackableCollisionName { get; set; } = string.Empty;
+        public RefSpec SmackableCollisionAttribute { get; set; } = new();
 
-        private Text _attachPartText;
-        private Text _smackableCollisionNameText;
+        private Text _attachPartText = new();
+        private Text _smackableCollisionNameText = new();
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
@@ -70,16 +69,6 @@ namespace VaultLib.Support.Undercover.VLT
         {
             return _attachPartText.GetStrings()
                 .Concat(_smackableCollisionNameText.GetStrings());
-        }
-
-        public CCarDamageEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
-        {
-            _attachPartText = new Text(Class, Field, Collection);
-            AttachPart = string.Empty;
-            Material = new RefSpec(Class, Field, Collection);
-            _smackableCollisionNameText = new Text(Class, Field, Collection);
-            SmackableCollisionName = string.Empty;
-            SmackableCollisionAttribute = new RefSpec(Class, Field, Collection);
         }
     }
 }

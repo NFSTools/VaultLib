@@ -4,7 +4,6 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
@@ -30,14 +29,6 @@ namespace VaultLib.Support.World.VLT
         public override string ToString()
         {
             return $"RWAC Bank {Bank:X8} -> Asset {Asset:X8}";
-        }
-
-        public RwacSampleBankAsset(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public RwacSampleBankAsset(VltClass @class, VltClassField field) : base(@class, field)
-        {
         }
     }
 }

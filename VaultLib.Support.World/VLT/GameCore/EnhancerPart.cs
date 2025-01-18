@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore
@@ -8,14 +7,6 @@ namespace VaultLib.Support.World.VLT.GameCore
     [VltTypeInfo("GameCore::EnhancerPart")]
     public class EnhancerPart : VltBaseType
     {
-        public EnhancerPart(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public EnhancerPart(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public uint Hash { get; set; }
 
         public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)

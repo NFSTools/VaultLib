@@ -3,7 +3,6 @@
 // Created: 10/19/2019 @ 5:40 PM.
 
 using System.IO;
-using VaultLib.Core.Data;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
@@ -15,25 +14,17 @@ namespace VaultLib.Core.Types
         private uint _pointer;
         private long _srcPtr;
 
-        public DynamicSizeArray(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
-            collection)
-        {
-        }
-
-        public DynamicSizeArray(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         public T[] Items { get; set; }
 
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             var databaseTypeRegistry = context.Database.TypeRegistry;
-            
+
             br.BaseStream.Position = _pointer;
             for (var i = 0; i < Items.Length; i++)
             {
-                Items[i] = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T), Class, Field, Collection);
+                Items[i] = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T), fieldContext.Class,
+                    fieldContext.Field, fieldContext.Collection);
                 Items[i].Read(context, fieldContext, br);
             }
         }

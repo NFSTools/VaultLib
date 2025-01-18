@@ -13,14 +13,6 @@ namespace VaultLib.Frameworks.Speed.VLT.Attrib
     {
         private CompressedBlob _blob;
 
-        public Blob(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public Blob(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
-
         protected override byte[] ReadData(BinaryReader br)
         {
             CompressedBlob compressedBlob = new CompressedBlob();

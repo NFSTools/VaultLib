@@ -43,13 +43,5 @@ namespace VaultLib.Frameworks.Speed.VLT
             bw.Write(PriorityChance);
             bw.Write(PriorityTime);
         }
-
-        public LeaderSupport(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public LeaderSupport(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }
