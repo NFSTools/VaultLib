@@ -150,8 +150,11 @@ namespace VaultLib.LegacyBase.Exports
                         context.Database.TypeRegistry.ReadFieldValue(context,
                             fieldContext, br);
                     long endPos = br.BaseStream.Position;
-                    if (!(data is VltArrayType))
-                        Debug.Assert(endPos - startPos == baseField.Size);
+                    if (!baseField.IsArray && endPos - startPos != baseField.Size)
+                    {
+                        throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
+                    }
+
                     //Collection.Data[baseField.Name] = data;
                     Collection.SetRawValue(baseField.Name, data);
                 }

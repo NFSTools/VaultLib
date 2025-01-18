@@ -50,15 +50,9 @@ namespace VaultLib.ModernBase
                             fieldContext, br);
                     var endPos = br.BaseStream.Position;
 
-                    if (data is PrimitiveTypeBase)
-                        br.BaseStream.Position = startPos + baseField.Size;
-
-                    if (!(data is VltArrayType) && !(data is PrimitiveTypeBase))
+                    if (!baseField.IsArray && endPos - startPos != baseField.Size)
                     {
-                        if (endPos - startPos != baseField.Size)
-                        {
-                            throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
-                        }
+                        throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
                     }
 
                     Collection.SetRawValue(baseField.Name, data);
