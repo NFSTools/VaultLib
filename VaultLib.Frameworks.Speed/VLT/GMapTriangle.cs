@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(GMapTriangle))]
-    public class GMapTriangle : VLTBaseType
+    [VltTypeInfo(nameof(GMapTriangle))]
+    public class GMapTriangle : VltBaseType
     {
         public ushort mPoint1 { get; set; }
         public ushort mPoint2 { get; set; }

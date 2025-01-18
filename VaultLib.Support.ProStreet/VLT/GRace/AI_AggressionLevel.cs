@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::AI_AggressionLevel")]
+    [VltTypeInfo("GRace::AI_AggressionLevel")]
     public enum AI_AggressionLevel
     {
         kAggression_Careful = 0x0,

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::Variant")]
+    [VltTypeInfo("GRace::Variant")]
     public enum Variant : uint
     {
         kRaceVariant_Invalid = 0xFFFFFFFF,

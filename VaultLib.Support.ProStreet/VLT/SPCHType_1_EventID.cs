@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(SPCHType_1_EventID))]
+    [VltTypeInfo(nameof(SPCHType_1_EventID))]
     public enum SPCHType_1_EventID
     {
         kSPCH1_EventID_Hub_Aa_ = 0x1C6,

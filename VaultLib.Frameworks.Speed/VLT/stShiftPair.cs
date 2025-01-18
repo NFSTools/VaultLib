@@ -4,7 +4,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(stShiftPair))]
+    [VltTypeInfo(nameof(stShiftPair))]
     public class stShiftPair : UInt32
     {
         public stShiftPair(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

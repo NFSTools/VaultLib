@@ -9,7 +9,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    public class FEPartDetail : VLTBaseType
+    public class FEPartDetail : VltBaseType
     {
         public uint Logo { get; set; }
         public uint Name { get; set; }

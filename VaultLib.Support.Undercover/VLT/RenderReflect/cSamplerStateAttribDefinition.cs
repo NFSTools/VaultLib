@@ -9,8 +9,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.RenderReflect
 {
-    [VLTTypeInfo("RenderReflect::cSamplerStateAttribDefinition")]
-    public class cSamplerStateAttribDefinition : VLTBaseType, IReferencesStrings
+    [VltTypeInfo("RenderReflect::cSamplerStateAttribDefinition")]
+    public class cSamplerStateAttribDefinition : VltBaseType, IReferencesStrings
     {
         public cSamplerStateAttribDefinition(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

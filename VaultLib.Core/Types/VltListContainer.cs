@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class VLTListContainer<T> : VLTBaseType, IPointerObject where T : VLTBaseType
+    public class VltListContainer<T> : VltBaseType, IPointerObject where T : VltBaseType
     {
         private long _dstPtr;
 
@@ -17,13 +17,13 @@ namespace VaultLib.Core.Types
 
         private long _srcPtr;
 
-        public VLTListContainer(VltClass @class, VltClassField field, VltCollection collection, int count) : base(
+        public VltListContainer(VltClass @class, VltClassField field, VltCollection collection, int count) : base(
             @class, field, collection)
         {
             Items = new List<T>(count);
         }
 
-        public VLTListContainer(VltClass @class, VltClassField field, int count) : this(@class, field, null, count)
+        public VltListContainer(VltClass @class, VltClassField field, int count) : this(@class, field, null, count)
         {
         }
 

@@ -8,8 +8,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(ParticleTextureRecord))]
-    public class ParticleTextureRecord : VLTBaseType
+    [VltTypeInfo(nameof(ParticleTextureRecord))]
+    public class ParticleTextureRecord : VltBaseType
     {
         public enum eTEG_ParticleTextures : uint
         {

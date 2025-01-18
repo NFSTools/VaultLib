@@ -10,7 +10,7 @@ using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Core.Types.Attrib
 {
-    [VLTTypeInfo("Attrib::RefSpec")]
+    [VltTypeInfo("Attrib::RefSpec")]
     public class RefSpec : BaseRefSpec
     {
         public RefSpec(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
@@ -33,8 +33,8 @@ namespace VaultLib.Core.Types.Attrib
                 }
 
                 return _collectionHash32 != 0
-                    ? HashManager.ResolveVLT(_collectionHash32)
-                    : _collectionHash64 != 0 ? HashManager.ResolveVLT(_collectionHash64) : string.Empty;
+                    ? HashManager.ResolveVlt(_collectionHash32)
+                    : _collectionHash64 != 0 ? HashManager.ResolveVlt(_collectionHash64) : string.Empty;
             }
             set => _collectionKey = value;
         }
@@ -44,13 +44,13 @@ namespace VaultLib.Core.Types.Attrib
             if (context.Database.Options.Type == DatabaseType.X64Database)
             {
                 // 64-bit RefSpec is 24 bytes instead of 12
-                ClassKey = HashManager.ResolveVLT(br.ReadUInt64());
+                ClassKey = HashManager.ResolveVlt(br.ReadUInt64());
                 _collectionHash64 = br.ReadUInt64();
                 br.ReadUInt64();
             }
             else
             {
-                ClassKey = HashManager.ResolveVLT(br.ReadUInt32());
+                ClassKey = HashManager.ResolveVlt(br.ReadUInt32());
                 _collectionHash32 = br.ReadUInt32();
                 br.ReadUInt32();
             }
@@ -60,14 +60,14 @@ namespace VaultLib.Core.Types.Attrib
         {
             if (context.Database.Options.Type == DatabaseType.X64Database)
             {
-                bw.Write(VLT64Hasher.Hash(ClassKey));
-                bw.Write(VLT64Hasher.Hash(CollectionKey));
+                bw.Write(Vlt64Hasher.Hash(ClassKey));
+                bw.Write(Vlt64Hasher.Hash(CollectionKey));
                 bw.Write(0L);
             }
             else
             {
-                bw.Write(VLT32Hasher.Hash(ClassKey));
-                bw.Write(VLT32Hasher.Hash(CollectionKey));
+                bw.Write(Vlt32Hasher.Hash(ClassKey));
+                bw.Write(Vlt32Hasher.Hash(CollectionKey));
                 bw.Write(0);
             }
         }

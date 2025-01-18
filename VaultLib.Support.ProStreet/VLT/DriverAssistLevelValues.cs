@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(DriverAssistLevelValues))]
-    public class DriverAssistLevelValues : VLTBaseType
+    [VltTypeInfo(nameof(DriverAssistLevelValues))]
+    public class DriverAssistLevelValues : VltBaseType
     {
         public DriverAssistLevelValues(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

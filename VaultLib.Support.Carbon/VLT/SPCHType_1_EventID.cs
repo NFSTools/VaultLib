@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Carbon.VLT
 {
-    [VLTTypeInfo(nameof(SPCHType_1_EventID))]
+    [VltTypeInfo(nameof(SPCHType_1_EventID))]
     public enum SPCHType_1_EventID
     {
         kSPCH1_EventID_Acknowledge = 0x39,

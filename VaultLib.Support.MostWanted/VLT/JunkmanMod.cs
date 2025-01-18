@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.MostWanted.VLT
 {
-    [VLTTypeInfo(nameof(JunkmanMod))]
-    public class JunkmanMod : VLTBaseType
+    [VltTypeInfo(nameof(JunkmanMod))]
+    public class JunkmanMod : VltBaseType
     {
         public uint ClassKey { get; set; }
         public uint DefinitionKey { get; set; }

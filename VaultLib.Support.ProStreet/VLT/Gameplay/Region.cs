@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Gameplay
 {
-    [VLTTypeInfo("Gameplay::Region")]
+    [VltTypeInfo("Gameplay::Region")]
     public enum Region
     {
         kInfineon = 0x1770,

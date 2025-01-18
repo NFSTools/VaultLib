@@ -10,23 +10,23 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class VLTAttribType : VLTBaseType, IPointerObject
+    public class VltAttribType : VltBaseType, IPointerObject
     {
         private long _offsetDst;
 
         private long _offsetSrc;
 
-        public VLTAttribType(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
+        public VltAttribType(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)
         {
         }
 
-        public VLTAttribType(VltClass @class, VltClassField field) : base(@class, field)
+        public VltAttribType(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 
         public uint Offset { get; set; } // pointer to bin stream
-        public VLTBaseType Data { get; set; }
+        public VltBaseType Data { get; set; }
 
         public void ReadPointerData(VaultLoadContext context, BinaryReader br)
         {
@@ -37,7 +37,7 @@ namespace VaultLib.Core.Types
 
             Data.Read(context, br);
 
-            if (!(Data is VLTArrayType))
+            if (!(Data is VltArrayType))
                 Debug.Assert(br.BaseStream.Position - Offset == Field.Size,  "br.BaseStream.Position - Offset == Field.Size");
         }
 

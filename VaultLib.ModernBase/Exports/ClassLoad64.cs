@@ -25,7 +25,7 @@ namespace VaultLib.ModernBase.Exports
 
         public override ulong GetExportId()
         {
-            return VLT64Hasher.Hash(Class.Name);
+            return Vlt64Hasher.Hash(Class.Name);
         }
 
         public override void Read(VaultLoadContext context, BinaryReader br)
@@ -46,7 +46,7 @@ namespace VaultLib.ModernBase.Exports
                 throw new InvalidDataException("Definitions pointer is NULL, this is not good!");
             }
 
-            Class = new VltClass(HashManager.ResolveVLT(ClassHash));
+            Class = new VltClass(HashManager.ResolveVlt(ClassHash));
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -55,7 +55,7 @@ namespace VaultLib.ModernBase.Exports
                                      where collection.Class.Name == Class.Name
                                      select collection).Count();
 
-            bw.Write(VLT64Hasher.Hash(Class.Name));
+            bw.Write(Vlt64Hasher.Hash(Class.Name));
             bw.Write(collectionReserve);
             bw.Write(Class.Fields.Count);
             _srcDefinitionsPtr = bw.BaseStream.Position;
@@ -87,8 +87,8 @@ namespace VaultLib.ModernBase.Exports
 
                 VltClassField field = new VltClassField(
                     definition.Key,
-                    HashManager.ResolveVLT(definition.Key),
-                    HashManager.ResolveVLT(definition.Type),
+                    HashManager.ResolveVlt(definition.Key),
+                    HashManager.ResolveVlt(definition.Type),
                     definition.Flags,
                     definition.Alignment,
                     definition.Size,
@@ -116,7 +116,7 @@ namespace VaultLib.ModernBase.Exports
                 foreach (VltClassField staticField in Class.StaticFields)
                 {
                     br.AlignReader(staticField.Alignment);
-                    VLTBaseType staticData = context.Database.TypeRegistry.CreateInstance(Class, staticField, null);
+                    VltBaseType staticData = context.Database.TypeRegistry.CreateInstance(Class, staticField, null);
                     staticData.Read(context, br);
                     staticField.StaticValue = staticData;
                 }
@@ -138,13 +138,13 @@ namespace VaultLib.ModernBase.Exports
             foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
             {
                 AttribDefinition64 definition = new AttribDefinition64();
-                definition.Key = VLT64Hasher.Hash(field.Name);
+                definition.Key = Vlt64Hasher.Hash(field.Name);
                 definition.Alignment = field.Alignment;
                 definition.Flags = field.Flags;
                 definition.MaxCount = field.MaxCount;
                 definition.Offset = field.Offset;
                 definition.Size = field.Size;
-                definition.Type = VLT64Hasher.Hash(field.TypeName);
+                definition.Type = Vlt64Hasher.Hash(field.TypeName);
                 definition.Write(context, bw);
             }
 

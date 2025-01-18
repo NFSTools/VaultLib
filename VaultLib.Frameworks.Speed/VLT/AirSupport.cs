@@ -10,8 +10,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(AirSupport))]
-    public class AirSupport : VLTBaseType
+    [VltTypeInfo(nameof(AirSupport))]
+    public class AirSupport : VltBaseType
     {
         public enum AirSupportStrategy
         {

@@ -10,8 +10,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(AxlePairCurve))]
-    public class AxlePairCurve : VLTBaseType, IPointerObject
+    [VltTypeInfo(nameof(AxlePairCurve))]
+    public class AxlePairCurve : VltBaseType, IPointerObject
     {
         public Curve Front { get; set; }
         public Curve Rear { get; set; }

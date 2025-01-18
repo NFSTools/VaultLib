@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Carbon.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_NIS_Scene_Intro")]
+    [VltTypeInfo("Csis::Type_NIS_Scene_Intro")]
     public enum Type_NIS_Scene_Intro
     {
         Invalid_Type_NIS_Scene_Intro = 0x0,

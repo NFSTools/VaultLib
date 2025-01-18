@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(SURFACE_SFX))]
+    [VltTypeInfo(nameof(SURFACE_SFX))]
     public enum SURFACE_SFX
     {
         SURFACE_SFX_NONE = 0x0,

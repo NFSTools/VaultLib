@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(COLLISIONSFX_LAYERS))]
+    [VltTypeInfo(nameof(COLLISIONSFX_LAYERS))]
     public enum COLLISIONSFX_LAYERS : uint
     {
         LAYER_NONE = 0xFFFFFFFF,

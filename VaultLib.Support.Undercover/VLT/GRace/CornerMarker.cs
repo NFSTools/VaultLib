@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.GRace
 {
-    [VLTTypeInfo("GRace::CornerMarker")]
+    [VltTypeInfo("GRace::CornerMarker")]
     public enum CornerMarker
     {
         kCornerMarker_MediumLeft = 0x0,

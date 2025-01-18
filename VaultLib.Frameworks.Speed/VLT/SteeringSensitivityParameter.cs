@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(SteeringSensitivityParameter))]
-    public class SteeringSensitivityParameter : VLTBaseType
+    [VltTypeInfo(nameof(SteeringSensitivityParameter))]
+    public class SteeringSensitivityParameter : VltBaseType
     {
         public eSteeringCurveStyle CurveStyle { get; set; }
         public float CurvePower { get; set; }

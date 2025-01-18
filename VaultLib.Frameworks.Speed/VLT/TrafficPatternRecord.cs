@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(TrafficPatternRecord))]
-    public class TrafficPatternRecord : VLTBaseType, IReferencesCollections
+    [VltTypeInfo(nameof(TrafficPatternRecord))]
+    public class TrafficPatternRecord : VltBaseType, IReferencesCollections
     {
         public RefSpec Vehicle { get; set; }
         public float Rate { get; set; }

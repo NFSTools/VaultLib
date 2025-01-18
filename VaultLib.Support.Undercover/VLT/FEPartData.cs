@@ -15,8 +15,8 @@ using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(FEPartData))]
-    public class FEPartData : VLTBaseType, IPointerObject, IReferencesStrings
+    [VltTypeInfo(nameof(FEPartData))]
+    public class FEPartData : VltBaseType, IPointerObject, IReferencesStrings
     {
         public uint HAL_ID { get; set; }
         public uint CF_HAL_ID { get; set; }
@@ -34,7 +34,7 @@ namespace VaultLib.Support.Undercover.VLT
         public uint BrandHALId { get; set; }
         public uint LogoTextureId { get; set; }
         public uint DetailHash { get; set; }
-        public VLTPointerContainer<FEPartDetail> PartDetails { get; set; }
+        public VltPointerContainer<FEPartDetail> PartDetails { get; set; }
         public string OfferID { get; set; }
         public bool IsOnlineLockable { get; set; }
 
@@ -59,7 +59,7 @@ namespace VaultLib.Support.Undercover.VLT
             BrandHALId = br.ReadUInt32();
             LogoTextureId = br.ReadUInt32();
             DetailHash = br.ReadUInt32();
-            PartDetails = new VLTPointerContainer<FEPartDetail>(Class, Field, Collection);
+            PartDetails = new VltPointerContainer<FEPartDetail>(Class, Field, Collection);
             PartDetails.Read(context, br);
             _offerIdText.Read(context, br);
             IsOnlineLockable = br.ReadBoolean();

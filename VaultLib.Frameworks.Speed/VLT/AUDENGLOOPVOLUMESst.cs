@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(AUDENGLOOPVOLUMESst))]
-    public class AUDENGLOOPVOLUMESst : VLTBaseType
+    [VltTypeInfo(nameof(AUDENGLOOPVOLUMESst))]
+    public class AUDENGLOOPVOLUMESst : VltBaseType
     {
         public int IDLE_VOL { get; set; }
         public int CRZ_LOW_VOL { get; set; }

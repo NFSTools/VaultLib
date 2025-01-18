@@ -4,8 +4,8 @@ using VaultLib.Core.Data;
 namespace VaultLib.Core.Types.EA.Reflection
 {
     // TODO: What is this type?
-    [VLTTypeInfo("EA::Reflection::Reference")]
-    public class Reference : VLTBaseType
+    [VltTypeInfo("EA::Reflection::Reference")]
+    public class Reference : VltBaseType
     {
         public Reference(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

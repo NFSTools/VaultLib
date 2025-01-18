@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(CAR_SLOT_ID))]
+    [VltTypeInfo(nameof(CAR_SLOT_ID))]
     public enum CAR_SLOT_ID
     {
         CARSLOTID_INVALID = -1,

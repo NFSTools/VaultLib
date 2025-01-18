@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.GRace
 {
-    [VLTTypeInfo("GRace::RaceCarClass")]
+    [VltTypeInfo("GRace::RaceCarClass")]
     public enum RaceCarClass
     {
         kRaceCar_ClassNone,

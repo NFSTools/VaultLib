@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.NIS
 {
-    [VLTTypeInfo("NIS::eNIS_STYLE")]
+    [VltTypeInfo("NIS::eNIS_STYLE")]
     public enum eNIS_STYLE
     {
         STREET = 0x0,

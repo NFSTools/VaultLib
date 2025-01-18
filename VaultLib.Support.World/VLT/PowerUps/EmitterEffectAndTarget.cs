@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.World.VLT.PowerUps
 {
-    [VLTTypeInfo("PowerUps::EmitterEffectAndTarget")]
-    public class EmitterEffectAndTarget : VLTBaseType, IReferencesCollections
+    [VltTypeInfo("PowerUps::EmitterEffectAndTarget")]
+    public class EmitterEffectAndTarget : VltBaseType, IReferencesCollections
     {
         public string EmitterKey { get; set; }
         public uint Type { get; set; }

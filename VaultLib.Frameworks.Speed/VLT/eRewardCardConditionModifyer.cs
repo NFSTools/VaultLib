@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eRewardCardConditionModifyer))]
+    [VltTypeInfo(nameof(eRewardCardConditionModifyer))]
     public enum eRewardCardConditionModifyer
     {
         CONDITION_UNSPECIFIED = -1,

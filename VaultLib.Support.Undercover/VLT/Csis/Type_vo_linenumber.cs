@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_vo_linenumber")]
+    [VltTypeInfo("Csis::Type_vo_linenumber")]
     public enum Type_vo_linenumber
     {
         Invalid_Type_vo_linenumber = 0x0,

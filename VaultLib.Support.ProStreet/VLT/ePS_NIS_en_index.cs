@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(ePS_NIS_en_index))]
+    [VltTypeInfo(nameof(ePS_NIS_en_index))]
     public enum ePS_NIS_en_index
     {
         PS_NIS_en_End01 = 0x0,

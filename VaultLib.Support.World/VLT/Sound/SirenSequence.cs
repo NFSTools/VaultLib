@@ -10,8 +10,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
 {
-    [VLTTypeInfo("Sound::SirenSequence")]
-    public class SirenSequence : VLTBaseType
+    [VltTypeInfo("Sound::SirenSequence")]
+    public class SirenSequence : VltBaseType
     {
         public enum SirenMode
         {

@@ -2,7 +2,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eVOL_MOMENT))]
+    [VltTypeInfo(nameof(eVOL_MOMENT))]
     public enum eVOL_MOMENT
     {
         eAZI_MOMENT_3DPOS = 0x0,

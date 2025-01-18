@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::Behaviour")]
+    [VltTypeInfo("GRace::Behaviour")]
     public enum Behaviour
     {
         kRaceBehaviour_Single = 0x1,

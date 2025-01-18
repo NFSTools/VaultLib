@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Abstractions
 {
-    public abstract class BaseRefSpec : VLTBaseType, IReferencesCollections
+    public abstract class BaseRefSpec : VltBaseType, IReferencesCollections
     {
         protected BaseRefSpec(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)

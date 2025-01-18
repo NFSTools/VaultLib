@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.GRace
 {
-    [VLTTypeInfo("GRace::RaceLigthingMode")]
+    [VltTypeInfo("GRace::RaceLigthingMode")]
     public enum RaceLigthingMode
     {
         kLighting_Normal = 0x0,

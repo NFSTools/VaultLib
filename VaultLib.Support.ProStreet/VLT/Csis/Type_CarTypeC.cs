@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_CarTypeC")]
+    [VltTypeInfo("Csis::Type_CarTypeC")]
     public enum Type_CarTypeC
     {
         Invalid_Type_CarTypeC = 0x0,

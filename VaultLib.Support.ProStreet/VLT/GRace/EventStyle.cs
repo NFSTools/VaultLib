@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::EventStyle")]
+    [VltTypeInfo("GRace::EventStyle")]
     public enum EventStyle
     {
         kEventStyle_BestRound = 0x0,

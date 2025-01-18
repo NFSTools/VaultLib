@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eControllerTypeMask))]
+    [VltTypeInfo(nameof(eControllerTypeMask))]
     public enum eControllerTypeMask
     {
         CTM_ANY = 0x0,

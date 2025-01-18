@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::RewardMode")]
+    [VltTypeInfo("GameCore::RewardMode")]
     public enum RewardMode
     {
         kRewardMode_Singleplayer = 1,

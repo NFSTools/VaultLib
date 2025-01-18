@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(BluePrintType))]
+    [VltTypeInfo(nameof(BluePrintType))]
     public enum BluePrintType
     {
         BLUEPRINT_GRIP = 0x0,

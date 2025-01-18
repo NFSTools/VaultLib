@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.EA.WorldMap
 {
-    [VLTTypeInfo("EA::WorldMap::eWMFeatureType")]
+    [VltTypeInfo("EA::WorldMap::eWMFeatureType")]
     public enum eWMFeatureType
     {
         WORLDMAP_FEATURE_TYPE_BASICPOINTFEATURE,

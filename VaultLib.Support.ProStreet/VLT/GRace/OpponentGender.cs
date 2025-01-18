@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::OpponentGender")]
+    [VltTypeInfo("GRace::OpponentGender")]
     public enum OpponentGender
     {
         kOpponentGender_Male = 0x0,

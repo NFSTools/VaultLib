@@ -16,9 +16,9 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.Attrib.Query
 {
-    [VLTTypeInfo(
+    [VltTypeInfo(
         "Attrib::Query::Static_Inorder_N_to_1<Attrib::Query::Typespace<Attrib::Key,Attrib::Key,EA::Reflection::UInt32> >")]
-    public class Static_Inorder_N_to_1 : VLTBaseType, IPointerObject
+    public class Static_Inorder_N_to_1 : VltBaseType, IPointerObject
     {
         public long ElementsPointer { get; private set; }
         public long ElementsDest { get; private set; }
@@ -69,7 +69,7 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
 
             // Obtain the full list of collections
             List<VltCollection> allCollections = context.Collections.Where(c => c.Class.Name == Class.Name).ToList();
-            Dictionary<VltCollection, uint> keys = allCollections.ToDictionary(c => c, c => VLT32Hasher.Hash(c.Name));
+            Dictionary<VltCollection, uint> keys = allCollections.ToDictionary(c => c, c => Vlt32Hasher.Hash(c.Name));
 
             // Group list by parent
             Dictionary<uint, List<VltCollection>> groupedByParent = allCollections.GroupBy(c => c.Parent != null ? keys[c.Parent] : 0)

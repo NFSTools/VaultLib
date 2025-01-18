@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eSongPlayability))]
+    [VltTypeInfo(nameof(eSongPlayability))]
     public enum eSongPlayability
     {
         ePLAY_OFF = 0x0,

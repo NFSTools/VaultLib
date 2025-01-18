@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VLTTypeInfo(nameof(eSFXOBJ_MOMENT_MIXOUT))]
+    [VltTypeInfo(nameof(eSFXOBJ_MOMENT_MIXOUT))]
     public enum eSFXOBJ_MOMENT_MIXOUT
     {
         eAZI_MOMENT_3DPOS = 0x0,

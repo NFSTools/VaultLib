@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eUnlockableEntity))]
+    [VltTypeInfo(nameof(eUnlockableEntity))]
     public enum eUnlockableEntity
     {
         UNLOCKABLE_THING_UNKNOWN = 0x0,

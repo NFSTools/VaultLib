@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(PartType))]
+    [VltTypeInfo(nameof(PartType))]
     public enum PartType
     {
         PartType_CarSpecific = 0x0,

@@ -10,8 +10,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::BlackBoardSlot")]
-    public class BlackBoardSlot : VLTBaseType
+    [VltTypeInfo("GameCore::BlackBoardSlot")]
+    public class BlackBoardSlot : VltBaseType
     {
         public enum BlackBoardFlag
         {

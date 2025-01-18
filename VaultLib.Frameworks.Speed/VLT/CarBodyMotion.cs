@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(CarBodyMotion))]
-    public class CarBodyMotion : VLTBaseType
+    [VltTypeInfo(nameof(CarBodyMotion))]
+    public class CarBodyMotion : VltBaseType
     {
         public float DegPerG { get; set; }
         public float MaxGs { get; set; }

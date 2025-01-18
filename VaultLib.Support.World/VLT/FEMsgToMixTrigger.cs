@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VLTTypeInfo(nameof(FEMsgToMixTrigger))]
-    public class FEMsgToMixTrigger : VLTBaseType
+    [VltTypeInfo(nameof(FEMsgToMixTrigger))]
+    public class FEMsgToMixTrigger : VltBaseType
     {
         public FEMsgToMixTrigger(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

@@ -14,8 +14,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.NIS
 {
-    [VLTTypeInfo("NIS::NISActor")]
-    public class NISActor : VLTBaseType, IReferencesStrings
+    [VltTypeInfo("NIS::NISActor")]
+    public class NISActor : VltBaseType, IReferencesStrings
     {
         public string ActorName { get; set; }
         public string CarChannelName { get; set; }

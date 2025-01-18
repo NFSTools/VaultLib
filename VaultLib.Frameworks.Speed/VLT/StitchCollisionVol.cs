@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(StitchCollisionVol))]
-    public class StitchCollisionVol : VLTBaseType
+    [VltTypeInfo(nameof(StitchCollisionVol))]
+    public class StitchCollisionVol : VltBaseType
     {
         public StitchCollisionVol(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

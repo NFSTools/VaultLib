@@ -7,8 +7,8 @@ using VaultLib.Frameworks.Speed.VLT.Physics;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(PerformanceWeightWithDirection))]
-    public class PerformanceWeightWithDirection : VLTBaseType
+    [VltTypeInfo(nameof(PerformanceWeightWithDirection))]
+    public class PerformanceWeightWithDirection : VltBaseType
     {
         public PerformanceWeightWithDirection(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

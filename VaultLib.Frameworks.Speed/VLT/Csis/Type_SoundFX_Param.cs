@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_SoundFX_Param")]
+    [VltTypeInfo("Csis::Type_SoundFX_Param")]
     public enum Type_SoundFX_Param
     {
         Invalid_Type_SoundFX_Param = 0x0,

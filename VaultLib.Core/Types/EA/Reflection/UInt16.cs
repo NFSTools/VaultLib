@@ -8,7 +8,7 @@ using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.EA.Reflection
 {
-    [VLTTypeInfo("EA::Reflection::UInt16")]
+    [VltTypeInfo("EA::Reflection::UInt16")]
     [PrimitiveInfo(typeof(ushort))]
     public class UInt16 : PrimitiveTypeBase
     {

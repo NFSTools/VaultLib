@@ -7,8 +7,8 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(HighwayPatternCarData))]
-    public class HighwayPatternCarData : VLTBaseType
+    [VltTypeInfo(nameof(HighwayPatternCarData))]
+    public class HighwayPatternCarData : VltBaseType
     {
         public HighwayPatternCarData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

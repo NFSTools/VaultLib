@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.RenderReflect
 {
-    [VLTTypeInfo("RenderReflect::cDepthStencilStateAttribDefinition")]
-    public class cDepthStencilStateAttribDefinition : VLTBaseType, IReferencesStrings
+    [VltTypeInfo("RenderReflect::cDepthStencilStateAttribDefinition")]
+    public class cDepthStencilStateAttribDefinition : VltBaseType, IReferencesStrings
     {
         public string DebugName { get; set; }
 

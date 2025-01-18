@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(RoadNoiseRecord))]
-    public class RoadNoiseRecord : VLTBaseType
+    [VltTypeInfo(nameof(RoadNoiseRecord))]
+    public class RoadNoiseRecord : VltBaseType
     {
         public float Frequency { get; set; }
         public float Amplitude { get; set; }

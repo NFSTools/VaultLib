@@ -7,7 +7,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore.Pursuit
 {
-    [VLTTypeInfo("GameCore::Pursuit::CopCountRecord")]
+    [VltTypeInfo("GameCore::Pursuit::CopCountRecord")]
     public class CopCountRecord : Frameworks.Speed.VLT.CopCountRecord
     {
         public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

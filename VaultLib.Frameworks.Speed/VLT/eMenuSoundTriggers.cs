@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eMenuSoundTriggers))]
+    [VltTypeInfo(nameof(eMenuSoundTriggers))]
     public enum eMenuSoundTriggers
     {
         UISND_NONE = -1,

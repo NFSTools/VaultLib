@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_SameMake")]
+    [VltTypeInfo("Csis::Type_SameMake")]
     public enum Type_SameMake
     {
         Invalid_Type_SameMake = 0x0,

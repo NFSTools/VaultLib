@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.EA.WorldMap
 {
-    [VLTTypeInfo("EA::WorldMap::POIType")]
+    [VltTypeInfo("EA::WorldMap::POIType")]
     public enum POIType
     {
         POIType_Unknown = -1,

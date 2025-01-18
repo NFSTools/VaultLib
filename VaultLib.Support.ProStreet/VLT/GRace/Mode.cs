@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::Mode")]
+    [VltTypeInfo("GRace::Mode")]
     public enum Mode
     {
         kRaceMode_None = 0x0,

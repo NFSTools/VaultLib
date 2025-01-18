@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VLTTypeInfo(nameof(SkyDomeModelStruct))]
-    public class SkyDomeModelStruct : VLTBaseType
+    [VltTypeInfo(nameof(SkyDomeModelStruct))]
+    public class SkyDomeModelStruct : VltBaseType
     {
         public uint Hash { get; set; }
 

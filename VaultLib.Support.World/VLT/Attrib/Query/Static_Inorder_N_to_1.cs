@@ -13,9 +13,9 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.World.VLT.Attrib.Query
 {
-    [VLTTypeInfo(
+    [VltTypeInfo(
         "Attrib::Query::Static_Inorder_N_to_1<Attrib::Query::Typespace<Attrib::Key,Attrib::Key,EA::Reflection::UInt32> >")]
-    public class Static_Inorder_N_to_1 : VLTBaseType, IPointerObject
+    public class Static_Inorder_N_to_1 : VltBaseType, IPointerObject
     {
         private long _leavesDst;
         private long _leavesPointer;
@@ -84,7 +84,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
         public void WritePointerData(VaultSaveContext context, BinaryWriter bw)
         {
             var groupedCollections = context.Database.RowManager.EnumerateFlattenedCollections(Class.Name)
-                .GroupBy(c => VLT32Hasher.Hash(c.Parent?.Name));
+                .GroupBy(c => Vlt32Hasher.Hash(c.Parent?.Name));
             var sortedGroups = groupedCollections.OrderBy(g => g.Key).ToList();
 
             var curPos = bw.BaseStream.Position;
@@ -107,7 +107,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
 
             _leavesDst = bw.BaseStream.Position;
             foreach (var collection in sortedGroups.SelectMany(group => group.OrderBy(c => c.Name)))
-                bw.Write(VLT32Hasher.Hash(collection.Name));
+                bw.Write(Vlt32Hasher.Hash(collection.Name));
         }
 
         public void AddPointers(VaultSaveContext context)

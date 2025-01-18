@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(FEPerfSliderTextures))]
-    public class FEPerfSliderTextures : VLTBaseType
+    [VltTypeInfo(nameof(FEPerfSliderTextures))]
+    public class FEPerfSliderTextures : VltBaseType
     {
         public FEPerfSliderTextures(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

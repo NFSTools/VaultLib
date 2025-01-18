@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eRewardCardUnit))]
+    [VltTypeInfo(nameof(eRewardCardUnit))]
     public enum eRewardCardUnit
     {
         UNIT_NONE = 0x0,

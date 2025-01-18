@@ -14,8 +14,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.NIS
 {
-    [VLTTypeInfo("NIS::NISCar")]
-    public class NISCar : VLTBaseType, IReferencesStrings
+    [VltTypeInfo("NIS::NISCar")]
+    public class NISCar : VltBaseType, IReferencesStrings
     {
         public RefSpec PresetRide { get; set; }
         public string PresetSkinName { get; set; }

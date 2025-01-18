@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(FEDefaultUnlockable))]
-    public class FEDefaultUnlockable : VLTBaseType
+    [VltTypeInfo(nameof(FEDefaultUnlockable))]
+    public class FEDefaultUnlockable : VltBaseType
     {
         public FEDefaultUnlockable(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

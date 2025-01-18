@@ -15,8 +15,8 @@ using VaultLib.ModernBase;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VLTTypeInfo(nameof(ControllerDataRecord))]
-    public class ControllerDataRecord : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(ControllerDataRecord))]
+    public class ControllerDataRecord : VltBaseType, IReferencesStrings
     {
         public string DeviceId { get; set; }
         public InputUpdateType UpdateType { get; set; }

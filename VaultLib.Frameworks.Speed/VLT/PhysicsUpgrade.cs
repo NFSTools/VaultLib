@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(PhysicsUpgrade))]
-    public class PhysicsUpgrade : VLTBaseType
+    [VltTypeInfo(nameof(PhysicsUpgrade))]
+    public class PhysicsUpgrade : VltBaseType
     {
         public PhysicsUpgrade(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.NIS
 {
-    [VLTTypeInfo("NIS::eMULTICLASS_GROUP")]
+    [VltTypeInfo("NIS::eMULTICLASS_GROUP")]
     public enum eMULTICLASS_GROUP
     {
         GROUP_1 = 0x0,

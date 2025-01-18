@@ -7,8 +7,8 @@ using VaultLib.Frameworks.Speed.VLT.Physics;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(PerformanceStatsRange))]
-    public class PerformanceStatsRange : VLTBaseType
+    [VltTypeInfo(nameof(PerformanceStatsRange))]
+    public class PerformanceStatsRange : VltBaseType
     {
         public PerformanceStatsRange(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

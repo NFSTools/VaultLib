@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Carbon.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_P_Breaker_Code")]
+    [VltTypeInfo("Csis::Type_P_Breaker_Code")]
     public enum Type_P_Breaker_Code
     {
         Invalid_Type_P_Breaker_Code = 0x0,

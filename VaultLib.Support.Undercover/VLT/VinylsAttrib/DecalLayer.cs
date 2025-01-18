@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
 {
-    [VLTTypeInfo("VinylsAttrib::DecalLayer")]
-    public class DecalLayer : VLTBaseType
+    [VltTypeInfo("VinylsAttrib::DecalLayer")]
+    public class DecalLayer : VltBaseType
     {
         public DecalLayer(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

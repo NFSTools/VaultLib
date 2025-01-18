@@ -10,8 +10,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(GMapCurveRef))]
-    public class GMapCurveRef : VLTBaseType
+    [VltTypeInfo(nameof(GMapCurveRef))]
+    public class GMapCurveRef : VltBaseType
     {
         public enum GMapCurveRefFlags : ushort
         {

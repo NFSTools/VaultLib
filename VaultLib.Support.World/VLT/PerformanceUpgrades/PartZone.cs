@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.PerformanceUpgrades
 {
-    [VLTTypeInfo("PerformanceUpgrades::PartZone")]
+    [VltTypeInfo("PerformanceUpgrades::PartZone")]
     public enum PartZone
     {
         PERFSLOT_ENGINE,

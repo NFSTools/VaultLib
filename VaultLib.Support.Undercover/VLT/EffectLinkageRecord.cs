@@ -14,8 +14,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(EffectLinkageRecord))]
-    public class EffectLinkageRecord : VLTBaseType, IReferencesCollections
+    [VltTypeInfo(nameof(EffectLinkageRecord))]
+    public class EffectLinkageRecord : VltBaseType, IReferencesCollections
     {
         public RefSpec Surface { get; set; }
         public RefSpec Effect { get; set; }

@@ -5,9 +5,9 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.Sound
 {
-    [VLTTypeInfo("Sound::JittererParams")]
+    [VltTypeInfo("Sound::JittererParams")]
     // TODO: determine what this is
-    public class JittererParams : VLTBaseType
+    public class JittererParams : VltBaseType
     {
         public JittererParams(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

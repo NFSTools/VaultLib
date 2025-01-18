@@ -43,7 +43,7 @@ namespace VaultLib.LegacyBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVLT(mClass)), HashManager.ResolveVLT(mKey));
+            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)), HashManager.ResolveVlt(mKey));
 
             _types = new ulong[mNumTypes];
             for (var i = 0; i < mNumTypes; i++)
@@ -66,24 +66,24 @@ namespace VaultLib.LegacyBase.Exports
 
         public override void Prepare(Vault vault)
         {
-            List<KeyValuePair<string, VLTBaseType>> optionalDataColumns = (from pair in Collection.GetData()
+            List<KeyValuePair<string, VltBaseType>> optionalDataColumns = (from pair in Collection.GetData()
                                                                            where !Collection.Class[pair.Key].IsInLayout
                                                                            select pair).ToList();
 
             _entries = new AttribEntry64[optionalDataColumns.Count];
             _types = Collection.Class.BaseFields.Select(f => f.TypeName)
                 .Concat(optionalDataColumns.Select(c => Collection.Class[c.Key].TypeName))
-                .Select(s => VLT64Hasher.Hash(s)).Distinct().ToArray();
+                .Select(s => Vlt64Hasher.Hash(s)).Distinct().ToArray();
 
             for (var index = 0; index < optionalDataColumns.Count; index++)
             {
                 var optionalDataColumn = optionalDataColumns[index];
                 var entry = new AttribEntry64(Collection);
 
-                entry.Key = VLT64Hasher.Hash(optionalDataColumn.Key);
+                entry.Key = Vlt64Hasher.Hash(optionalDataColumn.Key);
                 var vltClassField = Collection.Class[optionalDataColumn.Key];
                 entry.TypeIndex = (ushort)Array.IndexOf(_types,
-                    VLT64Hasher.Hash(vltClassField.TypeName));
+                    Vlt64Hasher.Hash(vltClassField.TypeName));
                 entry.NodeFlags = NodeFlagsEnum.Default;
 
                 if (entry.IsInline())
@@ -93,7 +93,7 @@ namespace VaultLib.LegacyBase.Exports
                 }
                 else
                 {
-                    entry.InlineData = new VLTAttribType(Collection.Class, vltClassField, Collection)
+                    entry.InlineData = new VltAttribType(Collection.Class, vltClassField, Collection)
                     {
                         Data = optionalDataColumn.Value
                     };
@@ -110,10 +110,10 @@ namespace VaultLib.LegacyBase.Exports
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            bw.Write(VLT64Hasher.Hash(Collection.Name));
-            bw.Write(VLT64Hasher.Hash(Collection.Class.Name));
+            bw.Write(Vlt64Hasher.Hash(Collection.Name));
+            bw.Write(Vlt64Hasher.Hash(Collection.Class.Name));
             //bw.Write((uint) (Collection.Parent?.Key ?? 0));
-            bw.Write(Collection.Parent != null ? VLT64Hasher.Hash(Collection.Parent.Name) : 0u);
+            bw.Write(Collection.Parent != null ? Vlt64Hasher.Hash(Collection.Parent.Name) : 0u);
             bw.Write((uint)_entries.Length);
             bw.Write(0);
             bw.Write((uint)_entries.Length);
@@ -134,7 +134,7 @@ namespace VaultLib.LegacyBase.Exports
 
         public override ulong GetExportId()
         {
-            return VLT64Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
+            return Vlt64Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
         }
 
         public override void ReadPointerData(VaultLoadContext context, BinaryReader br)
@@ -147,12 +147,12 @@ namespace VaultLib.LegacyBase.Exports
                 {
                     br.AlignReader(baseField.Alignment);
 
-                    VLTBaseType data =
+                    VltBaseType data =
                         context.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
                     data.Read(context, br);
                     long endPos = br.BaseStream.Position;
-                    if (!(data is VLTArrayType) && !(data is PrimitiveTypeBase))
+                    if (!(data is VltArrayType) && !(data is PrimitiveTypeBase))
                         Debug.Assert(endPos - startPos == baseField.Size);
                     //Collection.Data[baseField.Name] = data;
                     Collection.SetRawValue(baseField.Name, data);
@@ -168,7 +168,7 @@ namespace VaultLib.LegacyBase.Exports
                     throw new Exception("Congratulations. You have successfully broken this library. Please consult with your doctor for further instructions.");
                 }
 
-                if (entry.InlineData is VLTAttribType attribType)
+                if (entry.InlineData is VltAttribType attribType)
                 {
                     attribType.ReadPointerData(context, br);
                     Collection.SetRawValue(optionalField.Name, attribType.Data);

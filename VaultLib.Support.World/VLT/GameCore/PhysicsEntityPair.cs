@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::PhysicsEntityPair")]
-    public class PhysicsEntityPair : VLTBaseType
+    [VltTypeInfo("GameCore::PhysicsEntityPair")]
+    public class PhysicsEntityPair : VltBaseType
     {
         public PhysicsEntity Entity1 { get; set; }
         public PhysicsEntity Entity2 { get; set; }

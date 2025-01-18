@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eTURN_INDICATORS))]
+    [VltTypeInfo(nameof(eTURN_INDICATORS))]
     public enum eTURN_INDICATORS
     {
         kTurnIndicator20 = 0x0,

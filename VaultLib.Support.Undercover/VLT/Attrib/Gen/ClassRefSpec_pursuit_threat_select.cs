@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 
 namespace VaultLib.Support.Undercover.VLT.Attrib.Gen
 {
-    [VLTTypeInfo("Attrib::Gen::ClassRefSpec_pursuit_threat_select")]
+    [VltTypeInfo("Attrib::Gen::ClassRefSpec_pursuit_threat_select")]
     public class ClassRefSpec_pursuit_threat_select : ClassRefSpec_template
     {
         public ClassRefSpec_pursuit_threat_select(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection, "pursuit_threat_select")

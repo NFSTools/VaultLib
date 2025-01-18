@@ -3,7 +3,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore.Pursuit
 {
-    [VLTTypeInfo("GameCore::Pursuit::CopFormationRecord")]
+    [VltTypeInfo("GameCore::Pursuit::CopFormationRecord")]
     public class CopFormationRecord : Frameworks.Speed.VLT.CopFormationRecord
     {
         public CopFormationRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

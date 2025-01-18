@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.NIS
 {
-    [VLTTypeInfo("NIS::ePIPTrigger")]
+    [VltTypeInfo("NIS::ePIPTrigger")]
     public enum ePIPTrigger
     {
         NONE = 0x0,

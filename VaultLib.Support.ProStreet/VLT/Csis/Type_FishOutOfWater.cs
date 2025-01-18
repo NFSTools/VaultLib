@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_FishOutOfWater")]
+    [VltTypeInfo("Csis::Type_FishOutOfWater")]
     public enum Type_FishOutOfWater
     {
         Invalid_Type_FishOutOfWater = 0x0,

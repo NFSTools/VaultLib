@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(AIDriverSubclass))]
+    [VltTypeInfo(nameof(AIDriverSubclass))]
     public enum AIDriverSubclass
     {
         AIDRIVER_INVALID = -1,

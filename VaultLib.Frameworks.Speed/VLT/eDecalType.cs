@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eDecalType))]
+    [VltTypeInfo(nameof(eDecalType))]
     public enum eDecalType
     {
         DECAL_TYPE_NONE = 0xFF,

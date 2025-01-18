@@ -38,12 +38,12 @@ namespace VaultLib.LegacyBase.Exports
             ushort requiredCount = br.ReadUInt16();
             Debug.Assert(requiredCount <= NumDefinitions);
             br.ReadInt16();
-            Class = new VltClass(HashManager.ResolveVLT(ClassHash));
+            Class = new VltClass(HashManager.ResolveVlt(ClassHash));
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            bw.Write(VLT32Hasher.Hash(Class.Name));
+            bw.Write(Vlt32Hasher.Hash(Class.Name));
 
             int collReserve = (from collection in context.Database.RowManager.GetFlattenedCollections(Class.Name)
                                select collection).Count();
@@ -79,8 +79,8 @@ namespace VaultLib.LegacyBase.Exports
 
                 VltClassField field = new VltClassField(
                     definition.Key,
-                    HashManager.ResolveVLT((uint)definition.Key),
-                    HashManager.ResolveVLT((uint)definition.Type),
+                    HashManager.ResolveVlt((uint)definition.Key),
+                    HashManager.ResolveVlt((uint)definition.Type),
                     definition.Flags,
                     definition.Alignment,
                     definition.Size,
@@ -100,8 +100,8 @@ namespace VaultLib.LegacyBase.Exports
             foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
             {
                 AttribDefinition definition = new AttribDefinition();
-                definition.Key = VLT32Hasher.Hash(field.Name);
-                definition.Type = VLT32Hasher.Hash(field.TypeName);
+                definition.Key = Vlt32Hasher.Hash(field.Name);
+                definition.Type = Vlt32Hasher.Hash(field.TypeName);
                 definition.Flags = field.Flags;
                 definition.Size = field.Size;
                 definition.MaxCount = field.MaxCount;

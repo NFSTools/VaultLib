@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(SPEECH_RIVAL_MAKE))]
+    [VltTypeInfo(nameof(SPEECH_RIVAL_MAKE))]
     public enum SPEECH_RIVAL_MAKE
     {
         InvalidRivalMake = 0x0,

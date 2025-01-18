@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.Game
 {
-    [VLTTypeInfo("Game::EventRegion")]
+    [VltTypeInfo("Game::EventRegion")]
     public enum EventRegion
     {
         kRegion_SunsetHills = 0x0,

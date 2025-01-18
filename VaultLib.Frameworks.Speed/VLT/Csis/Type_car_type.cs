@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_car_type")]
+    [VltTypeInfo("Csis::Type_car_type")]
     public enum Type_car_type
     {
         Invalid_Type_car_type = 0x0,

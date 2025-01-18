@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(KIT_TYPE))]
+    [VltTypeInfo(nameof(KIT_TYPE))]
     public enum KIT_TYPE
     {
         KIT_TYPE_BASE = 0x0,

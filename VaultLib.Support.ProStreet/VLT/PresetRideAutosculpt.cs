@@ -8,8 +8,8 @@ using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(PresetRideAutosculpt))]
-    public class PresetRideAutosculpt : VLTBaseType
+    [VltTypeInfo(nameof(PresetRideAutosculpt))]
+    public class PresetRideAutosculpt : VltBaseType
     {
         public PresetRideAutosculpt(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

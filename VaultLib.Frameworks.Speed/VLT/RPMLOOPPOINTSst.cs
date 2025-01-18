@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(RPMLOOPPOINTSst))]
-    public class RPMLOOPPOINTSst : VLTBaseType
+    [VltTypeInfo(nameof(RPMLOOPPOINTSst))]
+    public class RPMLOOPPOINTSst : VltBaseType
     {
         public int RPM_LD_LOW_PEAK { get; set; }
         public int RPM_LD_LOW_OUT { get; set; }

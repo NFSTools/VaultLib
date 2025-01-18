@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(EAIBreakerType))]
+    [VltTypeInfo(nameof(EAIBreakerType))]
     public enum EAIBreakerType
     {
         BT_NONE = 0x0,

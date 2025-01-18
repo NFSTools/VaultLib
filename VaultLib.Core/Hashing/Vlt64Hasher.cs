@@ -7,7 +7,7 @@ using System.Text;
 
 namespace VaultLib.Core.Hashing
 {
-    public static class VLT64Hasher
+    public static class Vlt64Hasher
     {
         public static ulong Hash(string str, ulong init = 0xABCDEF0011223344, bool returnZeroForEmpty = true)
         {

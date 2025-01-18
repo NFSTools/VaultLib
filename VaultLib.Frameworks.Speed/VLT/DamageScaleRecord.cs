@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(DamageScaleRecord))]
-    public class DamageScaleRecord : VLTBaseType
+    [VltTypeInfo(nameof(DamageScaleRecord))]
+    public class DamageScaleRecord : VltBaseType
     {
         public float VisualScale { get; set; }
         public float HitPointScale { get; set; }

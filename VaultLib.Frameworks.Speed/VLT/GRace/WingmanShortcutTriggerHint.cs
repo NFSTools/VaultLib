@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.GRace
 {
-    [VLTTypeInfo("GRace::WingmanShortcutTriggerHint")]
+    [VltTypeInfo("GRace::WingmanShortcutTriggerHint")]
     public enum WingmanShortcutTriggerHint
     {
         kShortcutTrigger_None = 0x0,

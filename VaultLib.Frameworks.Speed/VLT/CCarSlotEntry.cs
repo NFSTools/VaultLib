@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(CCarSlotEntry))]
-    public class CCarSlotEntry : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(CCarSlotEntry))]
+    public class CCarSlotEntry : VltBaseType, IReferencesStrings
     {
         public DynamicSizeArray<RefSpec> Parts { get; set; }
         public string SlotName { get; set; }

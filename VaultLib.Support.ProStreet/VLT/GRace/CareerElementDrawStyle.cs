@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::CareerElementDrawStyle")]
+    [VltTypeInfo("GRace::CareerElementDrawStyle")]
     public enum CareerElementDrawStyle
     {
         kDrawStyleBox = 0x0,

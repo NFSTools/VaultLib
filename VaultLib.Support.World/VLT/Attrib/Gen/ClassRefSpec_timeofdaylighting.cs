@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 
 namespace VaultLib.Support.World.VLT.Attrib.Gen
 {
-    [VLTTypeInfo("Attrib::Gen::ClassRefSpec_timeofdaylighting")]
+    [VltTypeInfo("Attrib::Gen::ClassRefSpec_timeofdaylighting")]
     public class ClassRefSpec_timeofdaylighting : ClassRefSpec_template
     {
         public ClassRefSpec_timeofdaylighting(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection, "timeofdaylighting")

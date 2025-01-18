@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_NIS_Career_Scene")]
+    [VltTypeInfo("Csis::Type_NIS_Career_Scene")]
     public enum Type_NIS_Career_Scene
     {
         Invalid_Type_NIS_Career_Scene = 0x0,

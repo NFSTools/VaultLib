@@ -9,7 +9,7 @@ using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::StringKey")]
+    [VltTypeInfo("GameCore::StringKey")]
     public class StringKey : GStringHash
     {
         public StringKey(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

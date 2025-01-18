@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(FEQuickUpgradeEntry))]
-    public class FEQuickUpgradeEntry : VLTBaseType
+    [VltTypeInfo(nameof(FEQuickUpgradeEntry))]
+    public class FEQuickUpgradeEntry : VltBaseType
     {
         public FEQuickUpgradeEntry(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

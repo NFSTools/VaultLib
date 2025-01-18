@@ -7,8 +7,8 @@ using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.Attrib.Types
 {
-    [VLTTypeInfo("Attrib::Types::Vector3")]
-    public class Vector3 : VLTBaseType
+    [VltTypeInfo("Attrib::Types::Vector3")]
+    public class Vector3 : VltBaseType
     {
         public Vector3(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

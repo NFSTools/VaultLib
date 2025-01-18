@@ -4,8 +4,6 @@
 
 using System.Collections.Generic;
 using System.IO;
-using VLT32Hasher = VaultLib.Core.Hashing.VLT32Hasher;
-using VLT64Hasher = VaultLib.Core.Hashing.VLT64Hasher;
 
 namespace VaultLib.Core.Hashing
 {
@@ -16,21 +14,21 @@ namespace VaultLib.Core.Hashing
 
         public static void LoadDictionary(string file)
         {
-            foreach (var line in File.ReadLines(file)) AddVLT(line);
+            foreach (var line in File.ReadLines(file)) AddVlt(line);
         }
 
-        public static void AddVLT(string str)
+        public static void AddVlt(string str)
         {
-            VltHashDictionary[VLT32Hasher.Hash(str)] = str;
-            Vlt64HashDictionary[VLT64Hasher.Hash(str)] = str;
+            VltHashDictionary[Vlt32Hasher.Hash(str)] = str;
+            Vlt64HashDictionary[Vlt64Hasher.Hash(str)] = str;
         }
 
-        public static string ResolveVLT(uint hash)
+        public static string ResolveVlt(uint hash)
         {
             return VltHashDictionary.TryGetValue(hash, out var s) ? s : $"0x{hash:X8}";
         }
 
-        public static string ResolveVLT(ulong hash)
+        public static string ResolveVlt(ulong hash)
         {
             return Vlt64HashDictionary.TryGetValue(hash, out var s) ? s : $"0x{hash:X16}";
         }

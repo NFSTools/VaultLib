@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.DamageFilter
 {
-    [VLTTypeInfo("DamageFilter::Control")]
-    public class Control : VLTBaseType
+    [VltTypeInfo("DamageFilter::Control")]
+    public class Control : VltBaseType
     {
         public Control(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

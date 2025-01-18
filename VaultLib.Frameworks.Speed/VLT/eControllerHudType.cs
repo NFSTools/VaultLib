@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eControllerHudType))]
+    [VltTypeInfo(nameof(eControllerHudType))]
     public enum eControllerHudType
     {
         eCHT_None = 0x0,

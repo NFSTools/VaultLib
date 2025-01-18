@@ -12,8 +12,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
 {
-    [VLTTypeInfo("FEAutosculptAliasing::Alias")]
-    public class Alias : VLTBaseType, IPointerObject
+    [VltTypeInfo("FEAutosculptAliasing::Alias")]
+    public class Alias : VltBaseType, IPointerObject
     {
         public byte Kit { get; set; }
         public uint Region { get; set; }

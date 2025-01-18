@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::EventMode")]
+    [VltTypeInfo("GameCore::EventMode")]
     public enum EventMode
     {
         kEventMode_Unknown = 0,

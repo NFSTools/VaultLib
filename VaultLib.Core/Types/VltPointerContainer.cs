@@ -12,19 +12,19 @@ namespace VaultLib.Core.Types
     ///     Helper class for reading data types through a pointer
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class VLTPointerContainer<T> : VLTBaseType, IPointerObject where T : VLTBaseType
+    public class VltPointerContainer<T> : VltBaseType, IPointerObject where T : VltBaseType
     {
         private uint _pointer;
         private long _ptrDst;
 
         private long _ptrSrc;
 
-        public VLTPointerContainer(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
+        public VltPointerContainer(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)
         {
         }
 
-        public VLTPointerContainer(VltClass @class, VltClassField field) : base(@class, field)
+        public VltPointerContainer(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

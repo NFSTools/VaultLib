@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.World.VLT.PowerUps
 {
-    [VLTTypeInfo("PowerUps::GameplayEffectAndTarget")]
-    public class GameplayEffectAndTarget : VLTBaseType, IReferencesCollections
+    [VltTypeInfo("PowerUps::GameplayEffectAndTarget")]
+    public class GameplayEffectAndTarget : VltBaseType, IReferencesCollections
     {
         public string GroupKey { get; set; }
         public uint Type { get; set; }

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.MostWanted.VLT
 {
-    [VLTTypeInfo(nameof(STICH_COLLISION_TYPE))]
+    [VltTypeInfo(nameof(STICH_COLLISION_TYPE))]
     public enum STICH_COLLISION_TYPE
     {
         CRSH_CAR_2_CAR_FRNT_VLIT1 = 0x0,

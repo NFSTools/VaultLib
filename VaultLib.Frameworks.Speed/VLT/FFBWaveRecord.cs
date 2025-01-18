@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(FFBWaveRecord))]
-    public class FFBWaveRecord : VLTBaseType
+    [VltTypeInfo(nameof(FFBWaveRecord))]
+    public class FFBWaveRecord : VltBaseType
     {
         public float Frequency_A { get; set; }
         public float Amplitude_A { get; set; }

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(ePackageType))]
+    [VltTypeInfo(nameof(ePackageType))]
     public enum ePackageType
     {
         ePT_QUICK_POWER = 0x0,

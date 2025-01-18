@@ -10,8 +10,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(LeaderSupport))]
-    public class LeaderSupport : VLTBaseType
+    [VltTypeInfo(nameof(LeaderSupport))]
+    public class LeaderSupport : VltBaseType
     {
         public enum LeaderSupportStrategy
         {

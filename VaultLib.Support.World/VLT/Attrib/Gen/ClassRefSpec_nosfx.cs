@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 
 namespace VaultLib.Support.World.VLT.Attrib.Gen
 {
-    [VLTTypeInfo("Attrib::Gen::ClassRefSpec_nosfx")]
+    [VltTypeInfo("Attrib::Gen::ClassRefSpec_nosfx")]
     public class ClassRefSpec_nosfx : ClassRefSpec_template
     {
         public ClassRefSpec_nosfx(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection, "nosfx")

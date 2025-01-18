@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(EngineLFOParams))]
-    public class EngineLFOParams : VLTBaseType
+    [VltTypeInfo(nameof(EngineLFOParams))]
+    public class EngineLFOParams : VltBaseType
     {
         public float frequency_start { get; set; }
         public float frequency_end { get; set; }

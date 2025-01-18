@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
 {
-    [VLTTypeInfo("Sound::PursuitMusicTuning")]
-    public class PursuitMusicTuning : VLTBaseType
+    [VltTypeInfo("Sound::PursuitMusicTuning")]
+    public class PursuitMusicTuning : VltBaseType
     {
         public float PlayerSpeedUR { get; set; }
         public float PursuitUR { get; set; }

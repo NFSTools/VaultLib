@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(HelpBarButtonGroup))]
-    public class HelpBarButtonGroup : VLTBaseType
+    [VltTypeInfo(nameof(HelpBarButtonGroup))]
+    public class HelpBarButtonGroup : VltBaseType
     {
         public HelpBarButtonGroup(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

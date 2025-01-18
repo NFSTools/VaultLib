@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.EA.Reflection
 {
-    [VLTTypeInfo("EA::Reflection::Text")]
+    [VltTypeInfo("EA::Reflection::Text")]
     [PrimitiveInfo(typeof(string))]
     public class Text : PrimitiveTypeBase, IReferencesStrings, IStringValue
     {
@@ -50,7 +50,7 @@ namespace VaultLib.Core.Types.EA.Reflection
         {
             Debug.Assert(_internalPointerSrc != 0 && _internalPointerDst != 0);
 
-            context.AddPointer(_internalPointerSrc, _internalPointerDst, IsInVLT);
+            context.AddPointer(_internalPointerSrc, _internalPointerDst, IsInVlt);
         }
 
         public string GetString()

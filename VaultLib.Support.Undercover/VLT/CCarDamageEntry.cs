@@ -14,8 +14,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(CCarDamageEntry))]
-    public class CCarDamageEntry : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(CCarDamageEntry))]
+    public class CCarDamageEntry : VltBaseType, IReferencesStrings
     {
         public int PartID { get; set; }
         public string AttachPart { get; set; }

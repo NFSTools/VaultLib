@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(SCRAPE_SURFACES))]
+    [VltTypeInfo(nameof(SCRAPE_SURFACES))]
     public enum SCRAPE_SURFACES
     {
         SCRAPE_NONE = 0x0,

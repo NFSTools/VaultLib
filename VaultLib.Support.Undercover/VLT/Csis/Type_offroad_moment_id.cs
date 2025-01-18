@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_offroad_moment_id")]
+    [VltTypeInfo("Csis::Type_offroad_moment_id")]
     public enum Type_offroad_moment_id
     {
         Invalid_Type_offroad_moment_id = 0x0,

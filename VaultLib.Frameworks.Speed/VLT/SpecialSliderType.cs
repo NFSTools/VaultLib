@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(SpecialSliderType))]
+    [VltTypeInfo(nameof(SpecialSliderType))]
     public enum SpecialSliderType
     {
         SHEAR = 0

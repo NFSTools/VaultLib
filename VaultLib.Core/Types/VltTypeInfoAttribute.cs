@@ -6,9 +6,9 @@ using System;
 
 namespace VaultLib.Core.Types
 {
-    public class VLTTypeInfoAttribute : Attribute
+    public class VltTypeInfoAttribute : Attribute
     {
-        public VLTTypeInfoAttribute(string name)
+        public VltTypeInfoAttribute(string name)
         {
             Name = name;
         }

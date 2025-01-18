@@ -1,7 +1,7 @@
 using System.IO;
 using VaultLib.Core.Data;
+using VaultLib.Core.Hashing;
 using VaultLib.Core.Utils;
-using VLT32Hasher = VaultLib.Core.Hashing.VLT32Hasher;
 
 namespace VaultLib.Core.Exports
 {
@@ -15,7 +15,7 @@ namespace VaultLib.Core.Exports
 
         public override ulong GetExportId()
         {
-            return VLT32Hasher.Hash(Class.Name);
+            return Vlt32Hasher.Hash(Class.Name);
         }
 
         public override string GetTypeId()

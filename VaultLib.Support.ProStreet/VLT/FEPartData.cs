@@ -15,8 +15,8 @@ using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(FEPartData))]
-    public class FEPartData : VLTBaseType, IPointerObject, IReferencesStrings
+    [VltTypeInfo(nameof(FEPartData))]
+    public class FEPartData : VltBaseType, IPointerObject, IReferencesStrings
     {
         public uint HAL_ID { get; set; }
         public uint CF_HAL_ID { get; set; }
@@ -29,10 +29,10 @@ namespace VaultLib.Support.ProStreet.VLT
         public uint BrandHALId { get; set; }
         public uint LogoTextureId { get; set; }
 
-        public VLTListContainer<RefSpec> AutoSculptCamera1 { get; set; }
-        public VLTListContainer<RefSpec> AutoSculptCamera2 { get; set; }
-        public VLTListContainer<RefSpec> AutoSculptCamera3 { get; set; }
-        public VLTPointerContainer<FEPartDetail> PartDetails { get; set; }
+        public VltListContainer<RefSpec> AutoSculptCamera1 { get; set; }
+        public VltListContainer<RefSpec> AutoSculptCamera2 { get; set; }
+        public VltListContainer<RefSpec> AutoSculptCamera3 { get; set; }
+        public VltPointerContainer<FEPartDetail> PartDetails { get; set; }
         public uint DetailHash { get; set; }
         public string OfferID { get; set; }
 
@@ -51,9 +51,9 @@ namespace VaultLib.Support.ProStreet.VLT
             BrandHALId = br.ReadUInt32();
             LogoTextureId = br.ReadUInt32();
 
-            AutoSculptCamera1 = new VLTListContainer<RefSpec>(Class, Field, Collection, br.ReadByte());
-            AutoSculptCamera2 = new VLTListContainer<RefSpec>(Class, Field, Collection, br.ReadByte());
-            AutoSculptCamera3 = new VLTListContainer<RefSpec>(Class, Field, Collection, br.ReadByte());
+            AutoSculptCamera1 = new VltListContainer<RefSpec>(Class, Field, Collection, br.ReadByte());
+            AutoSculptCamera2 = new VltListContainer<RefSpec>(Class, Field, Collection, br.ReadByte());
+            AutoSculptCamera3 = new VltListContainer<RefSpec>(Class, Field, Collection, br.ReadByte());
             byte b = br.ReadByte();
 
             if (b != 0)
@@ -65,7 +65,7 @@ namespace VaultLib.Support.ProStreet.VLT
 
             DetailHash = br.ReadUInt32();
 
-            PartDetails = new VLTPointerContainer<FEPartDetail>(Class, Field, Collection);
+            PartDetails = new VltPointerContainer<FEPartDetail>(Class, Field, Collection);
             PartDetails.Read(context, br);
             _offerIdText.Read(context, br);
         }

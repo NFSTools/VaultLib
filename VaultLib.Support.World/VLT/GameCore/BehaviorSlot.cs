@@ -10,8 +10,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::BehaviorSlot")]
-    public class BehaviorSlot : VLTBaseType
+    [VltTypeInfo("GameCore::BehaviorSlot")]
+    public class BehaviorSlot : VltBaseType
     {
         public enum BehaviorFlag
         {

@@ -22,7 +22,7 @@ namespace VaultLib.Core.Chunks
             while (br.BaseStream.Position < EndOffset)
             {
                 string str = NullTerminatedString.Read(br);
-                HashManager.AddVLT(str);
+                HashManager.AddVlt(str);
             }
         }
 

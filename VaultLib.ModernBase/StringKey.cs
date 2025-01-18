@@ -14,7 +14,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase
 {
-    public class StringKey : VLTBaseType, IReferencesStrings, IStringValue
+    public class StringKey : VltBaseType, IReferencesStrings, IStringValue
     {
         public string Value { get; set; }
 
@@ -30,7 +30,7 @@ namespace VaultLib.ModernBase
         public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _text.Value = Value;
-            bw.Write(VLT32Hasher.Hash(Value));
+            bw.Write(Vlt32Hasher.Hash(Value));
             _text.Write(context, bw);
         }
 

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Audio
 {
-    [VLTTypeInfo("Audio::CornerType")]
+    [VltTypeInfo("Audio::CornerType")]
     public enum CornerType
     {
         kAudioCorner_Other = 0x0,

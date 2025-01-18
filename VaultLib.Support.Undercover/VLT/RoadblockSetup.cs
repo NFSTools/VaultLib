@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(RoadblockSetup))]
-    public class RoadblockSetup : VLTBaseType
+    [VltTypeInfo(nameof(RoadblockSetup))]
+    public class RoadblockSetup : VltBaseType
     {
         public RoadblockSetup(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

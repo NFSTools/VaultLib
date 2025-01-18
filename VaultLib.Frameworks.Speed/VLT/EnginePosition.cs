@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(EnginePosition))]
+    [VltTypeInfo(nameof(EnginePosition))]
     public enum EnginePosition
     {
         ENGINE_REAR = 0x0,

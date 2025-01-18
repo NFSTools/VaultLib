@@ -7,8 +7,8 @@ using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.Attrib.Types
 {
-    [VLTTypeInfo("Attrib::Types::Matrix")]
-    public class Matrix : VLTBaseType
+    [VltTypeInfo("Attrib::Types::Matrix")]
+    public class Matrix : VltBaseType
     {
         public Matrix(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

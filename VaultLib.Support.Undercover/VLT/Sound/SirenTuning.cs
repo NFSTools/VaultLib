@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.Sound
 {
-    [VLTTypeInfo("Sound::SirenTuning")]
-    public class SirenTuning : VLTBaseType
+    [VltTypeInfo("Sound::SirenTuning")]
+    public class SirenTuning : VltBaseType
     {
         public float[] OpRadiusLimit { get; set; }
         public float SpeedThresh { get; set; }

@@ -9,8 +9,8 @@ using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(PresetRidePaint))]
-    public class PresetRidePaint : VLTBaseType
+    [VltTypeInfo(nameof(PresetRidePaint))]
+    public class PresetRidePaint : VltBaseType
     {
         public PresetRidePaint(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

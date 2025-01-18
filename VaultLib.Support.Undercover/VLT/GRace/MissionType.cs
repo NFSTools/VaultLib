@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.GRace
 {
-    [VLTTypeInfo("GRace::MissionType")]
+    [VltTypeInfo("GRace::MissionType")]
     public enum MissionType
     {
         kMissionType_Wheelman = 0x0,

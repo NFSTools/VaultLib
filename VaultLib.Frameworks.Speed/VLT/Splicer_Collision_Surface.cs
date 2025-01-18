@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(Splicer_Collision_Surface))]
+    [VltTypeInfo(nameof(Splicer_Collision_Surface))]
     public enum Splicer_Collision_Surface
     {
         srf_car_front_lit_01 = 0x0,

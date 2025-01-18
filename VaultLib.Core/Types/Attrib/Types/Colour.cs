@@ -3,8 +3,8 @@ using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.Attrib.Types
 {
-    [VLTTypeInfo("Attrib::Types::Colour")]
-    public class Colour : VLTBaseType
+    [VltTypeInfo("Attrib::Types::Colour")]
+    public class Colour : VltBaseType
     {
         public Colour(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

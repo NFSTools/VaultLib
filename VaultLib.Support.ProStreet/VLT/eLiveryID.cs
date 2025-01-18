@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(eLiveryID))]
+    [VltTypeInfo(nameof(eLiveryID))]
     public enum eLiveryID : uint
     {
         LIVERYID_NONE = 0xFFFFFFFF,

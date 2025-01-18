@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(ePaintSlot))]
+    [VltTypeInfo(nameof(ePaintSlot))]
     public enum ePaintSlot
     {
         CUSTOM_PAINT_SLOT_BODY = 0x0,

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_NIS_Scene_End")]
+    [VltTypeInfo("Csis::Type_NIS_Scene_End")]
     public enum Type_NIS_Scene_End
     {
         Invalid_Type_NIS_Scene_End = 0x0,

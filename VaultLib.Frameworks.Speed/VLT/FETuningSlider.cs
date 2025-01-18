@@ -6,8 +6,8 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(FETuningSlider))]
-    public class FETuningSlider : VLTBaseType
+    [VltTypeInfo(nameof(FETuningSlider))]
+    public class FETuningSlider : VltBaseType
     {
         public FETuningSlider(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

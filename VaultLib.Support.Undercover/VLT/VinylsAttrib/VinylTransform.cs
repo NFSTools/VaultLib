@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
 {
-    public class VinylTransform : VLTBaseType
+    public class VinylTransform : VltBaseType
     {
         public VinylTransform(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

@@ -2,14 +2,7 @@
 // 
 // Created: 09/30/2019 @ 9:46 AM.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using VaultLib.Core.Data;
 using VaultLib.Core.DB;
-using VLT32Hasher = VaultLib.Core.Hashing.VLT32Hasher;
-using VLT64Hasher = VaultLib.Core.Hashing.VLT64Hasher;
 
 namespace VaultLib.Core
 {

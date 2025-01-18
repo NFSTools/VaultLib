@@ -9,8 +9,8 @@ using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(TireEffectRecord))]
-    public class TireEffectRecord : VLTBaseType
+    [VltTypeInfo(nameof(TireEffectRecord))]
+    public class TireEffectRecord : VltBaseType
     {
         public TireEffectRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

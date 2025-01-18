@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.Physics.Info
 {
-    [VLTTypeInfo("Physics::Info::eInductionType")]
+    [VltTypeInfo("Physics::Info::eInductionType")]
     public enum eInductionType
     {
         INDUCTION_NONE = 0x0,

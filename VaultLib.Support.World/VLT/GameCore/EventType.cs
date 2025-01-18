@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::EventType")]
+    [VltTypeInfo("GameCore::EventType")]
     public enum EventType
     {
         kEventType_Unknown,

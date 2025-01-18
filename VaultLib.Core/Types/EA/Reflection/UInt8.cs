@@ -8,7 +8,7 @@ using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.EA.Reflection
 {
-    [VLTTypeInfo("EA::Reflection::UInt8")]
+    [VltTypeInfo("EA::Reflection::UInt8")]
     [PrimitiveInfo(typeof(byte))]
     public class UInt8 : PrimitiveTypeBase
     {

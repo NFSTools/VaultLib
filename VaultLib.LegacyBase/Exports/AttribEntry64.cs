@@ -15,7 +15,7 @@ namespace VaultLib.LegacyBase.Exports
         public ushort TypeIndex { get; set; }
         public NodeFlagsEnum NodeFlags { get; set; }
         public long InlineDataPointer { get; set; }
-        public VLTBaseType InlineData { get; set; }
+        public VltBaseType InlineData { get; set; }
         public VltCollection Collection { get; }
 
         public AttribEntry64(VltCollection collection)
@@ -35,7 +35,7 @@ namespace VaultLib.LegacyBase.Exports
             }
             else
             {
-                InlineData = new VLTAttribType(Collection.Class, Collection.Class[Key], Collection);
+                InlineData = new VltAttribType(Collection.Class, Collection.Class[Key], Collection);
             }
             InlineData.Read(context, br);
             br.AlignReader(4);

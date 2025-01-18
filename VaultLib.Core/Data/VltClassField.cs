@@ -62,7 +62,7 @@ namespace VaultLib.Core.Data
         /// <summary>
         /// Gets or sets the static value of the field.
         /// </summary>
-        public VLTBaseType StaticValue { get; set; }
+        public VltBaseType StaticValue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VltClassField"/> class.

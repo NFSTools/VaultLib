@@ -10,8 +10,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(Curve))]
-    public class Curve : VLTBaseType, IPointerObject
+    [VltTypeInfo(nameof(Curve))]
+    public class Curve : VltBaseType, IPointerObject
     {
         public float MinX { get; set; }
         public float MaxX { get; set; }

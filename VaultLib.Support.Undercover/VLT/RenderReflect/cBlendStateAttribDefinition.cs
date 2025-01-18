@@ -14,8 +14,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.RenderReflect
 {
-    [VLTTypeInfo("RenderReflect::cBlendStateAttribDefinition")]
-    public class cBlendStateAttribDefinition : VLTBaseType, IReferencesStrings
+    [VltTypeInfo("RenderReflect::cBlendStateAttribDefinition")]
+    public class cBlendStateAttribDefinition : VltBaseType, IReferencesStrings
     {
         public string DebugName { get; set; }
 

@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(TargetTimeOverrides))]
-    public class TargetTimeOverrides : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(TargetTimeOverrides))]
+    public class TargetTimeOverrides : VltBaseType, IReferencesStrings
     {
         public RefSpec Car { get; set; }
         public string Event { get; set; }

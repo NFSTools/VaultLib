@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::OpponentTeam")]
+    [VltTypeInfo("GRace::OpponentTeam")]
     public enum OpponentTeam
     {
         kOpponentTeam_Default = 0x0,

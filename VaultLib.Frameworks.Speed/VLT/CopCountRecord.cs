@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(CopCountRecord))]
-    public class CopCountRecord : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(CopCountRecord))]
+    public class CopCountRecord : VltBaseType, IReferencesStrings
     {
         private Text _copType;
 
@@ -34,7 +34,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _copType.Write(context, bw);
-            bw.Write(VLT32Hasher.Hash(CopType));
+            bw.Write(Vlt32Hasher.Hash(CopType));
             bw.Write(Count);
             bw.Write(Chance);
         }

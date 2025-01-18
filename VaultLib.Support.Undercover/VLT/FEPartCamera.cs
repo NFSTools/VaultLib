@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(FEPartCamera))]
-    public class FEPartCamera : VLTBaseType, IPointerObject, IReferencesStrings
+    [VltTypeInfo(nameof(FEPartCamera))]
+    public class FEPartCamera : VltBaseType, IPointerObject, IReferencesStrings
     {
         public string SlotName { get; set; }
         public RefSpec Camera { get; set; }

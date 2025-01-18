@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(CameraSpeedReactionRecord))]
-    public class CameraSpeedReactionRecord : VLTBaseType
+    [VltTypeInfo(nameof(CameraSpeedReactionRecord))]
+    public class CameraSpeedReactionRecord : VltBaseType
     {
         public CameraSpeedReactionRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

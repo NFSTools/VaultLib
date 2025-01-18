@@ -9,7 +9,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
 {
-    public class Slider : VLTBaseType
+    public class Slider : VltBaseType
     {
         public uint Region { get; set; }
         public uint Zone { get; set; }

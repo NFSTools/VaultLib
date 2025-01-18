@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::AI_MistakeLevel")]
+    [VltTypeInfo("GRace::AI_MistakeLevel")]
     public enum AI_MistakeLevel
     {
         kMistake_Rookie = 0x0,

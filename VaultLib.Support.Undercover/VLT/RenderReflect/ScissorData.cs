@@ -5,7 +5,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.RenderReflect
 {
-    public class ScissorData : VLTBaseType
+    public class ScissorData : VltBaseType
     {
         public ScissorData(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

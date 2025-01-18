@@ -4,7 +4,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(DefinitionKey))]
+    [VltTypeInfo(nameof(DefinitionKey))]
     public class DefinitionKey : UInt32
     {
         public DefinitionKey(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

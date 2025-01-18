@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.GRace
 {
-    [VLTTypeInfo("GRace::Type")]
+    [VltTypeInfo("GRace::Type")]
     public enum Type
     {
         kEventType_None = -1,

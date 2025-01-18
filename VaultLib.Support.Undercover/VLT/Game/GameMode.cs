@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.Game
 {
-    [VLTTypeInfo("Game::GameMode")]
+    [VltTypeInfo("Game::GameMode")]
     public enum GameMode
     {
         kMode_Career = 0x0,

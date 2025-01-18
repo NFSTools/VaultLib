@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.RenderReflect
 {
-    [VLTTypeInfo("RenderReflect::cRenderTargetAttribDefinition")]
-    public class cRenderTargetAttribDefinition : VLTBaseType
+    [VltTypeInfo("RenderReflect::cRenderTargetAttribDefinition")]
+    public class cRenderTargetAttribDefinition : VltBaseType
     {
         public cRenderTargetAttribDefinition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

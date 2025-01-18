@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
 {
-    [VLTTypeInfo("VinylsAttrib::VinylFinish")]
+    [VltTypeInfo("VinylsAttrib::VinylFinish")]
     public enum VinylFinish
     {
         VinylFinishMatte = 0x0,

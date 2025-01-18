@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.GRace
 {
-    [VLTTypeInfo("GRace::ShortcutType")]
+    [VltTypeInfo("GRace::ShortcutType")]
     public enum ShortcutType
     {
         kShortcutType_None = 0x0,

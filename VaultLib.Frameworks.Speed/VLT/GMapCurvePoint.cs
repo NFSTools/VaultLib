@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(GMapCurvePoint))]
-    public class GMapCurvePoint : VLTBaseType
+    [VltTypeInfo(nameof(GMapCurvePoint))]
+    public class GMapCurvePoint : VltBaseType
     {
         public float X { get; set; }
         public float Y { get; set; }

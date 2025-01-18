@@ -10,8 +10,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.AI
 {
-    [VLTTypeInfo("AI::GlueCurve")]
-    public class GlueCurve : VLTBaseType, IPointerObject
+    [VltTypeInfo("AI::GlueCurve")]
+    public class GlueCurve : VltBaseType, IPointerObject
     {
         public Curve Easy { get; set; }
         public Curve Hard { get; set; }

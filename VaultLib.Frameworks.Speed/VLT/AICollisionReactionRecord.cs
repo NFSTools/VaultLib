@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(AICollisionReactionRecord))]
-    public class AICollisionReactionRecord : VLTBaseType, IReferencesCollections
+    [VltTypeInfo(nameof(AICollisionReactionRecord))]
+    public class AICollisionReactionRecord : VltBaseType, IReferencesCollections
     {
         public uint Goal { get; set; }
 

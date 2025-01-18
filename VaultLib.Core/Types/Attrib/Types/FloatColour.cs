@@ -7,8 +7,8 @@ using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.Attrib.Types
 {
-    [VLTTypeInfo("Attrib::Types::FloatColour")]
-    public class FloatColour : VLTBaseType
+    [VltTypeInfo("Attrib::Types::FloatColour")]
+    public class FloatColour : VltBaseType
     {
         public FloatColour(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)

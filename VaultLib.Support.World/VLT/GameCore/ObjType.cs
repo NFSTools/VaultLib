@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::ObjType")]
+    [VltTypeInfo("GameCore::ObjType")]
     public enum ObjType
     {
         kObjType_Unknown = -1,

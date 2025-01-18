@@ -7,8 +7,8 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(PhysicsTuningDescription))]
-    public class PhysicsTuningDescription : VLTBaseType
+    [VltTypeInfo(nameof(PhysicsTuningDescription))]
+    public class PhysicsTuningDescription : VltBaseType
     {
         public PhysicsTuningDescription(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

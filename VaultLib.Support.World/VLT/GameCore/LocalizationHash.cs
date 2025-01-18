@@ -4,7 +4,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::LocalizationHash")]
+    [VltTypeInfo("GameCore::LocalizationHash")]
     public class LocalizationHash : UInt32
     {
         public LocalizationHash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

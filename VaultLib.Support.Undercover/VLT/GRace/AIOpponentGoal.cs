@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.GRace
 {
-    [VLTTypeInfo("GRace::AIOpponentGoal")]
+    [VltTypeInfo("GRace::AIOpponentGoal")]
     public enum AIOpponentGoal
     {
         kAIGoalBully = 0x0,

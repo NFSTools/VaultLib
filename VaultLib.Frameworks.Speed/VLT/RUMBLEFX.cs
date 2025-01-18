@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(RUMBLEFX))]
+    [VltTypeInfo(nameof(RUMBLEFX))]
     public enum RUMBLEFX
     {
         RUMBLEFX_NONE = 0x0,

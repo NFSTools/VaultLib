@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::EnhancerPart")]
-    public class EnhancerPart : VLTBaseType
+    [VltTypeInfo("GameCore::EnhancerPart")]
+    public class EnhancerPart : VltBaseType
     {
         public EnhancerPart(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

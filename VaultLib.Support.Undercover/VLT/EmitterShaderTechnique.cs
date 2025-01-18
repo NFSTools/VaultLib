@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(EmitterShaderTechnique))]
+    [VltTypeInfo(nameof(EmitterShaderTechnique))]
     public enum EmitterShaderTechnique
     {
         EmitterShaderTechnique_DEFAULT = 0x0,

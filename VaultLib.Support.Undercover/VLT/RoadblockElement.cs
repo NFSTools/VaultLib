@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    public class RoadblockElement : VLTBaseType
+    public class RoadblockElement : VltBaseType
     {
         public RoadblockElement(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

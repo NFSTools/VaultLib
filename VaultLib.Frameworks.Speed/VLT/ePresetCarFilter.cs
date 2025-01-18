@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(ePresetCarFilter))]
+    [VltTypeInfo(nameof(ePresetCarFilter))]
     public enum ePresetCarFilter
     {
         PRESET_CAR_FILTER_BONUS = 0x0,

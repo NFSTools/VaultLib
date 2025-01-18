@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::BlackBoardChannel")]
+    [VltTypeInfo("GameCore::BlackBoardChannel")]
     public enum BlackBoardChannel
     {
         kBlackBoard_Audio,

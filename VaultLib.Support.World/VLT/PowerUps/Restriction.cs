@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.PowerUps
 {
-    [VLTTypeInfo("PowerUps::Restriction")]
+    [VltTypeInfo("PowerUps::Restriction")]
     public enum Restriction
     {
         kPowerupRestriction_None,

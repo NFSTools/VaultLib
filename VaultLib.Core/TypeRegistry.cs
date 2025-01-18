@@ -19,7 +19,7 @@ namespace VaultLib.Core
     {
         private readonly Dictionary<string, Type> _typeDictionary = new();
 
-        private readonly Dictionary<Type, ObjectActivator<VLTBaseType>> _activators = new();
+        private readonly Dictionary<Type, ObjectActivator<VltBaseType>> _activators = new();
 
         /// <summary>
         ///     Initializes the type registry. Registers some default types.
@@ -34,7 +34,7 @@ namespace VaultLib.Core
         /// </summary>
         /// <typeparam name="T">The actual type as defined in code.</typeparam>
         /// <param name="typeId">The text identifier for the type.</param>
-        public void Register<T>(string typeId) where T : VLTBaseType
+        public void Register<T>(string typeId) where T : VltBaseType
         {
             RegisterType(typeId, typeof(T));
         }
@@ -50,9 +50,9 @@ namespace VaultLib.Core
             foreach (var type in assembly.GetTypes())
             {
                 if (type.IsGenericType || type.IsAbstract || type.IsNested ||
-                    !type.DescendsFrom(typeof(VLTBaseType)) && !type.IsEnum) continue;
+                    !type.DescendsFrom(typeof(VltBaseType)) && !type.IsEnum) continue;
 
-                var typeInfoAttribute = type.GetCustomAttribute<VLTTypeInfoAttribute>();
+                var typeInfoAttribute = type.GetCustomAttribute<VltTypeInfoAttribute>();
 
                 if (typeInfoAttribute == null)
                 {
@@ -61,7 +61,7 @@ namespace VaultLib.Core
                     continue;
                 }
 
-                var finalType = type.IsEnum ? typeof(VLTEnumType<>).MakeGenericType(type) : type;
+                var finalType = type.IsEnum ? typeof(VltEnumType<>).MakeGenericType(type) : type;
 
                 RegisterType(typeInfoAttribute.Name, finalType);
             }
@@ -70,19 +70,19 @@ namespace VaultLib.Core
         /// <summary>
         ///     Creates the appropriate instance type for the given field.
         /// </summary>
-        /// <remarks>Returns a <see cref="VLTArrayType" /> if the field is an array.</remarks>
+        /// <remarks>Returns a <see cref="VltArrayType" /> if the field is an array.</remarks>
         /// <param name="vltClass"></param>
         /// <param name="vltClassField"></param>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public VLTBaseType CreateInstance(VltClass vltClass, VltClassField vltClassField,
+        public VltBaseType CreateInstance(VltClass vltClass, VltClassField vltClassField,
             VltCollection collection)
         {
             var type = ResolveType(vltClassField.TypeName);
-            VLTBaseType instance;
+            VltBaseType instance;
 
             if (vltClassField.IsArray)
-                instance = new VLTArrayType(vltClass, vltClassField, collection, type)
+                instance = new VltArrayType(vltClass, vltClassField, collection, type)
                     { ItemAlignment = vltClassField.Alignment };
             else
                 instance = ConstructInstance(type, vltClass, vltClassField, collection);
@@ -90,12 +90,12 @@ namespace VaultLib.Core
             return instance;
         }
 
-        public VLTBaseType ConstructInstance(Type type, VltClass vltClass, VltClassField vltClassField,
+        public VltBaseType ConstructInstance(Type type, VltClass vltClass, VltClassField vltClassField,
             VltCollection collection)
         {
             if (!_activators.TryGetValue(type, out var activator))
             {
-                activator = ReflectionUtils.GetActivator<VLTBaseType>(type.GetConstructor(new[]
+                activator = ReflectionUtils.GetActivator<VltBaseType>(type.GetConstructor(new[]
                 {
                     typeof(VltClass), typeof(VltClassField), typeof(VltCollection)
                 }));

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::HandicapMode")]
+    [VltTypeInfo("GRace::HandicapMode")]
     public enum HandicapMode
     {
         kHandicap_None = 0x0,

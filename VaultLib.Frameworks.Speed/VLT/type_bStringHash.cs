@@ -4,7 +4,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(type_bStringHash))]
+    [VltTypeInfo(nameof(type_bStringHash))]
     public class type_bStringHash : UInt32
     {
         public type_bStringHash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

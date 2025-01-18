@@ -7,8 +7,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo("AtttributeRefSpec")]
-    public class AttributeRefSpec : VLTBaseType
+    [VltTypeInfo("AtttributeRefSpec")]
+    public class AttributeRefSpec : VltBaseType
     {
         public AttributeRefSpec(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
@@ -25,13 +25,13 @@ namespace VaultLib.Frameworks.Speed.VLT
         {
             if (context.Database.Options.Type == DatabaseType.X86Database)
             {
-                ClassKey = HashManager.ResolveVLT(br.ReadUInt32());
-                DefinitionKey = HashManager.ResolveVLT(br.ReadUInt32());
+                ClassKey = HashManager.ResolveVlt(br.ReadUInt32());
+                DefinitionKey = HashManager.ResolveVlt(br.ReadUInt32());
             }
             else
             {
-                ClassKey = HashManager.ResolveVLT(br.ReadUInt64());
-                DefinitionKey = HashManager.ResolveVLT(br.ReadUInt64());
+                ClassKey = HashManager.ResolveVlt(br.ReadUInt64());
+                DefinitionKey = HashManager.ResolveVlt(br.ReadUInt64());
             }
         }
 
@@ -39,13 +39,13 @@ namespace VaultLib.Frameworks.Speed.VLT
         {
             if (context.Database.Options.Type == DatabaseType.X86Database)
             {
-                bw.Write(VLT32Hasher.Hash(ClassKey));
-                bw.Write(VLT32Hasher.Hash(DefinitionKey));
+                bw.Write(Vlt32Hasher.Hash(ClassKey));
+                bw.Write(Vlt32Hasher.Hash(DefinitionKey));
             }
             else
             {
-                bw.Write(VLT64Hasher.Hash(ClassKey));
-                bw.Write(VLT64Hasher.Hash(DefinitionKey));
+                bw.Write(Vlt64Hasher.Hash(ClassKey));
+                bw.Write(Vlt64Hasher.Hash(DefinitionKey));
             }
         }
     }

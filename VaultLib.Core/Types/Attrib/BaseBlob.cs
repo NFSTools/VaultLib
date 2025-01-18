@@ -4,7 +4,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib
 {
-    public abstract class BaseBlob : VLTBaseType, IPointerObject
+    public abstract class BaseBlob : VltBaseType, IPointerObject
     {
         protected BaseBlob(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

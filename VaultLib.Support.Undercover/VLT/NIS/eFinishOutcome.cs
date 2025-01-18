@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.NIS
 {
-    [VLTTypeInfo("NIS::eFinishOutcome")]
+    [VltTypeInfo("NIS::eFinishOutcome")]
     public enum eFinishOutcome
     {
         FINISH_WIN = 0x0,

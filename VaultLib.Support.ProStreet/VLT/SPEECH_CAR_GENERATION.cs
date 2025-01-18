@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(SPEECH_CAR_GENERATION))]
+    [VltTypeInfo(nameof(SPEECH_CAR_GENERATION))]
     public enum SPEECH_CAR_GENERATION
     {
         InvalidCarGeneration = 0x0,

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Audio
 {
-    [VLTTypeInfo("Audio::State")]
+    [VltTypeInfo("Audio::State")]
     public enum State
     {
         kAudioState_Unknown = 0x0,

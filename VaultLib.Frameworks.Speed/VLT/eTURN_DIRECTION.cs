@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eTURN_DIRECTION))]
+    [VltTypeInfo(nameof(eTURN_DIRECTION))]
     public enum eTURN_DIRECTION
     {
         kTurnIndicatorRight = 0x0,

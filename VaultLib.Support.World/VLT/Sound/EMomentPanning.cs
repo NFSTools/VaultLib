@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
 {
-    [VLTTypeInfo("Sound::EMomentPanning")]
+    [VltTypeInfo("Sound::EMomentPanning")]
     public enum EMomentPanning
     {
         eMOMENT_PANNING_NONE = 0x0,

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(ePaintUsage))]
+    [VltTypeInfo(nameof(ePaintUsage))]
     public enum ePaintUsage
     {
         eBodyPaint = 0x0,

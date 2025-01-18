@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace VaultLib.Core.Hashing
 {
-    public static class VLT32Hasher
+    public static class Vlt32Hasher
     {
         public static uint Hash(string k, uint init = 0xABCDEF00, bool returnZeroForEmpty = true)
         {

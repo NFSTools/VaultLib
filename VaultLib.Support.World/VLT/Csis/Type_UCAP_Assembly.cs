@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_UCAP_Assembly")]
+    [VltTypeInfo("Csis::Type_UCAP_Assembly")]
     public enum Type_UCAP_Assembly
     {
         Invalid_Type_UCAP_Assembly = 0x0,

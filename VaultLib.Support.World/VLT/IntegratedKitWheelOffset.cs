@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VLTTypeInfo(nameof(IntegratedKitWheelOffset))]
-    public class IntegratedKitWheelOffset : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(IntegratedKitWheelOffset))]
+    public class IntegratedKitWheelOffset : VltBaseType, IReferencesStrings
     {
         //private Text _text;
         //private uint _kitHash;
@@ -35,7 +35,7 @@ namespace VaultLib.Support.World.VLT
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
-            bw.Write(VLT32Hasher.Hash(KitName));
+            bw.Write(Vlt32Hasher.Hash(KitName));
             _kitName.Value = KitName;
             _kitName.Write(context, bw);
             bw.Write(Offset);

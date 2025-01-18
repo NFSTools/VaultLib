@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_pursuit_breaker_type")]
+    [VltTypeInfo("Csis::Type_pursuit_breaker_type")]
     public enum Type_pursuit_breaker_type
     {
         Invalid_Type_pursuit_breaker_type = 0x0,

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(SPLICE_DAMAGE))]
+    [VltTypeInfo(nameof(SPLICE_DAMAGE))]
     public enum SPLICE_DAMAGE
     {
         dmg_hood_lit_01 = 0x0,

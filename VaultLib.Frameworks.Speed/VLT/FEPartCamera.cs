@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(FEPartCamera))]
-    public class FEPartCamera : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(FEPartCamera))]
+    public class FEPartCamera : VltBaseType, IReferencesStrings
     {
         public string SlotName { get; set; }
         public RefSpec Camera { get; set; }

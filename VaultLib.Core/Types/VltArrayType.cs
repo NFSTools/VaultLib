@@ -15,17 +15,17 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class VLTArrayType : VLTBaseType, IReferencesStrings, IReferencesCollections
+    public class VltArrayType : VltBaseType, IReferencesStrings, IReferencesCollections
     {
-        public VLTArrayType(VltClass @class, VltClassField field, VltCollection collection, Type itemType) : base(
+        public VltArrayType(VltClass @class, VltClassField field, VltCollection collection, Type itemType) : base(
             @class, field,
             collection)
         {
             ItemType = itemType;
-            Items = new List<VLTBaseType>();
+            Items = new List<VltBaseType>();
         }
 
-        public VLTArrayType(VltClass @class, VltClassField field, Type itemType) : this(@class, field, null, itemType)
+        public VltArrayType(VltClass @class, VltClassField field, Type itemType) : this(@class, field, null, itemType)
         {
         }
 
@@ -37,7 +37,7 @@ namespace VaultLib.Core.Types
 
         public Type ItemType { get; }
 
-        public IList<VLTBaseType> Items { get; set; }
+        public IList<VltBaseType> Items { get; set; }
 
         public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
         {
@@ -83,7 +83,7 @@ namespace VaultLib.Core.Types
             Capacity = br.ReadUInt16();
             var count = br.ReadUInt16();
             Debug.Assert(count <= Capacity);
-            Items = new List<VLTBaseType>();
+            Items = new List<VltBaseType>();
             FieldSize = br.ReadUInt16();
 
             var encodedTypePad = br.ReadUInt16();
@@ -179,7 +179,7 @@ namespace VaultLib.Core.Types
 
         #region Internal stuff
 
-        private object BaseTypeToData(VLTBaseType baseType)
+        private object BaseTypeToData(VltBaseType baseType)
         {
             // if we have a primitive or string value, return that
             // if we have an array, return a list where each item in the array has been converted (recursion FTW)
@@ -189,12 +189,12 @@ namespace VaultLib.Core.Types
             {
                 PrimitiveTypeBase ptb => ptb.GetValue(),
                 IStringValue sv => sv.GetString(),
-                VLTArrayType _ => throw new ApplicationException("Having an array of arrays is not possible..."),
+                VltArrayType _ => throw new ApplicationException("Having an array of arrays is not possible..."),
                 _ => baseType
             };
         }
 
-        private VLTBaseType DataToBaseType(VltClassField field, VLTBaseType originalData, object data)
+        private VltBaseType DataToBaseType(VltClassField field, VltBaseType originalData, object data)
         {
             switch (data)
             {
@@ -218,8 +218,8 @@ namespace VaultLib.Core.Types
 
                     break;
                 }
-                case VLTBaseType vbt:
-                    if (vbt is VLTArrayType)
+                case VltBaseType vbt:
+                    if (vbt is VltArrayType)
                         throw new ApplicationException("Array DataToBaseType cannot accept a VLTArrayType instance!");
                     return vbt;
             }

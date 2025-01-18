@@ -26,7 +26,7 @@ namespace VaultLib.Core.Exports.Implementations
             foreach (var t in context.Database.Types)
             {
                 t.Name = NullTerminatedString.Read(br);
-                HashManager.AddVLT(t.Name);
+                HashManager.AddVlt(t.Name);
             }
         }
 

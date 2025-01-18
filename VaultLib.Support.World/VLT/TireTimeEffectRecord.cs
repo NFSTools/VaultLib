@@ -9,8 +9,8 @@ using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VLTTypeInfo(nameof(TireTimeEffectRecord))]
-    public class TireTimeEffectRecord : VLTBaseType
+    [VltTypeInfo(nameof(TireTimeEffectRecord))]
+    public class TireTimeEffectRecord : VltBaseType
     {
         public TireTimeEffectRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

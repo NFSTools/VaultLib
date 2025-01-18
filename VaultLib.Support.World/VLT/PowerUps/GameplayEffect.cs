@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.PowerUps
 {
-    [VLTTypeInfo("PowerUps::GameplayEffect")]
+    [VltTypeInfo("PowerUps::GameplayEffect")]
     public enum GameplayEffect
     {
         kGameplayEffect_None,

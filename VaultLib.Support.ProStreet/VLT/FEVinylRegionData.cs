@@ -6,8 +6,8 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Support.ProStreet.VLT
 {
-    [VLTTypeInfo(nameof(FEVinylRegionData))]
-    public class FEVinylRegionData : VLTBaseType
+    [VltTypeInfo(nameof(FEVinylRegionData))]
+    public class FEVinylRegionData : VltBaseType
     {
         public FEVinylRegionData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

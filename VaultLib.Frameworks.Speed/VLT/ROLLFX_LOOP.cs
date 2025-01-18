@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(ROLLFX_LOOP))]
+    [VltTypeInfo(nameof(ROLLFX_LOOP))]
     public enum ROLLFX_LOOP
     {
         ROLLFX_NONE = 0x0,

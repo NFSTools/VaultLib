@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(Splicer_Collision_Core))]
+    [VltTypeInfo(nameof(Splicer_Collision_Core))]
     public enum Splicer_Collision_Core
     {
         Cor_Side_Lit_01 = 0x0,

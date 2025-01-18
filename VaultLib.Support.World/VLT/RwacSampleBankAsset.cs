@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VLTTypeInfo(nameof(RwacSampleBankAsset))]
-    public class RwacSampleBankAsset : VLTBaseType
+    [VltTypeInfo(nameof(RwacSampleBankAsset))]
+    public class RwacSampleBankAsset : VltBaseType
     {
         public uint Bank { get; set; }
         public uint Asset { get; set; }

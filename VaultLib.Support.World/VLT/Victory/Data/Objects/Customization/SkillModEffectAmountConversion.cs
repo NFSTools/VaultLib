@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.Victory.Data.Objects.Customization
 {
-    [VLTTypeInfo("Victory::Data::Objects::Customization::SkillModEffectAmountConversion")]
+    [VltTypeInfo("Victory::Data::Objects::Customization::SkillModEffectAmountConversion")]
     public enum SkillModEffectAmountConversion
     {
         None,

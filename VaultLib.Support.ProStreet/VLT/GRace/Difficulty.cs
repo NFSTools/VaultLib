@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.GRace
 {
-    [VLTTypeInfo("GRace::Difficulty")]
+    [VltTypeInfo("GRace::Difficulty")]
     public enum Difficulty
     {
         kRaceDifficulty_Easy = 0x0,

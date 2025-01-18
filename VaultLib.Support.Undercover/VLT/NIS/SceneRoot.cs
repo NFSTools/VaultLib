@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.NIS
 {
-    [VLTTypeInfo("NIS::SceneRoot")]
-    public class SceneRoot : VLTBaseType, IReferencesStrings
+    [VltTypeInfo("NIS::SceneRoot")]
+    public class SceneRoot : VltBaseType, IReferencesStrings
     {
         public enum eSceneRoot
         {

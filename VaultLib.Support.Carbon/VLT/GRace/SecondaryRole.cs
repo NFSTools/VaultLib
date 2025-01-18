@@ -4,7 +4,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Support.Carbon.VLT.GRace
 {
-    [VLTTypeInfo("GRace::SecondaryRole")]
+    [VltTypeInfo("GRace::SecondaryRole")]
     public class SecondaryRole : UInt32
     {
         public SecondaryRole(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

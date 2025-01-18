@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(EffectParticleConstraint))]
+    [VltTypeInfo(nameof(EffectParticleConstraint))]
     public enum EffectParticleConstraint
     {
         CONSTRAIN_PARTICLE_NONE = 0x0,

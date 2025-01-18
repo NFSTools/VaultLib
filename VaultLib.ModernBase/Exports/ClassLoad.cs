@@ -41,7 +41,7 @@ namespace VaultLib.ModernBase.Exports
             }
 
             NumDefinitions = mNumDefinitions;
-            Class = new VltClass(HashManager.ResolveVLT(ClassHash));
+            Class = new VltClass(HashManager.ResolveVlt(ClassHash));
         }
 
         public override void Write(VaultSaveContext context, BinaryWriter bw)
@@ -50,7 +50,7 @@ namespace VaultLib.ModernBase.Exports
                                      where collection.Class.Name == Class.Name
                                      select collection).Count();
 
-            bw.Write(VLT32Hasher.Hash(Class.Name));
+            bw.Write(Vlt32Hasher.Hash(Class.Name));
             bw.Write(collectionReserve);
             bw.Write(Class.Fields.Count);
             _srcDefinitionsPtr = bw.BaseStream.Position;
@@ -81,8 +81,8 @@ namespace VaultLib.ModernBase.Exports
 
                 VltClassField field = new VltClassField(
                     definition.Key,
-                    HashManager.ResolveVLT((uint)definition.Key),
-                    HashManager.ResolveVLT((uint)definition.Type),
+                    HashManager.ResolveVlt((uint)definition.Key),
+                    HashManager.ResolveVlt((uint)definition.Type),
                     definition.Flags,
                     definition.Alignment,
                     definition.Size,
@@ -109,7 +109,7 @@ namespace VaultLib.ModernBase.Exports
                 foreach (VltClassField staticField in Class.StaticFields)
                 {
                     br.AlignReader(staticField.Alignment);
-                    VLTBaseType staticData = context.Database.TypeRegistry.CreateInstance(Class, staticField, null);
+                    VltBaseType staticData = context.Database.TypeRegistry.CreateInstance(Class, staticField, null);
                     staticData.Read(context, br);
                     staticField.StaticValue = staticData;
                 }
@@ -131,13 +131,13 @@ namespace VaultLib.ModernBase.Exports
             foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
             {
                 AttribDefinition definition = new AttribDefinition();
-                definition.Key = VLT32Hasher.Hash(field.Name);
+                definition.Key = Vlt32Hasher.Hash(field.Name);
                 definition.Alignment = field.Alignment;
                 definition.Flags = field.Flags;
                 definition.MaxCount = field.MaxCount;
                 definition.Offset = field.Offset;
                 definition.Size = field.Size;
-                definition.Type = VLT32Hasher.Hash(field.TypeName);
+                definition.Type = Vlt32Hasher.Hash(field.TypeName);
                 definition.Write(context, bw);
             }
 

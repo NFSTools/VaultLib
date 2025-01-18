@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(CollisionReactionRecord))]
-    public class CollisionReactionRecord : VLTBaseType
+    [VltTypeInfo(nameof(CollisionReactionRecord))]
+    public class CollisionReactionRecord : VltBaseType
     {
         public float Elasticity { get; set; }
         public float RollHeight { get; set; }

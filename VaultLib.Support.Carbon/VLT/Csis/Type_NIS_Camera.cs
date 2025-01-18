@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Carbon.VLT.Csis
 {
-    [VLTTypeInfo("Csis::Type_NIS_Camera")]
+    [VltTypeInfo("Csis::Type_NIS_Camera")]
     public enum Type_NIS_Camera
     {
         Invalid_Type_NIS_Camera = 0x0,

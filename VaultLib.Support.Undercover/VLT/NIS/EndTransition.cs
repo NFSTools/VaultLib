@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.NIS
 {
-    [VLTTypeInfo("NIS::EndTransition")]
-    public class EndTransition : VLTBaseType
+    [VltTypeInfo("NIS::EndTransition")]
+    public class EndTransition : VltBaseType
     {
         public EndTransition(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

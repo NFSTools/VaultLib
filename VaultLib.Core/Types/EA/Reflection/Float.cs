@@ -8,7 +8,7 @@ using VaultLib.Core.Data;
 
 namespace VaultLib.Core.Types.EA.Reflection
 {
-    [VLTTypeInfo("EA::Reflection::Float")]
+    [VltTypeInfo("EA::Reflection::Float")]
     [PrimitiveInfo(typeof(float))]
     public class Float : PrimitiveTypeBase
     {

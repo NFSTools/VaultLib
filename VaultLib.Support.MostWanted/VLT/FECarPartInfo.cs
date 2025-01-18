@@ -8,8 +8,8 @@ using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.MostWanted.VLT
 {
-    [VLTTypeInfo(nameof(FECarPartInfo))]
-    public class FECarPartInfo : VLTBaseType
+    [VltTypeInfo(nameof(FECarPartInfo))]
+    public class FECarPartInfo : VltBaseType
     {
         public FECarPartInfo(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

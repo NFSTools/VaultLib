@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VLTTypeInfo(nameof(PowerupTriggerAndTarget))]
-    public class PowerupTriggerAndTarget : VLTBaseType
+    [VltTypeInfo(nameof(PowerupTriggerAndTarget))]
+    public class PowerupTriggerAndTarget : VltBaseType
     {
         public PowerupTriggerAndTarget(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

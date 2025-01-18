@@ -8,8 +8,8 @@ using VaultLib.Frameworks.Speed.VLT.Physics.Upgrades;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(ModifyScalarValue))]
-    public class ModifyScalarValue : VLTBaseType
+    [VltTypeInfo(nameof(ModifyScalarValue))]
+    public class ModifyScalarValue : VltBaseType
     {
         public ModifyScalarValue(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

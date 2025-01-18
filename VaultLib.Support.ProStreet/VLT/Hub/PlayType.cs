@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Hub
 {
-    [VLTTypeInfo("Hub::PlayType")]
+    [VltTypeInfo("Hub::PlayType")]
     public enum PlayType
     {
         kPlay_None = 0x0,

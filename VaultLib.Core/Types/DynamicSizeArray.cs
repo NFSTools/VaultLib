@@ -8,7 +8,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class DynamicSizeArray<T> : VLTBaseType, IPointerObject where T : VLTBaseType
+    public class DynamicSizeArray<T> : VltBaseType, IPointerObject where T : VltBaseType
     {
         private long _dstPtr;
 

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Hub
 {
-    [VLTTypeInfo("Hub::OrgBody")]
+    [VltTypeInfo("Hub::OrgBody")]
     public enum OrgBody
     {
         kNitrocide = 0x0,

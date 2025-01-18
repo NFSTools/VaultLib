@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.NIS
 {
-    [VLTTypeInfo("NIS::eOnlineStatus")]
+    [VltTypeInfo("NIS::eOnlineStatus")]
     public enum eOnlineStatus
     {
         ONLINE_ONLY = 0x0,

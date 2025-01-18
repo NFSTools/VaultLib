@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(AxlePair))]
-    public class AxlePair : VLTBaseType
+    [VltTypeInfo(nameof(AxlePair))]
+    public class AxlePair : VltBaseType
     {
         public float Front { get; set; }
         public float Rear { get; set; }

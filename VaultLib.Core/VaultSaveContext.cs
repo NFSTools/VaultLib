@@ -8,8 +8,7 @@ using System.Diagnostics;
 using System.Globalization;
 using VaultLib.Core.Data;
 using VaultLib.Core.DB;
-using VLT32Hasher = VaultLib.Core.Hashing.VLT32Hasher;
-using VLT64Hasher = VaultLib.Core.Hashing.VLT64Hasher;
+using VaultLib.Core.Hashing;
 
 namespace VaultLib.Core
 {
@@ -95,9 +94,9 @@ namespace VaultLib.Core
             switch (Options.HashMode)
             {
                 case VaultHashMode.Hash32:
-                    return VLT32Hasher.Hash(text);
+                    return Vlt32Hasher.Hash(text);
                 case VaultHashMode.Hash64:
-                    return VLT64Hasher.Hash(text);
+                    return Vlt64Hasher.Hash(text);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

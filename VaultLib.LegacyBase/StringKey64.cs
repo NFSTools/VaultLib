@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase
 {
-    public class StringKey64 : VLTBaseType, IReferencesStrings, IStringValue
+    public class StringKey64 : VltBaseType, IReferencesStrings, IStringValue
     {
         public string Value { get; set; }
 
@@ -29,8 +29,8 @@ namespace VaultLib.LegacyBase
         public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             _text.Value = Value;
-            bw.Write(VLT64Hasher.Hash(Value));
-            bw.Write(VLT32Hasher.Hash(Value));
+            bw.Write(Vlt64Hasher.Hash(Value));
+            bw.Write(Vlt32Hasher.Hash(Value));
             _text.Write(context, bw);
         }
 

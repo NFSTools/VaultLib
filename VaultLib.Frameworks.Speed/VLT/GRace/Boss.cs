@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.GRace
 {
-    [VLTTypeInfo("GRace::Boss")]
+    [VltTypeInfo("GRace::Boss")]
     public enum Boss
     {
         kRaceBoss_None,

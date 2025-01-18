@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(SurfaceEffectType))]
+    [VltTypeInfo(nameof(SurfaceEffectType))]
     public enum SurfaceEffectType
     {
         kSine = 0x0,

@@ -7,8 +7,8 @@ using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(PhysicsUpgrade))]
-    public class PhysicsUpgrade : VLTBaseType
+    [VltTypeInfo(nameof(PhysicsUpgrade))]
+    public class PhysicsUpgrade : VltBaseType
     {
         public PhysicsUpgrade(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

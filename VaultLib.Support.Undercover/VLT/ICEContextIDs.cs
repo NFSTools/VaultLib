@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(ICEContextIDs))]
+    [VltTypeInfo(nameof(ICEContextIDs))]
     public enum ICEContextIDs
     {
         eICE_NISProto = 0x0,

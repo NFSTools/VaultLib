@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(AUDENGRPMRANGEst))]
-    public class AUDENGRPMRANGEst : VLTBaseType
+    [VltTypeInfo(nameof(AUDENGRPMRANGEst))]
+    public class AUDENGRPMRANGEst : VltBaseType
     {
         public int IDLE_RPM { get; set; }
         public int CRZ_LO_RPM { get; set; }

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.Game
 {
-    [VLTTypeInfo("Game::RewardType")]
+    [VltTypeInfo("Game::RewardType")]
     // TODO: what are the values for this enum?
     public enum RewardType
     {

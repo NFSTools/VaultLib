@@ -10,14 +10,14 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Core.Types
 {
-    public class VLTEnumType<T> : PrimitiveTypeBase where T : IConvertible
+    public class VltEnumType<T> : PrimitiveTypeBase where T : IConvertible
     {
-        public VLTEnumType(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
+        public VltEnumType(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
             collection)
         {
         }
 
-        public VLTEnumType(VltClass @class, VltClassField field) : base(@class, field)
+        public VltEnumType(VltClass @class, VltClassField field) : base(@class, field)
         {
         }
 

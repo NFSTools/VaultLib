@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VLTTypeInfo(nameof(HudSFXStringIdToSoundTrigger))]
-    public class HudSFXStringIdToSoundTrigger : VLTBaseType
+    [VltTypeInfo(nameof(HudSFXStringIdToSoundTrigger))]
+    public class HudSFXStringIdToSoundTrigger : VltBaseType
     {
         public HudSFXStringIdToSoundTrigger(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

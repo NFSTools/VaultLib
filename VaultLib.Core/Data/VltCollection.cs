@@ -53,8 +53,8 @@ namespace VaultLib.Core.Data
         /// <summary>
         /// Gets the collection's data.
         /// </summary>
-        /// <remarks> This is a mapping between a <see cref="VltClassField"/>'s name and a <see cref="VLTBaseType"/> instance.</remarks>
-        private Dictionary<string, VLTBaseType> Data { get; }
+        /// <remarks> This is a mapping between a <see cref="VltClassField"/>'s name and a <see cref="VltBaseType"/> instance.</remarks>
+        private Dictionary<string, VltBaseType> Data { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VltCollection"/> class.
@@ -68,7 +68,7 @@ namespace VaultLib.Core.Data
             Class = vltClass;
             Name = name;
             Children = new ObservableCollection<VltCollection>();
-            Data = new Dictionary<string, VLTBaseType>();
+            Data = new Dictionary<string, VltBaseType>();
         }
 
         #region API Members
@@ -131,9 +131,9 @@ namespace VaultLib.Core.Data
         /// </summary>
         /// <remarks>This method does not perform any conversions. It returns the underlying objects for everything.</remarks>
         /// <returns>The read-only data dictionary.</returns>
-        public IReadOnlyDictionary<string, VLTBaseType> GetData()
+        public IReadOnlyDictionary<string, VltBaseType> GetData()
         {
-            return new ReadOnlyDictionary<string, VLTBaseType>(Data);
+            return new ReadOnlyDictionary<string, VltBaseType>(Data);
         }
 
         /// <summary>
@@ -147,22 +147,22 @@ namespace VaultLib.Core.Data
         /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
         /// </summary>
         /// <param name="key">The name of the field to obtain the value of.</param>
-        /// <returns>The <see cref="VLTBaseType"/> instance mapped to <paramref name="key"/>.</returns>
+        /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
         /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
-        public VLTBaseType GetRawValue(string key)
+        public VltBaseType GetRawValue(string key)
         {
-            return GetRawValue<VLTBaseType>(key);
+            return GetRawValue<VltBaseType>(key);
         }
 
         /// <summary>
         /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
         /// </summary>
         /// <param name="key">The name of the field to obtain the value of.</param>
-        /// <returns>The <see cref="VLTBaseType"/> instance mapped to <paramref name="key"/>.</returns>
+        /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
         /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
-        public T GetRawValue<T>(string key) where T : VLTBaseType
+        public T GetRawValue<T>(string key) where T : VltBaseType
         {
-            if (Data.TryGetValue(key, out VLTBaseType data))
+            if (Data.TryGetValue(key, out VltBaseType data))
             {
                 return (T)data;
             }
@@ -172,7 +172,7 @@ namespace VaultLib.Core.Data
 
         public T GetDataValue<T>(string key)
         {
-            VLTBaseType originalData = GetRawValue(key);
+            VltBaseType originalData = GetRawValue(key);
 
             return (T)BaseTypeToData(originalData);
         }
@@ -184,9 +184,9 @@ namespace VaultLib.Core.Data
         /// <param name="key">The mapping key.</param>
         /// <param name="index">The array index to retrieve the value from.</param>
         /// <returns>The mapping value.</returns>
-        public VLTBaseType GetRawValue(string key, int index)
+        public VltBaseType GetRawValue(string key, int index)
         {
-            return GetRawValue<VLTBaseType>(key, index);
+            return GetRawValue<VltBaseType>(key, index);
         }
 
         /// <summary>
@@ -196,9 +196,9 @@ namespace VaultLib.Core.Data
         /// <param name="key">The mapping key.</param>
         /// <param name="index">The array index to retrieve the value from.</param>
         /// <returns>The mapping value.</returns>
-        public T GetRawValue<T>(string key, int index) where T : VLTBaseType
+        public T GetRawValue<T>(string key, int index) where T : VltBaseType
         {
-            VLTArrayType array = GetRawValue<VLTArrayType>(key);
+            VltArrayType array = GetRawValue<VltArrayType>(key);
 
             if (index < 0 || index >= array.Items.Count)
             {
@@ -218,7 +218,7 @@ namespace VaultLib.Core.Data
         /// </summary>
         /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
         /// <param name="data">The mapping value.</param>
-        public void SetRawValue(string key, VLTBaseType data)
+        public void SetRawValue(string key, VltBaseType data)
         {
             if (Class.HasField(key))
             {
@@ -262,9 +262,9 @@ namespace VaultLib.Core.Data
         /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
         /// <param name="index"></param>
         /// <param name="data">The mapping value.</param>
-        public void SetRawValue<T>(string key, int index, T data) where T : VLTBaseType
+        public void SetRawValue<T>(string key, int index, T data) where T : VltBaseType
         {
-            VLTArrayType array = GetRawValue<VLTArrayType>(key);
+            VltArrayType array = GetRawValue<VltArrayType>(key);
 
             if (index < 0 || index >= array.Items.Count)
             {
@@ -376,7 +376,7 @@ namespace VaultLib.Core.Data
 
         #region Internal stuff
 
-        private object BaseTypeToData(VLTBaseType baseType)
+        private object BaseTypeToData(VltBaseType baseType)
         {
             // if we have a primitive or string value, return that
             // if we have an array, return a list where each item in the array has been converted (recursion FTW)
@@ -386,12 +386,12 @@ namespace VaultLib.Core.Data
             {
                 PrimitiveTypeBase ptb => ptb.GetValue(),
                 IStringValue sv => sv.GetString(),
-                VLTArrayType array => array.Items.Select(BaseTypeToData).ToList(),
+                VltArrayType array => array.Items.Select(BaseTypeToData).ToList(),
                 _ => baseType
             };
         }
 
-        private VLTBaseType DataToBaseType(VltClassField field, VLTBaseType originalData, object data)
+        private VltBaseType DataToBaseType(VltClassField field, VltBaseType originalData, object data)
         {
             switch (data)
             {
@@ -415,7 +415,7 @@ namespace VaultLib.Core.Data
 
                     break;
                 }
-                case VLTBaseType vbt:
+                case VltBaseType vbt:
                     return vbt;
             }
 

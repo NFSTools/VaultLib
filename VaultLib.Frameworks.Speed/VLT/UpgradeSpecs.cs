@@ -6,8 +6,8 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(UpgradeSpecs))]
-    public class UpgradeSpecs : VLTBaseType
+    [VltTypeInfo(nameof(UpgradeSpecs))]
+    public class UpgradeSpecs : VltBaseType
     {
         public RefSpec ReferencedRow { get; set; }
 

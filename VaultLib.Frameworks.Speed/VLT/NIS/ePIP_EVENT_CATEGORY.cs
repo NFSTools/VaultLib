@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.NIS
 {
-    [VLTTypeInfo("NIS::ePIP_EVENT_CATEGORY")]
+    [VltTypeInfo("NIS::ePIP_EVENT_CATEGORY")]
     public enum ePIP_EVENT_CATEGORY
     {
         UNCATEGORIZED = 0x0,

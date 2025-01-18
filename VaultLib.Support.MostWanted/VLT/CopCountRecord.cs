@@ -12,8 +12,8 @@ using VaultLib.LegacyBase;
 
 namespace VaultLib.Support.MostWanted.VLT
 {
-    [VLTTypeInfo(nameof(CopCountRecord))]
-    public class CopCountRecord : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(CopCountRecord))]
+    public class CopCountRecord : VltBaseType, IReferencesStrings
     {
         public string CopType { get; set; }
         public uint Count { get; set; }

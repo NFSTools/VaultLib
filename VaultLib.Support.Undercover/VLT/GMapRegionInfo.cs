@@ -12,8 +12,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(GMapRegionInfo))]
-    public class GMapRegionInfo : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(GMapRegionInfo))]
+    public class GMapRegionInfo : VltBaseType, IReferencesStrings
     {
         public string Name { get; set; }
         public ushort mCurveStart { get; set; }

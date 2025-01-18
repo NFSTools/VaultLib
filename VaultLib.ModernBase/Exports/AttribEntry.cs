@@ -33,7 +33,7 @@ namespace VaultLib.ModernBase.Exports
                 }
                 else
                 {
-                    InlineData = new VLTAttribType(Collection.Class, field, Collection);
+                    InlineData = new VltAttribType(Collection.Class, field, Collection);
                 }
 
                 br.BaseStream.Position = InlineDataPointer;

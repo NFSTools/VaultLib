@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(Splicer_Collision_Object))]
+    [VltTypeInfo(nameof(Splicer_Collision_Object))]
     public enum Splicer_Collision_Object
     {
         bbq_00 = 0x0,

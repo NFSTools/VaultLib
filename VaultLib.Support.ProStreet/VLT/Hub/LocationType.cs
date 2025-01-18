@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Hub
 {
-    [VLTTypeInfo("Hub::LocationType")]
+    [VltTypeInfo("Hub::LocationType")]
     public enum LocationType
     {
         kLocation_Street = 0x1,

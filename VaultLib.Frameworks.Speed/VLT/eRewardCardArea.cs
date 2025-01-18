@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eRewardCardArea))]
+    [VltTypeInfo(nameof(eRewardCardArea))]
     public enum eRewardCardArea
     {
         REWARD_CARD_AREA_UNSPECIFIED = -1,

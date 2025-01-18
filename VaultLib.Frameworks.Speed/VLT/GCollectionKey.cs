@@ -12,7 +12,7 @@ using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(GCollectionKey))]
+    [VltTypeInfo(nameof(GCollectionKey))]
     public class GCollectionKey : BaseRefSpec
     {
         public override void Read(VaultLoadContext context, BinaryReader br)
@@ -30,9 +30,9 @@ namespace VaultLib.Frameworks.Speed.VLT
         public override void Write(VaultSaveContext context, BinaryWriter bw)
         {
             if (context.Database.Options.Type == DatabaseType.X86Database)
-                bw.Write(VLT32Hasher.Hash(CollectionKey));
+                bw.Write(Vlt32Hasher.Hash(CollectionKey));
             else
-                bw.Write(VLT64Hasher.Hash(CollectionKey));
+                bw.Write(Vlt64Hasher.Hash(CollectionKey));
         }
 
         public override string ClassKey
@@ -51,8 +51,8 @@ namespace VaultLib.Frameworks.Speed.VLT
                 }
 
                 return _hash32 != 0
-                    ? HashManager.ResolveVLT(_hash32)
-                    : _hash64 != 0 ? HashManager.ResolveVLT(_hash64) : string.Empty;
+                    ? HashManager.ResolveVlt(_hash32)
+                    : _hash64 != 0 ? HashManager.ResolveVlt(_hash64) : string.Empty;
             }
             set => _key = value;
         }

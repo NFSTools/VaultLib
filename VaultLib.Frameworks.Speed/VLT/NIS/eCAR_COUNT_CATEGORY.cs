@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.NIS
 {
-    [VLTTypeInfo("NIS::eCAR_COUNT_CATEGORY")]
+    [VltTypeInfo("NIS::eCAR_COUNT_CATEGORY")]
     public enum eCAR_COUNT_CATEGORY
     {
         ONE = 0x0,

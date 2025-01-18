@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.NIS
 {
-    [VLTTypeInfo("NIS::eRaceType")]
+    [VltTypeInfo("NIS::eRaceType")]
     public enum eRaceType
     {
         RACE_TYPE_SHORT_FOOTPRINT = 0x0,

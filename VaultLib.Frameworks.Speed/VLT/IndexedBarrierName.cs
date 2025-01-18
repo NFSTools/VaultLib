@@ -8,7 +8,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(IndexedBarrierName))]
+    [VltTypeInfo(nameof(IndexedBarrierName))]
     public class IndexedBarrierName : Int16
     {
         public IndexedBarrierName(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

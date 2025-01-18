@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(LightStreakSplineRecord))]
-    public class LightStreakSplineRecord : VLTBaseType
+    [VltTypeInfo(nameof(LightStreakSplineRecord))]
+    public class LightStreakSplineRecord : VltBaseType
     {
         public LightStreakSplineRecord(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

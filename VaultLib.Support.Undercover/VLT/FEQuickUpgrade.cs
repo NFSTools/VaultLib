@@ -10,8 +10,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(FEQuickUpgrade))]
-    public class FEQuickUpgrade : VLTBaseType, IPointerObject, IReferencesStrings
+    [VltTypeInfo(nameof(FEQuickUpgrade))]
+    public class FEQuickUpgrade : VltBaseType, IPointerObject, IReferencesStrings
     {
         public FEQuickUpgrade(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

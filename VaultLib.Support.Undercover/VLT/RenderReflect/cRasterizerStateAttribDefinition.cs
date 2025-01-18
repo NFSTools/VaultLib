@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.RenderReflect
 {
-    [VLTTypeInfo("RenderReflect::cRasterizerStateAttribDefinition")]
-    public class cRasterizerStateAttribDefinition : VLTBaseType, IReferencesStrings
+    [VltTypeInfo("RenderReflect::cRasterizerStateAttribDefinition")]
+    public class cRasterizerStateAttribDefinition : VltBaseType, IReferencesStrings
     {
         public string DebugName { get; set; }
         public State_RasterizerCullMode CullMode { get; set; }

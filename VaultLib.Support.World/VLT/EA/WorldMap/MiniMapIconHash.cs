@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.EA.WorldMap
 {
-    [VLTTypeInfo("EA::WorldMap::MiniMapIconHash")]
-    public class MiniMapIconHash : VLTBaseType
+    [VltTypeInfo("EA::WorldMap::MiniMapIconHash")]
+    public class MiniMapIconHash : VltBaseType
     {
         public uint Hash { get; set; }
 

@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.Sound
 {
-    [VLTTypeInfo("Sound::BattleMusicTuning")]
-    public class BattleMusicTuning : VLTBaseType
+    [VltTypeInfo("Sound::BattleMusicTuning")]
+    public class BattleMusicTuning : VltBaseType
     {
         public float TimeAhead_HiToMed { get; set; }
         public float TimeAhead_MedToLo { get; set; }

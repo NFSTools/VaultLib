@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.Interop
 {
-    [VLTTypeInfo("Interop::FEState")]
+    [VltTypeInfo("Interop::FEState")]
     public enum FEState
     {
         FESTATE_INITIAL,

@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::PowerupConfiguration")]
+    [VltTypeInfo("GameCore::PowerupConfiguration")]
     public enum PowerupConfiguration
     {
         kPowerupConfigFreeRoam,

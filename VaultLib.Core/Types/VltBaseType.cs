@@ -8,16 +8,16 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public abstract class VLTBaseType : IVaultFileAccess
+    public abstract class VltBaseType : IVaultFileAccess
     {
-        protected VLTBaseType(VltClass @class, VltClassField field, VltCollection collection)
+        protected VltBaseType(VltClass @class, VltClassField field, VltCollection collection)
         {
             Class = @class;
             Field = field;
             Collection = collection;
         }
 
-        protected VLTBaseType(VltClass @class, VltClassField field)
+        protected VltBaseType(VltClass @class, VltClassField field)
         {
             Class = @class;
             Field = field;
@@ -27,7 +27,7 @@ namespace VaultLib.Core.Types
         protected VltClassField Field { get; set; }
         protected VltCollection Collection { get; set; }
 
-        protected bool IsInVLT
+        protected bool IsInVlt
         {
             get { return !Field.IsInLayout && Field.Size <= 4 && !Field.IsArray; }
         }

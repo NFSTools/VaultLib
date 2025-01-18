@@ -6,8 +6,8 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(UpgradeDescription))]
-    public class UpgradeDescription : VLTBaseType
+    [VltTypeInfo(nameof(UpgradeDescription))]
+    public class UpgradeDescription : VltBaseType
     {
         public UpgradeDescription(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

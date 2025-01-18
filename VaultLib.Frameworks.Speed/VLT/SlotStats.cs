@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(SlotStats))]
-    public class SlotStats : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(SlotStats))]
+    public class SlotStats : VltBaseType, IReferencesStrings
     {
         public enum StatsModeFlag
         {

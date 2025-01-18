@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.Physics
 {
-    [VLTTypeInfo("Physics::ePerformanceType")]
+    [VltTypeInfo("Physics::ePerformanceType")]
     public enum ePerformanceType
     {
         PERFORMANCE_SIMPLE_TIME_0_TO_100_MPH = 0x0,

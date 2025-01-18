@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(eSNDCTLSTATE))]
+    [VltTypeInfo(nameof(eSNDCTLSTATE))]
     public enum eSNDCTLSTATE
     {
         SNDSTATE_OFF = 0x0,

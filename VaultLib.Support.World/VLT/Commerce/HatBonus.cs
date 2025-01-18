@@ -9,8 +9,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Commerce
 {
-    [VLTTypeInfo("Commerce::HatBonus")]
-    public class HatBonus : VLTBaseType
+    [VltTypeInfo("Commerce::HatBonus")]
+    public class HatBonus : VltBaseType
     {
         public int Handling { get; set; }
         public int Acceleration { get; set; }

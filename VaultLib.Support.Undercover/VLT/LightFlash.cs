@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT
 {
     // TODO: figure this out
-    [VLTTypeInfo(nameof(LightFlash))]
-    public class LightFlash : VLTBaseType
+    [VltTypeInfo(nameof(LightFlash))]
+    public class LightFlash : VltBaseType
     {
         public LightFlash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

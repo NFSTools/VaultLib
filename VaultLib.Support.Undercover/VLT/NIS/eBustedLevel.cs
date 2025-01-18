@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.NIS
 {
-    [VLTTypeInfo("NIS::eBustedLevel")]
+    [VltTypeInfo("NIS::eBustedLevel")]
     public enum eBustedLevel
     {
         BUST_LEVEL_CIVIC = 0x0,

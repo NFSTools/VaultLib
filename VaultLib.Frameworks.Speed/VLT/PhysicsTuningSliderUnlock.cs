@@ -6,8 +6,8 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(PhysicsTuningSliderUnlock))]
-    public class PhysicsTuningSliderUnlock : VLTBaseType
+    [VltTypeInfo(nameof(PhysicsTuningSliderUnlock))]
+    public class PhysicsTuningSliderUnlock : VltBaseType
     {
         public PhysicsTuningSliderUnlock(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

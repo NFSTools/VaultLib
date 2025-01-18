@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(PresetRideRandomPaint))]
-    public class PresetRideRandomPaint : VLTBaseType
+    [VltTypeInfo(nameof(PresetRideRandomPaint))]
+    public class PresetRideRandomPaint : VltBaseType
     {
         public PresetRideRandomPaint(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

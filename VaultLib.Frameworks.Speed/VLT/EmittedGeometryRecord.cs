@@ -10,8 +10,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(EmittedGeometryRecord))]
-    public class EmittedGeometryRecord : VLTBaseType
+    [VltTypeInfo(nameof(EmittedGeometryRecord))]
+    public class EmittedGeometryRecord : VltBaseType
     {
         public enum EmittedGeo : uint
         {

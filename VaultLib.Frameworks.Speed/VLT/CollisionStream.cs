@@ -7,8 +7,8 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(CollisionStream))]
-    public class CollisionStream : VLTBaseType
+    [VltTypeInfo(nameof(CollisionStream))]
+    public class CollisionStream : VltBaseType
     {
         public CollisionStream(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

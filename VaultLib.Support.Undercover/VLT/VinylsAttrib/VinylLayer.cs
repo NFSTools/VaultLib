@@ -8,8 +8,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
 {
-    [VLTTypeInfo("VinylsAttrib::VinylLayer")]
-    public class VinylLayer : VLTBaseType
+    [VltTypeInfo("VinylsAttrib::VinylLayer")]
+    public class VinylLayer : VltBaseType
     {
         public VinylLayer(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

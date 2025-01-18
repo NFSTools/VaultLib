@@ -13,7 +13,6 @@ using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
-using VLT64Hasher = VaultLib.Core.Hashing.VLT64Hasher;
 
 namespace VaultLib.Core.DB
 {
@@ -122,7 +121,7 @@ namespace VaultLib.Core.DB
         {
             ulong Hash(string s)
             {
-                return Options.Type == DatabaseType.X64Database ? VLT64Hasher.Hash(s) : VLT32Hasher.Hash(s);
+                return Options.Type == DatabaseType.X64Database ? Vlt64Hasher.Hash(s) : Vlt32Hasher.Hash(s);
             }
 
             Stopwatch stopwatch = Stopwatch.StartNew();

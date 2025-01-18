@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
 {
-    [VLTTypeInfo(nameof(VinylColor))]
-    public class VinylColor : VLTBaseType
+    [VltTypeInfo(nameof(VinylColor))]
+    public class VinylColor : VltBaseType
     {
         public VinylColor(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

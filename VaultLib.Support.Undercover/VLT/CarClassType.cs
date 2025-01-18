@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(CarClassType))]
+    [VltTypeInfo(nameof(CarClassType))]
     public enum CarClassType
     {
         CarClassType_Racing = 0x0,

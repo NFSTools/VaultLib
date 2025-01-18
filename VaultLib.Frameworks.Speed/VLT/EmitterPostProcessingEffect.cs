@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(EmitterPostProcessingEffect))]
+    [VltTypeInfo(nameof(EmitterPostProcessingEffect))]
     public enum EmitterPostProcessingEffect
     {
         EmitterPostProcessingEffect_NONE = 0x0,

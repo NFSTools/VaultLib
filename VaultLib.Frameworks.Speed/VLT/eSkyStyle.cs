@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eSkyStyle))]
+    [VltTypeInfo(nameof(eSkyStyle))]
     public enum eSkyStyle
     {
         SKY_STYLE_01 = 0x1,

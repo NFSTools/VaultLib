@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore.Collision
 {
-    [VLTTypeInfo("GameCore::Collision::TriggerType")]
+    [VltTypeInfo("GameCore::Collision::TriggerType")]
     public enum TriggerType
     {
         Unknown,

@@ -36,7 +36,7 @@ namespace VaultLib.ModernBase.Exports
                 }
                 else
                 {
-                    InlineData = new VLTAttribType(Collection.Class, Collection.Class[Key], Collection);
+                    InlineData = new VltAttribType(Collection.Class, Collection.Class[Key], Collection);
                 }
 
                 InlineData.Read(context, br);

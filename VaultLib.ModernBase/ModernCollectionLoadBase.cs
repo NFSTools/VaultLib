@@ -41,7 +41,7 @@ namespace VaultLib.ModernBase
                         throw new Exception($"trying to read field {baseField.Name} at offset {br.BaseStream.Position - LayoutPointer:X}, need to be at {baseField.Offset:X}");
                     }
 
-                    VLTBaseType data = context.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
+                    VltBaseType data = context.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
                     data.Read(context, br);
                     long endPos = br.BaseStream.Position;
@@ -49,7 +49,7 @@ namespace VaultLib.ModernBase
                     if (data is PrimitiveTypeBase)
                         br.BaseStream.Position = startPos + baseField.Size;
 
-                    if (!(data is VLTArrayType) && !(data is PrimitiveTypeBase))
+                    if (!(data is VltArrayType) && !(data is PrimitiveTypeBase))
                     {
                         if (endPos - startPos != baseField.Size)
                         {
@@ -89,7 +89,7 @@ namespace VaultLib.ModernBase
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsArray) == 0);
                 }
 
-                if (entry.InlineData is VLTAttribType attribType)
+                if (entry.InlineData is VltAttribType attribType)
                 {
                     Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) == 0);
                     attribType.ReadPointerData(context, br);

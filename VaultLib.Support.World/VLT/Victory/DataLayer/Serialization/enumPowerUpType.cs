@@ -2,7 +2,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Victory.DataLayer.Serialization
 {
-    [VLTTypeInfo("Victory::DataLayer::Serialization::enumPowerUpType")]
+    [VltTypeInfo("Victory::DataLayer::Serialization::enumPowerUpType")]
     public enum enumPowerUpType
     {
         None,

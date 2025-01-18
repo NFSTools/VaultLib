@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(FEMsgToSoundTrigger))]
-    public class FEMsgToSoundTrigger : VLTBaseType
+    [VltTypeInfo(nameof(FEMsgToSoundTrigger))]
+    public class FEMsgToSoundTrigger : VltBaseType
     {
         public FEMsgToSoundTrigger(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

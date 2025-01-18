@@ -16,8 +16,8 @@ using VaultLib.LegacyBase;
 
 namespace VaultLib.Support.MostWanted.VLT
 {
-    [VLTTypeInfo(nameof(ControllerDataRecord))]
-    public class ControllerDataRecord : VLTBaseType, IReferencesStrings
+    [VltTypeInfo(nameof(ControllerDataRecord))]
+    public class ControllerDataRecord : VltBaseType, IReferencesStrings
     {
         public string DeviceID { get; set; }
         public InputUpdateType UpdateType { get; set; }

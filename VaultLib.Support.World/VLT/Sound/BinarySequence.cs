@@ -10,8 +10,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
 {
-    [VLTTypeInfo("Sound::BinarySequence")]
-    public class BinarySequence : VLTBaseType
+    [VltTypeInfo("Sound::BinarySequence")]
+    public class BinarySequence : VltBaseType
     {
         public bool Value { get; set; }
         public float Duration { get; set; }

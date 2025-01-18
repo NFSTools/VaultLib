@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(CarPaintSwatch))]
-    public class CarPaintSwatch : VLTBaseType
+    [VltTypeInfo(nameof(CarPaintSwatch))]
+    public class CarPaintSwatch : VltBaseType
     {
         public CarPaintSwatch(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

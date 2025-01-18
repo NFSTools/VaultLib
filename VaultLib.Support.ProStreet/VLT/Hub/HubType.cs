@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.ProStreet.VLT.Hub
 {
-    [VLTTypeInfo("Hub::HubType")]
+    [VltTypeInfo("Hub::HubType")]
     public enum HubType
     {
         kType_Preset = 0x2,

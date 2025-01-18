@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
 {
-    [VLTTypeInfo("Sound::ChasedownMusicTuning")]
-    public class ChasedownMusicTuning : VLTBaseType
+    [VltTypeInfo("Sound::ChasedownMusicTuning")]
+    public class ChasedownMusicTuning : VltBaseType
     {
         public float[] StartTimeLimit { get; set; }
         public float[] LowTimeLimit { get; set; }

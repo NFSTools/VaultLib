@@ -12,8 +12,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.World.VLT.Commerce
 {
-    [VLTTypeInfo("Commerce::LocalizedString")]
-    public class LocalizedString : VLTBaseType, IReferencesStrings, IStringValue
+    [VltTypeInfo("Commerce::LocalizedString")]
+    public class LocalizedString : VltBaseType, IReferencesStrings, IStringValue
     {
         private Text _text;
 

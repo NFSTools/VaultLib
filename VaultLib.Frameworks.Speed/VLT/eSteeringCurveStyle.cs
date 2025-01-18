@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eSteeringCurveStyle))]
+    [VltTypeInfo(nameof(eSteeringCurveStyle))]
     public enum eSteeringCurveStyle
     {
         kSTEPS = 0x0,

@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(eSFXOBJ_MOMENT_MIXINPUT))]
+    [VltTypeInfo(nameof(eSFXOBJ_MOMENT_MIXINPUT))]
     public enum eSFXOBJ_MOMENT_MIXINPUT
     {
         eTRG_MOMENT_SPEED_BREAKER = 0x0,

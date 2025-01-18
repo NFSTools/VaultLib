@@ -13,8 +13,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
-    [VLTTypeInfo("GameCore::KeyValuePair")]
-    public class KeyValuePair : VLTBaseType, IReferencesStrings
+    [VltTypeInfo("GameCore::KeyValuePair")]
+    public class KeyValuePair : VltBaseType, IReferencesStrings
     {
         private Text _keyString;
 
@@ -34,7 +34,7 @@ namespace VaultLib.Support.World.VLT.GameCore
         {
             _keyString.Value = KeyString;
             _keyString.Write(context, bw);
-            bw.Write(VLT32Hasher.Hash(KeyString));
+            bw.Write(Vlt32Hasher.Hash(KeyString));
             bw.Write(Value);
         }
 

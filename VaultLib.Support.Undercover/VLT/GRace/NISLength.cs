@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT.GRace
 {
-    [VLTTypeInfo("GRace::NISLength")]
+    [VltTypeInfo("GRace::NISLength")]
     public enum NISLength
     {
         kNIS_DontCare = 0x0,

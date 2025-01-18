@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT.NIS
 {
-    [VLTTypeInfo("NIS::ePLATFORM_CLASS")]
+    [VltTypeInfo("NIS::ePLATFORM_CLASS")]
     public enum ePLATFORM_CLASS
     {
         COMMON_PLATFORM = 0x0,

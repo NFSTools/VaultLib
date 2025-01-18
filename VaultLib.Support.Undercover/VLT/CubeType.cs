@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.Undercover.VLT
 {
-    [VLTTypeInfo(nameof(CubeType))]
+    [VltTypeInfo(nameof(CubeType))]
     public enum CubeType
     {
         CubeType_FILTER0 = 0x0,

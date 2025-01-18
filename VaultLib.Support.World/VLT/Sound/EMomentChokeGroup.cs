@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
 {
-    [VLTTypeInfo("Sound::EMomentChokeGroup")]
+    [VltTypeInfo("Sound::EMomentChokeGroup")]
     public enum EMomentChokeGroup
     {
         eMOMENT_CHOKE_NONE = 0x0,

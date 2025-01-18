@@ -7,8 +7,8 @@ using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(CPartsPackageEntry))]
-    public class CPartsPackageEntry : VLTBaseType
+    [VltTypeInfo(nameof(CPartsPackageEntry))]
+    public class CPartsPackageEntry : VltBaseType
     {
         public CPartsPackageEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {

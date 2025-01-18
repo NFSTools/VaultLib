@@ -6,8 +6,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(MovieVolume))]
-    public class MovieVolume : VLTBaseType
+    [VltTypeInfo(nameof(MovieVolume))]
+    public class MovieVolume : VltBaseType
     {
         public uint Hash { get; set; }
         public byte Volume { get; set; }

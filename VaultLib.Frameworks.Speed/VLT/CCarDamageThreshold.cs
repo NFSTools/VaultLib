@@ -5,8 +5,8 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(CCarDamageThreshold))]
-    public class CCarDamageThreshold : VLTBaseType
+    [VltTypeInfo(nameof(CCarDamageThreshold))]
+    public class CCarDamageThreshold : VltBaseType
     {
         public CCarDamageThreshold(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

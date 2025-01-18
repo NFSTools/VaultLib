@@ -2,7 +2,7 @@
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VLTTypeInfo(nameof(eENGINE_GROUP))]
+    [VltTypeInfo(nameof(eENGINE_GROUP))]
     public enum eENGINE_GROUP
     {
         eENGINE_V4 = 0x0,

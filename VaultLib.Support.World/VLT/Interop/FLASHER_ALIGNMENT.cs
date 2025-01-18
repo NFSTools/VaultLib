@@ -2,7 +2,7 @@
 
 namespace VaultLib.Support.World.VLT.Interop
 {
-    [VLTTypeInfo("Interop::FLASHER_ALIGNMENT")]
+    [VltTypeInfo("Interop::FLASHER_ALIGNMENT")]
     public enum FLASHER_ALIGNMENT
     {
         FLASHER_ALIGN_TOP,
