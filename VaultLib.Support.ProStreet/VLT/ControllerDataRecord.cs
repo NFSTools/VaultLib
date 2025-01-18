@@ -25,18 +25,18 @@ namespace VaultLib.Support.ProStreet.VLT
         private StringKey _deviceID { get; set; }
 
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _deviceID.Read(context, br);
+            _deviceID.Read(context, fieldContext, br);
             UpdateType = br.ReadEnum<InputUpdateType>();
             LowerDZ = br.ReadSingle();
             UpperDZ = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _deviceID.Value = DeviceID;
-            _deviceID.Write(context, bw);
+            _deviceID.Write(context, fieldContext, bw);
             bw.WriteEnum(UpdateType);
             bw.Write(LowerDZ);
             bw.Write(UpperDZ);
@@ -47,20 +47,20 @@ namespace VaultLib.Support.ProStreet.VLT
             return new[] { DeviceID };
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _deviceID.ReadPointerData(context, br);
+            _deviceID.ReadPointerData(context, fieldContext, br);
             DeviceID = _deviceID.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _deviceID.WritePointerData(context, bw);
+            _deviceID.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _deviceID.AddPointers(context);
+            _deviceID.AddPointers(context, fieldContext);
         }
 
         public ControllerDataRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

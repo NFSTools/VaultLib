@@ -4,7 +4,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib
 {
-    public abstract class BaseBlob : VltBaseType, IPointerObject
+    public abstract class BaseBlob : VltBaseType, IVltPointerObject
     {
         protected BaseBlob(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {
@@ -23,7 +23,7 @@ namespace VaultLib.Core.Types.Attrib
 
         private long _dataPtrSrc;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Length = br.ReadInt32();
 
@@ -35,7 +35,7 @@ namespace VaultLib.Core.Types.Attrib
             _dataOffset = br.ReadPointer();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             if (Data != null)
             {
@@ -51,7 +51,7 @@ namespace VaultLib.Core.Types.Attrib
             bw.Write(0);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             if (_dataOffset != 0)
             {
@@ -60,7 +60,7 @@ namespace VaultLib.Core.Types.Attrib
             }
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             if (Data != null)
             {
@@ -69,7 +69,7 @@ namespace VaultLib.Core.Types.Attrib
             }
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             context.AddPointer(_dataPtrSrc, _dataPtrDst, false);
         }

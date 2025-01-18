@@ -14,7 +14,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT
 {
     [VltTypeInfo(nameof(FEPartCamera))]
-    public class FEPartCamera : VltBaseType, IPointerObject, IReferencesStrings
+    public class FEPartCamera : VltBaseType, IVltPointerObject, IReferencesStrings
     {
         public string SlotName { get; set; }
         public RefSpec Camera { get; set; }
@@ -22,35 +22,35 @@ namespace VaultLib.Support.Undercover.VLT
 
         private Text _slotNameText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _slotNameText.Read(context, br);
-            Camera.Read(context, br);
-            Camera_4_3.Read(context, br);
+            _slotNameText.Read(context, fieldContext, br);
+            Camera.Read(context, fieldContext, br);
+            Camera_4_3.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _slotNameText.Value = SlotName;
-            _slotNameText.Write(context, bw);
-            Camera.Write(context, bw);
-            Camera_4_3.Write(context, bw);
+            _slotNameText.Write(context, fieldContext, bw);
+            Camera.Write(context, fieldContext, bw);
+            Camera_4_3.Write(context, fieldContext, bw);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _slotNameText.ReadPointerData(context, br);
+            _slotNameText.ReadPointerData(context, fieldContext, br);
             SlotName = _slotNameText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _slotNameText.WritePointerData(context, bw);
+            _slotNameText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _slotNameText.AddPointers(context);
+            _slotNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

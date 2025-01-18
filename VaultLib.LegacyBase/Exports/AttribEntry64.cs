@@ -28,15 +28,18 @@ namespace VaultLib.LegacyBase.Exports
             Key = br.ReadUInt64();
 
             InlineDataPointer = br.BaseStream.Position;
+
+            var fieldContext = new FieldReadWriteContext(Collection.Class, Collection.Class[Key], Collection);
+
             if (IsInline())
             {
                 InlineData = context.Database.TypeRegistry.ReadFieldValue(Collection.Class, Collection.Class[Key],
-                    Collection, context, br);
+                    Collection, context, fieldContext, br);
             }
             else
             {
                 var attrib = new VltAttribType(Collection.Class, Collection.Class[Key], Collection);
-                attrib.Read(context, br);
+                attrib.Read(context, fieldContext, br);
                 InlineData = attrib;
             }
 
@@ -49,13 +52,16 @@ namespace VaultLib.LegacyBase.Exports
         public void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Key);
+
+            var fieldContext = new FieldReadWriteContext(Collection.Class, Collection.Class[Key], Collection);
             if (InlineData is VltAttribType attribType)
             {
-                attribType.Write(context, bw);
+                attribType.Write(context, fieldContext, bw);
             }
             else
             {
-                context.Database.TypeRegistry.WriteFieldValue(Collection.Class[Key], InlineData, context, bw);
+                context.Database.TypeRegistry.WriteFieldValue(Collection.Class[Key], InlineData, context, fieldContext,
+                    bw);
             }
 
             bw.AlignWriter(4);

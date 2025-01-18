@@ -21,17 +21,17 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint MaxInstances { get; set; }
         public uint Percent { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Vehicle.Read(context, br);
+            Vehicle.Read(context, fieldContext, br);
             Rate = br.ReadSingle();
             MaxInstances = br.ReadUInt32();
             Percent = br.ReadUInt32();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Vehicle.Write(context, bw);
+            Vehicle.Write(context, fieldContext, bw);
             bw.Write(Rate);
             bw.Write(MaxInstances);
             bw.Write(Percent);

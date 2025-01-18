@@ -11,36 +11,36 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT
 {
     [VltTypeInfo(nameof(CameraCurveReactionRecord))]
-    public class CameraCurveReactionRecord : VltBaseType, IPointerObject
+    public class CameraCurveReactionRecord : VltBaseType, IVltPointerObject
     {
         public Curve Curve { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             if (br.ReadUInt32() != 0)
                 throw new InvalidDataException();
-            Curve.Read(context, br);
+            Curve.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(0);
-            Curve.Write(context, bw);
+            Curve.Write(context, fieldContext, bw);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Curve.ReadPointerData(context, br);
+            Curve.ReadPointerData(context, fieldContext, br);
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Curve.WritePointerData(context, bw);
+            Curve.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            Curve.AddPointers(context);
+            Curve.AddPointers(context, fieldContext);
         }
 
         public CameraCurveReactionRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

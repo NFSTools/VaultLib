@@ -23,12 +23,12 @@ namespace VaultLib.Core.Types.EA.Reflection
 
         public ushort Value { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Value = br.ReadUInt16();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(Value);
         }

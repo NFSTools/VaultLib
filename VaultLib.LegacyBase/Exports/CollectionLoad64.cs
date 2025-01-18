@@ -146,11 +146,13 @@ namespace VaultLib.LegacyBase.Exports
 
                 foreach (var baseField in Collection.Class.BaseFields)
                 {
+                    var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
                     br.AlignReader(baseField.Alignment);
 
                     long startPos = br.BaseStream.Position;
                     var data =
                         context.Database.TypeRegistry.ReadFieldValue(Collection.Class, baseField, Collection, context,
+                            fieldContext,
                             br);
                     long endPos = br.BaseStream.Position;
                     if (!(data is VltArrayType) && !(data is PrimitiveTypeBase))
@@ -163,6 +165,7 @@ namespace VaultLib.LegacyBase.Exports
             foreach (var entry in _entries)
             {
                 var optionalField = Collection.Class[entry.Key];
+                var fieldContext = new FieldReadWriteContext(Collection.Class, optionalField, Collection);
 
                 if ((optionalField.Flags & DefinitionFlags.IsStatic) != 0)
                 {
@@ -172,7 +175,7 @@ namespace VaultLib.LegacyBase.Exports
 
                 if (entry.InlineData is VltAttribType attribType)
                 {
-                    attribType.ReadPointerData(context, br);
+                    attribType.ReadPointerData(context, fieldContext, br);
                     Collection.SetRawValue(optionalField.Name, attribType.Data);
                     //Collection.Data[optionalField.Name] = attribType.Data;
                 }
@@ -185,8 +188,12 @@ namespace VaultLib.LegacyBase.Exports
 
             foreach (var dataEntry in Collection.GetData())
             {
-                if (dataEntry.Value is IPointerObject pointerObject)
-                    pointerObject.ReadPointerData(context, br);
+                var fieldContext =
+                    new FieldReadWriteContext(Collection.Class, Collection.Class[dataEntry.Key], Collection);
+                if (dataEntry.Value is IVltPointerObject vltPointerObject)
+                {
+                    vltPointerObject.ReadPointerData(context, fieldContext, br);
+                }
             }
         }
 
@@ -194,6 +201,7 @@ namespace VaultLib.LegacyBase.Exports
         {
             foreach (var baseField in Collection.Class.BaseFields)
             {
+                var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
                 bw.AlignWriter(baseField.Alignment);
                 if (_dstLayoutPtr == 0)
                 {
@@ -205,29 +213,32 @@ namespace VaultLib.LegacyBase.Exports
                     throw new Exception("incorrect offset");
                 }
 
-                Collection.GetRawValue(baseField.Name).Write(context, bw);
-                //Collection.Data[baseField.Name].Write(vault, bw);
+                var rawValue = Collection.GetRawValue(baseField.Name);
+                context.Database.TypeRegistry.WriteFieldValue(baseField, rawValue, context, fieldContext, bw);
             }
 
             foreach (var dataPair in Collection.GetData())
             {
                 VltClassField field = Collection.Class[dataPair.Key];
+                var fieldContext = new FieldReadWriteContext(Collection.Class, field, Collection);
 
                 if (!field.IsInLayout)
                 {
                     var entry = _entries.First(e => e.Key == field.Key);
 
-                    if (!(entry.InlineData is IPointerObject pointerObject)) continue;
-
-                    bw.AlignWriter(field.Alignment);
-                    pointerObject.WritePointerData(context, bw);
+                    if (entry.InlineData is IVltPointerObject vltPointerObject)
+                    {
+                        bw.AlignWriter(field.Alignment);
+                        vltPointerObject.WritePointerData(context, fieldContext, bw);
+                    }
                 }
                 else
                 {
-                    if (!(dataPair.Value is IPointerObject pointerObject)) continue;
-
-                    bw.AlignWriter(field.Alignment);
-                    pointerObject.WritePointerData(context, bw);
+                    if (dataPair.Value is IVltPointerObject vltPointerObject)
+                    {
+                        bw.AlignWriter(field.Alignment);
+                        vltPointerObject.WritePointerData(context, fieldContext, bw);
+                    }
                 }
             }
 
@@ -240,17 +251,21 @@ namespace VaultLib.LegacyBase.Exports
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                if (this.Collection.GetRawValue(baseField.Name) is IPointerObject pointerObject)
+                var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
+                var rawValue = Collection.GetRawValue(baseField.Name);
+
+                if (rawValue is IVltPointerObject vltPointerObject)
                 {
-                    pointerObject.AddPointers(context);
+                    vltPointerObject.AddPointers(context, fieldContext);
                 }
             }
 
             foreach (var entry in _entries)
             {
-                if (entry.InlineData is IPointerObject pointerObject)
+                var fieldContext = new FieldReadWriteContext(Collection.Class, Collection.Class[entry.Key], Collection);
+                if (entry.InlineData is IVltPointerObject vltPointerObject)
                 {
-                    pointerObject.AddPointers(context);
+                    vltPointerObject.AddPointers(context, fieldContext);
                 }
             }
         }

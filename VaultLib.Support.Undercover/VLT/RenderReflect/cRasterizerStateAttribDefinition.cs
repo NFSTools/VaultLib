@@ -34,9 +34,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         private Text _debugNameText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _debugNameText.Read(context, br);
+            _debugNameText.Read(context, fieldContext, br);
             CullMode = br.ReadEnum<State_RasterizerCullMode>();
             DepthBias = br.ReadSingle();
             ScaleDepthBias = br.ReadSingle();
@@ -44,7 +44,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             PrimitiveResetEnable = br.ReadBoolean();
             br.AlignReader(4);
             PrimitiveResetIndex = br.ReadUInt32();
-            ScissorData.Read(context, br);
+            ScissorData.Read(context, fieldContext, br);
             FillMode = br.ReadEnum<State_RasterizerFillMode>();
             MultiSampleAntialiasEnable = br.ReadBoolean();
             br.AlignReader(4);
@@ -56,10 +56,10 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             FrontFace = br.ReadEnum<State_RasterizerFrontFace>();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _debugNameText.Value = DebugName;
-            _debugNameText.Write(context, bw);
+            _debugNameText.Write(context, fieldContext, bw);
             bw.WriteEnum(CullMode);
             bw.Write(DepthBias);
             bw.Write(ScaleDepthBias);
@@ -67,7 +67,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.Write(PrimitiveResetEnable);
             bw.AlignWriter(4);
             bw.Write(PrimitiveResetIndex);
-            ScissorData.Write(context, bw);
+            ScissorData.Write(context, fieldContext, bw);
             bw.WriteEnum(FillMode);
             bw.Write(MultiSampleAntialiasEnable);
             bw.AlignWriter(4);
@@ -79,20 +79,20 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.WriteEnum(FrontFace);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _debugNameText.ReadPointerData(context, br);
+            _debugNameText.ReadPointerData(context, fieldContext, br);
             DebugName = _debugNameText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _debugNameText.WritePointerData(context, bw);
+            _debugNameText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _debugNameText.AddPointers(context);
+            _debugNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

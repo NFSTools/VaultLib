@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class VltListContainer<T> : VltBaseType, IPointerObject where T : VltBaseType
+    public class VltListContainer<T> : VltBaseType, IVltPointerObject where T : VltBaseType
     {
         private long _dstPtr;
 
@@ -29,7 +29,7 @@ namespace VaultLib.Core.Types
 
         public List<T> Items { get; }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             br.BaseStream.Position = _pointer;
 
@@ -38,29 +38,29 @@ namespace VaultLib.Core.Types
             {
                 var item = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T), Class, Field, Collection);
                 //var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
-                item.Read(context, br);
+                item.Read(context, fieldContext, br);
                 Items.Add(item);
             }
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _dstPtr = bw.BaseStream.Position;
 
-            foreach (var item in Items) item.Write(context, bw);
+            foreach (var item in Items) item.Write(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             context.AddPointer(_srcPtr, _dstPtr, false);
         }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             _pointer = br.ReadUInt32();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _srcPtr = bw.BaseStream.Position;
             bw.Write(0);

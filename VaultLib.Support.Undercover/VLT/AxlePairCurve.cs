@@ -11,39 +11,39 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT
 {
     [VltTypeInfo(nameof(AxlePairCurve))]
-    public class AxlePairCurve : VltBaseType, IPointerObject
+    public class AxlePairCurve : VltBaseType, IVltPointerObject
     {
         public Curve Front { get; set; }
         public Curve Rear { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Front.Read(context, br);
-            Rear.Read(context, br);
+            Front.Read(context, fieldContext, br);
+            Rear.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Front.Write(context, bw);
-            Rear.Write(context, bw);
+            Front.Write(context, fieldContext, bw);
+            Rear.Write(context, fieldContext, bw);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Front.ReadPointerData(context, br);
-            Rear.ReadPointerData(context, br);
+            Front.ReadPointerData(context, fieldContext, br);
+            Rear.ReadPointerData(context, fieldContext, br);
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Front.WritePointerData(context, bw);
-            Rear.WritePointerData(context, bw);
+            Front.WritePointerData(context, fieldContext, bw);
+            Rear.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            Front.AddPointers(context);
-            Rear.AddPointers(context);
+            Front.AddPointers(context, fieldContext);
+            Rear.AddPointers(context, fieldContext);
         }
 
         public AxlePairCurve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

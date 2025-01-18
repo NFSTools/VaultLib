@@ -23,40 +23,40 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         private Text _name;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _name.Read(context, br);
+            _name.Read(context, fieldContext, br);
             mCurveStart = br.ReadUInt16();
             mCurveCount = br.ReadUInt16();
             mTriangleStart = br.ReadUInt16();
             mTriangleCount = br.ReadUInt16();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _name.Value = Name;
-            _name.Write(context, bw);
+            _name.Write(context, fieldContext, bw);
             bw.Write(mCurveStart);
             bw.Write(mCurveCount);
             bw.Write(mTriangleStart);
             bw.Write(mTriangleCount);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _name.ReadPointerData(context, br);
+            _name.ReadPointerData(context, fieldContext, br);
             Name = _name.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _name.Value = Name;
-            _name.WritePointerData(context, bw);
+            _name.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _name.AddPointers(context);
+            _name.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

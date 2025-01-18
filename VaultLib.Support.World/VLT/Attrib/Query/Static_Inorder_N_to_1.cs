@@ -15,7 +15,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
 {
     [VltTypeInfo(
         "Attrib::Query::Static_Inorder_N_to_1<Attrib::Query::Typespace<Attrib::Key,Attrib::Key,EA::Reflection::UInt32> >")]
-    public class Static_Inorder_N_to_1 : VltBaseType, IPointerObject
+    public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
     {
         private long _leavesDst;
         private long _leavesPointer;
@@ -36,7 +36,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
         {
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             // This code only exists for testing
             // br.BaseStream.Position = _rootsPointer;
@@ -81,7 +81,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
             // // Debugger.Break();
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             var groupedCollections = context.Database.RowManager.EnumerateFlattenedCollections(Class.Name)
                 .GroupBy(c => Vlt32Hasher.Hash(c.Parent?.Name));
@@ -110,14 +110,14 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
                 bw.Write(Vlt32Hasher.Hash(collection.Name));
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             context.AddPointer(_rootsPointer, _rootsDst, false);
             context.AddPointer(_nodesPointer, _nodesDst, false);
             context.AddPointer(_leavesPointer, _leavesDst, false);
         }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             _numRoots = br.ReadUInt32();
             _rootsPointer = br.ReadPointer();
@@ -125,7 +125,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
             _leavesPointer = br.ReadPointer();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _numRootsDst = bw.BaseStream.Position;
             bw.Write(0xAAAAAAAA);

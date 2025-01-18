@@ -11,7 +11,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT
 {
     [VltTypeInfo(nameof(FEQuickUpgrade))]
-    public class FEQuickUpgrade : VltBaseType, IPointerObject, IReferencesStrings
+    public class FEQuickUpgrade : VltBaseType, IVltPointerObject, IReferencesStrings
     {
         public FEQuickUpgrade(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
         {
@@ -33,7 +33,7 @@ namespace VaultLib.Support.Undercover.VLT
         private long _ptrPackagesDst;
         private Text _offerIdText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             _ptrPackages = br.ReadUInt32();
             Cost = br.ReadSingle();
@@ -41,12 +41,12 @@ namespace VaultLib.Support.Undercover.VLT
             Tier2_Cost = br.ReadSingle();
             Tier3_Cost = br.ReadSingle();
             Tier4_Cost = br.ReadSingle();
-            _offerIdText.Read(context, br);
+            _offerIdText.Read(context, fieldContext, br);
             _packageLength = br.ReadByte();
             br.AlignReader(4);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _ptrPackagesSrc = bw.BaseStream.Position;
             bw.Write(0);
@@ -56,14 +56,14 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(Tier3_Cost);
             bw.Write(Tier4_Cost);
             _offerIdText.Value = OfferID;
-            _offerIdText.Write(context, bw);
+            _offerIdText.Write(context, fieldContext, bw);
             bw.Write((byte) Entries.Count);
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _offerIdText.ReadPointerData(context, br);
+            _offerIdText.ReadPointerData(context, fieldContext, br);
             OfferID = _offerIdText.Value;
 
             br.BaseStream.Position = _ptrPackages;
@@ -73,28 +73,28 @@ namespace VaultLib.Support.Undercover.VLT
             for (int i = 0; i < _packageLength; i++)
             {
                 FEQuickUpgradeEntry entry = new FEQuickUpgradeEntry(Class, Field, Collection);
-                entry.Read(context, br);
+                entry.Read(context, fieldContext, br);
 
                 Entries.Add(entry);
             }
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _offerIdText.WritePointerData(context, bw);
+            _offerIdText.WritePointerData(context, fieldContext, bw);
             _ptrPackagesDst = bw.BaseStream.Position;
 
             foreach (var entry in Entries)
             {
-                entry.Write(context, bw);
+                entry.Write(context, fieldContext, bw);
             }
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             Debug.Assert(_ptrPackagesSrc != 0 && _ptrPackagesDst != 0);
             context.AddPointer(_ptrPackagesSrc, _ptrPackagesDst, false);
-            _offerIdText.AddPointers(context);
+            _offerIdText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

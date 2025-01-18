@@ -19,19 +19,19 @@ namespace VaultLib.LegacyBase
 
         private Text _text;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             br.ReadInt64();
             br.ReadUInt32();
-            _text.Read(context, br);
+            _text.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _text.Value = Value;
             bw.Write(Vlt64Hasher.Hash(Value));
             bw.Write(Vlt32Hasher.Hash(Value));
-            _text.Write(context, bw);
+            _text.Write(context, fieldContext, bw);
         }
 
         public IEnumerable<string> GetStrings()
@@ -39,20 +39,20 @@ namespace VaultLib.LegacyBase
             return new List<string>(new[] { Value });
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _text.ReadPointerData(context, br);
+            _text.ReadPointerData(context, fieldContext, br);
             Value = _text.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _text.WritePointerData(context, bw);
+            _text.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _text.AddPointers(context);
+            _text.AddPointers(context, fieldContext);
         }
 
         public override string ToString()

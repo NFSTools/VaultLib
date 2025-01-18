@@ -15,7 +15,7 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.Undercover.VLT
 {
     [VltTypeInfo(nameof(FEPartData))]
-    public class FEPartData : VltBaseType, IPointerObject, IReferencesStrings
+    public class FEPartData : VltBaseType, IVltPointerObject, IReferencesStrings
     {
         public uint HAL_ID { get; set; }
         public uint CF_HAL_ID { get; set; }
@@ -39,7 +39,7 @@ namespace VaultLib.Support.Undercover.VLT
 
         private Text _offerIdText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             HAL_ID = br.ReadUInt32();
             CF_HAL_ID = br.ReadUInt32();
@@ -59,13 +59,13 @@ namespace VaultLib.Support.Undercover.VLT
             LogoTextureId = br.ReadUInt32();
             DetailHash = br.ReadUInt32();
             PartDetails = new VltPointerContainer<FEPartDetail>(Class, Field, Collection);
-            PartDetails.Read(context, br);
-            _offerIdText.Read(context, br);
+            PartDetails.Read(context, fieldContext, br);
+            _offerIdText.Read(context, fieldContext, br);
             IsOnlineLockable = br.ReadBoolean();
             br.AlignReader(4);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(HAL_ID);
             bw.Write(CF_HAL_ID);
@@ -84,31 +84,31 @@ namespace VaultLib.Support.Undercover.VLT
             bw.Write(BrandHALId);
             bw.Write(LogoTextureId);
             bw.Write(DetailHash);
-            PartDetails.Write(context, bw);
+            PartDetails.Write(context, fieldContext, bw);
             _offerIdText.Value = OfferID;
-            _offerIdText.Write(context, bw);
+            _offerIdText.Write(context, fieldContext, bw);
             bw.Write(IsOnlineLockable);
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            PartDetails.ReadPointerData(context, br);
-            _offerIdText.ReadPointerData(context, br);
+            PartDetails.ReadPointerData(context, fieldContext, br);
+            _offerIdText.ReadPointerData(context, fieldContext, br);
 
             OfferID = _offerIdText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            PartDetails.WritePointerData(context, bw);
-            _offerIdText.WritePointerData(context, bw);
+            PartDetails.WritePointerData(context, fieldContext, bw);
+            _offerIdText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            PartDetails.AddPointers(context);
-            _offerIdText.AddPointers(context);
+            PartDetails.AddPointers(context, fieldContext);
+            _offerIdText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
@@ -116,7 +116,8 @@ namespace VaultLib.Support.Undercover.VLT
             return _offerIdText.GetStrings();
         }
 
-        public FEPartData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
+        public FEPartData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field,
+            collection)
         {
             _offerIdText = new Text(Class, Field, Collection);
             OfferID = string.Empty;

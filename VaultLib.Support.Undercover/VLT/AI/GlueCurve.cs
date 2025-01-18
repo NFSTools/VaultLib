@@ -11,42 +11,43 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.AI
 {
     [VltTypeInfo("AI::GlueCurve")]
-    public class GlueCurve : VltBaseType, IPointerObject
+    public class GlueCurve : VltBaseType, IVltPointerObject
     {
         public Curve Easy { get; set; }
         public Curve Hard { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Easy.Read(context, br);
-            Hard.Read(context, br);
+            Easy.Read(context, fieldContext, br);
+            Hard.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Easy.Write(context, bw);
-            Hard.Write(context, bw);
+            Easy.Write(context, fieldContext, bw);
+            Hard.Write(context, fieldContext, bw);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Easy.ReadPointerData(context, br);
-            Hard.ReadPointerData(context, br);
+            Easy.ReadPointerData(context, fieldContext, br);
+            Hard.ReadPointerData(context, fieldContext, br);
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Easy.WritePointerData(context, bw);
-            Hard.WritePointerData(context, bw);
+            Easy.WritePointerData(context, fieldContext, bw);
+            Hard.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            Easy.AddPointers(context);
-            Hard.AddPointers(context);
+            Easy.AddPointers(context, fieldContext);
+            Hard.AddPointers(context, fieldContext);
         }
 
-        public GlueCurve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
+        public GlueCurve(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field,
+            collection)
         {
             Easy = new Curve(Class, Field, Collection);
             Hard = new Curve(Class, Field, Collection);

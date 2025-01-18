@@ -24,43 +24,43 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         private Text _presetSkinNameText, _channelNameText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            PresetRide.Read(context, br);
-            _presetSkinNameText.Read(context, br);
+            PresetRide.Read(context, fieldContext, br);
+            _presetSkinNameText.Read(context, fieldContext, br);
             VehicleCategory = br.ReadUInt32();
-            _channelNameText.Read(context, br);
+            _channelNameText.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            PresetRide.Write(context, bw);
+            PresetRide.Write(context, fieldContext, bw);
             _presetSkinNameText.Value = PresetSkinName;
-            _presetSkinNameText.Write(context, bw);
+            _presetSkinNameText.Write(context, fieldContext, bw);
             bw.Write(VehicleCategory);
             _channelNameText.Value = ChannelName;
-            _channelNameText.Write(context, bw);
+            _channelNameText.Write(context, fieldContext, bw);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _presetSkinNameText.ReadPointerData(context, br);
-            _channelNameText.ReadPointerData(context, br);
+            _presetSkinNameText.ReadPointerData(context, fieldContext, br);
+            _channelNameText.ReadPointerData(context, fieldContext, br);
 
             PresetSkinName = _presetSkinNameText.Value;
             ChannelName = _channelNameText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _presetSkinNameText.WritePointerData(context, bw);
-            _channelNameText.WritePointerData(context, bw);
+            _presetSkinNameText.WritePointerData(context, fieldContext, bw);
+            _channelNameText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _presetSkinNameText.AddPointers(context);
-            _channelNameText.AddPointers(context);
+            _presetSkinNameText.AddPointers(context, fieldContext);
+            _channelNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

@@ -14,6 +14,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 {
     [VltTypeInfo("EA::Reflection::Text")]
     [PrimitiveInfo(typeof(string))]
+    [Obsolete("EA::Reflection types are deprecated, please use type mappings instead.")]
     public class Text : PrimitiveTypeBase, IReferencesStrings, IStringValue
     {
         private long _internalPointerDst;
@@ -34,19 +35,19 @@ namespace VaultLib.Core.Types.EA.Reflection
             return new List<string>(new[] { Value });
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Debug.Assert(Pointer != 0);
             br.BaseStream.Position = Pointer;
             Value = NullTerminatedString.Read(br);
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _internalPointerDst = context.StringOffsets[Value];
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             Debug.Assert(_internalPointerSrc != 0 && _internalPointerDst != 0);
 
@@ -63,7 +64,7 @@ namespace VaultLib.Core.Types.EA.Reflection
             Value = str;
         }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Debug.Assert(Class != null, "this.Class != null");
 
@@ -73,7 +74,7 @@ namespace VaultLib.Core.Types.EA.Reflection
             Pointer = br.ReadPointer();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _internalPointerSrc = bw.BaseStream.Position;
             bw.Write(0);

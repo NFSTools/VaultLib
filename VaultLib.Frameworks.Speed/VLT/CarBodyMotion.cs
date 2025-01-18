@@ -16,14 +16,14 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float MaxGs { get; set; }
         public float DegPerSec { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             DegPerG = br.ReadSingle();
             MaxGs = br.ReadSingle();
             DegPerSec = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(DegPerG);
             bw.Write(MaxGs);

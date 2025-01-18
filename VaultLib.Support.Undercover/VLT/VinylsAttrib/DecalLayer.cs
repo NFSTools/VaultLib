@@ -20,22 +20,22 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
         public VinylTransform Transform { get; set; }
         public VinylColor Color { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             PartNameHash = br.ReadUInt32();
             Mirrored = br.ReadBoolean();
             br.AlignReader(4);
-            Transform.Read(context, br);
-            Color.Read(context, br);
+            Transform.Read(context, fieldContext, br);
+            Color.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(PartNameHash);
             bw.Write(Mirrored);
             bw.AlignWriter(4);
-            Transform.Write(context, bw);
-            Color.Write(context, bw);
+            Transform.Write(context, fieldContext, bw);
+            Color.Write(context, fieldContext, bw);
         }
     }
 }

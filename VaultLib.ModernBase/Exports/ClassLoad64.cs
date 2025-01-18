@@ -51,8 +51,8 @@ namespace VaultLib.ModernBase.Exports
         public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             int collectionReserve = (from collection in context.Collections
-                                     where collection.Class.Name == Class.Name
-                                     select collection).Count();
+                where collection.Class.Name == Class.Name
+                select collection).Count();
 
             bw.Write(Vlt64Hasher.Hash(Class.Name));
             bw.Write(collectionReserve);
@@ -112,18 +112,24 @@ namespace VaultLib.ModernBase.Exports
             {
                 br.BaseStream.Position = _staticDataPtr;
 
-                foreach (VltClassField staticField in Class.StaticFields)
+                foreach (var staticField in Class.StaticFields)
                 {
                     br.AlignReader(staticField.Alignment);
-                    var staticData = context.Database.TypeRegistry.ReadFieldValue(Class, staticField, null, context, br);
+                    var fieldContext = new FieldReadWriteContext(Class, staticField, null);
+                    var staticData =
+                        context.Database.TypeRegistry.ReadFieldValue(Class, staticField, null, context, fieldContext,
+                            br);
                     staticField.StaticValue = staticData;
                 }
             }
 
             foreach (var staticField in Class.StaticFields)
             {
-                if (staticField.StaticValue is IPointerObject pointerObject)
-                    pointerObject.ReadPointerData(context, br);
+                var fieldContext = new FieldReadWriteContext(Class, staticField, null);
+                if (staticField.StaticValue is IVltPointerObject vltPointerObject)
+                {
+                    vltPointerObject.ReadPointerData(context, fieldContext, br);
+                }
             }
 
             context.Database.AddClass(Class);
@@ -155,13 +161,18 @@ namespace VaultLib.ModernBase.Exports
                 foreach (var staticField in Class.StaticFields)
                 {
                     bw.AlignWriter(staticField.Alignment);
-                    context.Database.TypeRegistry.WriteFieldValue(staticField, staticField.StaticValue, context, bw);
+                    var fieldContext = new FieldReadWriteContext(Class, staticField, null);
+                    context.Database.TypeRegistry.WriteFieldValue(staticField, staticField.StaticValue, context,
+                        fieldContext, bw);
                 }
 
                 foreach (var staticField in Class.StaticFields)
                 {
-                    if (staticField.StaticValue is IPointerObject pointerObject)
-                        pointerObject.WritePointerData(context, bw);
+                    var fieldContext = new FieldReadWriteContext(Class, staticField, null);
+                    if (staticField.StaticValue is IVltPointerObject vltPointerObject)
+                    {
+                        vltPointerObject.WritePointerData(context, fieldContext, bw);
+                    }
                 }
             }
         }
@@ -176,8 +187,11 @@ namespace VaultLib.ModernBase.Exports
 
                 foreach (var staticField in Class.StaticFields)
                 {
-                    if (staticField.StaticValue is IPointerObject pointerObject)
-                        pointerObject.AddPointers(context);
+                    var fieldContext = new FieldReadWriteContext(Class, staticField, null);
+                    if (staticField.StaticValue is IVltPointerObject vltPointerObject)
+                    {
+                        vltPointerObject.AddPointers(context, fieldContext);
+                    }
                 }
             }
         }

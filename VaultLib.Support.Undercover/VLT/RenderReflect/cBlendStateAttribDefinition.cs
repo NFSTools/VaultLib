@@ -40,9 +40,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
         public bool BlendFactorF16_PS3 { get; set; }
         private Text _debugNameText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _debugNameText.Read(context, br);
+            _debugNameText.Read(context, fieldContext, br);
             BlendEnable = br.ReadBoolean();
             AlphaTestEnable = br.ReadBoolean();
             br.AlignReader(4);
@@ -55,7 +55,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             DestAlpha = br.ReadArray(br.ReadEnum<State_BlendInput>, 4);
             OperationAlpha = br.ReadArray(br.ReadEnum<State_BlendOp>, 4);
             BlendFactor = new Vector4(Class, Field, Collection);
-            BlendFactor.Read(context, br);
+            BlendFactor.Read(context, fieldContext, br);
             RGBAEnableRT0 = br.ReadArray(br.ReadBoolean, 4);
             RGBAEnableRT1 = br.ReadArray(br.ReadBoolean, 4);
             RGBAEnableRT2 = br.ReadArray(br.ReadBoolean, 4);
@@ -67,10 +67,10 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             br.AlignReader(4);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _debugNameText.Value = DebugName;
-            _debugNameText.Write(context, bw);
+            _debugNameText.Write(context, fieldContext, bw);
             bw.Write(BlendEnable);
             bw.Write(AlphaTestEnable);
             bw.AlignWriter(4);
@@ -82,7 +82,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.WriteArray(SourceAlpha, bw.WriteEnum);
             bw.WriteArray(DestAlpha, bw.WriteEnum);
             bw.WriteArray(OperationAlpha, bw.WriteEnum);
-            BlendFactor.Write(context, bw);
+            BlendFactor.Write(context, fieldContext, bw);
             bw.WriteArray(RGBAEnableRT0, bw.Write);
             bw.WriteArray(RGBAEnableRT1, bw.Write);
             bw.WriteArray(RGBAEnableRT2, bw.Write);
@@ -94,20 +94,20 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _debugNameText.ReadPointerData(context, br);
+            _debugNameText.ReadPointerData(context, fieldContext, br);
             DebugName = _debugNameText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _debugNameText.WritePointerData(context, bw);
+            _debugNameText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _debugNameText.AddPointers(context);
+            _debugNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

@@ -23,8 +23,11 @@ namespace VaultLib.Core
 
         private readonly Dictionary<Type, ObjectActivator<object>> _activators = new();
 
-        private readonly Dictionary<Type, Func<object, VaultReadContext, BinaryReader, object>> _readers = new();
-        private readonly Dictionary<Type, Action<object, VaultWriteContext, BinaryWriter>> _writers = new();
+        private readonly Dictionary<Type, Func<object, VaultReadContext, FieldReadWriteContext, BinaryReader, object>>
+            _readers = new();
+
+        private readonly Dictionary<Type, Action<object, VaultWriteContext, FieldReadWriteContext, BinaryWriter>>
+            _writers = new();
 
         /// <summary>
         ///     Initializes the type registry. Registers some default types.
@@ -63,17 +66,17 @@ namespace VaultLib.Core
                 typeof(VltClass), typeof(VltClassField), typeof(VltCollection)
             }));
 
-            _readers[type] = (instance, context, reader) =>
+            _readers[type] = (instance, context, fieldContext, reader) =>
             {
                 var vltBaseType = (VltBaseType)instance;
-                vltBaseType.Read(context, reader);
+                vltBaseType.Read(context, fieldContext, reader);
                 return vltBaseType;
             };
 
-            _writers[type] = (instance, context, writer) =>
+            _writers[type] = (instance, context, fieldContext, writer) =>
             {
                 var vltBaseType = (VltBaseType)instance;
-                vltBaseType.Write(context, writer);
+                vltBaseType.Write(context, fieldContext, writer);
             };
         }
 
@@ -89,8 +92,8 @@ namespace VaultLib.Core
         {
             _typeDictionary[typeId] = type;
             _activators[type] = _ => default(T);
-            _readers[type] = (_, _, r) => reader(r);
-            _writers[type] = (instance, _, w) => writer((T)instance, w);
+            _readers[type] = (_, _, _, r) => reader(r);
+            _writers[type] = (instance, _, _, w) => writer((T)instance, w);
         }
 
         private static Func<BinaryReader, object> CreateEnumReader(Type enumType)
@@ -158,8 +161,8 @@ namespace VaultLib.Core
                     var reader = CreateEnumReader(type);
                     var writer = CreateEnumWriter(type);
 
-                    _readers[type] = (_, _, r) => reader(r);
-                    _writers[type] = (instance, _, w) => writer(instance, w);
+                    _readers[type] = (_, _, _, r) => reader(r);
+                    _writers[type] = (instance, _, _, w) => writer(instance, w);
                 }
                 else
                 {
@@ -203,50 +206,50 @@ namespace VaultLib.Core
         }
 
         public object ReadFieldValue(VltClass vltClass, VltClassField vltClassField, VltCollection collection,
-            VaultReadContext readContext, BinaryReader binaryReader)
+            VaultReadContext readContext, FieldReadWriteContext fieldContext, BinaryReader binaryReader)
         {
             var type = ResolveType(vltClassField.TypeName);
             if (vltClassField.IsArray)
             {
                 var array = new VltArrayType(vltClass, vltClassField, collection, type)
                     { ItemAlignment = vltClassField.Alignment };
-                array.Read(readContext, binaryReader);
+                array.Read(readContext, fieldContext, binaryReader);
                 return array;
             }
 
-            return ReadTypeInstance(vltClass, vltClassField, collection, readContext, binaryReader);
+            return ReadTypeInstance(vltClass, vltClassField, collection, readContext, fieldContext, binaryReader);
         }
 
         public object ReadTypeInstance(VltClass vltClass, VltClassField vltClassField, VltCollection collection,
-            VaultReadContext readContext, BinaryReader binaryReader)
+            VaultReadContext readContext, FieldReadWriteContext fieldContext, BinaryReader binaryReader)
         {
             var type = ResolveType(vltClassField.TypeName);
             var init = ConstructTypeInstance(type, vltClass, vltClassField, collection);
-            return _readers[type](init, readContext, binaryReader);
+            return _readers[type](init, readContext, fieldContext, binaryReader);
         }
 
         public void WriteFieldValue(VltClassField vltClassField,
             object instance,
-            VaultWriteContext writeContext, BinaryWriter binaryWriter)
+            VaultWriteContext writeContext, FieldReadWriteContext fieldContext, BinaryWriter binaryWriter)
         {
             if (vltClassField.IsArray)
             {
                 var array = (VltArrayType)instance;
-                array.Write(writeContext, binaryWriter);
+                array.Write(writeContext, fieldContext, binaryWriter);
             }
             else
             {
-                WriteTypeInstance(vltClassField, instance, writeContext, binaryWriter);
+                WriteTypeInstance(vltClassField, instance, writeContext, fieldContext, binaryWriter);
             }
         }
 
         public void WriteTypeInstance(VltClassField vltClassField,
             object instance,
-            VaultWriteContext writeContext, BinaryWriter binaryWriter)
+            VaultWriteContext writeContext, FieldReadWriteContext fieldContext, BinaryWriter binaryWriter)
         {
             var type = ResolveType(vltClassField.TypeName);
 
-            _writers[type](instance, writeContext, binaryWriter);
+            _writers[type](instance, writeContext, fieldContext, binaryWriter);
         }
 
         public Type ResolveType(string typeId)

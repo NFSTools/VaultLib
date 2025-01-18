@@ -22,18 +22,18 @@ namespace VaultLib.Support.World.VLT.GameCore
 
         public float Value { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _keyString.Read(context, br);
+            _keyString.Read(context, fieldContext, br);
 
             br.ReadUInt32(); // stringhash32(KeyString)
             Value = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _keyString.Value = KeyString;
-            _keyString.Write(context, bw);
+            _keyString.Write(context, fieldContext, bw);
             bw.Write(Vlt32Hasher.Hash(KeyString));
             bw.Write(Value);
         }
@@ -43,20 +43,20 @@ namespace VaultLib.Support.World.VLT.GameCore
             return new[] { KeyString };
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _keyString.ReadPointerData(context, br);
+            _keyString.ReadPointerData(context, fieldContext, br);
             KeyString = _keyString.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _keyString.WritePointerData(context, bw);
+            _keyString.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _keyString.AddPointers(context);
+            _keyString.AddPointers(context, fieldContext);
         }
 
         public KeyValuePair(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

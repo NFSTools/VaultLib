@@ -19,22 +19,22 @@ namespace VaultLib.Support.World.VLT.PowerUps
         public string GroupKey { get; set; }
         public uint Type { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             RefSpec rs = new RefSpec(Class, Field, Collection);
-            rs.Read(context, br);
+            rs.Read(context, fieldContext, br);
             uint type = br.ReadUInt32();
 
             GroupKey = rs.CollectionKey;
             Type = type;
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             RefSpec rs = new RefSpec(Class, Field, Collection);
             rs.ClassKey = "powerup_gamegroup";
             rs.CollectionKey = GroupKey;
-            rs.Write(context, bw);
+            rs.Write(context, fieldContext, bw);
             bw.Write(Type);
         }
 

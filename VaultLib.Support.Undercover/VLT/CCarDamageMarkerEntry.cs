@@ -28,52 +28,52 @@ namespace VaultLib.Support.Undercover.VLT
         private Text _attachPartText;
         private Text _smackableCollisionNameText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _markerNameText.Read(context, br);
+            _markerNameText.Read(context, fieldContext, br);
             PartID = br.ReadInt32();
             SlotID = br.ReadInt32();
-            _attachPartText.Read(context, br);
-            _smackableCollisionNameText.Read(context, br);
-            SmackableCollisionAttribute.Read(context, br);
+            _attachPartText.Read(context, fieldContext, br);
+            _smackableCollisionNameText.Read(context, fieldContext, br);
+            SmackableCollisionAttribute.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _markerNameText.Value = MarkerName;
-            _markerNameText.Write(context, bw);
+            _markerNameText.Write(context, fieldContext, bw);
             bw.Write(PartID);
             bw.Write(SlotID);
             _attachPartText.Value = AttachPart;
-            _attachPartText.Write(context, bw);
+            _attachPartText.Write(context, fieldContext, bw);
             _smackableCollisionNameText.Value = SmackableCollisionName;
-            _smackableCollisionNameText.Write(context, bw);
-            SmackableCollisionAttribute.Write(context, bw);
+            _smackableCollisionNameText.Write(context, fieldContext, bw);
+            SmackableCollisionAttribute.Write(context, fieldContext, bw);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _markerNameText.ReadPointerData(context, br);
-            _attachPartText.ReadPointerData(context, br);
-            _smackableCollisionNameText.ReadPointerData(context, br);
+            _markerNameText.ReadPointerData(context, fieldContext, br);
+            _attachPartText.ReadPointerData(context, fieldContext, br);
+            _smackableCollisionNameText.ReadPointerData(context, fieldContext, br);
 
             MarkerName = _markerNameText.Value;
             AttachPart = _attachPartText.Value;
             SmackableCollisionName = _smackableCollisionNameText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _markerNameText.WritePointerData(context, bw);
-            _attachPartText.WritePointerData(context, bw);
-            _smackableCollisionNameText.WritePointerData(context, bw);
+            _markerNameText.WritePointerData(context, fieldContext, bw);
+            _attachPartText.WritePointerData(context, fieldContext, bw);
+            _smackableCollisionNameText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _markerNameText.AddPointers(context);
-            _attachPartText.AddPointers(context);
-            _smackableCollisionNameText.AddPointers(context);
+            _markerNameText.AddPointers(context, fieldContext);
+            _attachPartText.AddPointers(context, fieldContext);
+            _smackableCollisionNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

@@ -21,7 +21,7 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
         public sbyte Saturation { get; set; }
         public sbyte Brightness { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Swatch = br.ReadSByte();
             Saturation = br.ReadSByte();
@@ -29,7 +29,7 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib
             br.AlignReader(4);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(Swatch);
             bw.Write(Saturation);

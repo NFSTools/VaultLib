@@ -12,14 +12,14 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint Hash { get; set; }
         public byte Volume { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Hash = br.ReadUInt32();
             Volume = br.ReadByte();
             br.AlignReader(4);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(Hash);
             bw.Write(Volume);

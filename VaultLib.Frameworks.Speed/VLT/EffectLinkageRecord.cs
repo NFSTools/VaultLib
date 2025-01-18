@@ -22,19 +22,19 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float MinSpeed { get; set; }
         public float MaxSpeed { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Surface.Read(context, br);
-            Effect.Read(context, br);
+            Surface.Read(context, fieldContext, br);
+            Effect.Read(context, fieldContext, br);
 
             MinSpeed = br.ReadSingle();
             MaxSpeed = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Surface.Write(context, bw);
-            Effect.Write(context, bw);
+            Surface.Write(context, fieldContext, bw);
+            Effect.Write(context, fieldContext, bw);
             bw.Write(MinSpeed);
             bw.Write(MaxSpeed);
         }

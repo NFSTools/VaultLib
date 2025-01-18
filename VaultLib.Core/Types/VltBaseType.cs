@@ -8,7 +8,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public abstract class VltBaseType : IVaultFileAccess
+    public abstract class VltBaseType
     {
         protected VltBaseType(VltClass @class, VltClassField field, VltCollection collection)
         {
@@ -32,7 +32,7 @@ namespace VaultLib.Core.Types
             get { return !Field.IsInLayout && Field.Size <= 4 && !Field.IsArray; }
         }
 
-        public abstract void Read(VaultReadContext context, BinaryReader br);
-        public abstract void Write(VaultWriteContext context, BinaryWriter bw);
+        public abstract void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br);
+        public abstract void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw);
     }
 }

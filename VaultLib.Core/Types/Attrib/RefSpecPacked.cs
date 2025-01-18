@@ -38,7 +38,7 @@ namespace VaultLib.Core.Types.Attrib
             set => _collectionKey = value;
         }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             if (context.Database.Options.Type == DatabaseType.X64Database)
             {
@@ -53,7 +53,7 @@ namespace VaultLib.Core.Types.Attrib
             }
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             if (context.Database.Options.Type == DatabaseType.X64Database)
             {

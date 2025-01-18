@@ -18,7 +18,7 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
 {
     [VltTypeInfo(
         "Attrib::Query::Static_Inorder_N_to_1<Attrib::Query::Typespace<Attrib::Key,Attrib::Key,EA::Reflection::UInt32> >")]
-    public class Static_Inorder_N_to_1 : VltBaseType, IPointerObject
+    public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
     {
         public long ElementsPointer { get; private set; }
         public long ElementsDest { get; private set; }
@@ -27,7 +27,7 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
         public long EndPointer { get; private set; }
         public long EndDest { get; private set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             var numElements = br.ReadUInt32();
 
@@ -61,7 +61,7 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
             }
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             ElementsPointer = 0;
             TreePointer = 0;
@@ -133,17 +133,17 @@ namespace VaultLib.Support.Undercover.VLT.Attrib.Query
             EndDest = bw.BaseStream.Position;
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             // do nothing
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             // do nothing as well
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             context.AddPointer(ElementsPointer, ElementsDest, false);
             context.AddPointer(TreePointer, TreeDest, false);

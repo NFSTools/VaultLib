@@ -16,15 +16,15 @@ namespace VaultLib.Support.Undercover.VLT
         public PresetRidePaint Paint { get; set; }
         public float Chance { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Paint.Read(context, br);
+            Paint.Read(context, fieldContext, br);
             Chance = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Paint.Write(context, bw);
+            Paint.Write(context, fieldContext, bw);
             bw.Write(Chance);
         }
     }

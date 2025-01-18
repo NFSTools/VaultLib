@@ -25,10 +25,10 @@ namespace VaultLib.Support.Undercover.VLT.NIS
 
         private Text _actorNameText, _carChannelNameText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _actorNameText.Read(context, br);
-            _carChannelNameText.Read(context, br);
+            _actorNameText.Read(context, fieldContext, br);
+            _carChannelNameText.Read(context, fieldContext, br);
 
             IsDriver = br.ReadBoolean();
             br.AlignReader(4);
@@ -37,12 +37,12 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             br.AlignReader(4);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _actorNameText.Value = ActorName;
             _carChannelNameText.Value = CarChannelName;
-            _actorNameText.Write(context, bw);
-            _carChannelNameText.Write(context, bw);
+            _actorNameText.Write(context, fieldContext, bw);
+            _carChannelNameText.Write(context, fieldContext, bw);
             bw.Write(IsDriver);
             bw.AlignWriter(4);
             bw.Write(ExitAnimSec);
@@ -50,25 +50,25 @@ namespace VaultLib.Support.Undercover.VLT.NIS
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _actorNameText.ReadPointerData(context, br);
-            _carChannelNameText.ReadPointerData(context, br);
+            _actorNameText.ReadPointerData(context, fieldContext, br);
+            _carChannelNameText.ReadPointerData(context, fieldContext, br);
 
             ActorName = _actorNameText.Value;
             CarChannelName = _carChannelNameText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _actorNameText.WritePointerData(context, bw);
-            _carChannelNameText.WritePointerData(context, bw);
+            _actorNameText.WritePointerData(context, fieldContext, bw);
+            _carChannelNameText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _actorNameText.AddPointers(context);
-            _carChannelNameText.AddPointers(context);
+            _actorNameText.AddPointers(context, fieldContext);
+            _carChannelNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
 {
     [VltTypeInfo("FEAutosculptAliasing::Alias")]
-    public class Alias : VltBaseType, IPointerObject
+    public class Alias : VltBaseType, IVltPointerObject
     {
         public byte Kit { get; set; }
         public uint Region { get; set; }
@@ -24,7 +24,7 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
         private long _srcSlidersPtr;
         private long _dstSlidersPtr;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Kit = br.ReadByte();
             br.AlignReader(4);
@@ -34,7 +34,7 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
             br.AlignReader(4);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(Kit);
             bw.AlignWriter(4);
@@ -45,24 +45,24 @@ namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
             bw.AlignWriter(4);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             br.BaseStream.Position = _slidersPointer;
 
             for (int i = 0; i < Sliders.Capacity; i++)
             {
                 Slider slider = new Slider(Class, Field, Collection);
-                slider.Read(context, br);
+                slider.Read(context, fieldContext, br);
                 Sliders.Add(slider);
             }
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _dstSlidersPtr = bw.BaseStream.Position;
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             context.AddPointer(_srcSlidersPtr, _dstSlidersPtr, false);
         }

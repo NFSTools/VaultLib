@@ -15,7 +15,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
         public float[] HighTimeLimit { get; set; }
         public float[] OpponentDamageThreshold { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             for (int i = 0; i < StartTimeLimit.Length; i++)
             {
@@ -48,7 +48,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             }
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             for (int i = 0; i < StartTimeLimit.Length; i++)
             {

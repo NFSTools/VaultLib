@@ -23,21 +23,21 @@ namespace VaultLib.Support.ProStreet.VLT
         public uint KitNumber { get; set; }
         public float Saturation { get; set; }
         public float Variance { get; set; }
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             SlotID = br.ReadEnum<ePaintSlot>();
-            Group.Read(context, br);
-            Swatch.Read(context, br);
+            Group.Read(context, fieldContext, br);
+            Swatch.Read(context, fieldContext, br);
             KitNumber = br.ReadUInt32();
             Saturation = br.ReadSingle();
             Variance = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.WriteEnum(SlotID);
-            Group.Write(context, bw);
-            Swatch.Write(context, bw);
+            Group.Write(context, fieldContext, bw);
+            Swatch.Write(context, fieldContext, bw);
             bw.Write(KitNumber);
             bw.Write(Saturation);
             bw.Write(Variance);

@@ -13,15 +13,15 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         public uint UpgradeLevel { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            ReferencedRow.Read(context, br);
+            ReferencedRow.Read(context, fieldContext, br);
             UpgradeLevel = br.ReadUInt32();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            ReferencedRow.Write(context, bw);
+            ReferencedRow.Write(context, fieldContext, bw);
             bw.Write(UpgradeLevel);
         }
 

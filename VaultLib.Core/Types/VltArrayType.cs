@@ -58,26 +58,26 @@ namespace VaultLib.Core.Types
             return Items.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings());
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            foreach (var pointerObject in Items.OfType<IPointerObject>()) pointerObject.ReadPointerData(context, br);
+            foreach (var pointerObject in Items.OfType<IVltPointerObject>()) pointerObject.ReadPointerData(context, fieldContext, br);
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            foreach (var pointerObject in Items.OfType<IPointerObject>())
+            foreach (var pointerObject in Items.OfType<IVltPointerObject>())
             {
                 bw.AlignWriter(ItemAlignment);
-                pointerObject.WritePointerData(context, bw);
+                pointerObject.WritePointerData(context, fieldContext, bw);
             }
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            foreach (var pointerObject in Items.OfType<IPointerObject>()) pointerObject.AddPointers(context);
+            foreach (var pointerObject in Items.OfType<IVltPointerObject>()) pointerObject.AddPointers(context, fieldContext);
         }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Capacity = br.ReadUInt16();
             var count = br.ReadUInt16();
@@ -96,7 +96,7 @@ namespace VaultLib.Core.Types
             {
                 var start = br.BaseStream.Position;
                 Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
-                var item = databaseTypeRegistry.ReadTypeInstance(Class, Field, Collection, context, br);
+                var item = databaseTypeRegistry.ReadTypeInstance(Class, Field, Collection, context, fieldContext, br);
                 var end = br.BaseStream.Position;
                 Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
                 Items.Add(item);
@@ -105,7 +105,7 @@ namespace VaultLib.Core.Types
             br.BaseStream.Position += (Capacity - count) * FieldSize;
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(Capacity);
             bw.Write((ushort)Items.Count);
@@ -125,7 +125,7 @@ namespace VaultLib.Core.Types
             {
                 var start = bw.BaseStream.Position;
                 Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
-                context.Database.TypeRegistry.WriteTypeInstance(Field, t, context, bw);
+                context.Database.TypeRegistry.WriteTypeInstance(Field, t, context, fieldContext, bw);
                 var end = bw.BaseStream.Position;
                 Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
             }

@@ -36,9 +36,9 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
 
         private Text _nameText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _nameText.Read(context, br);
+            _nameText.Read(context, fieldContext, br);
             Unknown1 = br.ReadUInt32();
             Unknown2 = br.ReadUInt32();
             Unknown3 = br.ReadUInt32();
@@ -56,10 +56,10 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             Unknown15 = br.ReadUInt32();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _nameText.Value = Name;
-            _nameText.Write(context, bw);
+            _nameText.Write(context, fieldContext, bw);
             bw.Write(Unknown1);
             bw.Write(Unknown2);
             bw.Write(Unknown3);
@@ -77,20 +77,20 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.Write(Unknown15);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _nameText.ReadPointerData(context, br);
+            _nameText.ReadPointerData(context, fieldContext, br);
             Name = _nameText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _nameText.WritePointerData(context, bw);
+            _nameText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _nameText.AddPointers(context);
+            _nameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

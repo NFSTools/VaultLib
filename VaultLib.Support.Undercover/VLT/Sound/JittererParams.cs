@@ -22,7 +22,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
         public float Unknown3 { get; set; }
         public float Unknown4 { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Unknown1 = br.ReadSingle();
             Unknown2 = br.ReadSingle();
@@ -30,7 +30,7 @@ namespace VaultLib.Support.Undercover.VLT.Sound
             Unknown4 = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(Unknown1);
             bw.Write(Unknown2);

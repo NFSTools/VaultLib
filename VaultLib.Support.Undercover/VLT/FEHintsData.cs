@@ -21,35 +21,35 @@ namespace VaultLib.Support.Undercover.VLT
 
         private Text _pictureText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             SubjectHALId = br.ReadUInt32();
             TextHALId = br.ReadUInt32();
-            _pictureText.Read(context, br);
+            _pictureText.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(SubjectHALId);
             bw.Write(TextHALId);
             _pictureText.Value = Picture;
-            _pictureText.Write(context, bw);
+            _pictureText.Write(context, fieldContext, bw);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _pictureText.ReadPointerData(context, br);
+            _pictureText.ReadPointerData(context, fieldContext, br);
             Picture = _pictureText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _pictureText.WritePointerData(context, bw);
+            _pictureText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _pictureText.AddPointers(context);
+            _pictureText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()

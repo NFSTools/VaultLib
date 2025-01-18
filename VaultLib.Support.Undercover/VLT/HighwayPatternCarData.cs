@@ -20,11 +20,11 @@ namespace VaultLib.Support.Undercover.VLT
         public RefSpec Vehicle { get; set; }
         public EAILaneChangeType Change { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Row = br.ReadInt32();
             Lane = br.ReadInt32();
-            Vehicle.Read(context, br);
+            Vehicle.Read(context, fieldContext, br);
             Change = br.ReadEnum<EAILaneChangeType>();
 
             var v = br.ReadUInt32();
@@ -32,11 +32,11 @@ namespace VaultLib.Support.Undercover.VLT
                 throw new InvalidDataException();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(Row);
             bw.Write(Lane);
-            Vehicle.Write(context, bw);
+            Vehicle.Write(context, fieldContext, bw);
             bw.WriteEnum(Change);
             bw.Write(0);
         }

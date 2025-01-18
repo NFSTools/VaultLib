@@ -23,17 +23,17 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint Count { get; set; }
         public uint Chance { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _copType.Read(context, br);
+            _copType.Read(context, fieldContext, br);
             br.ReadUInt32();
             Count = br.ReadUInt32();
             Chance = br.ReadUInt32();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            _copType.Write(context, bw);
+            _copType.Write(context, fieldContext, bw);
             bw.Write(Vlt32Hasher.Hash(CopType));
             bw.Write(Count);
             bw.Write(Chance);
@@ -44,21 +44,21 @@ namespace VaultLib.Frameworks.Speed.VLT
             return new[] { CopType };
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            _copType.ReadPointerData(context, br);
+            _copType.ReadPointerData(context, fieldContext, br);
             CopType = _copType.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _copType.Value = CopType;
-            _copType.WritePointerData(context, bw);
+            _copType.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            _copType.AddPointers(context);
+            _copType.AddPointers(context, fieldContext);
         }
 
         public CopCountRecord(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)

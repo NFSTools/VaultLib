@@ -10,7 +10,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types
 {
-    public class VltAttribType : VltBaseType, IPointerObject
+    public class VltAttribType : VltBaseType, IVltPointerObject
     {
         private long _offsetDst;
 
@@ -28,42 +28,48 @@ namespace VaultLib.Core.Types
         public uint Offset { get; set; } // pointer to bin stream
         public object Data { get; set; }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Debug.Assert(Offset != 0);
 
             br.BaseStream.Position = Offset;
-            Data = context.Database.TypeRegistry.ReadFieldValue(Class, Field, Collection, context, br);
+            Data = context.Database.TypeRegistry.ReadFieldValue(Class, Field, Collection, context, fieldContext, br);
 
             if (!(Data is VltArrayType))
                 Debug.Assert(br.BaseStream.Position - Offset == Field.Size,
                     "br.BaseStream.Position - Offset == Field.Size");
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.AlignWriter(Field.Alignment);
             _offsetDst = bw.BaseStream.Position;
-            context.Database.TypeRegistry.WriteFieldValue(Field, Data, context, bw);
+            context.Database.TypeRegistry.WriteFieldValue(Field, Data, context, fieldContext, bw);
 
-            if (Data is IPointerObject pointerObject) pointerObject.WritePointerData(context, bw);
+            if (Data is IVltPointerObject vltPointerObject)
+            {
+                vltPointerObject.WritePointerData(context, fieldContext, bw);
+            }
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
             Debug.Assert(_offsetSrc != 0 && _offsetDst != 0);
 
             context.AddPointer(_offsetSrc, _offsetDst, true);
 
-            if (Data is IPointerObject pointerObject) pointerObject.AddPointers(context);
+            if (Data is IVltPointerObject vltPointerObject)
+            {
+                vltPointerObject.AddPointers(context, fieldContext);
+            }
         }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Offset = br.ReadPointer();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _offsetSrc = bw.BaseStream.Position;
             bw.Write(0);

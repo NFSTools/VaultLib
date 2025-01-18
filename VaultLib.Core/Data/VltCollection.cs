@@ -145,9 +145,9 @@ namespace VaultLib.Core.Data
         /// <param name="key">The name of the field to obtain the value of.</param>
         /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
         /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
-        public VltBaseType GetRawValue(string key)
+        public object GetRawValue(string key)
         {
-            return GetRawValue<VltBaseType>(key);
+            return GetRawValue<object>(key);
         }
 
         /// <summary>
@@ -158,31 +158,11 @@ namespace VaultLib.Core.Data
         /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
         public T GetRawValue<T>(string key)
         {
-            if (Data.TryGetValue(key, out var data))
-            {
-                return (T)data;
-            }
-
-            throw new KeyNotFoundException($"Collection {ShortPath} does not have a value for field {key}");
-        }
-
-        // public T GetDataValue<T>(string key)
-        // {
-        //     VltBaseType originalData = GetRawValue(key);
-        //
-        //     return (T)BaseTypeToData(originalData);
-        // }
-
-        /// <summary>
-        /// Gets the value of type <typeparamref name="T"/> mapped to <paramref name="key"/> in the collection's data dictionary.
-        /// </summary>
-        /// <typeparam name="T">The data type to be obtained.</typeparam>
-        /// <param name="key">The mapping key.</param>
-        /// <param name="index">The array index to retrieve the value from.</param>
-        /// <returns>The mapping value.</returns>
-        public VltBaseType GetRawValue(string key, int index)
-        {
-            return GetRawValue<VltBaseType>(key, index);
+            if (!Data.TryGetValue(key, out var data))
+                throw new KeyNotFoundException($"Collection {ShortPath} does not have a value for field {key}");
+            if (data is not T value)
+                throw new InvalidCastException($"Field {key} is not compatible with type {typeof(T)}");
+            return value;
         }
 
         /// <summary>
@@ -194,6 +174,16 @@ namespace VaultLib.Core.Data
         /// <returns>The mapping value.</returns>
         public T GetRawValue<T>(string key, int index) where T : VltBaseType
         {
+            var data = GetRawValue(key, index);
+
+            if (data is not T value)
+                throw new InvalidCastException($"Field {key} is not compatible with type {typeof(T)}");
+
+            return value;
+        }
+
+        public object GetRawValue(string key, int index)
+        {
             VltArrayType array = GetRawValue<VltArrayType>(key);
 
             if (index < 0 || index >= array.Items.Count)
@@ -201,7 +191,7 @@ namespace VaultLib.Core.Data
                 throw new ArgumentException($"Failed condition: 0 <= {index} < {array.Items.Count}");
             }
 
-            return (T)array.Items[index];
+            return array.Items[index];
         }
 
         // public T GetDataValue<T>(string key, int index)

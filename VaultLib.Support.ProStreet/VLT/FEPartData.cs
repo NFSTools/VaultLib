@@ -15,7 +15,7 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.ProStreet.VLT
 {
     [VltTypeInfo(nameof(FEPartData))]
-    public class FEPartData : VltBaseType, IPointerObject, IReferencesStrings
+    public class FEPartData : VltBaseType, IVltPointerObject, IReferencesStrings
     {
         public uint HAL_ID { get; set; }
         public uint CF_HAL_ID { get; set; }
@@ -37,7 +37,7 @@ namespace VaultLib.Support.ProStreet.VLT
 
         private Text _offerIdText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             HAL_ID = br.ReadUInt32();
             CF_HAL_ID = br.ReadUInt32();
@@ -58,18 +58,18 @@ namespace VaultLib.Support.ProStreet.VLT
             if (b != 0)
                 throw new InvalidDataException();
 
-            AutoSculptCamera1.Read(context, br);
-            AutoSculptCamera2.Read(context, br);
-            AutoSculptCamera3.Read(context, br);
+            AutoSculptCamera1.Read(context, fieldContext, br);
+            AutoSculptCamera2.Read(context, fieldContext, br);
+            AutoSculptCamera3.Read(context, fieldContext, br);
 
             DetailHash = br.ReadUInt32();
 
             PartDetails = new VltPointerContainer<FEPartDetail>(Class, Field, Collection);
-            PartDetails.Read(context, br);
-            _offerIdText.Read(context, br);
+            PartDetails.Read(context, fieldContext, br);
+            _offerIdText.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(HAL_ID);
             bw.Write(CF_HAL_ID);
@@ -85,42 +85,42 @@ namespace VaultLib.Support.ProStreet.VLT
             bw.Write((byte)AutoSculptCamera2.Items.Count);
             bw.Write((byte)AutoSculptCamera3.Items.Count);
             bw.Write((byte)0);
-            AutoSculptCamera1.Write(context, bw);
-            AutoSculptCamera2.Write(context, bw);
-            AutoSculptCamera3.Write(context, bw);
+            AutoSculptCamera1.Write(context, fieldContext, bw);
+            AutoSculptCamera2.Write(context, fieldContext, bw);
+            AutoSculptCamera3.Write(context, fieldContext, bw);
             bw.Write(DetailHash);
-            PartDetails.Write(context, bw);
+            PartDetails.Write(context, fieldContext, bw);
             _offerIdText.Value = OfferID;
-            _offerIdText.Write(context, bw);
+            _offerIdText.Write(context, fieldContext, bw);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            AutoSculptCamera1.ReadPointerData(context, br);
-            AutoSculptCamera2.ReadPointerData(context, br);
-            AutoSculptCamera3.ReadPointerData(context, br);
-            PartDetails.ReadPointerData(context, br);
-            _offerIdText.ReadPointerData(context, br);
+            AutoSculptCamera1.ReadPointerData(context, fieldContext, br);
+            AutoSculptCamera2.ReadPointerData(context, fieldContext, br);
+            AutoSculptCamera3.ReadPointerData(context, fieldContext, br);
+            PartDetails.ReadPointerData(context, fieldContext, br);
+            _offerIdText.ReadPointerData(context, fieldContext, br);
 
             OfferID = _offerIdText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            AutoSculptCamera1.WritePointerData(context, bw);
-            AutoSculptCamera2.WritePointerData(context, bw);
-            AutoSculptCamera3.WritePointerData(context, bw);
-            PartDetails.WritePointerData(context, bw);
-            _offerIdText.WritePointerData(context, bw);
+            AutoSculptCamera1.WritePointerData(context, fieldContext, bw);
+            AutoSculptCamera2.WritePointerData(context, fieldContext, bw);
+            AutoSculptCamera3.WritePointerData(context, fieldContext, bw);
+            PartDetails.WritePointerData(context, fieldContext, bw);
+            _offerIdText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            AutoSculptCamera1.AddPointers(context);
-            AutoSculptCamera2.AddPointers(context);
-            AutoSculptCamera3.AddPointers(context);
-            PartDetails.AddPointers(context);
-            _offerIdText.AddPointers(context);
+            AutoSculptCamera1.AddPointers(context, fieldContext);
+            AutoSculptCamera2.AddPointers(context, fieldContext);
+            AutoSculptCamera3.AddPointers(context, fieldContext);
+            PartDetails.AddPointers(context, fieldContext);
+            _offerIdText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
@@ -128,7 +128,8 @@ namespace VaultLib.Support.ProStreet.VLT
             return _offerIdText.GetStrings();
         }
 
-        public FEPartData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
+        public FEPartData(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field,
+            collection)
         {
             _offerIdText = new Text(Class, Field, Collection);
             OfferID = string.Empty;

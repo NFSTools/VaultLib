@@ -23,19 +23,19 @@ namespace VaultLib.Frameworks.Speed.VLT
         public uint RightHash { get; set; }
         public uint HelpHash { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Ref = new RefSpec(Class, Field, Collection);
-            Ref.Read(context, br);
+            Ref.Read(context, fieldContext, br);
             TitleHash = br.ReadUInt32();
             LeftHash = br.ReadUInt32();
             RightHash = br.ReadUInt32();
             HelpHash = br.ReadUInt32();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Ref.Write(context, bw);
+            Ref.Write(context, fieldContext, bw);
             bw.Write(TitleHash);
             bw.Write(LeftHash);
             bw.Write(RightHash);

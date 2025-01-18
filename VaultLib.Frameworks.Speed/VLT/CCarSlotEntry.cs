@@ -21,36 +21,36 @@ namespace VaultLib.Frameworks.Speed.VLT
 
         private Text _slotNameText;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Parts.Read(context, br);
-            _slotNameText.Read(context, br);
+            Parts.Read(context, fieldContext, br);
+            _slotNameText.Read(context, fieldContext, br);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Parts.Write(context, bw);
-            _slotNameText.Write(context, bw);
+            Parts.Write(context, fieldContext, bw);
+            _slotNameText.Write(context, fieldContext, bw);
         }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
+        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
-            Parts.ReadPointerData(context, br);
-            _slotNameText.ReadPointerData(context, br);
+            Parts.ReadPointerData(context, fieldContext, br);
+            _slotNameText.ReadPointerData(context, fieldContext, br);
             SlotName = _slotNameText.Value;
         }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            Parts.WritePointerData(context, bw);
+            Parts.WritePointerData(context, fieldContext, bw);
             _slotNameText.Value = SlotName;
-            _slotNameText.WritePointerData(context, bw);
+            _slotNameText.WritePointerData(context, fieldContext, bw);
         }
 
-        public void AddPointers(VaultWriteContext context)
+        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
         {
-            Parts.AddPointers(context);
-            _slotNameText.AddPointers(context);
+            Parts.AddPointers(context, fieldContext);
+            _slotNameText.AddPointers(context, fieldContext);
         }
 
         public IEnumerable<string> GetStrings()
@@ -58,7 +58,8 @@ namespace VaultLib.Frameworks.Speed.VLT
             return _slotNameText.GetStrings();
         }
 
-        public CCarSlotEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class, field, collection)
+        public CCarSlotEntry(VltClass @class, VltClassField field, VltCollection collection = null) : base(@class,
+            field, collection)
         {
             Parts = new DynamicSizeArray<RefSpec>(Class, Field, Collection);
             _slotNameText = new Text(Class, Field, Collection);

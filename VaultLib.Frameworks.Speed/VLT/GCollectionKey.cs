@@ -15,7 +15,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     [VltTypeInfo(nameof(GCollectionKey))]
     public class GCollectionKey : BaseRefSpec
     {
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             if (context.Database.Options.Type == DatabaseType.X86Database)
             {
@@ -27,7 +27,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             }
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             if (context.Database.Options.Type == DatabaseType.X86Database)
                 bw.Write(Vlt32Hasher.Hash(CollectionKey));

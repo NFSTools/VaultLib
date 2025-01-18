@@ -21,7 +21,7 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float InputMax { get; set; }
         public float[] ValueMax { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             Type = br.ReadEnum<CameraReactionType>();
             InputMin = br.ReadSingle();
@@ -30,7 +30,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             ValueMax = br.ReadArray(br.ReadSingle, 2);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.WriteEnum(Type);
             bw.Write(InputMin);

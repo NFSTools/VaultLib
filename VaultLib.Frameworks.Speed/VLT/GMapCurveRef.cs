@@ -21,13 +21,13 @@ namespace VaultLib.Frameworks.Speed.VLT
         public ushort mCurveIndex { get; set; }
         public GMapCurveRefFlags Flags { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             mCurveIndex = br.ReadUInt16();
             Flags = (GMapCurveRefFlags)br.ReadUInt16();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.Write(mCurveIndex);
             bw.WriteEnum(Flags);

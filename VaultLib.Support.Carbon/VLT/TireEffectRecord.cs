@@ -21,18 +21,18 @@ namespace VaultLib.Support.Carbon.VLT
         public float mMinSpeed { get; set; }
         public float mMaxSpeed { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             mTireCondition = br.ReadEnum<TireCondition>();
-            mEmitter.Read(context, br);
+            mEmitter.Read(context, fieldContext, br);
             mMinSpeed = br.ReadSingle();
             mMaxSpeed = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.WriteEnum(mTireCondition);
-            mEmitter.Write(context, bw);
+            mEmitter.Write(context, fieldContext, bw);
             bw.Write(mMinSpeed);
             bw.Write(mMaxSpeed);
         }

@@ -30,7 +30,7 @@ namespace VaultLib.Support.ProStreet.VLT
         public float SculptZone8 { get; set; }
         public float SculptZone9 { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
+        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             RegionID = br.ReadEnum<PresetRideAutosculptRegion>();
             SculptZone0 = br.ReadSingle();
@@ -45,7 +45,7 @@ namespace VaultLib.Support.ProStreet.VLT
             SculptZone9 = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             bw.WriteEnum(RegionID);
             bw.Write(SculptZone0);
