@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
-using VaultLib.Core.Exports;
 
 namespace VaultLib.Core.Chunks
 {

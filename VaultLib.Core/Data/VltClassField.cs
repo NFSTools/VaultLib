@@ -2,8 +2,6 @@
 // 
 // Created: 09/25/2019 @ 7:18 PM.
 
-using VaultLib.Core.Types;
-
 namespace VaultLib.Core.Data
 {
     /// <summary>

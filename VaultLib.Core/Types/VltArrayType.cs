@@ -10,7 +10,6 @@ using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.DB;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types

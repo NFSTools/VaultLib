@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Structures;

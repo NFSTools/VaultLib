@@ -5,7 +5,6 @@ using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
-using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports

@@ -3,13 +3,9 @@
 // Created: 09/25/2019 @ 7:04 PM.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
-using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Data
 {

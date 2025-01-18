@@ -4,7 +4,6 @@ using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
-using VaultLib.Frameworks.Speed;
 using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.World.VLT

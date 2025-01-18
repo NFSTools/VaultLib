@@ -2,7 +2,6 @@
 using System.IO;
 using CompLib;
 using CompLib.Algorithms;
-using VaultLib.Core;
 
 namespace VaultLib.Frameworks.Speed.VLT.Attrib
 {
