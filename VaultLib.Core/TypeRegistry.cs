@@ -9,7 +9,6 @@ using System.IO;
 using System.Reflection;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core
@@ -175,13 +174,6 @@ namespace VaultLib.Core
                 }
                 else if (type.DescendsFrom(typeof(VltBaseType)))
                 {
-                    if (type.GetCustomAttribute<PrimitiveInfoAttribute>() != null /*&& type != typeof(Text)*/)
-                    {
-                        Debug.WriteLine("MIGRATION: skipping type {0} derived from PrimitiveTypeBase",
-                            new object[] { type.FullName });
-                        continue;
-                    }
-
                     RegisterVltBaseType(typeInfoAttribute.Name, type);
                 }
             }
