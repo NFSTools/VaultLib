@@ -10,7 +10,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 {
     [VltTypeInfo("EA::Reflection::Int8")]
     [PrimitiveInfo(typeof(sbyte))]
-    public class Int8 : PrimitiveTypeBase
+    public sealed class Int8 : PrimitiveTypeBase
     {
         public Int8(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
         {

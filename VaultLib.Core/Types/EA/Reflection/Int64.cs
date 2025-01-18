@@ -10,6 +10,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 {
     [VltTypeInfo("EA::Reflection::Int64")]
     [PrimitiveInfo(typeof(long))]
+    [Obsolete("EA::Reflection types are deprecated, please use type mappings instead.")]
     public class Int64 : PrimitiveTypeBase
     {
         public Int64(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

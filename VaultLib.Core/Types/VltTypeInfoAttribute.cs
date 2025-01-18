@@ -14,5 +14,7 @@ namespace VaultLib.Core.Types
         }
 
         public string Name { get; }
+        
+        public Type MappedTo { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 {
     [VltTypeInfo("EA::Reflection::Int16")]
     [PrimitiveInfo(typeof(short))]
+    [Obsolete("EA::Reflection types are deprecated, please use type mappings instead.")]
     public class Int16 : PrimitiveTypeBase
     {
         public Int16(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

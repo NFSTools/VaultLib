@@ -14,7 +14,7 @@ namespace VaultLib.ModernBase
         public NodeFlagsEnum NodeFlags { get; set; }
         public byte EntryFlags { get; set; }
         public long InlineDataPointer { get; set; }
-        public VltBaseType InlineData { get; set; }
+        public object InlineData { get; set; }
         public VltCollection Collection { get; }
 
         protected AttribEntryBase(VltCollection collection)

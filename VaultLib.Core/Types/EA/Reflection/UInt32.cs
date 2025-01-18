@@ -10,6 +10,7 @@ namespace VaultLib.Core.Types.EA.Reflection
 {
     [VltTypeInfo("EA::Reflection::UInt32")]
     [PrimitiveInfo(typeof(uint))]
+    [Obsolete("EA::Reflection types are deprecated, please use type mappings instead.")]
     public class UInt32 : PrimitiveTypeBase
     {
         public UInt32(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

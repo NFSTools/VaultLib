@@ -22,7 +22,7 @@ namespace VaultLib.Core.Types
             collection)
         {
             ItemType = itemType;
-            Items = new List<VltBaseType>();
+            Items = new List<object>();
         }
 
         public VltArrayType(VltClass @class, VltClassField field, Type itemType) : this(@class, field, null, itemType)
@@ -37,7 +37,7 @@ namespace VaultLib.Core.Types
 
         public Type ItemType { get; }
 
-        public IList<VltBaseType> Items { get; set; }
+        public IList<object> Items { get; set; }
 
         public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
         {
@@ -83,7 +83,7 @@ namespace VaultLib.Core.Types
             Capacity = br.ReadUInt16();
             var count = br.ReadUInt16();
             Debug.Assert(count <= Capacity);
-            Items = new List<VltBaseType>();
+            Items = new List<object>();
             FieldSize = br.ReadUInt16();
 
             var encodedTypePad = br.ReadUInt16();
@@ -95,10 +95,9 @@ namespace VaultLib.Core.Types
 
             for (var i = 0; i < count; i++)
             {
-                var item = databaseTypeRegistry.ConstructInstance(ItemType, Class, Field, Collection);
                 var start = br.BaseStream.Position;
                 Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
-                item.Read(context, br);
+                var item = databaseTypeRegistry.ReadTypeInstance(Class, Field, Collection, context, br);
                 var end = br.BaseStream.Position;
                 Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
                 Items.Add(item);
@@ -127,7 +126,7 @@ namespace VaultLib.Core.Types
             {
                 var start = bw.BaseStream.Position;
                 Debug.Assert(start % Field.Alignment == 0, "start % Field.Alignment == 0");
-                t.Write(context, bw);
+                context.Database.TypeRegistry.WriteTypeInstance(Field, t, context, bw);
                 var end = bw.BaseStream.Position;
                 Debug.Assert(end - start == FieldSize, "end - start == FieldSize");
             }
@@ -158,75 +157,74 @@ namespace VaultLib.Core.Types
                 throw new IndexOutOfRangeException($"Index must be in range [0, {Items.Count})");
             }
 
-            return (T)BaseTypeToData(Items[index]);
+            return (T)Items[index];
         }
 
         /// <summary>
         /// Changes the value stored at the given index in the array
         /// </summary>
-        /// <typeparam name="T">The value type</typeparam>
         /// <param name="index">The item index</param>
         /// <param name="value">The new item</param>
-        public void SetValue<T>(int index, T value)
+        public void SetValue(int index, object value)
         {
             if (index < 0 || index >= Items.Count)
             {
                 throw new IndexOutOfRangeException($"Index must be in range [0, {Items.Count})");
             }
 
-            Items[index] = DataToBaseType(Field, Items[index], value);
+            Items[index] = value;
         }
 
         #region Internal stuff
 
-        private object BaseTypeToData(VltBaseType baseType)
-        {
-            // if we have a primitive or string value, return that
-            // if we have an array, return a list where each item in the array has been converted (recursion FTW)
-            // otherwise, just return the original data
+        // private object BaseTypeToData(VltBaseType baseType)
+        // {
+        //     // if we have a primitive or string value, return that
+        //     // if we have an array, return a list where each item in the array has been converted (recursion FTW)
+        //     // otherwise, just return the original data
+        //
+        //     return baseType switch
+        //     {
+        //         PrimitiveTypeBase ptb => ptb.GetValue(),
+        //         IStringValue sv => sv.GetString(),
+        //         VltArrayType _ => throw new ApplicationException("Having an array of arrays is not possible..."),
+        //         _ => baseType
+        //     };
+        // }
 
-            return baseType switch
-            {
-                PrimitiveTypeBase ptb => ptb.GetValue(),
-                IStringValue sv => sv.GetString(),
-                VltArrayType _ => throw new ApplicationException("Having an array of arrays is not possible..."),
-                _ => baseType
-            };
-        }
-
-        private VltBaseType DataToBaseType(VltClassField field, VltBaseType originalData, object data)
-        {
-            switch (data)
-            {
-                case string s:
-                {
-                    if (originalData is IStringValue sv)
-                    {
-                        sv.SetString(s);
-                        return originalData;
-                    }
-
-                    break;
-                }
-                case IConvertible ic:
-                {
-                    if (originalData is PrimitiveTypeBase ptb)
-                    {
-                        ptb.SetValue(ic);
-                        return originalData;
-                    }
-
-                    break;
-                }
-                case VltBaseType vbt:
-                    if (vbt is VltArrayType)
-                        throw new ApplicationException("Array DataToBaseType cannot accept a VLTArrayType instance!");
-                    return vbt;
-            }
-
-            throw new ArgumentException($"Cannot convert {data.GetType()} to VLTBaseType.");
-        }
-
-        #endregion
+    //     private VltBaseType DataToBaseType(VltClassField field, VltBaseType originalData, object data)
+    //     {
+    //         switch (data)
+    //         {
+    //             case string s:
+    //             {
+    //                 if (originalData is IStringValue sv)
+    //                 {
+    //                     sv.SetString(s);
+    //                     return originalData;
+    //                 }
+    //
+    //                 break;
+    //             }
+    //             case IConvertible ic:
+    //             {
+    //                 if (originalData is PrimitiveTypeBase ptb)
+    //                 {
+    //                     ptb.SetValue(ic);
+    //                     return originalData;
+    //                 }
+    //
+    //                 break;
+    //             }
+    //             case VltBaseType vbt:
+    //                 if (vbt is VltArrayType)
+    //                     throw new ApplicationException("Array DataToBaseType cannot accept a VLTArrayType instance!");
+    //                 return vbt;
+    //         }
+    //
+    //         throw new ArgumentException($"Cannot convert {data.GetType()} to VLTBaseType.");
+    //     }
+    //
+    #endregion
     }
 }

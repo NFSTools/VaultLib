@@ -69,7 +69,7 @@ namespace VaultLib.ModernBase.Exports
 
         public override void Prepare(Vault vault)
         {
-            List<KeyValuePair<string, VltBaseType>> optionalDataColumns = (from pair in Collection.GetData()
+            List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetData()
                                                                            let field = Collection.Class[pair.Key]
                                                                            where !field.IsInLayout
                                                                            orderby field.Name

@@ -14,7 +14,8 @@ using VaultLib.ModernBase.Exports;
 
 namespace VaultLib.ModernBase
 {
-    public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoad where TAttribEntry : AttribEntryBase
+    public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoad
+        where TAttribEntry : AttribEntryBase
     {
         protected uint LayoutPointer { get; set; }
 
@@ -38,12 +39,14 @@ namespace VaultLib.ModernBase
 
                     if (br.BaseStream.Position - LayoutPointer != baseField.Offset)
                     {
-                        throw new Exception($"trying to read field {baseField.Name} at offset {br.BaseStream.Position - LayoutPointer:X}, need to be at {baseField.Offset:X}");
+                        throw new Exception(
+                            $"trying to read field {baseField.Name} at offset {br.BaseStream.Position - LayoutPointer:X}, need to be at {baseField.Offset:X}");
                     }
 
-                    VltBaseType data = context.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
-                    data.Read(context, br);
+                    object data =
+                        context.Database.TypeRegistry.ReadFieldValue(Collection.Class, baseField, Collection, context,
+                            br);
                     long endPos = br.BaseStream.Position;
 
                     if (data is PrimitiveTypeBase)
@@ -56,6 +59,7 @@ namespace VaultLib.ModernBase
                             throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
                         }
                     }
+
                     Collection.SetRawValue(baseField.Name, data);
                 }
             }

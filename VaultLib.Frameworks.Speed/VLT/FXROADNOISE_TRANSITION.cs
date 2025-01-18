@@ -4,7 +4,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VltTypeInfo(nameof(FXROADNOISE_TRANSITION))]
+    [VltTypeInfo(nameof(FXROADNOISE_TRANSITION), MappedTo = typeof(int))]
     public class FXROADNOISE_TRANSITION : Int32
     {
         public FXROADNOISE_TRANSITION(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

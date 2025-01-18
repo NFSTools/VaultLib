@@ -36,7 +36,7 @@ namespace VaultLib.Core.Types
             var databaseTypeRegistry = context.Database.TypeRegistry;
             for (var i = 0; i < Items.Capacity; i++)
             {
-                var item = (T)databaseTypeRegistry.ConstructInstance(typeof(T), Class, Field, Collection);
+                var item = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T), Class, Field, Collection);
                 //var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
                 item.Read(context, br);
                 Items.Add(item);

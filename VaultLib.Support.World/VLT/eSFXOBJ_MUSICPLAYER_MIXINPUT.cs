@@ -5,7 +5,7 @@ using VaultLib.Core.Types.EA.Reflection;
 namespace VaultLib.Support.World.VLT
 {
     // TODO: determine enum values
-    [VltTypeInfo(nameof(eSFXOBJ_MUSICPLAYER_MIXINPUT))]
+    [VltTypeInfo(nameof(eSFXOBJ_MUSICPLAYER_MIXINPUT), MappedTo = typeof(int))]
     public class eSFXOBJ_MUSICPLAYER_MIXINPUT : Int32
     {
         public eSFXOBJ_MUSICPLAYER_MIXINPUT(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

@@ -27,17 +27,18 @@ namespace VaultLib.ModernBase.Exports
         {
             if (Collection.Class.TryGetField(Key, out var field))
             {
+                br.BaseStream.Position = InlineDataPointer;
                 if (HasInlineFlag())
                 {
-                    InlineData = context.Database.TypeRegistry.CreateInstance(Collection.Class, field, Collection);
+                    InlineData =
+                        context.Database.TypeRegistry.ReadFieldValue(Collection.Class, field, Collection, context, br);
                 }
                 else
                 {
-                    InlineData = new VltAttribType(Collection.Class, field, Collection);
+                    var attrib = new VltAttribType(Collection.Class, field, Collection);
+                    attrib.Read(context, br);
+                    InlineData = attrib;
                 }
-
-                br.BaseStream.Position = InlineDataPointer;
-                InlineData.Read(context, br);
 
                 return true;
             }
@@ -48,7 +49,15 @@ namespace VaultLib.ModernBase.Exports
         public override void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write((uint)Key);
-            InlineData.Write(context, bw);
+            if (InlineData is VltAttribType attrib)
+            {
+                attrib.Write(context, bw);
+            }
+            else
+            {
+                context.Database.TypeRegistry.WriteFieldValue(Collection.Class[Key], InlineData, context, bw);
+            }
+
             if (HasInlineFlag())
             {
                 bw.AlignWriter(4);

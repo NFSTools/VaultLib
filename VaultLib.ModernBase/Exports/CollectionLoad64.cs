@@ -38,7 +38,8 @@ namespace VaultLib.ModernBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)), HashManager.ResolveVlt(mKey));
+            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
+                HashManager.ResolveVlt(mKey));
 
             Debug.Assert(mTypesLen >= mNumTypes);
 
@@ -81,11 +82,11 @@ namespace VaultLib.ModernBase.Exports
 
         public override void Prepare(Vault vault)
         {
-            List<KeyValuePair<string, VltBaseType>> optionalDataColumns = (from pair in Collection.GetData()
-                                                                           let field = Collection.Class[pair.Key]
-                                                                           where !field.IsInLayout
-                                                                           orderby field.Name
-                                                                           select pair).ToList();
+            List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetData()
+                let field = Collection.Class[pair.Key]
+                where !field.IsInLayout
+                orderby field.Name
+                select pair).ToList();
 
             _entries = new List<AttribEntry64>();
             _types = Collection.Class.BaseFields.Select(f => f.TypeName)
@@ -113,7 +114,7 @@ namespace VaultLib.ModernBase.Exports
                 {
                     entry.InlineData =
                         new VltAttribType(Collection.Class, vltClassField, Collection)
-                        { Data = optionalDataColumn.Value };
+                            { Data = optionalDataColumn.Value };
                 }
 
                 if (vltClassField.IsArray)
@@ -179,12 +180,13 @@ namespace VaultLib.ModernBase.Exports
 
                     if (br.BaseStream.Position - _layoutPointer != baseField.Offset)
                     {
-                        throw new Exception($"trying to read field {baseField.Name} at offset {br.BaseStream.Position - _layoutPointer:X}, need to be at {baseField.Offset:X}");
+                        throw new Exception(
+                            $"trying to read field {baseField.Name} at offset {br.BaseStream.Position - _layoutPointer:X}, need to be at {baseField.Offset:X}");
                     }
 
-                    VltBaseType data = context.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
-                    data.Read(context, br);
+                    var data = context.Database.TypeRegistry.ReadFieldValue(Collection.Class, baseField, Collection,
+                        context, br);
                     long endPos = br.BaseStream.Position;
 
                     if (data is PrimitiveTypeBase)
@@ -197,6 +199,7 @@ namespace VaultLib.ModernBase.Exports
                             throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
                         }
                     }
+
                     Collection.SetRawValue(baseField.Name, data);
                     //Collection.Data[baseField.Name] = data;
                 }

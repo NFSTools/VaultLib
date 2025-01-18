@@ -116,8 +116,7 @@ namespace VaultLib.ModernBase.Exports
                 foreach (VltClassField staticField in Class.StaticFields)
                 {
                     br.AlignReader(staticField.Alignment);
-                    VltBaseType staticData = context.Database.TypeRegistry.CreateInstance(Class, staticField, null);
-                    staticData.Read(context, br);
+                    var staticData = context.Database.TypeRegistry.ReadFieldValue(Class, staticField, null, context, br);
                     staticField.StaticValue = staticData;
                 }
             }
@@ -157,7 +156,7 @@ namespace VaultLib.ModernBase.Exports
                 foreach (var staticField in Class.StaticFields)
                 {
                     bw.AlignWriter(staticField.Alignment);
-                    staticField.StaticValue.Write(context, bw);
+                    context.Database.TypeRegistry.WriteFieldValue(staticField, staticField.StaticValue, context, bw);
                 }
 
                 foreach (var staticField in Class.StaticFields)

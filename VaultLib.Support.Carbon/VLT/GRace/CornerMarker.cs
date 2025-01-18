@@ -4,7 +4,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Support.Carbon.VLT.GRace
 {
-    [VltTypeInfo("GRace::CornerMarker")]
+    [VltTypeInfo("GRace::CornerMarker", MappedTo = typeof(int))]
     public class CornerMarker : Int32
     {
         public CornerMarker(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

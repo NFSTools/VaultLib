@@ -4,7 +4,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VltTypeInfo(nameof(GStringHash))]
+    [VltTypeInfo(nameof(GStringHash), MappedTo = typeof(uint))]
     public class GStringHash : UInt32
     {
         public GStringHash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

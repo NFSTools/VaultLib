@@ -4,10 +4,11 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VltTypeInfo(nameof(type_bStringHash))]
+    [VltTypeInfo(nameof(type_bStringHash), MappedTo = typeof(uint))]
     public class type_bStringHash : UInt32
     {
-        public type_bStringHash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
+        public type_bStringHash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
+            collection)
         {
         }
 

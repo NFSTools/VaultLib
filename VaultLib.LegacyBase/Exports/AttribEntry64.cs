@@ -15,7 +15,7 @@ namespace VaultLib.LegacyBase.Exports
         public ushort TypeIndex { get; set; }
         public NodeFlagsEnum NodeFlags { get; set; }
         public long InlineDataPointer { get; set; }
-        public VltBaseType InlineData { get; set; }
+        public object InlineData { get; set; }
         public VltCollection Collection { get; }
 
         public AttribEntry64(VltCollection collection)
@@ -30,14 +30,16 @@ namespace VaultLib.LegacyBase.Exports
             InlineDataPointer = br.BaseStream.Position;
             if (IsInline())
             {
-                InlineData = context.Database.TypeRegistry.CreateInstance(Collection.Class, Collection.Class[Key],
-                    Collection);
+                InlineData = context.Database.TypeRegistry.ReadFieldValue(Collection.Class, Collection.Class[Key],
+                    Collection, context, br);
             }
             else
             {
-                InlineData = new VltAttribType(Collection.Class, Collection.Class[Key], Collection);
+                var attrib = new VltAttribType(Collection.Class, Collection.Class[Key], Collection);
+                attrib.Read(context, br);
+                InlineData = attrib;
             }
-            InlineData.Read(context, br);
+
             br.AlignReader(4);
             TypeIndex = br.ReadUInt16();
             NodeFlags = (NodeFlagsEnum)br.ReadUInt16();
@@ -47,7 +49,15 @@ namespace VaultLib.LegacyBase.Exports
         public void Write(VaultWriteContext context, BinaryWriter bw)
         {
             bw.Write(Key);
-            InlineData.Write(context, bw);
+            if (InlineData is VltAttribType attribType)
+            {
+                attribType.Write(context, bw);
+            }
+            else
+            {
+                context.Database.TypeRegistry.WriteFieldValue(Collection.Class[Key], InlineData, context, bw);
+            }
+
             bw.AlignWriter(4);
             bw.Write(TypeIndex);
             bw.WriteEnum(NodeFlags);

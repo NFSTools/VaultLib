@@ -26,26 +26,25 @@ namespace VaultLib.Core.Types
         }
 
         public uint Offset { get; set; } // pointer to bin stream
-        public VltBaseType Data { get; set; }
+        public object Data { get; set; }
 
         public void ReadPointerData(VaultReadContext context, BinaryReader br)
         {
-            Data = context.Database.TypeRegistry.CreateInstance(Class, Field, Collection);
-
             Debug.Assert(Offset != 0);
-            br.BaseStream.Position = Offset;
 
-            Data.Read(context, br);
+            br.BaseStream.Position = Offset;
+            Data = context.Database.TypeRegistry.ReadFieldValue(Class, Field, Collection, context, br);
 
             if (!(Data is VltArrayType))
-                Debug.Assert(br.BaseStream.Position - Offset == Field.Size,  "br.BaseStream.Position - Offset == Field.Size");
+                Debug.Assert(br.BaseStream.Position - Offset == Field.Size,
+                    "br.BaseStream.Position - Offset == Field.Size");
         }
 
         public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
             bw.AlignWriter(Field.Alignment);
             _offsetDst = bw.BaseStream.Position;
-            Data.Write(context, bw);
+            context.Database.TypeRegistry.WriteFieldValue(Field, Data, context, bw);
 
             if (Data is IPointerObject pointerObject) pointerObject.WritePointerData(context, bw);
         }

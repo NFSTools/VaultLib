@@ -8,7 +8,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Support.World.VLT
 {
-    [VltTypeInfo(nameof(IndexedBarrierName))]
+    [VltTypeInfo(nameof(IndexedBarrierName), MappedTo = typeof(int))]
     public class IndexedBarrierName : Int32
     {
         public IndexedBarrierName(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

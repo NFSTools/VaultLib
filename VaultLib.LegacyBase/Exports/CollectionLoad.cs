@@ -39,7 +39,8 @@ namespace VaultLib.LegacyBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)), HashManager.ResolveVlt(mKey));
+            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
+                HashManager.ResolveVlt(mKey));
 
             _types = new uint[mNumTypes];
             for (var i = 0; i < mNumTypes; i++)
@@ -62,9 +63,9 @@ namespace VaultLib.LegacyBase.Exports
 
         public override void Prepare(Vault vault)
         {
-            List<KeyValuePair<string, VltBaseType>> optionalDataColumns = (from pair in Collection.GetData()
-                                                                           where !Collection.Class[pair.Key].IsInLayout
-                                                                           select pair).ToList();
+            List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetData()
+                where !Collection.Class[pair.Key].IsInLayout
+                select pair).ToList();
 
             _entries = new AttribEntry[optionalDataColumns.Count];
             _types = Collection.Class.BaseFields.Select(f => f.TypeName)
@@ -143,10 +144,10 @@ namespace VaultLib.LegacyBase.Exports
                 {
                     br.AlignReader(baseField.Alignment);
 
-                    VltBaseType data =
-                        context.Database.TypeRegistry.CreateInstance(Collection.Class, baseField, Collection);
                     long startPos = br.BaseStream.Position;
-                    data.Read(context, br);
+                    var data =
+                        context.Database.TypeRegistry.ReadFieldValue(Collection.Class, baseField, Collection, context,
+                            br);
                     long endPos = br.BaseStream.Position;
                     if (!(data is VltArrayType))
                         Debug.Assert(endPos - startPos == baseField.Size);
@@ -161,7 +162,8 @@ namespace VaultLib.LegacyBase.Exports
 
                 if ((optionalField.Flags & DefinitionFlags.IsStatic) != 0)
                 {
-                    throw new Exception("Congratulations. You have successfully broken this library. Please consult with your doctor for further instructions.");
+                    throw new Exception(
+                        "Congratulations. You have successfully broken this library. Please consult with your doctor for further instructions.");
                 }
 
                 if (entry.InlineData is VltAttribType attribType)

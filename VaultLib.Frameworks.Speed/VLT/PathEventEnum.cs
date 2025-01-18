@@ -4,7 +4,7 @@ using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
-    [VltTypeInfo(nameof(PathEventEnum))]
+    [VltTypeInfo(nameof(PathEventEnum), MappedTo = typeof(int))]
     public class PathEventEnum : Int32
     {
         public PathEventEnum(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)

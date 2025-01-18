@@ -13,6 +13,7 @@ namespace VaultLib.Frameworks.Speed.VLT
     {
         public enum eTEG_ParticleTextures : uint
         {
+            None = 0,
             FX_GRASS01_BLEND_ANIM = 0xFBBC7865,
             FX_CONFETTI2 = 0xEC70A5AA,
             FX_GRAVEL_BLEND_ANIM = 0x7884D1C5,
@@ -58,6 +59,11 @@ namespace VaultLib.Frameworks.Speed.VLT
             FX_GREYGRAD32 = 0x54E298F6,
             FX_SPARK03_ADDITIVE = 0xCD721CC9,
             FX_GREYGRAD32_ADD = 0xC607597E,
+            FX_MARKER_BG = 0xCD453EC6,
+            FX_FIRE03_ADDITIVE = 0xB184748E,
+            FX_BEAN_ADDITIVE = 0xEE40AB9B,
+            FX_FIRE02_ADDITIVE = 0xAD79E36D,
+            FX_MARKER_BG2 = 0x75ED17B8
         };
 
         public eTEG_ParticleTextures mEnum { get; set; }
