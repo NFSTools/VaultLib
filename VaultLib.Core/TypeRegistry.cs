@@ -52,6 +52,14 @@ namespace VaultLib.Core
             _writers[typeof(string)] = (s, ctx, fieldCtx, bw) => ctx.WriteString((string)s, fieldCtx, bw);
         }
 
+        public void Map<TDest>(string typeId)
+        {
+            var destType = typeof(TDest);
+            if (!_activators.ContainsKey(destType))
+                throw new KeyNotFoundException($"Type {destType} has not been registered");
+            _typeDictionary[typeId] = destType;
+        }
+
         /// <summary>
         ///     Registers a type with the type registry.
         /// </summary>
@@ -193,8 +201,7 @@ namespace VaultLib.Core
             var type = ResolveType(vltClassField.TypeName);
             if (vltClassField.IsArray)
             {
-                var array = new VltArrayType(type)
-                    { ItemAlignment = vltClassField.Alignment };
+                var array = new VltArrayType(vltClassField, type);
                 array.Read(readContext, fieldContext, binaryReader);
                 return array;
             }
