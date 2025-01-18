@@ -17,6 +17,6 @@
         /// <summary>
         /// The string hash implementation to use.
         /// </summary>
-        public VaultHashMode HashMode { get; } = VaultHashMode.Hash32;
+        public VaultHashMode HashMode { get; init; } = VaultHashMode.Hash32;
     }
 }
