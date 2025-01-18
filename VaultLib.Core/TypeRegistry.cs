@@ -141,15 +141,17 @@ namespace VaultLib.Core
 
             foreach (var type in assembly.GetTypes())
             {
-                if (type.IsGenericType || type.IsAbstract || type.IsNested ||
-                    !type.DescendsFrom(typeof(VltBaseType)) && !type.IsEnum) continue;
-
                 var typeInfoAttribute = type.GetCustomAttribute<VltTypeInfoAttribute>();
 
                 if (typeInfoAttribute == null)
                 {
                     Debug.WriteLine("WARN: skipping registering type {0} because it doesn't have VLTTypeInfo",
                         new object[] { type.FullName });
+                    continue;
+                }
+
+                if (type.IsGenericType || type.IsAbstract || type.IsNested)
+                {
                     continue;
                 }
 
@@ -169,7 +171,7 @@ namespace VaultLib.Core
                     _readers[type] = (_, _, _, r) => reader(r);
                     _writers[type] = (instance, _, _, w) => writer(instance, w);
                 }
-                else
+                else if (type.DescendsFrom(typeof(VltBaseType)))
                 {
                     if (type.GetCustomAttribute<PrimitiveInfoAttribute>() != null /*&& type != typeof(Text)*/)
                     {

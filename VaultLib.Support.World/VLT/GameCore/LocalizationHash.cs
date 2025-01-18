@@ -1,18 +1,9 @@
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Support.World.VLT.GameCore
 {
     [VltTypeInfo("GameCore::LocalizationHash", MappedTo = typeof(uint))]
-    public class LocalizationHash : UInt32
+    public class LocalizationHash
     {
-        public LocalizationHash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public LocalizationHash(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

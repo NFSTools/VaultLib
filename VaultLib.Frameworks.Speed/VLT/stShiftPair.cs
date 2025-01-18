@@ -1,18 +1,9 @@
-﻿using VaultLib.Core.Data;
-using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
+﻿using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(stShiftPair), MappedTo = typeof(uint))]
-    public class stShiftPair : UInt32
+    public class stShiftPair
     {
-        public stShiftPair(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public stShiftPair(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

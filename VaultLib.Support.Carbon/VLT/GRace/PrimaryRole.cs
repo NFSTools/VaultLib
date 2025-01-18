@@ -1,18 +1,9 @@
-﻿using VaultLib.Core.Data;
-using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
+﻿using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Carbon.VLT.GRace
 {
     [VltTypeInfo("GRace::PrimaryRole", MappedTo = typeof(uint))]
-    public class PrimaryRole : UInt32
+    public class PrimaryRole
     {
-        public PrimaryRole(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public PrimaryRole(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

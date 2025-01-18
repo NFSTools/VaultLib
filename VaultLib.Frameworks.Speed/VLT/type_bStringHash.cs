@@ -1,19 +1,9 @@
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(type_bStringHash), MappedTo = typeof(uint))]
-    public class type_bStringHash : UInt32
+    public class type_bStringHash
     {
-        public type_bStringHash(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field,
-            collection)
-        {
-        }
-
-        public type_bStringHash(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }

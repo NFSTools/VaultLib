@@ -1,18 +1,9 @@
-﻿using VaultLib.Core.Data;
-using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
+﻿using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(FXROADNOISE_TRANSITION), MappedTo = typeof(int))]
-    public class FXROADNOISE_TRANSITION : Int32
+    public class FXROADNOISE_TRANSITION
     {
-        public FXROADNOISE_TRANSITION(VltClass @class, VltClassField field, VltCollection collection) : base(@class, field, collection)
-        {
-        }
-
-        public FXROADNOISE_TRANSITION(VltClass @class, VltClassField field) : base(@class, field)
-        {
-        }
     }
 }
