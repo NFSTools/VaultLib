@@ -5,6 +5,7 @@
 using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using VaultLib.Core;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib.Types;
@@ -52,8 +53,8 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             SourceAlpha = br.ReadArray(br.ReadEnum<State_BlendInput>, 4);
             DestAlpha = br.ReadArray(br.ReadEnum<State_BlendInput>, 4);
             OperationAlpha = br.ReadArray(br.ReadEnum<State_BlendOp>, 4);
-            BlendFactor = new Vector4();
-            BlendFactor.Read(context, fieldContext, br);
+            // TODO: we probably want a helper for reading structs
+            BlendFactor = new Vector4(br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
             RGBAEnableRT0 = br.ReadArray(br.ReadBoolean, 4);
             RGBAEnableRT1 = br.ReadArray(br.ReadBoolean, 4);
             RGBAEnableRT2 = br.ReadArray(br.ReadBoolean, 4);
@@ -79,7 +80,11 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect
             bw.WriteArray(SourceAlpha, bw.WriteEnum);
             bw.WriteArray(DestAlpha, bw.WriteEnum);
             bw.WriteArray(OperationAlpha, bw.WriteEnum);
-            BlendFactor.Write(context, fieldContext, bw);
+            // TODO: we probably want a helper for writing structs
+            bw.Write(BlendFactor.X);
+            bw.Write(BlendFactor.Y);
+            bw.Write(BlendFactor.Z);
+            bw.Write(BlendFactor.W);
             bw.WriteArray(RGBAEnableRT0, bw.Write);
             bw.WriteArray(RGBAEnableRT1, bw.Write);
             bw.WriteArray(RGBAEnableRT2, bw.Write);
