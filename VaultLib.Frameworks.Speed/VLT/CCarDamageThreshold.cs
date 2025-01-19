@@ -1,12 +1,9 @@
-﻿using System.IO;
-using VaultLib.Core;
-using VaultLib.Core.Data;
-using VaultLib.Core.Types;
+﻿using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(CCarDamageThreshold))]
-    public class CCarDamageThreshold : VltBaseType
+    public struct CCarDamageThreshold
     {
         public float Threshold0 { get; set; }
         public float Threshold1 { get; set; }
@@ -16,29 +13,5 @@ namespace VaultLib.Frameworks.Speed.VLT
         public float DeltaThreshold1 { get; set; }
         public float DeltaThreshold2 { get; set; }
         public float DeltaThreshold3 { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            Threshold0 = br.ReadSingle();
-            Threshold1 = br.ReadSingle();
-            Threshold2 = br.ReadSingle();
-            Threshold3 = br.ReadSingle();
-            DeltaThreshold0 = br.ReadSingle();
-            DeltaThreshold1 = br.ReadSingle();
-            DeltaThreshold2 = br.ReadSingle();
-            DeltaThreshold3 = br.ReadSingle();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.Write(Threshold0);
-            bw.Write(Threshold1);
-            bw.Write(Threshold2);
-            bw.Write(Threshold3);
-            bw.Write(DeltaThreshold0);
-            bw.Write(DeltaThreshold1);
-            bw.Write(DeltaThreshold2);
-            bw.Write(DeltaThreshold3);
-        }
     }
 }

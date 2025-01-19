@@ -2,16 +2,12 @@
 // 
 // Created: 10/07/2019 @ 8:07 PM.
 
-using System.IO;
-using CoreLibraries.IO;
-using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(HeavySupport))]
-    public class HeavySupport : VltBaseType
+    public struct HeavySupport
     {
         public enum HeavySupportStrategy
         {
@@ -21,25 +17,9 @@ namespace VaultLib.Frameworks.Speed.VLT
             HEAVY_ROADBLOCK = 0x4,
         };
 
-        public HeavySupportStrategy HeavyStrategy { get; set; }
-        public uint Chance { get; set; }
-        public float Duration { get; set; }
-        public uint ChanceBigSUV { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            HeavyStrategy = br.ReadEnum<HeavySupportStrategy>();
-            Chance = br.ReadUInt32();
-            Duration = br.ReadSingle();
-            ChanceBigSUV = br.ReadUInt32();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.WriteEnum(HeavyStrategy);
-            bw.Write(Chance);
-            bw.Write(Duration);
-            bw.Write(ChanceBigSUV);
-        }
+        public HeavySupportStrategy HeavyStrategy;
+        public uint Chance;
+        public float Duration;
+        public uint ChanceBigSUV;
     }
 }

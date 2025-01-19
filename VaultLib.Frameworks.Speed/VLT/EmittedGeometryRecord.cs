@@ -2,16 +2,12 @@
 // 
 // Created: 09/29/2019 @ 10:42 AM.
 
-using System.IO;
-using CoreLibraries.IO;
-using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(EmittedGeometryRecord))]
-    public class EmittedGeometryRecord : VltBaseType
+    public struct EmittedGeometryRecord
     {
         public enum EmittedGeo : uint
         {
@@ -42,25 +38,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             //EmittedGeo_NUM = 0x15,
         };
 
-        public EmittedGeo Value { get; set; }
-        public uint Index { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            Value = br.ReadEnum<EmittedGeo>();
-            Index = br.ReadUInt32();
-
-            //if (!Enum.IsDefined(typeof(EmittedGeo), Value))
-            //{
-            //    Debug.WriteLine("undefined EmittedGeo: {0:X8}", (uint) Value);
-            //}
-            //Debug.Assert(Enum.IsDefined(typeof(EmittedGeo), Value));
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.WriteEnum(Value);
-            bw.Write(Index);
-        }
+        public EmittedGeo Value;
+        public uint Index;
     }
 }

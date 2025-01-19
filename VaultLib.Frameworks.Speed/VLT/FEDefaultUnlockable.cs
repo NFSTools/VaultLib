@@ -1,33 +1,13 @@
-﻿using System.IO;
-using CoreLibraries.IO;
-using VaultLib.Core;
-using VaultLib.Core.Data;
-using VaultLib.Core.Types;
+﻿using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(FEDefaultUnlockable))]
-    public class FEDefaultUnlockable : VltBaseType
+    public struct FEDefaultUnlockable
     {
-        public eUnlockableEntity UnlockType { get; set; }
-        public uint UnlockName { get; set; }
-        public int UnlockLevel { get; set; }
-        public int UnlockTier { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            UnlockType = br.ReadEnum<eUnlockableEntity>();
-            UnlockName = br.ReadUInt32();
-            UnlockLevel = br.ReadInt32();
-            UnlockTier = br.ReadInt32();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.WriteEnum(UnlockType);
-            bw.Write(UnlockName);
-            bw.Write(UnlockLevel);
-            bw.Write(UnlockTier);
-        }
+        public eUnlockableEntity UnlockType;
+        public uint UnlockName;
+        public int UnlockLevel;
+        public int UnlockTier;
     }
 }

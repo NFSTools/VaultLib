@@ -2,47 +2,20 @@
 // 
 // Created: 09/29/2019 @ 11:02 AM.
 
-using System.IO;
-using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(FFBWaveRecord))]
-    public class FFBWaveRecord : VltBaseType
+    public struct FFBWaveRecord
     {
-        public float Frequency_A { get; set; }
-        public float Amplitude_A { get; set; }
-        public float Offset_A { get; set; }
-        public float Threshold_A { get; set; }
-        public float Frequency_B { get; set; }
-        public float Amplitude_B { get; set; }
-        public float Offset_B { get; set; }
-        public float Threshold_B { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            Frequency_A = br.ReadSingle();
-            Amplitude_A = br.ReadSingle();
-            Offset_A = br.ReadSingle();
-            Threshold_A = br.ReadSingle();
-            Frequency_B = br.ReadSingle();
-            Amplitude_B = br.ReadSingle();
-            Offset_B = br.ReadSingle();
-            Threshold_B = br.ReadSingle();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.Write(Frequency_A);
-            bw.Write(Amplitude_A);
-            bw.Write(Offset_A);
-            bw.Write(Threshold_A);
-            bw.Write(Frequency_B);
-            bw.Write(Amplitude_B);
-            bw.Write(Offset_B);
-            bw.Write(Threshold_B);
-        }
+        public float Frequency_A;
+        public float Amplitude_A;
+        public float Offset_A;
+        public float Threshold_A;
+        public float Frequency_B;
+        public float Amplitude_B;
+        public float Offset_B;
+        public float Threshold_B;
     }
 }

@@ -1,19 +1,12 @@
-using System;
-using System.Diagnostics;
-using System.IO;
-using CoreLibraries.IO;
-using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(ParticleTextureRecord))]
-    public class ParticleTextureRecord : VltBaseType
+    public struct ParticleTextureRecord
     {
         public enum eTEG_ParticleTextures : uint
         {
-            None = 0,
             FX_GRASS01_BLEND_ANIM = 0xFBBC7865,
             FX_CONFETTI2 = 0xEC70A5AA,
             FX_GRAVEL_BLEND_ANIM = 0x7884D1C5,
@@ -66,26 +59,7 @@ namespace VaultLib.Frameworks.Speed.VLT
             FX_MARKER_BG2 = 0x75ED17B8
         };
 
-        public eTEG_ParticleTextures mEnum { get; set; }
-        public uint mIndex { get; set; }
-
-        /*  eTEG_ParticleTextures mEnum;
-  unsigned int mIndex;*/
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            mEnum = br.ReadEnum<eTEG_ParticleTextures>();
-            mIndex = br.ReadUInt32();
-
-            if (!Enum.IsDefined(typeof(eTEG_ParticleTextures), mEnum))
-            {
-                Debug.WriteLine("unknown particle texture {0:X8}", (uint)mEnum);
-            }
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.WriteEnum(mEnum);
-            bw.Write(mIndex);
-        }
+        public eTEG_ParticleTextures mEnum;
+        public uint mIndex;
     }
 }

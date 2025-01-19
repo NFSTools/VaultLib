@@ -2,28 +2,14 @@
 // 
 // Created: 10/07/2019 @ 3:54 PM.
 
-using System.IO;
-using VaultLib.Core;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(GMapCurve))]
-    public class GMapCurve : VltBaseType
+    public struct GMapCurve
     {
-        public ushort mPointStart { get; set; }
-        public ushort mPointCount { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            mPointStart = br.ReadUInt16();
-            mPointCount = br.ReadUInt16();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.Write(mPointStart);
-            bw.Write(mPointCount);
-        }
+        public ushort mPointStart;
+        public ushort mPointCount;
     }
 }

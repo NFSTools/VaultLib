@@ -2,15 +2,14 @@
 // 
 // Created: 09/29/2019 @ 11:54 AM.
 
-using System.IO;
-using CoreLibraries.IO;
-using VaultLib.Core;
+using System.Runtime.InteropServices;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(ParticleAnimationInfo))]
-    public class ParticleAnimationInfo : VltBaseType
+    [StructLayout(LayoutKind.Explicit, Pack = 1, Size = 8)]
+    public struct ParticleAnimationInfo
     {
         public enum EffectParticleAnimation
         {
@@ -21,24 +20,8 @@ namespace VaultLib.Frameworks.Speed.VLT
             ANIMATE_PARTICLE_16x16 = 0x10,
         };
 
-        public EffectParticleAnimation AnimType { get; set; }
-        public byte FPS { get; set; }
-        public bool RandomStartFrame { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            AnimType = br.ReadEnum<EffectParticleAnimation>();
-            FPS = br.ReadByte();
-            RandomStartFrame = br.ReadBoolean();
-            br.AlignReader(4);
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.WriteEnum(AnimType);
-            bw.Write(FPS);
-            bw.Write(RandomStartFrame);
-            bw.AlignWriter(4);
-        }
+        [FieldOffset(0)] public EffectParticleAnimation AnimType;
+        [FieldOffset(4)] public byte FPS;
+        [FieldOffset(5)] [MarshalAs(UnmanagedType.U1)] public bool RandomStartFrame;
     }
 }

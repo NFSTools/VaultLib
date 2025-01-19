@@ -1,13 +1,9 @@
-using System.IO;
-using CoreLibraries.IO;
-using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(CopFormationRecord))]
-    public class CopFormationRecord : VltBaseType
+    public struct CopFormationRecord
     {
         public enum FormationTypeEnum
         {
@@ -28,22 +24,8 @@ namespace VaultLib.Frameworks.Speed.VLT
             FRONT_RAM = 15,
         }
 
-        public FormationTypeEnum FormationType { get; set; }
-        public float Duration { get; set; }
-        public float Frequency { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            FormationType = br.ReadEnum<FormationTypeEnum>();
-            Duration = br.ReadSingle();
-            Frequency = br.ReadSingle();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.WriteEnum(FormationType);
-            bw.Write(Duration);
-            bw.Write(Frequency);
-        }
+        public FormationTypeEnum FormationType;
+        public float Duration;
+        public float Frequency;
     }
 }

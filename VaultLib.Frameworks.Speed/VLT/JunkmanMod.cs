@@ -2,35 +2,16 @@
 // 
 // Created: 09/29/2019 @ 11:38 AM.
 
-using System.IO;
-using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(JunkmanMod))]
-    public class JunkmanMod : VltBaseType
+    public struct JunkmanMod
     {
-        public uint ClassKey { get; set; }
-        public uint DefinitionKey { get; set; }
-        public float ScaleF { get; set; }
-        public float ScaleR { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            ClassKey = br.ReadUInt32();
-            DefinitionKey = br.ReadUInt32();
-            ScaleF = br.ReadSingle();
-            ScaleR = br.ReadSingle();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.Write(ClassKey);
-            bw.Write(DefinitionKey);
-            bw.Write(ScaleF);
-            bw.Write(ScaleR);
-        }
+        public uint ClassKey;
+        public uint DefinitionKey;
+        public float ScaleF;
+        public float ScaleR;
     }
 }

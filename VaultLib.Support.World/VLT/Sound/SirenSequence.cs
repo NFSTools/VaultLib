@@ -2,15 +2,12 @@
 // 
 // Created: 10/06/2019 @ 9:06 PM.
 
-using System.IO;
-using CoreLibraries.IO;
-using VaultLib.Core;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.Sound
 {
     [VltTypeInfo("Sound::SirenSequence")]
-    public class SirenSequence : VltBaseType
+    public struct SirenSequence
     {
         public enum SirenMode
         {
@@ -24,19 +21,7 @@ namespace VaultLib.Support.World.VLT.Sound
             MAX_SIREN_STATES = 0x8,
         }
 
-        public SirenMode mMode { get; set; }
-        public float mDuration { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            mMode = br.ReadEnum<SirenMode>();
-            mDuration = br.ReadSingle();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.WriteEnum(mMode);
-            bw.Write(mDuration);
-        }
+        public SirenMode mMode;
+        public float mDuration;
     }
 }

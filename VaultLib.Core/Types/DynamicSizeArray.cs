@@ -23,8 +23,7 @@ namespace VaultLib.Core.Types
             br.BaseStream.Position = _pointer;
             for (var i = 0; i < Items.Length; i++)
             {
-                Items[i] = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T),
-                    fieldContext.Field);
+                Items[i] = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T));
                 Items[i].Read(context, fieldContext, br);
             }
         }

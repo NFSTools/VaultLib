@@ -1,45 +1,18 @@
-﻿using System.IO;
-using CoreLibraries.IO;
-using VaultLib.Core;
+﻿using System.Runtime.InteropServices;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT
 {
     [VltTypeInfo(nameof(SteeringSensitivityParameter))]
-    public class SteeringSensitivityParameter : VltBaseType
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct SteeringSensitivityParameter
     {
-        public eSteeringCurveStyle CurveStyle { get; set; }
-        public float CurvePower { get; set; }
-        public float CurveMultiplierLowSpeed { get; set; }
-        public float CurveMultiplierHighSpeed { get; set; }
-        public float InnerDeadZone { get; set; }
-        public float OuterDeadZone { get; set; }
-        public ushort NumberOfSteps { get; set; }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            CurveStyle = br.ReadEnum<eSteeringCurveStyle>();
-            CurvePower = br.ReadSingle();
-            CurveMultiplierLowSpeed = br.ReadSingle();
-            CurveMultiplierHighSpeed = br.ReadSingle();
-            InnerDeadZone = br.ReadSingle();
-            OuterDeadZone = br.ReadSingle();
-            NumberOfSteps = br.ReadUInt16();
-
-            br.AlignReader(4);
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.WriteEnum(CurveStyle);
-            bw.Write(CurvePower);
-            bw.Write(CurveMultiplierLowSpeed);
-            bw.Write(CurveMultiplierHighSpeed);
-            bw.Write(InnerDeadZone);
-            bw.Write(OuterDeadZone);
-            bw.Write(NumberOfSteps);
-
-            bw.AlignWriter(4);
-        }
+        public eSteeringCurveStyle CurveStyle;
+        public float CurvePower;
+        public float CurveMultiplierLowSpeed;
+        public float CurveMultiplierHighSpeed;
+        public float InnerDeadZone;
+        public float OuterDeadZone;
+        public ushort NumberOfSteps;
     }
 }

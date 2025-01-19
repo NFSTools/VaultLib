@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using VaultLib.Core.Data;
@@ -61,10 +62,10 @@ namespace VaultLib.Core
             _readers[typeof(string)] = (_, ctx, _, br) => ctx.ReadString(br);
             _writers[typeof(string)] = (s, ctx, fieldCtx, bw) => ctx.WriteString((string)s, fieldCtx, bw);
 
-            RegisterStruct<System.Numerics.Vector2>("Attrib::Types::Vector2");
-            RegisterStruct<System.Numerics.Vector3>("Attrib::Types::Vector3");
-            RegisterStruct<System.Numerics.Vector4>("Attrib::Types::Vector4");
-            RegisterStruct<System.Numerics.Matrix4x4>("Attrib::Types::Matrix");
+            RegisterStruct<Vector2>("Attrib::Types::Vector2");
+            RegisterStruct<Vector3>("Attrib::Types::Vector3");
+            RegisterStruct<Vector4>("Attrib::Types::Vector4");
+            RegisterStruct<Matrix4x4>("Attrib::Types::Matrix");
         }
 
         public void Map<TDest>(string typeId)
@@ -274,8 +275,10 @@ namespace VaultLib.Core
                     _readers[type] = (_, _, _, r) => reader(r);
                     _writers[type] = (instance, _, _, w) => writer(instance, w);
                 }
-                else if (type.IsValueType && IsUnmanagedType(type))
+                else if (type.IsValueType)
                 {
+                    if (!IsUnmanagedType(type))
+                        throw new Exception($"Can't register managed struct: {type}");
                     RegisterStruct(typeInfoAttribute.Name, type);
                 }
                 else if (type.DescendsFrom(typeof(VltBaseType)))
@@ -310,10 +313,8 @@ Any user-defined struct type that contains fields of unmanaged types only.
                 .All(f => IsUnmanagedType(f.FieldType));
         }
 
-        public object ConstructTypeInstance(Type type, VltClassField vltClassField)
+        public object ConstructTypeInstance(Type type)
         {
-            Debug.Assert(type == ResolveType(vltClassField.TypeName));
-
             return _activators[type]();
         }
 
@@ -337,7 +338,13 @@ Any user-defined struct type that contains fields of unmanaged types only.
         {
             var vltClassField = fieldContext.Field;
             var type = ResolveType(vltClassField.TypeName);
-            var init = ConstructTypeInstance(type, vltClassField);
+            return ReadTypeInstance(readContext, fieldContext, binaryReader, type);
+        }
+
+        public object ReadTypeInstance(VaultReadContext readContext, FieldReadWriteContext fieldContext,
+            BinaryReader binaryReader, Type type)
+        {
+            var init = ConstructTypeInstance(type);
             return _readers[type](init, readContext, fieldContext, binaryReader);
         }
 
@@ -362,6 +369,13 @@ Any user-defined struct type that contains fields of unmanaged types only.
         {
             var type = ResolveType(vltClassField.TypeName);
 
+            WriteTypeInstance(instance, writeContext, fieldContext, binaryWriter, type);
+        }
+
+        public void WriteTypeInstance(object instance, VaultWriteContext writeContext, FieldReadWriteContext fieldContext,
+            BinaryWriter binaryWriter, Type type)
+        {
+            Debug.Assert(instance.GetType() == type, "instance.GetType() == type");
             _writers[type](instance, writeContext, fieldContext, binaryWriter);
         }
 

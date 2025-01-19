@@ -11,7 +11,7 @@ namespace VaultLib.Core.Types
     ///     Helper class for reading data types through a pointer
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class VltPointerContainer<T> : VltBaseType, IVltPointerObject where T : VltBaseType
+    public class VltPointerContainer<T> : VltBaseType, IVltPointerObject
     {
         private uint _pointer;
         private long _ptrDst;
@@ -23,9 +23,7 @@ namespace VaultLib.Core.Types
         public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
         {
             br.BaseStream.Position = _pointer;
-            Value = (T)context.Database.TypeRegistry.ConstructTypeInstance(typeof(T),
-                fieldContext.Field);
-            Value.Read(context, fieldContext, br);
+            Value = (T)context.Database.TypeRegistry.ReadTypeInstance(context, fieldContext, br, typeof(T));
 
             if (Value is IVltPointerObject vltPointerObject)
             {
@@ -36,7 +34,7 @@ namespace VaultLib.Core.Types
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
             _ptrDst = bw.BaseStream.Position;
-            Value.Write(context, fieldContext, bw);
+            context.Database.TypeRegistry.WriteTypeInstance(Value, context, fieldContext, bw, typeof(T));
 
             if (Value is IVltPointerObject vltPointerObject)
             {
