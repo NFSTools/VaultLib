@@ -60,6 +60,13 @@ namespace VaultLib.Core
             _typeDictionary[typeId] = destType;
         }
 
+        public bool IsConstructorRegistered<T>() => IsConstructorRegistered(typeof(T));
+
+        public bool IsConstructorRegistered(Type type)
+        {
+            return _activators.ContainsKey(type);
+        }
+
         /// <summary>
         ///     Registers a type with the type registry.
         /// </summary>
