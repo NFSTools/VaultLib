@@ -60,6 +60,11 @@ namespace VaultLib.Core
             _activators[typeof(string)] = _ => null;
             _readers[typeof(string)] = (_, ctx, _, br) => ctx.ReadString(br);
             _writers[typeof(string)] = (s, ctx, fieldCtx, bw) => ctx.WriteString((string)s, fieldCtx, bw);
+
+            RegisterStruct<System.Numerics.Vector2>("Attrib::Types::Vector2");
+            RegisterStruct<System.Numerics.Vector3>("Attrib::Types::Vector3");
+            RegisterStruct<System.Numerics.Vector4>("Attrib::Types::Vector4");
+            RegisterStruct<System.Numerics.Matrix4x4>("Attrib::Types::Matrix");
         }
 
         public void Map<TDest>(string typeId)
