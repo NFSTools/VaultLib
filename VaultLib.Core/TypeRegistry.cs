@@ -6,7 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
@@ -22,10 +25,16 @@ namespace VaultLib.Core
 
         private readonly Dictionary<Type, ObjectActivator<object>> _activators = new();
 
-        private readonly Dictionary<Type, Func<object, VaultReadContext, FieldReadWriteContext, BinaryReader, object>>
+        private delegate object TypeReader(object init, VaultReadContext context, FieldReadWriteContext fieldContext,
+            BinaryReader br);
+
+        private delegate void TypeWriter(object value, VaultWriteContext context, FieldReadWriteContext fieldContext,
+            BinaryWriter bw);
+
+        private readonly Dictionary<Type, TypeReader>
             _readers = new();
 
-        private readonly Dictionary<Type, Action<object, VaultWriteContext, FieldReadWriteContext, BinaryWriter>>
+        private readonly Dictionary<Type, TypeWriter>
             _writers = new();
 
         /// <summary>
@@ -102,7 +111,79 @@ namespace VaultLib.Core
             };
         }
 
-        public void RegisterPrimitive<T>(string typeId, Func<BinaryReader, T> reader, Action<T, BinaryWriter> writer)
+        public void RegisterStruct<T>(string typeId) where T : unmanaged
+        {
+            RegisterStruct(typeId, typeof(T));
+        }
+
+        private void RegisterStruct(string typeId, Type type)
+        {
+            if (!_typeDictionary.ContainsValue(type))
+            {
+                _activators[type] = _ => Activator.CreateInstance(type);
+                _readers[type] = CreateStructReaderProxy(type);
+                _writers[type] = CreateStructWriterProxy(type);
+            }
+
+            _typeDictionary[typeId] = type;
+        }
+
+        private static TypeReader CreateStructReaderProxy(Type structType)
+        {
+            var paramInitValue = Expression.Parameter(typeof(object), "init");
+            var paramContext = Expression.Parameter(typeof(VaultReadContext), "context");
+            var paramFieldContext = Expression.Parameter(typeof(FieldReadWriteContext), "fieldContext");
+            var paramBinaryReader = Expression.Parameter(typeof(BinaryReader), "br");
+
+            var body = Expression.Block(
+                typeof(object),
+                Expression.Convert(Expression.Call(
+                        typeof(TypeRegistry), nameof(StructReader), new[] { structType }, paramBinaryReader),
+                    typeof(object))
+            );
+
+            return Expression.Lambda<TypeReader>(body, paramInitValue, paramContext, paramFieldContext,
+                paramBinaryReader).Compile();
+        }
+
+        private static T StructReader<T>(BinaryReader reader) where T : unmanaged
+        {
+            var type = typeof(T);
+            var size = Marshal.SizeOf<T>();
+            Span<byte> bytes = stackalloc byte[size];
+            if (reader.Read(bytes) != size)
+            {
+                throw new EndOfStreamException($"Failed to read {size} bytes for unmanaged type {type}");
+            }
+
+            return MemoryMarshal.Read<T>(bytes);
+        }
+
+        private static TypeWriter CreateStructWriterProxy(Type structType)
+        {
+            var paramValue = Expression.Parameter(typeof(object), "value");
+            var paramContext = Expression.Parameter(typeof(VaultWriteContext), "context");
+            var paramFieldContext = Expression.Parameter(typeof(FieldReadWriteContext), "fieldContext");
+            var paramBinaryWriter = Expression.Parameter(typeof(BinaryWriter), "bw");
+
+            var body = Expression.Call(
+                typeof(TypeRegistry), nameof(StructWriter), new[] { structType },
+                Expression.Convert(paramValue, structType), paramBinaryWriter);
+
+            return Expression.Lambda<TypeWriter>(body, paramValue, paramContext, paramFieldContext,
+                paramBinaryWriter).Compile();
+        }
+
+        private static void StructWriter<T>(T value, BinaryWriter writer) where T : unmanaged
+        {
+            var size = Marshal.SizeOf<T>();
+            Span<byte> bytes = stackalloc byte[size];
+            MemoryMarshal.Write(bytes, ref value);
+            writer.Write(bytes);
+        }
+
+        public void RegisterPrimitive<T>(string typeId, Func<BinaryReader, T> reader,
+            Action<T, BinaryWriter> writer)
             where T : struct, IConvertible
         {
             var type = typeof(T);
@@ -188,11 +269,40 @@ namespace VaultLib.Core
                     _readers[type] = (_, _, _, r) => reader(r);
                     _writers[type] = (instance, _, _, w) => writer(instance, w);
                 }
+                else if (type.IsValueType && IsUnmanagedType(type))
+                {
+                    RegisterStruct(typeInfoAttribute.Name, type);
+                }
                 else if (type.DescendsFrom(typeof(VltBaseType)))
                 {
                     RegisterVltBaseType(typeInfoAttribute.Name, type);
                 }
             }
+        }
+
+        private static bool IsUnmanagedType(Type type)
+        {
+            /*
+            A type is an unmanaged type if it's any of the following types:
+
+sbyte, byte, short, ushort, int, uint, long, ulong, nint, nuint, char, float, double, decimal, or bool
+Any enum type
+Any pointer type
+A tuple whose members are all of an unmanaged type
+Any user-defined struct type that contains fields of unmanaged types only.
+             */
+            if (type.IsPrimitive || type.IsEnum || type.IsPointer)
+            {
+                return true;
+            }
+
+            if (type.IsGenericType || !type.IsValueType)
+            {
+                return false;
+            }
+
+            return type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .All(f => IsUnmanagedType(f.FieldType));
         }
 
         public object ConstructTypeInstance(Type type, VltClassField vltClassField)
