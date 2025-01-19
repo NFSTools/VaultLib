@@ -55,11 +55,11 @@ namespace VaultLib.Core.Chunks
             }
 
             foreach (var ptrRef in binPointers)
-                context.Vault.Pointers.Add(new VltPointer
+                context.Pointers.Add(new VltPointer
                 { Type = VltPointerType.Bin, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset });
 
             foreach (var ptrRef in vltPointers)
-                context.Vault.Pointers.Add(new VltPointer
+                context.Pointers.Add(new VltPointer
                 { Type = VltPointerType.Vlt, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset });
         }
 

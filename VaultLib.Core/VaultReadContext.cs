@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 
 namespace VaultLib.Core
@@ -20,6 +21,11 @@ namespace VaultLib.Core
         public Dictionary<long, string> Strings { get; }
 
         /// <summary>
+        ///     The data pointers.
+        /// </summary>
+        public List<VltPointer> Pointers { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="VaultReadContext"/> class.
         /// </summary>
         /// <param name="vault"></param>
@@ -28,6 +34,7 @@ namespace VaultLib.Core
             Database = vault.Database;
             Vault = vault;
             Strings = new Dictionary<long, string>();
+            Pointers = new List<VltPointer>();
         }
 
         public string ReadString(BinaryReader binaryReader)

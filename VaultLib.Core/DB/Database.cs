@@ -105,8 +105,8 @@ namespace VaultLib.Core.DB
             processVltChunks(vaultLoadContext, vltChunkReader);
 
             //Debug.WriteLine("Processing pointers");
-            fixPointers(vault, VltPointerType.Bin, vault.BinStream);
-            fixPointers(vault, VltPointerType.Vlt, vault.VltStream);
+            fixPointers(vaultLoadContext, VltPointerType.Bin, vault.BinStream);
+            fixPointers(vaultLoadContext, VltPointerType.Vlt, vault.VltStream);
 
             //Debug.WriteLine("Reading exports");
             ReadExports(vaultLoadContext, vltStreamReader, binStreamReader);
@@ -177,12 +177,12 @@ namespace VaultLib.Core.DB
             context.Vault.IsPrimaryVault = context.Vault.Exports.OfType<BaseClassLoad>().Any();
         }
 
-        private void fixPointers(Vault vault, VltPointerType pointerType, Stream stream)
+        private void fixPointers(VaultReadContext context, VltPointerType pointerType, Stream stream)
         {
             IEnumerable<VltPointer> pointers =
-                from pointer in vault.Pointers where pointer.Type == pointerType select pointer;
+                from pointer in context.Pointers where pointer.Type == pointerType select pointer;
 
-            ByteOrder byteOrder = vault.ByteOrder;
+            ByteOrder byteOrder = context.Vault.ByteOrder;
             bool isBigEndian = byteOrder == ByteOrder.Big;
 
             foreach (VltPointer pointer in pointers)
