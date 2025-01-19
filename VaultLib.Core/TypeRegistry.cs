@@ -35,7 +35,8 @@ namespace VaultLib.Core
         {
             RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TypeRegistry)));
 
-            RegisterPrimitive<bool>("EA::Reflection::Bool", r => r.ReadByte() != 0, (v, w) => w.Write(v));
+            RegisterPrimitive<bool>("EA::Reflection::Bool", r => r.ReadByte() != 0,
+                (v, w) => w.Write(v ? (byte)1 : (byte)0));
             RegisterPrimitive<sbyte>("EA::Reflection::Int8", r => r.ReadSByte(), (v, w) => w.Write(v));
             RegisterPrimitive<byte>("EA::Reflection::UInt8", r => r.ReadByte(), (v, w) => w.Write(v));
             RegisterPrimitive<short>("EA::Reflection::Int16", r => r.ReadInt16(), (v, w) => w.Write(v));
