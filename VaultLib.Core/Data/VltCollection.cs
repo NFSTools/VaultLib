@@ -13,7 +13,7 @@ namespace VaultLib.Core.Data
     ///     A collection in VLT is like a row in a SQL database.
     ///     A collection specifies values for the fields of its class.
     /// </summary>
-    public class VltCollection : IEquatable<VltCollection>
+    public class VltCollection
     {
         /// <summary>
         /// Gets the <see cref="VltClass"/> that this collection is part of.
@@ -324,38 +324,6 @@ namespace VaultLib.Core.Data
             {
                 throw new KeyNotFoundException($"Class '{Class.Name}' does not have field '{key}'");
             }
-        }
-
-        #endregion
-
-        #region IEquatable Members
-
-        public bool Equals(VltCollection other)
-        {
-            if (other is null) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(Class, other.Class) && Equals(Vault, other.Vault) &&
-                   string.Equals(Name, other.Name, StringComparison.InvariantCulture) && Equals(Parent, other.Parent) &&
-                   Equals(Children, other.Children) && Equals(Data, other.Data);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == typeof(VltCollection) && Equals((VltCollection)obj);
-        }
-
-        public override int GetHashCode()
-        {
-            var hashCode = new HashCode();
-            hashCode.Add(Class);
-            hashCode.Add(Vault);
-            hashCode.Add(Name, StringComparer.InvariantCulture);
-            hashCode.Add(Parent);
-            hashCode.Add(Children);
-            hashCode.Add(Data);
-            return hashCode.ToHashCode();
         }
 
         #endregion
