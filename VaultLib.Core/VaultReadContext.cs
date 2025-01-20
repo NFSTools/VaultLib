@@ -26,13 +26,27 @@ namespace VaultLib.Core
         public List<VltPointer> Pointers { get; }
 
         /// <summary>
+        ///     The BIN data stream, where most of the actual data lies.
+        /// </summary>
+        public Stream BinStream { get; }
+
+        /// <summary>
+        ///     The VLT data stream, where most of the information lies. (Some is in BIN. Why?!)
+        /// </summary>
+        public Stream VltStream { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="VaultReadContext"/> class.
         /// </summary>
         /// <param name="vault"></param>
-        public VaultReadContext(Vault vault)
+        /// <param name="binStream"></param>
+        /// <param name="vltStream"></param>
+        public VaultReadContext(Vault vault, Stream binStream, Stream vltStream)
         {
             Database = vault.Database;
             Vault = vault;
+            BinStream = binStream;
+            VltStream = vltStream;
             Strings = new Dictionary<long, string>();
             Pointers = new List<VltPointer>();
         }

@@ -34,8 +34,7 @@ namespace VaultLib.Core.Pack
             {
                 br.BaseStream.Position = vaultPackImage.Header.StringBlockOffset + attribVaultPackEntry.VaultNameOffset;
 
-                Vault vault = new Vault(NullTerminatedString.Read(br));
-
+                var vaultName = NullTerminatedString.Read(br);
                 br.BaseStream.Seek(attribVaultPackEntry.BinOffset, SeekOrigin.Begin);
 
                 byte[] binData = new byte[attribVaultPackEntry.BinSize];
@@ -47,21 +46,18 @@ namespace VaultLib.Core.Pack
 
                 br.BaseStream.Seek(attribVaultPackEntry.VltOffset, SeekOrigin.Begin);
 
-                byte[] vltData = new byte[attribVaultPackEntry.VltSize];
+                 byte[] vltData = new byte[attribVaultPackEntry.VltSize];
 
                 if (br.Read(vltData, 0, vltData.Length) != vltData.Length)
                 {
                     throw new Exception($"Failed to read {vltData.Length} bytes of VLT data");
                 }
 
-                vault.BinStream = new MemoryStream(binData);
-                vault.VltStream = new MemoryStream(vltData);
+                var binStream = new MemoryStream(binData);
+                var vltStream = new MemoryStream(vltData);
 
-                using (VaultReadWrapper readWrapper = new VaultReadWrapper(vault, byteOrder))
-                {
-                    database.LoadVault(vault, readWrapper);
-                }
-
+                using var readWrapper = new VaultReadWrapper(vaultName, binStream, vltStream, byteOrder);
+                var vault = database.LoadVault(readWrapper);
                 vaults.Add(vault);
             }
 

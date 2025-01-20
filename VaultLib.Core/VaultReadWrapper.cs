@@ -2,47 +2,35 @@
 // 
 // Created: 10/31/2019 @ 3:57 PM.
 
-using CoreLibraries.IO;
 using System;
 using System.IO;
+using CoreLibraries.IO;
 
 namespace VaultLib.Core
 {
-    /// <summary>
-    ///     Holds instances of <see cref="BinaryReader" /> for vault loading
-    /// </summary>
     public class VaultReadWrapper : IDisposable
     {
-        /// <summary>
-        ///     Initializes the loading wrapper with the given vault.
-        /// </summary>
-        /// <param name="vault">The vault to create readers for.</param>
-        /// <param name="byteOrder">The byte order of the data streams.</param>
-        public VaultReadWrapper(Vault vault, ByteOrder byteOrder = ByteOrder.Little)
+        public VaultReadWrapper(string vaultName, Stream binStream, Stream vltStream,
+            ByteOrder byteOrder = ByteOrder.Little)
         {
-            Vault = vault;
+            VaultName = vaultName;
             ByteOrder = byteOrder;
-            BinReader = byteOrder == ByteOrder.Little
-                ? new BinaryReader(vault.BinStream)
-                : new BigEndianBinaryReader(vault.BinStream);
-            VltReader = byteOrder == ByteOrder.Little
-                ? new BinaryReader(vault.VltStream)
-                : new BigEndianBinaryReader(vault.VltStream);
-
-            Vault.ByteOrder = byteOrder;
+            
+            BinStream = binStream;
+            VltStream = vltStream;
         }
 
-        public Vault Vault { get; }
+        public string VaultName { get; }
 
-        public BinaryReader BinReader { get; }
-        public BinaryReader VltReader { get; }
+        public Stream BinStream { get; }
+        public Stream VltStream { get; }
 
         public ByteOrder ByteOrder { get; }
 
         public void Dispose()
         {
-            BinReader?.Dispose();
-            VltReader?.Dispose();
+            BinStream?.Dispose();
+            VltStream?.Dispose();
         }
     }
 }

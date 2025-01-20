@@ -78,25 +78,21 @@ namespace VaultLib.Core.DB
             return Vaults.First(v => v.Name == name);
         }
 
-        /// <summary>
-        ///     Loads data into a <see cref="Vault" /> instance.
-        /// </summary>
-        /// <param name="vault">The vault to be read and loaded.</param>
-        /// <param name="readWrapper">The provider of the vault stream readers.</param>
-        public void LoadVault(Vault vault, VaultReadWrapper readWrapper)
+        public Vault LoadVault(VaultReadWrapper readWrapper)
         {
-            Debug.Assert(vault.Database == null, "vault.Database == null");
-            Debug.Assert(vault.BinStream != null, "vault.BinStream != null");
-            Debug.Assert(vault.VltStream != null, "vault.VltStream != null");
+            var vault = new Vault(readWrapper.VaultName)
+            {
+                Database = this,
+                ByteOrder = readWrapper.ByteOrder
+            };
 
-            vault.Database = this;
-            BinaryReader binStreamReader = readWrapper.BinReader;
-            BinaryReader vltStreamReader = readWrapper.VltReader;
+            var binStreamReader = CreateStreamReader(readWrapper.BinStream, readWrapper.ByteOrder);
+            var vltStreamReader = CreateStreamReader(readWrapper.VltStream, readWrapper.ByteOrder);
 
-            ChunkReader binChunkReader = new ChunkReader(binStreamReader);
-            ChunkReader vltChunkReader = new ChunkReader(vltStreamReader);
+            var binChunkReader = new ChunkReader(binStreamReader);
+            var vltChunkReader = new ChunkReader(vltStreamReader);
 
-            var vaultLoadContext = new VaultReadContext(vault);
+            var vaultLoadContext = new VaultReadContext(vault, readWrapper.BinStream, readWrapper.VltStream);
 
             //Debug.WriteLine("Processing BIN chunks");
             processBinChunks(vaultLoadContext, binChunkReader);
@@ -105,13 +101,20 @@ namespace VaultLib.Core.DB
             processVltChunks(vaultLoadContext, vltChunkReader);
 
             //Debug.WriteLine("Processing pointers");
-            fixPointers(vaultLoadContext, VltPointerType.Bin, vault.BinStream);
-            fixPointers(vaultLoadContext, VltPointerType.Vlt, vault.VltStream);
+            fixPointers(vaultLoadContext, VltPointerType.Bin, readWrapper.BinStream);
+            fixPointers(vaultLoadContext, VltPointerType.Vlt, readWrapper.VltStream);
 
             //Debug.WriteLine("Reading exports");
             ReadExports(vaultLoadContext, vltStreamReader, binStreamReader);
 
             Vaults.Add(vault);
+
+            return vault;
+        }
+
+        private static BinaryReader CreateStreamReader(Stream stream, ByteOrder byteOrder)
+        {
+            return byteOrder == ByteOrder.Big ? new BigEndianBinaryReader(stream) : new BinaryReader(stream);
         }
 
         /// <summary>
@@ -217,7 +220,7 @@ namespace VaultLib.Core.DB
                 }
 
                 chunk.Read(context, chunkReader.Reader);
-                chunk.GoToEnd(context.Vault.VltStream);
+                chunk.GoToEnd(chunkReader.Reader.BaseStream);
             }
         }
 

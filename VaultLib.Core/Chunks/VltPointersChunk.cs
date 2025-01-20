@@ -39,12 +39,12 @@ namespace VaultLib.Core.Chunks
                     case EPtrRefType.PtrNull:
                         if (isVltPointer)
                         {
-                            Debug.Assert(ptr.FixupOffset <= context.Vault.VltStream.Length);
+                            Debug.Assert(ptr.FixupOffset <= context.VltStream.Length);
                             vltPointers.Add(ptr);
                         }
                         else
                         {
-                            Debug.Assert(ptr.FixupOffset <= context.Vault.BinStream.Length);
+                            Debug.Assert(ptr.FixupOffset <= context.BinStream.Length);
                             binPointers.Add(ptr);
                         }
 

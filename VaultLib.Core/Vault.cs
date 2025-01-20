@@ -28,16 +28,6 @@ namespace VaultLib.Core
         public string Name { get; }
 
         /// <summary>
-        ///     The BIN data stream, where most of the actual data lies.
-        /// </summary>
-        public Stream BinStream { get; set; }
-
-        /// <summary>
-        ///     The VLT data stream, where most of the information lies. (Some is in BIN. Why?!)
-        /// </summary>
-        public Stream VltStream { get; set; }
-
-        /// <summary>
         ///     The exported data items.
         /// </summary>
         public List<BaseExport> Exports { get; }
