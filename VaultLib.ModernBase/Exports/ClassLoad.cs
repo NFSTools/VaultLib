@@ -32,7 +32,7 @@ namespace VaultLib.ModernBase.Exports
             _definitionsPtr = br.ReadPointer();
             uint staticSize = br.ReadUInt32(); // static size
             _staticDataPtr = br.ReadPointer();
-            uint layoutSize = br.ReadUInt32(); // Total size of required fields
+            br.ReadUInt32(); // Total size of required fields
             br.ReadUInt16(); // can be 0
             br.ReadUInt16(); // Number of required fields
 

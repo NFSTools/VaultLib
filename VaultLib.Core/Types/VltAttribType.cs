@@ -2,6 +2,7 @@
 // 
 // Created: 09/27/2019 @ 8:32 PM.
 
+using System;
 using CoreLibraries.IO;
 using System.Diagnostics;
 using System.IO;
@@ -32,14 +33,14 @@ namespace VaultLib.Core.Types
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            bw.AlignWriter(fieldContext.Field.Alignment);
+            var field = fieldContext.Field;
+            var minAlignment = field.IsArray ? 2 : 1;
+            var actualAlignment = Math.Max(field.Alignment, minAlignment);
+
+            bw.AlignWriter(actualAlignment);
+
             _offsetDst = bw.BaseStream.Position;
             context.Database.TypeRegistry.WriteFieldValue(Data, context, fieldContext, bw);
-
-            if (Data is IVltPointerObject vltPointerObject)
-            {
-                vltPointerObject.WritePointerData(context, fieldContext, bw);
-            }
         }
 
         public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)

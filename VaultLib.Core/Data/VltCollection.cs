@@ -45,7 +45,7 @@ namespace VaultLib.Core.Data
         /// Gets the collection's data.
         /// </summary>
         /// <remarks> This is a mapping between a <see cref="VltClassField"/>'s name and a <see cref="VltBaseType"/> instance.</remarks>
-        private Dictionary<string, object> Data { get; }
+        private VltDataTable Data { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VltCollection"/> class.
@@ -58,7 +58,7 @@ namespace VaultLib.Core.Data
             Vault = vault;
             Class = vltClass;
             Name = name;
-            Data = new Dictionary<string, object>();
+            Data = new VltDataTable();
         }
 
         #region API Members
@@ -112,7 +112,12 @@ namespace VaultLib.Core.Data
         /// <returns>The read-only data dictionary.</returns>
         public IReadOnlyDictionary<string, object> GetData()
         {
-            return new ReadOnlyDictionary<string, object>(Data);
+            return Data.GetDictionary();
+        }
+
+        public IReadOnlyList<VltDataTable.Entry> GetOrderedData()
+        {
+            return Data.GetEntries();
         }
 
         /// <summary>
@@ -120,7 +125,7 @@ namespace VaultLib.Core.Data
         /// </summary>
         /// <param name="key"></param>
         /// <returns><c>true</c> if an entry exists; otherwise, <c>false</c>.</returns>
-        public bool HasEntry(string key) => Data.ContainsKey(key);
+        public bool HasEntry(string key) => Data.HasValue(key);
 
         /// <summary>
         /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
@@ -141,11 +146,9 @@ namespace VaultLib.Core.Data
         /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
         public T GetRawValue<T>(string key)
         {
-            if (!Data.TryGetValue(key, out var data))
+            if (!Data.TryGetValue(key, out T data))
                 throw new KeyNotFoundException($"Collection {ShortPath} does not have a value for field {key}");
-            if (data is not T value)
-                throw new InvalidCastException($"Field {key} is not compatible with type {typeof(T)}");
-            return value;
+            return data;
         }
 
         /// <summary>
@@ -191,7 +194,7 @@ namespace VaultLib.Core.Data
         {
             if (Class.HasField(key))
             {
-                Data[key] = data;
+                Data.SetValue(key, data);
             }
             else
             {
@@ -296,7 +299,7 @@ namespace VaultLib.Core.Data
 
                 if (HasEntry(key))
                 {
-                    Data.Remove(key);
+                    Data.RemoveValue(key);
                 }
                 else
                 {

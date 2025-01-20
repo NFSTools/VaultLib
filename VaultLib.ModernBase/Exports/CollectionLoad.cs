@@ -27,7 +27,8 @@ namespace VaultLib.ModernBase.Exports
 
             Debug.Assert(mTableReserve == mNumEntries);
 
-            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)), HashManager.ResolveVlt(mKey));
+            Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
+                HashManager.ResolveVlt(mKey));
 
             Debug.Assert(mTypesLen >= mNumTypes);
 
@@ -69,11 +70,10 @@ namespace VaultLib.ModernBase.Exports
 
         public override void Prepare(Vault vault)
         {
-            List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetData()
-                                                                           let field = Collection.Class[pair.Key]
-                                                                           where !field.IsInLayout
-                                                                           orderby field.Name
-                                                                           select pair).ToList();
+            List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetOrderedData()
+                let field = Collection.Class[pair.Key]
+                where !field.IsInLayout
+                select new KeyValuePair<string, object>(pair.Key, pair.Value)).ToList();
 
             Entries = new List<AttribEntry>();
             Types = Collection.Class.BaseFields.Select(f => f.TypeName)
@@ -101,7 +101,7 @@ namespace VaultLib.ModernBase.Exports
                 {
                     entry.InlineData =
                         new VltAttribType()
-                        { Data = optionalDataColumn.Value };
+                            { Data = optionalDataColumn.Value };
                 }
 
                 if (vltClassField.IsArray)

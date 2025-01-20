@@ -1,14 +1,12 @@
-﻿using CoreLibraries.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 using VaultLib.ModernBase.Exports;
 
@@ -116,6 +114,7 @@ namespace VaultLib.ModernBase
 
         public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
+            // Part 1: write base fields (layout)
             foreach (var baseField in Collection.Class.BaseFields)
             {
                 var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
@@ -136,42 +135,29 @@ namespace VaultLib.ModernBase
                 context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
             }
 
-            foreach (var dataPair in Collection.GetData())
+            // Part 2: Write non-inline optional fields
+            foreach (var entry in Entries)
             {
-                VltClassField field = Collection.Class[dataPair.Key];
+                if (entry.InlineData is not VltAttribType attrib)
+                {
+                    continue;
+                }
 
+                var field = Collection.Class[entry.Key];
                 var fieldContext = new FieldReadWriteContext(Collection.Class, field, Collection);
 
-                if (!field.IsInLayout)
-                {
-                    var entry = Entries.First(e => e.Key == field.Key);
-
-                    if (entry.InlineData is IVltPointerObject vltPointerObject)
-                    {
-                        bw.AlignWriter(field.Alignment);
-                        vltPointerObject.WritePointerData(context, fieldContext, bw);
-                    }
-                }
-                else
-                {
-                    if (dataPair.Value is IVltPointerObject vltPointerObject)
-                    {
-                        bw.AlignWriter(field.Alignment);
-                        vltPointerObject.WritePointerData(context, fieldContext, bw);
-                    }
-                }
+                attrib.WritePointerData(context, fieldContext, bw);
             }
 
-            if (Collection.Class.HasBaseFields)
+            // Part 3: Write pointer data for all fields
+            foreach (var entry in Collection.GetOrderedData())
             {
-                // align to 4 bytes for layout data
-                bw.AlignWriter(4);
-            }
-            else
-            {
-                // there is no layout data but we might still be
-                // in a bad position, so align to 2 bytes
-                bw.AlignWriter(2);
+                var field = Collection.Class[entry.Key];
+                var fieldContext = new FieldReadWriteContext(Collection.Class, field, Collection);
+                if (entry.Value is IVltPointerObject vltPointerObject)
+                {
+                    vltPointerObject.WritePointerData(context, fieldContext, bw);
+                }
             }
         }
 

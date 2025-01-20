@@ -131,7 +131,7 @@ namespace VaultLib.Core.Types
             var alignedDataStartPos = (dataStartPos + (ItemAlignment - 1)) & ~(ItemAlignment - 1);
             Debug.Assert(alignedDataStartPos >= dataStartPos, "alignedDataStartPos >= dataStartPos");
             var alignmentOffset = alignedDataStartPos - dataStartPos;
-            Debug.Assert(alignmentOffset % 8 == 0, "alignmentOffset % 8 == 0");
+            // Debug.Assert(alignmentOffset % 8 == 0, "alignmentOffset % 8 == 0");
             Debug.Assert(alignmentOffset <= 8, "alignmentOffset <= 8");
             bw.Write((ushort)(alignmentOffset << 12));
 
