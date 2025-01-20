@@ -33,6 +33,11 @@ namespace VaultLib.Core.Data
         /// Gets the list of fields that are part of the class.
         /// </summary>
         public Dictionary<ulong, VltClassField> Fields { get; }
+        
+        /// <summary>
+        /// Gets or sets the size of the static data section for the class.
+        /// </summary>
+        public uint StaticSize { get; set; }
 
         /// <summary>
         /// Finds the field with the given name in the class.

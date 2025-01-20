@@ -1,3 +1,5 @@
+  using System;
+using System.Diagnostics;
 using CoreLibraries.IO;
 using System.IO;
 using System.Linq;
@@ -28,7 +30,7 @@ namespace VaultLib.ModernBase.Exports
             br.ReadUInt32(); // Collection reserve
             int mNumDefinitions = br.ReadInt32(); // Number of fields
             _definitionsPtr = br.ReadPointer();
-            br.ReadUInt32(); // static size
+            uint staticSize = br.ReadUInt32(); // static size
             _staticDataPtr = br.ReadPointer();
             uint layoutSize = br.ReadUInt32(); // Total size of required fields
             br.ReadUInt16(); // can be 0
@@ -40,7 +42,10 @@ namespace VaultLib.ModernBase.Exports
             }
 
             NumDefinitions = mNumDefinitions;
-            Class = new VltClass(HashManager.ResolveVlt(ClassHash));
+            Class = new VltClass(HashManager.ResolveVlt(ClassHash))
+            {
+                StaticSize = staticSize
+            };
         }
 
         public override void Write(VaultWriteContext context, BinaryWriter bw)
@@ -54,7 +59,7 @@ namespace VaultLib.ModernBase.Exports
             bw.Write(Class.Fields.Count);
             _srcDefinitionsPtr = bw.BaseStream.Position;
             bw.Write(0);
-            int staticSize = ComputeStaticSize();
+            var staticSize = Class.StaticSize;
             bw.Write(staticSize);
 
             if (staticSize > 0)
@@ -131,6 +136,7 @@ namespace VaultLib.ModernBase.Exports
 
         public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
         {
+            bw.AlignWriter(0x8);
             _dstDefinitionsPtr = bw.BaseStream.Position;
 
             foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
@@ -148,7 +154,10 @@ namespace VaultLib.ModernBase.Exports
 
             if (_srcStaticPtr != 0)
             {
-                bw.AlignWriter(0x10);
+                if (ComputeStaticSize() > Class.StaticSize)
+                {
+                    throw new Exception("Class has too much static data; StaticSize needs to be updated!");
+                }
 
                 _dstStaticPtr = bw.BaseStream.Position;
 
@@ -158,6 +167,21 @@ namespace VaultLib.ModernBase.Exports
                     var fieldContext = new FieldReadWriteContext(Class, staticField, null);
                     context.Database.TypeRegistry.WriteFieldValue(staticField.StaticValue, context,
                         fieldContext, bw);
+                }
+
+                var staticEndPos = bw.BaseStream.Position;
+                var actualStaticSize = (int)(staticEndPos - _dstStaticPtr);
+                var configuredStaticSize = (int)Class.StaticSize;
+
+                if (actualStaticSize > configuredStaticSize)
+                {
+                    throw new Exception("wrote too much static data");
+                }
+
+                if (actualStaticSize < configuredStaticSize)
+                {
+                    var remaining = configuredStaticSize - actualStaticSize;
+                    bw.Write(new byte[remaining]);
                 }
 
                 foreach (var staticField in Class.StaticFields)
