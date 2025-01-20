@@ -26,6 +26,8 @@ namespace VaultLib.Core
         ///     The name of the vault.
         /// </summary>
         public string Name { get; }
+        
+        public ulong Version { get; set; }
 
         /// <summary>
         ///     The exported data items.
