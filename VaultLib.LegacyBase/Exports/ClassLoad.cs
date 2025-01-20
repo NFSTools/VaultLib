@@ -45,7 +45,7 @@ namespace VaultLib.LegacyBase.Exports
         {
             bw.Write(Vlt32Hasher.Hash(Class.Name));
 
-            int collReserve = (from collection in context.Database.RowManager.GetFlattenedCollections(Class.Name)
+            int collReserve = (from collection in context.Database.RowManager.GetCollections(Class.Name)
                                select collection).Count();
 
             if (collReserve == 0)

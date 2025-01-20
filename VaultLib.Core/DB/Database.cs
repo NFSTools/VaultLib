@@ -127,23 +127,18 @@ namespace VaultLib.Core.DB
                 return Options.Type == DatabaseType.X64Database ? Vlt64Hasher.Hash(s) : Vlt32Hasher.Hash(s);
             }
 
-            Stopwatch stopwatch = Stopwatch.StartNew();
+            var stopwatch = Stopwatch.StartNew();
 
-            Dictionary<VltClass, ulong> hashDictionary = Classes.ToDictionary(c => c, c => Hash(c.Name));
-            Dictionary<ulong, Dictionary<ulong, VltCollection>> collectionDictionary =
+            var hashDictionary = Classes.ToDictionary(c => c, c => Hash(c.Name));
+            var collectionDictionary =
                 RowManager.Rows.GroupBy(r => hashDictionary[r.Class])
                     .ToDictionary(g => g.Key, g => g.ToDictionary(c => Hash(c.Name), c => c));
 
-            for (int i = RowManager.Rows.Count - 1; i >= 0; i--)
+            foreach (var row in RowManager.Rows)
             {
-                VltCollection row = RowManager.Rows[i];
-
-                if (_parentKeyDictionary.TryGetValue(row, out ulong parentKey))
-                {
-                    VltCollection parentCollection = collectionDictionary[hashDictionary[row.Class]][parentKey];
-                    parentCollection.AddChild(row);
-                    RowManager.Rows.RemoveAt(i);
-                }
+                if (!_parentKeyDictionary.TryGetValue(row, out var parentKey)) continue;
+                var parentCollection = collectionDictionary[hashDictionary[row.Class]][parentKey];
+                parentCollection.AddChild(row);
             }
 
             stopwatch.Stop();

@@ -36,11 +36,6 @@ namespace VaultLib.Core.Data
         public VltCollection Parent { get; private set; }
 
         /// <summary>
-        /// Gets the child collections of this collection.
-        /// </summary>
-        public ObservableCollection<VltCollection> Children { get; }
-
-        /// <summary>
         /// Gets the short path of the collection.
         /// </summary>
         /// <example>gameplay/baseelement</example>
@@ -63,7 +58,6 @@ namespace VaultLib.Core.Data
             Vault = vault;
             Class = vltClass;
             Name = name;
-            Children = new ObservableCollection<VltCollection>();
             Data = new Dictionary<string, object>();
         }
 
@@ -80,36 +74,25 @@ namespace VaultLib.Core.Data
         }
 
         /// <summary>
-        /// Adds the given collection to the list of child collections and associates it with its new parent.
+        /// Makes the current collection the parent of another collection.
         /// </summary>
-        /// <param name="collection">The collection to add to the child list.</param>
+        /// <param name="collection">The collection that is being made a child.</param>
         public void AddChild(VltCollection collection)
         {
-            if (collection.Parent != null && collection.Parent.ShortPath == this.ShortPath)
-            {
-                throw new ArgumentException("Attempted to associate an already-related collection");
-            }
-
-            Children.Add(collection);
-
-            // Disassociate old parent
-            collection.Parent?.RemoveChild(collection);
-            // Set new parent
             collection.Parent = this;
         }
 
         /// <summary>
-        /// Removes the given collection from the list of child collections and disassociates it from its parent collection.
+        /// Breaks the parent-child relationship between the current collection and another collection.
         /// </summary>
-        /// <param name="collection">The collection to remove from the child list.</param>
+        /// <param name="collection">The collection to break the relationship with.</param>
         public void RemoveChild(VltCollection collection)
         {
-            if (collection.Parent == null || collection.Parent.ShortPath != this.ShortPath)
+            if (!ReferenceEquals(collection.Parent, this))
             {
                 throw new ArgumentException("Attempted to disassociate a non-related collection");
             }
 
-            Children.Remove(collection);
             collection.Parent = null;
         }
 

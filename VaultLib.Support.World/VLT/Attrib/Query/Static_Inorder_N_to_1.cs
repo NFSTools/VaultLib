@@ -73,7 +73,7 @@ namespace VaultLib.Support.World.VLT.Attrib.Query
 
         public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
         {
-            var groupedCollections = context.Database.RowManager.EnumerateFlattenedCollections(fieldContext.Class.Name)
+            var groupedCollections = context.Database.RowManager.EnumerateCollections(fieldContext.Class.Name)
                 .GroupBy(c => Vlt32Hasher.Hash(c.Parent?.Name));
             var sortedGroups = groupedCollections.OrderBy(g => g.Key).ToList();
 
