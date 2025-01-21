@@ -8,137 +8,136 @@ using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.LegacyBase.Exports
+namespace VaultLib.LegacyBase.Exports;
+
+public class ClassLoad : BaseClassLoad
 {
-    public class ClassLoad : BaseClassLoad
+    private uint ClassHash { get; set; }
+    private int NumDefinitions { get; set; }
+
+    private uint _definitionsPtr;
+    private long _srcDefinitionsPtr;
+    private long _dstDefinitionsPtr;
+
+    public override void Read(VaultReadContext context, BinaryReader br)
     {
-        private uint ClassHash { get; set; }
-        private int NumDefinitions { get; set; }
+        ClassHash = br.ReadUInt32();
+        uint cr = br.ReadUInt32(); // collection reserve
+        NumDefinitions = br.ReadInt32();
 
-        private uint _definitionsPtr;
-        private long _srcDefinitionsPtr;
-        private long _dstDefinitionsPtr;
-
-        public override void Read(VaultReadContext context, BinaryReader br)
+        _definitionsPtr = br.ReadPointer();
+        if (_definitionsPtr == 0)
         {
-            ClassHash = br.ReadUInt32();
-            uint cr = br.ReadUInt32(); // collection reserve
-            NumDefinitions = br.ReadInt32();
+            throw new InvalidDataException("Definitions pointer is NULL, this is not good!");
+        }
 
-            _definitionsPtr = br.ReadPointer();
-            if (_definitionsPtr == 0)
+        br.ReadUInt32();
+        uint u = br.ReadUInt32(); // null
+        Debug.Assert(u == 0);
+
+        ushort requiredCount = br.ReadUInt16();
+        Debug.Assert(requiredCount <= NumDefinitions);
+        br.ReadInt16();
+        Class = new VltClass(HashManager.ResolveVlt(ClassHash));
+    }
+
+    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    {
+        bw.Write(Vlt32Hasher.Hash(Class.Name));
+
+        int collReserve = (from collection in context.Database.RowManager.GetCollections(Class.Name)
+            select collection).Count();
+
+        if (collReserve == 0)
+        {
+            throw new InvalidDataException("Cannot serialize legacy ClassLoadData when mCollectionReserve is 0.");
+        }
+
+        bw.Write(collReserve);
+        bw.Write(Class.Fields.Count);
+        _srcDefinitionsPtr = bw.BaseStream.Position;
+        bw.Write(0);
+        bw.Write(ComputeBaseSize());
+        bw.Write(0);
+        bw.Write((ushort)Class.BaseFields.Count());
+        bw.Write((ushort)0);
+    }
+
+    public override void ReadPointerData(VaultReadContext context, BinaryReader br)
+    {
+        br.BaseStream.Position = _definitionsPtr;
+
+        for (int i = 0; i < NumDefinitions; i++)
+        {
+            AttribDefinition definition = new AttribDefinition();
+            definition.Read(context, br);
+
+            if ((definition.Flags & DefinitionFlags.IsStatic) != 0)
             {
-                throw new InvalidDataException("Definitions pointer is NULL, this is not good!");
+                throw new Exception("Legacy format does not support static fields");
             }
 
-            br.ReadUInt32();
-            uint u = br.ReadUInt32(); // null
-            Debug.Assert(u == 0);
+            VltClassField field = new VltClassField(
+                definition.Key,
+                HashManager.ResolveVlt((uint)definition.Key),
+                HashManager.ResolveVlt((uint)definition.Type),
+                definition.Flags,
+                definition.Alignment,
+                definition.Size,
+                definition.MaxCount,
+                definition.Offset);
 
-            ushort requiredCount = br.ReadUInt16();
-            Debug.Assert(requiredCount <= NumDefinitions);
-            br.ReadInt16();
-            Class = new VltClass(HashManager.ResolveVlt(ClassHash));
+            Class.Fields.Add(definition.Key, field);
         }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
+        context.Database.AddClass(Class);
+    }
+
+    public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+    {
+        _dstDefinitionsPtr = bw.BaseStream.Position;
+
+        foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
-            bw.Write(Vlt32Hasher.Hash(Class.Name));
+            AttribDefinition definition = new AttribDefinition();
+            definition.Key = Vlt32Hasher.Hash(field.Name);
+            definition.Type = Vlt32Hasher.Hash(field.TypeName);
+            definition.Flags = field.Flags;
+            definition.Size = field.Size;
+            definition.MaxCount = field.MaxCount;
+            definition.Offset = field.Offset;
+            definition.Alignment = field.Alignment;
 
-            int collReserve = (from collection in context.Database.RowManager.GetCollections(Class.Name)
-                               select collection).Count();
+            definition.Write(context, bw);
+        }
+    }
 
-            if (collReserve == 0)
+    public override void AddPointers(VaultWriteContext context)
+    {
+        context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
+    }
+
+    private int ComputeBaseSize()
+    {
+        int rfs = 0;
+        foreach (var baseField in Class.BaseFields)
+        {
+            if (rfs % baseField.Alignment != 0)
             {
-                throw new InvalidDataException("Cannot serialize legacy ClassLoadData when mCollectionReserve is 0.");
+                rfs += baseField.Alignment - rfs % baseField.Alignment;
             }
 
-            bw.Write(collReserve);
-            bw.Write(Class.Fields.Count);
-            _srcDefinitionsPtr = bw.BaseStream.Position;
-            bw.Write(0);
-            bw.Write(ComputeBaseSize());
-            bw.Write(0);
-            bw.Write((ushort)Class.BaseFields.Count());
-            bw.Write((ushort)0);
-        }
-
-        public override void ReadPointerData(VaultReadContext context, BinaryReader br)
-        {
-            br.BaseStream.Position = _definitionsPtr;
-
-            for (int i = 0; i < NumDefinitions; i++)
+            if ((baseField.Flags & DefinitionFlags.Array) != 0)
             {
-                AttribDefinition definition = new AttribDefinition();
-                definition.Read(context, br);
-
-                if ((definition.Flags & DefinitionFlags.IsStatic) != 0)
-                {
-                    throw new Exception("Legacy format does not support static fields");
-                }
-
-                VltClassField field = new VltClassField(
-                    definition.Key,
-                    HashManager.ResolveVlt((uint)definition.Key),
-                    HashManager.ResolveVlt((uint)definition.Type),
-                    definition.Flags,
-                    definition.Alignment,
-                    definition.Size,
-                    definition.MaxCount,
-                    definition.Offset);
-
-                Class.Fields.Add(definition.Key, field);
+                rfs += 8;
+                rfs += baseField.Size * baseField.MaxCount;
             }
-
-            context.Database.AddClass(Class);
-        }
-
-        public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
-        {
-            _dstDefinitionsPtr = bw.BaseStream.Position;
-
-            foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
+            else
             {
-                AttribDefinition definition = new AttribDefinition();
-                definition.Key = Vlt32Hasher.Hash(field.Name);
-                definition.Type = Vlt32Hasher.Hash(field.TypeName);
-                definition.Flags = field.Flags;
-                definition.Size = field.Size;
-                definition.MaxCount = field.MaxCount;
-                definition.Offset = field.Offset;
-                definition.Alignment = field.Alignment;
-
-                definition.Write(context, bw);
+                rfs += baseField.Size;
             }
         }
 
-        public override void AddPointers(VaultWriteContext context)
-        {
-            context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
-        }
-
-        private int ComputeBaseSize()
-        {
-            int rfs = 0;
-            foreach (var baseField in Class.BaseFields)
-            {
-                if (rfs % baseField.Alignment != 0)
-                {
-                    rfs += baseField.Alignment - rfs % baseField.Alignment;
-                }
-
-                if ((baseField.Flags & DefinitionFlags.Array) != 0)
-                {
-                    rfs += 8;
-                    rfs += baseField.Size * baseField.MaxCount;
-                }
-                else
-                {
-                    rfs += baseField.Size;
-                }
-            }
-
-            return rfs;
-        }
+        return rfs;
     }
 }

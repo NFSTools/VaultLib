@@ -4,22 +4,21 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
-{
-    [VltTypeInfo(nameof(HeavySupport))]
-    public struct HeavySupport
-    {
-        public enum HeavySupportStrategy
-        {
-            E_BRAKE = 0x1,
-            COORDINATED_E_BRAKE = 0x2,
-            RAM = 0x3,
-            HEAVY_ROADBLOCK = 0x4,
-        };
+namespace VaultLib.Frameworks.Speed.VLT;
 
-        public HeavySupportStrategy HeavyStrategy;
-        public uint Chance;
-        public float Duration;
-        public uint ChanceBigSUV;
-    }
+[VltTypeInfo(nameof(HeavySupport))]
+public struct HeavySupport
+{
+    public enum HeavySupportStrategy
+    {
+        E_BRAKE = 0x1,
+        COORDINATED_E_BRAKE = 0x2,
+        RAM = 0x3,
+        HEAVY_ROADBLOCK = 0x4,
+    };
+
+    public HeavySupportStrategy HeavyStrategy;
+    public uint Chance;
+    public float Duration;
+    public uint ChanceBigSUV;
 }

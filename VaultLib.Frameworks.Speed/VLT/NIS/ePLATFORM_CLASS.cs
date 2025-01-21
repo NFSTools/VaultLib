@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT.NIS
+namespace VaultLib.Frameworks.Speed.VLT.NIS;
+
+[VltTypeInfo("NIS::ePLATFORM_CLASS")]
+public enum ePLATFORM_CLASS
 {
-    [VltTypeInfo("NIS::ePLATFORM_CLASS")]
-    public enum ePLATFORM_CLASS
-    {
-        COMMON_PLATFORM = 0x0,
-        CURRENT_GEN = 0x1,
-        NEXT_GEN = 0x2
-    }
+    COMMON_PLATFORM = 0x0,
+    CURRENT_GEN = 0x1,
+    NEXT_GEN = 0x2
 }

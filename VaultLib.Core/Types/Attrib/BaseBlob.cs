@@ -1,85 +1,84 @@
 ﻿using System.IO;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Core.Types.Attrib
+namespace VaultLib.Core.Types.Attrib;
+
+public abstract class BaseBlob : VltBaseType, IVltPointerObject
 {
-    public abstract class BaseBlob : VltBaseType, IVltPointerObject
+    public byte[] Data { get; set; }
+
+    private int Length { get; set; }
+
+    private uint _dataOffset;
+    private long _dataPtrDst;
+
+    private long _dataPtrSrc;
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public byte[] Data { get; set; }
+        Length = br.ReadInt32();
 
-        private int Length { get; set; }
-
-        private uint _dataOffset;
-        private long _dataPtrDst;
-
-        private long _dataPtrSrc;
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+        if (Length < 0)
         {
-            Length = br.ReadInt32();
-
-            if (Length < 0)
-            {
-                throw new InvalidDataException("Blob length cannot be less than 0");
-            }
-
-            _dataOffset = br.ReadPointer();
+            throw new InvalidDataException("Blob length cannot be less than 0");
         }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            if (Data != null)
-            {
-                PrepareData();
-                bw.Write(GetDataLength());
-            }
-            else
-            {
-                bw.Write(0);
-            }
+        _dataOffset = br.ReadPointer();
+    }
 
-            _dataPtrSrc = bw.BaseStream.Position;
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        if (Data != null)
+        {
+            PrepareData();
+            bw.Write(GetDataLength());
+        }
+        else
+        {
             bw.Write(0);
         }
 
-        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+        _dataPtrSrc = bw.BaseStream.Position;
+        bw.Write(0);
+    }
+
+    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+        if (_dataOffset != 0)
         {
-            if (_dataOffset != 0)
-            {
-                br.BaseStream.Position = _dataOffset;
-                Data = ReadData(br);
-            }
+            br.BaseStream.Position = _dataOffset;
+            Data = ReadData(br);
+        }
+    }
+
+    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        if (Data != null)
+        {
+            _dataPtrDst = bw.BaseStream.Position;
+            WriteData(bw);
+        }
+    }
+
+    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    {
+        context.AddPointer(_dataPtrSrc, _dataPtrDst, false);
+    }
+
+    protected abstract void PrepareData();
+    protected abstract int GetDataLength();
+
+    protected abstract void WriteData(BinaryWriter bw);
+
+    protected virtual byte[] ReadData(BinaryReader br)
+    {
+        byte[] bytes = br.ReadBytes(Length);
+
+        if (bytes.Length != Length)
+        {
+            throw new InvalidDataException($"Expected {Length} bytes but got {bytes.Length}");
         }
 
-        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            if (Data != null)
-            {
-                _dataPtrDst = bw.BaseStream.Position;
-                WriteData(bw);
-            }
-        }
-
-        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
-        {
-            context.AddPointer(_dataPtrSrc, _dataPtrDst, false);
-        }
-
-        protected abstract void PrepareData();
-        protected abstract int GetDataLength();
-
-        protected abstract void WriteData(BinaryWriter bw);
-
-        protected virtual byte[] ReadData(BinaryReader br)
-        {
-            byte[] bytes = br.ReadBytes(Length);
-
-            if (bytes.Length != Length)
-            {
-                throw new InvalidDataException($"Expected {Length} bytes but got {bytes.Length}");
-            }
-
-            return bytes;
-        }
+        return bytes;
     }
 }

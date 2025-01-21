@@ -4,17 +4,16 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Undercover.VLT.Sound
+namespace VaultLib.Support.Undercover.VLT.Sound;
+
+[VltTypeInfo("Sound::EMomentChokeGroup")]
+public enum EMomentChokeGroup
 {
-    [VltTypeInfo("Sound::EMomentChokeGroup")]
-    public enum EMomentChokeGroup
-    {
-        eMOMENT_CHOKE_NONE = 0x0,
-        eMOMENT_CHOKE_PURSUIT_BREAKER = 0x1,
-        eMOMENT_CHOKE_SPEED_BREAKER = 0x2,
-        eMOMENT_CHOKE_CRASH_SWEETENER = 0x3,
-        eMOMENT_CHOKE_NIS = 0x4,
-        eMOMENT_CHOKE_SPOT_AMBIENCE = 0x5,
-        eMOMENT_CHOKE_MISC_FX = 0x6,
-    }
+    eMOMENT_CHOKE_NONE = 0x0,
+    eMOMENT_CHOKE_PURSUIT_BREAKER = 0x1,
+    eMOMENT_CHOKE_SPEED_BREAKER = 0x2,
+    eMOMENT_CHOKE_CRASH_SWEETENER = 0x3,
+    eMOMENT_CHOKE_NIS = 0x4,
+    eMOMENT_CHOKE_SPOT_AMBIENCE = 0x5,
+    eMOMENT_CHOKE_MISC_FX = 0x6,
 }

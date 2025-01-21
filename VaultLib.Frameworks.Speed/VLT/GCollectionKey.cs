@@ -9,61 +9,60 @@ using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Abstractions;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(GCollectionKey))]
+public class GCollectionKey : BaseRefSpec
 {
-    [VltTypeInfo(nameof(GCollectionKey))]
-    public class GCollectionKey : BaseRefSpec
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+        if (context.Database.Options.Type == DatabaseType.X86Database)
         {
-            if (context.Database.Options.Type == DatabaseType.X86Database)
-            {
-                _hash32 = br.ReadUInt32();
-            }
-            else
-            {
-                _hash64 = br.ReadUInt64();
-            }
+            _hash32 = br.ReadUInt32();
         }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+        else
         {
-            if (context.Database.Options.Type == DatabaseType.X86Database)
-                bw.Write(Vlt32Hasher.Hash(CollectionKey));
-            else
-                bw.Write(Vlt64Hasher.Hash(CollectionKey));
+            _hash64 = br.ReadUInt64();
         }
-
-        public override string ClassKey
-        {
-            get => "gameplay";
-            set { }
-        }
-
-        public override string CollectionKey
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(_key))
-                {
-                    return _key;
-                }
-
-                return _hash32 != 0
-                    ? HashManager.ResolveVlt(_hash32)
-                    : _hash64 != 0 ? HashManager.ResolveVlt(_hash64) : string.Empty;
-            }
-            set => _key = value;
-        }
-
-        public override string ToString()
-        {
-            return $"gameplay -> {CollectionKey}";
-        }
-
-        // https://github.com/NFSTools/VaultLib/issues/13
-        private uint _hash32;
-        private ulong _hash64;
-        private string _key;
     }
+
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        if (context.Database.Options.Type == DatabaseType.X86Database)
+            bw.Write(Vlt32Hasher.Hash(CollectionKey));
+        else
+            bw.Write(Vlt64Hasher.Hash(CollectionKey));
+    }
+
+    public override string ClassKey
+    {
+        get => "gameplay";
+        set { }
+    }
+
+    public override string CollectionKey
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(_key))
+            {
+                return _key;
+            }
+
+            return _hash32 != 0
+                ? HashManager.ResolveVlt(_hash32)
+                : _hash64 != 0 ? HashManager.ResolveVlt(_hash64) : string.Empty;
+        }
+        set => _key = value;
+    }
+
+    public override string ToString()
+    {
+        return $"gameplay -> {CollectionKey}";
+    }
+
+    // https://github.com/NFSTools/VaultLib/issues/13
+    private uint _hash32;
+    private ulong _hash64;
+    private string _key;
 }

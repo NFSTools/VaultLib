@@ -4,18 +4,17 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(AUDENGRPMRANGEst))]
+public struct AUDENGRPMRANGEst
 {
-    [VltTypeInfo(nameof(AUDENGRPMRANGEst))]
-    public struct AUDENGRPMRANGEst
-    {
-        public int IDLE_RPM;
-        public int CRZ_LO_RPM;
-        public int CRZ_MED_RPM;
-        public int CRZ_HI_RPM;
-        public int LD_LOW_RPM;
-        public int LD_MED_RPM;
-        public int LD_HI_RPM;
-        public int REVLMT_RPM;
-    }
+    public int IDLE_RPM;
+    public int CRZ_LO_RPM;
+    public int CRZ_MED_RPM;
+    public int CRZ_HI_RPM;
+    public int LD_LOW_RPM;
+    public int LD_MED_RPM;
+    public int LD_HI_RPM;
+    public int REVLMT_RPM;
 }

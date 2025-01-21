@@ -4,14 +4,13 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(RoadNoiseRecord))]
+public struct RoadNoiseRecord
 {
-    [VltTypeInfo(nameof(RoadNoiseRecord))]
-    public struct RoadNoiseRecord
-    {
-        public float Frequency;
-        public float Amplitude;
-        public float MinSpeed;
-        public float MaxSpeed;
-    }
+    public float Frequency;
+    public float Amplitude;
+    public float MinSpeed;
+    public float MaxSpeed;
 }

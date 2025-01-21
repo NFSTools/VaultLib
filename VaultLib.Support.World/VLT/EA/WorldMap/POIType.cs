@@ -4,16 +4,15 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.EA.WorldMap
+namespace VaultLib.Support.World.VLT.EA.WorldMap;
+
+[VltTypeInfo("EA::WorldMap::POIType")]
+public enum POIType
 {
-    [VltTypeInfo("EA::WorldMap::POIType")]
-    public enum POIType
-    {
-        POIType_Unknown = -1,
-        POIType_Cooldown,
-        POIType_PursuitBreaker,
-        POIType_FinishLine,
-        POIType_Treasure,
-        POIType_TreasureArea
-    }
+    POIType_Unknown = -1,
+    POIType_Cooldown,
+    POIType_PursuitBreaker,
+    POIType_FinishLine,
+    POIType_Treasure,
+    POIType_TreasureArea
 }

@@ -4,19 +4,18 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.GameCore
-{
-    [VltTypeInfo("GameCore::BehaviorSlot")]
-    public struct BehaviorSlot
-    {
-        public enum BehaviorFlag
-        {
-            kBehavior_Activatable = 1,
-            kBehavior_AutoActive
-        }
+namespace VaultLib.Support.World.VLT.GameCore;
 
-        public uint mBehaviorChannel;
-        public uint mBehaviorType;
-        public BehaviorFlag mFlags;
+[VltTypeInfo("GameCore::BehaviorSlot")]
+public struct BehaviorSlot
+{
+    public enum BehaviorFlag
+    {
+        kBehavior_Activatable = 1,
+        kBehavior_AutoActive
     }
+
+    public uint mBehaviorChannel;
+    public uint mBehaviorType;
+    public BehaviorFlag mFlags;
 }

@@ -5,36 +5,35 @@
 using System;
 using System.IO;
 
-namespace VaultLib.Core.Structures
+namespace VaultLib.Core.Structures;
+
+public class ChunkBlockHeader
 {
-    public class ChunkBlockHeader
+    public long Offset { get; set; }
+
+    public uint ID { get; set; }
+
+    public uint Size { get; set; }
+
+    public long EndOffset => Offset + Size + 8;
+
+    public void Read(BinaryReader br)
     {
-        public long Offset { get; set; }
+        Offset = br.BaseStream.Position;
+        ID = br.ReadUInt32();
+        Size = br.ReadUInt32() - 8;
 
-        public uint ID { get; set; }
+        if (Offset + Size + 8 > br.BaseStream.Length)
+            throw new InvalidDataException($"Overflowing chunk detected @ base+0x{Offset:X}");
+    }
 
-        public uint Size { get; set; }
+    public void Write(BinaryWriter bw)
+    {
+        throw new NotImplementedException();
+    }
 
-        public long EndOffset => Offset + Size + 8;
-
-        public void Read(BinaryReader br)
-        {
-            Offset = br.BaseStream.Position;
-            ID = br.ReadUInt32();
-            Size = br.ReadUInt32() - 8;
-
-            if (Offset + Size + 8 > br.BaseStream.Length)
-                throw new InvalidDataException($"Overflowing chunk detected @ base+0x{Offset:X}");
-        }
-
-        public void Write(BinaryWriter bw)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void GoToEnd(Stream stream)
-        {
-            stream.Seek(EndOffset, SeekOrigin.Begin);
-        }
+    public void GoToEnd(Stream stream)
+    {
+        stream.Seek(EndOffset, SeekOrigin.Begin);
     }
 }

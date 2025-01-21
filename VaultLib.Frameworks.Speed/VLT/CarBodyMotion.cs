@@ -4,13 +4,12 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(CarBodyMotion))]
+public struct CarBodyMotion
 {
-    [VltTypeInfo(nameof(CarBodyMotion))]
-    public struct CarBodyMotion
-    {
-        public float DegPerG;
-        public float MaxGs;
-        public float DegPerSec;
-    }
+    public float DegPerG;
+    public float MaxGs;
+    public float DegPerSec;
 }

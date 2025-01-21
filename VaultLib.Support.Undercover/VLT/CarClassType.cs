@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Undercover.VLT
+namespace VaultLib.Support.Undercover.VLT;
+
+[VltTypeInfo(nameof(CarClassType))]
+public enum CarClassType
 {
-    [VltTypeInfo(nameof(CarClassType))]
-    public enum CarClassType
-    {
-        CarClassType_Racing = 0x0,
-        CarClassType_Cop = 0x1,
-        CarClassType_Traffic = 0x2,
-    }
+    CarClassType_Racing = 0x0,
+    CarClassType_Cop = 0x1,
+    CarClassType_Traffic = 0x2,
 }

@@ -1,8 +1,7 @@
-﻿namespace VaultLib.Support.Undercover.VLT.RenderReflect
+﻿namespace VaultLib.Support.Undercover.VLT.RenderReflect;
+
+public enum State_RasterizerShadeMode
 {
-    public enum State_RasterizerShadeMode
-    {
-        kStateRasterizerShadeMode_Flat = 0x0,
-        kStateRasterizerShadeMode_Smooth = 0x1,
-    }
+    kStateRasterizerShadeMode_Flat = 0x0,
+    kStateRasterizerShadeMode_Smooth = 0x1,
 }

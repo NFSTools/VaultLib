@@ -4,17 +4,16 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
-{
-    [VltTypeInfo(nameof(GMapCurveRef))]
-    public struct GMapCurveRef
-    {
-        public enum GMapCurveRefFlags : ushort
-        {
-            kFlag_Reversed = 1,
-        }
+namespace VaultLib.Frameworks.Speed.VLT;
 
-        public ushort mCurveIndex;
-        public GMapCurveRefFlags Flags;
+[VltTypeInfo(nameof(GMapCurveRef))]
+public struct GMapCurveRef
+{
+    public enum GMapCurveRefFlags : ushort
+    {
+        kFlag_Reversed = 1,
     }
+
+    public ushort mCurveIndex;
+    public GMapCurveRefFlags Flags;
 }

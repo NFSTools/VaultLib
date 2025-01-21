@@ -1,19 +1,18 @@
 ﻿using VaultLib.Core;
 
-namespace VaultLib.Frameworks.Speed
+namespace VaultLib.Frameworks.Speed;
+
+/// <summary>
+/// Helper class for libraries that use VaultLib.Frameworks.Speed
+/// </summary>
+public static class SpeedFramework
 {
     /// <summary>
-    /// Helper class for libraries that use VaultLib.Frameworks.Speed
+    /// Registers the framework types.
     /// </summary>
-    public static class SpeedFramework
+    /// <param name="registry">The type registry to register the types with</param>
+    public static void Register(TypeRegistry registry)
     {
-        /// <summary>
-        /// Registers the framework types.
-        /// </summary>
-        /// <param name="registry">The type registry to register the types with</param>
-        public static void Register(TypeRegistry registry)
-        {
-            registry.RegisterAssemblyTypes(typeof(SpeedFramework).Assembly);
-        }
+        registry.RegisterAssemblyTypes(typeof(SpeedFramework).Assembly);
     }
 }

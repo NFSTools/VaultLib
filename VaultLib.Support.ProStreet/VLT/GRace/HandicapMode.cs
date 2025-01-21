@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT.GRace
+namespace VaultLib.Support.ProStreet.VLT.GRace;
+
+[VltTypeInfo("GRace::HandicapMode")]
+public enum HandicapMode
 {
-    [VltTypeInfo("GRace::HandicapMode")]
-    public enum HandicapMode
-    {
-        kHandicap_None = 0x0,
-        kHandicap_Performance = 0x1,
-        kHandicap_Group = 0x2,
-    }
+    kHandicap_None = 0x0,
+    kHandicap_Performance = 0x1,
+    kHandicap_Group = 0x2,
 }

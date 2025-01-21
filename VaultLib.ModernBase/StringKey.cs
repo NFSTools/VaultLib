@@ -11,55 +11,54 @@ using VaultLib.Core.Types;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.ModernBase
+namespace VaultLib.ModernBase;
+
+public class StringKey : VltBaseType, IReferencesStrings, IStringValue
 {
-    public class StringKey : VltBaseType, IReferencesStrings, IStringValue
+    public string Value { get; set; } = string.Empty;
+
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public string Value { get; set; } = string.Empty;
+        br.ReadUInt32();
+        Value = context.ReadString(br);
+    }
 
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        bw.Write(Vlt32Hasher.Hash(Value));
+        context.WriteString(Value, fieldContext, bw);
+    }
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            br.ReadUInt32();
-            Value = context.ReadString(br);
-        }
+    public IEnumerable<string> GetStrings()
+    {
+        return new List<string>(new[] { Value });
+    }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.Write(Vlt32Hasher.Hash(Value));
-            context.WriteString(Value, fieldContext, bw);
-        }
+    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+    }
 
-        public IEnumerable<string> GetStrings()
-        {
-            return new List<string>(new[] { Value });
-        }
+    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+    }
 
-        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-        }
+    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    {
+    }
 
-        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-        }
+    public override string ToString()
+    {
+        return Value;
+    }
 
-        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
-        {
-        }
+    public string GetString()
+    {
+        return Value;
+    }
 
-        public override string ToString()
-        {
-            return Value;
-        }
-
-        public string GetString()
-        {
-            return Value;
-        }
-
-        public void SetString(string str)
-        {
-            Value = str;
-        }
+    public void SetString(string str)
+    {
+        Value = str;
     }
 }

@@ -6,29 +6,28 @@ using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
 
-namespace VaultLib.LegacyBase.Structures
+namespace VaultLib.LegacyBase.Structures;
+
+public class PtrRef64 : IPtrRef
 {
-    public class PtrRef64 : IPtrRef
+    public void Read(VaultReadContext context, BinaryReader br)
     {
-        public void Read(VaultReadContext context, BinaryReader br)
-        {
-            FixupOffset = br.ReadUInt32();
-            PtrType = (EPtrRefType)br.ReadUInt16();
-            Index = br.ReadUInt16();
-            Destination = (uint)br.ReadUInt64();
-        }
-
-        public void Write(VaultWriteContext context, BinaryWriter bw)
-        {
-            bw.Write(FixupOffset);
-            bw.Write((ushort)PtrType);
-            bw.Write(Index);
-            bw.Write((ulong)Destination);
-        }
-
-        public uint FixupOffset { get; set; }
-        public EPtrRefType PtrType { get; set; }
-        public ushort Index { get; set; }
-        public uint Destination { get; set; }
+        FixupOffset = br.ReadUInt32();
+        PtrType = (EPtrRefType)br.ReadUInt16();
+        Index = br.ReadUInt16();
+        Destination = (uint)br.ReadUInt64();
     }
+
+    public void Write(VaultWriteContext context, BinaryWriter bw)
+    {
+        bw.Write(FixupOffset);
+        bw.Write((ushort)PtrType);
+        bw.Write(Index);
+        bw.Write((ulong)Destination);
+    }
+
+    public uint FixupOffset { get; set; }
+    public EPtrRefType PtrType { get; set; }
+    public ushort Index { get; set; }
+    public uint Destination { get; set; }
 }

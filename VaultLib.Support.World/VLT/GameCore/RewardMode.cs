@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.GameCore
+namespace VaultLib.Support.World.VLT.GameCore;
+
+[VltTypeInfo("GameCore::RewardMode")]
+public enum RewardMode
 {
-    [VltTypeInfo("GameCore::RewardMode")]
-    public enum RewardMode
-    {
-        kRewardMode_Singleplayer = 1,
-        kRewardMode_Multiplayer = 2,
-        kRewardMode_PrivateMatch = 3,
-    }
+    kRewardMode_Singleplayer = 1,
+    kRewardMode_Multiplayer = 2,
+    kRewardMode_PrivateMatch = 3,
 }

@@ -4,12 +4,11 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(GMapCurvePoint))]
+public struct GMapCurvePoint
 {
-    [VltTypeInfo(nameof(GMapCurvePoint))]
-    public struct GMapCurvePoint
-    {
-        public float X;
-        public float Y;
-    }
+    public float X;
+    public float Y;
 }

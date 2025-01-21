@@ -4,14 +4,13 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(JunkmanMod))]
+public struct JunkmanMod
 {
-    [VltTypeInfo(nameof(JunkmanMod))]
-    public struct JunkmanMod
-    {
-        public uint ClassKey;
-        public uint DefinitionKey;
-        public float ScaleF;
-        public float ScaleR;
-    }
+    public uint ClassKey;
+    public uint DefinitionKey;
+    public float ScaleF;
+    public float ScaleR;
 }

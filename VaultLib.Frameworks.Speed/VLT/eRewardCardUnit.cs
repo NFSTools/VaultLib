@@ -4,14 +4,13 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(eRewardCardUnit))]
+public enum eRewardCardUnit
 {
-    [VltTypeInfo(nameof(eRewardCardUnit))]
-    public enum eRewardCardUnit
-    {
-        UNIT_NONE = 0x0,
-        UNIT_TIME = 0x1,
-        UNIT_NUMBER = 0x2,
-        UNIT_SPEED = 0x3,
-    }
+    UNIT_NONE = 0x0,
+    UNIT_TIME = 0x1,
+    UNIT_NUMBER = 0x2,
+    UNIT_SPEED = 0x3,
 }

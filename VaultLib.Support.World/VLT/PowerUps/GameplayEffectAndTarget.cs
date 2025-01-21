@@ -10,42 +10,41 @@ using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Support.World.VLT.PowerUps
+namespace VaultLib.Support.World.VLT.PowerUps;
+
+[VltTypeInfo("PowerUps::GameplayEffectAndTarget")]
+public class GameplayEffectAndTarget : VltBaseType, IReferencesCollections
 {
-    [VltTypeInfo("PowerUps::GameplayEffectAndTarget")]
-    public class GameplayEffectAndTarget : VltBaseType, IReferencesCollections
+    public string GroupKey { get; set; }
+    public uint Type { get; set; }
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public string GroupKey { get; set; }
-        public uint Type { get; set; }
+        RefSpec rs = new RefSpec();
+        rs.Read(context, fieldContext, br);
+        uint type = br.ReadUInt32();
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            RefSpec rs = new RefSpec();
-            rs.Read(context, fieldContext, br);
-            uint type = br.ReadUInt32();
+        GroupKey = rs.CollectionKey;
+        Type = type;
+    }
 
-            GroupKey = rs.CollectionKey;
-            Type = type;
-        }
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        RefSpec rs = new RefSpec();
+        rs.ClassKey = "powerup_gamegroup";
+        rs.CollectionKey = GroupKey;
+        rs.Write(context, fieldContext, bw);
+        bw.Write(Type);
+    }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            RefSpec rs = new RefSpec();
-            rs.ClassKey = "powerup_gamegroup";
-            rs.CollectionKey = GroupKey;
-            rs.Write(context, fieldContext, bw);
-            bw.Write(Type);
-        }
+    public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
+    {
+        yield return new CollectionReferenceInfo(this,
+            database.RowManager.FindCollectionByName("powerup_gamegroup", GroupKey));
+    }
 
-        public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
-        {
-            yield return new CollectionReferenceInfo(this,
-                database.RowManager.FindCollectionByName("powerup_gamegroup", GroupKey));
-        }
-
-        public bool ReferencesCollection(string classKey, string collectionKey)
-        {
-            return classKey == "powerup_gamegroup" && collectionKey == GroupKey;
-        }
+    public bool ReferencesCollection(string classKey, string collectionKey)
+    {
+        return classKey == "powerup_gamegroup" && collectionKey == GroupKey;
     }
 }

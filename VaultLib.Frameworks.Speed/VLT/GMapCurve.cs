@@ -4,12 +4,11 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(GMapCurve))]
+public struct GMapCurve
 {
-    [VltTypeInfo(nameof(GMapCurve))]
-    public struct GMapCurve
-    {
-        public ushort mPointStart;
-        public ushort mPointCount;
-    }
+    public ushort mPointStart;
+    public ushort mPointCount;
 }

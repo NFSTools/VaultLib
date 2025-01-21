@@ -6,46 +6,45 @@ using System;
 using System.IO;
 using VaultLib.Core.Chunks;
 
-namespace VaultLib.Core.IO
+namespace VaultLib.Core.IO;
+
+/// <summary>
+///     Writes AttribSys-style chunks to a data stream.
+/// </summary>
+public class ChunkWriter
 {
     /// <summary>
-    ///     Writes AttribSys-style chunks to a data stream.
+    ///     Initializes the chunk writer with a backing <see cref="BinaryWriter" /> and <see cref="VaultLib.Core.Vault" />
     /// </summary>
-    public class ChunkWriter
+    /// <param name="writer">The <see cref="BinaryWriter" /> instance that will write to the stream</param>
+    /// <param name="writeContext">The <see cref="VaultWriteContext" /> instance to provide to chunk instances</param>
+    public ChunkWriter(BinaryWriter writer, VaultWriteContext writeContext)
     {
-        /// <summary>
-        ///     Initializes the chunk writer with a backing <see cref="BinaryWriter" /> and <see cref="VaultLib.Core.Vault" />
-        /// </summary>
-        /// <param name="writer">The <see cref="BinaryWriter" /> instance that will write to the stream</param>
-        /// <param name="writeContext">The <see cref="VaultWriteContext" /> instance to provide to chunk instances</param>
-        public ChunkWriter(BinaryWriter writer, VaultWriteContext writeContext)
-        {
-            Writer = writer ?? throw new ArgumentNullException(nameof(writer));
-            WriteContext = writeContext ?? throw new ArgumentNullException(nameof(writeContext));
-        }
+        Writer = writer ?? throw new ArgumentNullException(nameof(writer));
+        WriteContext = writeContext ?? throw new ArgumentNullException(nameof(writeContext));
+    }
 
-        private BinaryWriter Writer { get; }
+    private BinaryWriter Writer { get; }
 
-        private VaultWriteContext WriteContext { get; }
+    private VaultWriteContext WriteContext { get; }
 
-        /// <summary>
-        ///     Writes a chunk to the data stream.
-        /// </summary>
-        /// <param name="chunk">The chunk to write.</param>
-        public void WriteChunk(ChunkBase chunk)
-        {
-            var beginPos = Writer.BaseStream.Position;
-            Writer.Write(chunk.Id);
-            var sizePos = Writer.BaseStream.Position;
-            Writer.Write(0);
+    /// <summary>
+    ///     Writes a chunk to the data stream.
+    /// </summary>
+    /// <param name="chunk">The chunk to write.</param>
+    public void WriteChunk(ChunkBase chunk)
+    {
+        var beginPos = Writer.BaseStream.Position;
+        Writer.Write(chunk.Id);
+        var sizePos = Writer.BaseStream.Position;
+        Writer.Write(0);
 
-            chunk.Write(WriteContext, Writer);
+        chunk.Write(WriteContext, Writer);
 
-            var endPos = Writer.BaseStream.Position;
+        var endPos = Writer.BaseStream.Position;
 
-            Writer.BaseStream.Position = sizePos;
-            Writer.Write((uint)(endPos - beginPos));
-            Writer.BaseStream.Position = endPos;
-        }
+        Writer.BaseStream.Position = sizePos;
+        Writer.Write((uint)(endPos - beginPos));
+        Writer.BaseStream.Position = endPos;
     }
 }

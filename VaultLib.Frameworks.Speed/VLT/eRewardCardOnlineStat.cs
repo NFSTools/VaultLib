@@ -4,14 +4,13 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(eRewardCardOnlineStat))]
+public enum eRewardCardOnlineStat
 {
-    [VltTypeInfo(nameof(eRewardCardOnlineStat))]
-    public enum eRewardCardOnlineStat
-    {
-        UNKNOWN_STATS = -1,
-        PLAYER_STATS = 0x0,
-        GLOBAL_STATS = 0x1,
-        OFFLINE_STATS = 0x2,
-    }
+    UNKNOWN_STATS = -1,
+    PLAYER_STATS = 0x0,
+    GLOBAL_STATS = 0x1,
+    OFFLINE_STATS = 0x2,
 }

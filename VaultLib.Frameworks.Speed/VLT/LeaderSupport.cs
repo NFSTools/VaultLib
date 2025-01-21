@@ -4,22 +4,21 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
-{
-    [VltTypeInfo(nameof(LeaderSupport))]
-    public struct LeaderSupport
-    {
-        public enum LeaderSupportStrategy
-        {
-            CROSS_FOLLOW = 0x5,
-            CROSS_BRAKE = 0x6,
-            CROSS_PLUS_V_BLOCK = 0x7,
-        }
+namespace VaultLib.Frameworks.Speed.VLT;
 
-        public LeaderSupportStrategy LeaderStrategy;
-        public uint Chance;
-        public float Duration;
-        public uint PriorityChance;
-        public float PriorityTime;
+[VltTypeInfo(nameof(LeaderSupport))]
+public struct LeaderSupport
+{
+    public enum LeaderSupportStrategy
+    {
+        CROSS_FOLLOW = 0x5,
+        CROSS_BRAKE = 0x6,
+        CROSS_PLUS_V_BLOCK = 0x7,
     }
+
+    public LeaderSupportStrategy LeaderStrategy;
+    public uint Chance;
+    public float Duration;
+    public uint PriorityChance;
+    public float PriorityTime;
 }

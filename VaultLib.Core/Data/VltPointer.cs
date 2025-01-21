@@ -4,50 +4,49 @@
 
 using System.Collections.Generic;
 
-namespace VaultLib.Core.Data
+namespace VaultLib.Core.Data;
+
+public enum VltPointerType
 {
-    public enum VltPointerType
+    Bin,
+    Vlt
+}
+
+public class VltPointer
+{
+    public uint FixUpOffset { get; set; }
+
+    public uint Destination { get; set; }
+
+    public VltPointerType Type { get; set; }
+
+    public static IEqualityComparer<VltPointer> FixUpOffsetDestinationTypeComparer { get; } =
+        new FixUpOffsetDestinationTypeEqualityComparer();
+
+    public override string ToString()
     {
-        Bin,
-        Vlt
+        return $"{Type}+{FixUpOffset:X} -> {Destination:X}";
     }
 
-    public class VltPointer
+    private sealed class FixUpOffsetDestinationTypeEqualityComparer : IEqualityComparer<VltPointer>
     {
-        public uint FixUpOffset { get; set; }
-
-        public uint Destination { get; set; }
-
-        public VltPointerType Type { get; set; }
-
-        public static IEqualityComparer<VltPointer> FixUpOffsetDestinationTypeComparer { get; } =
-            new FixUpOffsetDestinationTypeEqualityComparer();
-
-        public override string ToString()
+        public bool Equals(VltPointer x, VltPointer y)
         {
-            return $"{Type}+{FixUpOffset:X} -> {Destination:X}";
+            if (ReferenceEquals(x, y)) return true;
+            if (ReferenceEquals(x, null)) return false;
+            if (ReferenceEquals(y, null)) return false;
+            if (x.GetType() != y.GetType()) return false;
+            return x.FixUpOffset == y.FixUpOffset && x.Destination == y.Destination && x.Type == y.Type;
         }
 
-        private sealed class FixUpOffsetDestinationTypeEqualityComparer : IEqualityComparer<VltPointer>
+        public int GetHashCode(VltPointer obj)
         {
-            public bool Equals(VltPointer x, VltPointer y)
+            unchecked
             {
-                if (ReferenceEquals(x, y)) return true;
-                if (ReferenceEquals(x, null)) return false;
-                if (ReferenceEquals(y, null)) return false;
-                if (x.GetType() != y.GetType()) return false;
-                return x.FixUpOffset == y.FixUpOffset && x.Destination == y.Destination && x.Type == y.Type;
-            }
-
-            public int GetHashCode(VltPointer obj)
-            {
-                unchecked
-                {
-                    var hashCode = (int)obj.FixUpOffset;
-                    hashCode = (hashCode * 397) ^ (int)obj.Destination;
-                    hashCode = (hashCode * 397) ^ (int)obj.Type;
-                    return hashCode;
-                }
+                var hashCode = (int)obj.FixUpOffset;
+                hashCode = (hashCode * 397) ^ (int)obj.Destination;
+                hashCode = (hashCode * 397) ^ (int)obj.Type;
+                return hashCode;
             }
         }
     }

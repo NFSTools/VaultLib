@@ -5,27 +5,26 @@
 using System;
 using System.IO;
 
-namespace VaultLib.Core.Chunks
+namespace VaultLib.Core.Chunks;
+
+public class GenericChunk : ChunkBase
 {
-    public class GenericChunk : ChunkBase
+    public GenericChunk(uint id)
     {
-        public GenericChunk(uint id)
-        {
-            Id = id;
-        }
+        Id = id;
+    }
 
-        public override uint Id { get; }
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
+    public override uint Id { get; }
+    public override uint Size { get; set; }
+    public override long Offset { get; set; }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
-        {
-            //Debug.WriteLine("UNKNOWN CHUNK of {0} bytes - text {2} ({1:X8})", this.Size, this.ID, Encoding.ASCII.GetString(BitConverter.GetBytes(this.ID).Reverse().ToArray()));
-        }
+    public override void Read(VaultReadContext context, BinaryReader br)
+    {
+        //Debug.WriteLine("UNKNOWN CHUNK of {0} bytes - text {2} ({1:X8})", this.Size, this.ID, Encoding.ASCII.GetString(BitConverter.GetBytes(this.ID).Reverse().ToArray()));
+    }
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
-        {
-            throw new NotImplementedException();
-        }
+    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    {
+        throw new NotImplementedException();
     }
 }

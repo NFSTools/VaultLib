@@ -14,211 +14,210 @@ using VaultLib.Core.Hashing;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Core.DB
+namespace VaultLib.Core.DB;
+
+/// <summary>
+///     The <see cref="Database" /> is the powerhouse of the library. It keeps track of all data that is loaded.
+/// </summary>
+public class Database
 {
+    private Dictionary<VltCollection, ulong> _parentKeyDictionary = new Dictionary<VltCollection, ulong>();
+
     /// <summary>
-    ///     The <see cref="Database" /> is the powerhouse of the library. It keeps track of all data that is loaded.
+    /// Initializes the database. Sets up data collections.
     /// </summary>
-    public class Database
+    /// <param name="options"></param>
+    /// <param name="exportFactory"></param>
+    public Database(DatabaseOptions options, ExportFactory exportFactory)
     {
-        private Dictionary<VltCollection, ulong> _parentKeyDictionary = new Dictionary<VltCollection, ulong>();
+        Options = options;
+        Classes = new List<VltClass>();
+        Types = new List<DatabaseTypeInfo>();
+        Vaults = new List<Vault>();
+        RowManager = new RowManager(this);
+        TypeRegistry = new TypeRegistry();
+        ExportFactory = exportFactory;
+    }
 
-        /// <summary>
-        /// Initializes the database. Sets up data collections.
-        /// </summary>
-        /// <param name="options"></param>
-        /// <param name="exportFactory"></param>
-        public Database(DatabaseOptions options, ExportFactory exportFactory)
+    public DatabaseOptions Options { get; }
+
+    public RowManager RowManager { get; }
+
+    public List<VltClass> Classes { get; }
+
+    public List<DatabaseTypeInfo> Types { get; }
+
+    public TypeRegistry TypeRegistry { get; }
+
+    public ExportFactory ExportFactory { get; }
+
+    public List<Vault> Vaults { get; }
+
+    /// <summary>
+    /// Adds a new <see cref="VltClass"/> to the list of classes.
+    /// </summary>
+    /// <param name="vltClass">The <see cref="VltClass"/> to add to the database.</param>
+    public void AddClass(VltClass vltClass)
+    {
+        Classes.Add(vltClass);
+    }
+
+    /// <summary>
+    /// Locates and returns the <see cref="VltClass"/> with the given name.
+    /// </summary>
+    /// <param name="name">The name of the class to search for.</param>
+    /// <returns>The <see cref="VltClass"/> with the given name.</returns>
+    /// <exception cref="InvalidOperationException">if no class can be found</exception>
+    public VltClass FindClass(string name)
+    {
+        return Classes.First(c => c.Name == name);
+    }
+
+    public Vault FindVault(string name)
+    {
+        return Vaults.First(v => v.Name == name);
+    }
+
+    public Vault LoadVault(VaultReadWrapper readWrapper)
+    {
+        var vault = new Vault(readWrapper.VaultName)
         {
-            Options = options;
-            Classes = new List<VltClass>();
-            Types = new List<DatabaseTypeInfo>();
-            Vaults = new List<Vault>();
-            RowManager = new RowManager(this);
-            TypeRegistry = new TypeRegistry();
-            ExportFactory = exportFactory;
+            Database = this,
+            ByteOrder = readWrapper.ByteOrder
+        };
+
+        var binStreamReader = CreateStreamReader(readWrapper.BinStream, readWrapper.ByteOrder);
+        var vltStreamReader = CreateStreamReader(readWrapper.VltStream, readWrapper.ByteOrder);
+
+        var binChunkReader = new ChunkReader(binStreamReader);
+        var vltChunkReader = new ChunkReader(vltStreamReader);
+
+        var vaultLoadContext = new VaultReadContext(vault, readWrapper.BinStream, readWrapper.VltStream);
+
+        //Debug.WriteLine("Processing BIN chunks");
+        processBinChunks(vaultLoadContext, binChunkReader);
+
+        //Debug.WriteLine("Processing VLT chunks");
+        processVltChunks(vaultLoadContext, vltChunkReader);
+
+        //Debug.WriteLine("Processing pointers");
+        fixPointers(vaultLoadContext, VltPointerType.Bin, readWrapper.BinStream);
+        fixPointers(vaultLoadContext, VltPointerType.Vlt, readWrapper.VltStream);
+
+        //Debug.WriteLine("Reading exports");
+        ReadExports(vaultLoadContext, vltStreamReader, binStreamReader);
+
+        Vaults.Add(vault);
+
+        return vault;
+    }
+
+    private static BinaryReader CreateStreamReader(Stream stream, ByteOrder byteOrder)
+    {
+        return byteOrder == ByteOrder.Big ? new BigEndianBinaryReader(stream) : new BinaryReader(stream);
+    }
+
+    /// <summary>
+    ///     Called after all vaults have been loaded in order to generate a proper hierarchy.
+    /// </summary>
+    public void CompleteLoad()
+    {
+        ulong Hash(string s)
+        {
+            return Options.Type == DatabaseType.X64Database ? Vlt64Hasher.Hash(s) : Vlt32Hasher.Hash(s);
         }
 
-        public DatabaseOptions Options { get; }
+        var stopwatch = Stopwatch.StartNew();
 
-        public RowManager RowManager { get; }
+        var hashDictionary = Classes.ToDictionary(c => c, c => Hash(c.Name));
+        var collectionDictionary =
+            RowManager.Rows.GroupBy(r => hashDictionary[r.Class])
+                .ToDictionary(g => g.Key, g => g.ToDictionary(c => Hash(c.Name), c => c));
 
-        public List<VltClass> Classes { get; }
-
-        public List<DatabaseTypeInfo> Types { get; }
-
-        public TypeRegistry TypeRegistry { get; }
-
-        public ExportFactory ExportFactory { get; }
-
-        public List<Vault> Vaults { get; }
-
-        /// <summary>
-        /// Adds a new <see cref="VltClass"/> to the list of classes.
-        /// </summary>
-        /// <param name="vltClass">The <see cref="VltClass"/> to add to the database.</param>
-        public void AddClass(VltClass vltClass)
+        foreach (var row in RowManager.Rows)
         {
-            Classes.Add(vltClass);
+            if (!_parentKeyDictionary.TryGetValue(row, out var parentKey)) continue;
+            var parentCollection = collectionDictionary[hashDictionary[row.Class]][parentKey];
+            parentCollection.AddChild(row);
         }
 
-        /// <summary>
-        /// Locates and returns the <see cref="VltClass"/> with the given name.
-        /// </summary>
-        /// <param name="name">The name of the class to search for.</param>
-        /// <returns>The <see cref="VltClass"/> with the given name.</returns>
-        /// <exception cref="InvalidOperationException">if no class can be found</exception>
-        public VltClass FindClass(string name)
+        stopwatch.Stop();
+        _parentKeyDictionary.Clear();
+    }
+
+    #region Internal Data Reading
+
+    private void ReadExports(VaultReadContext context, BinaryReader vltStreamReader, BinaryReader binStreamReader)
+    {
+        foreach (Exports.BaseExport vaultExport in context.Vault.Exports)
         {
-            return Classes.First(c => c.Name == name);
-        }
-
-        public Vault FindVault(string name)
-        {
-            return Vaults.First(v => v.Name == name);
-        }
-
-        public Vault LoadVault(VaultReadWrapper readWrapper)
-        {
-            var vault = new Vault(readWrapper.VaultName)
-            {
-                Database = this,
-                ByteOrder = readWrapper.ByteOrder
-            };
-
-            var binStreamReader = CreateStreamReader(readWrapper.BinStream, readWrapper.ByteOrder);
-            var vltStreamReader = CreateStreamReader(readWrapper.VltStream, readWrapper.ByteOrder);
-
-            var binChunkReader = new ChunkReader(binStreamReader);
-            var vltChunkReader = new ChunkReader(vltStreamReader);
-
-            var vaultLoadContext = new VaultReadContext(vault, readWrapper.BinStream, readWrapper.VltStream);
-
-            //Debug.WriteLine("Processing BIN chunks");
-            processBinChunks(vaultLoadContext, binChunkReader);
-
-            //Debug.WriteLine("Processing VLT chunks");
-            processVltChunks(vaultLoadContext, vltChunkReader);
-
-            //Debug.WriteLine("Processing pointers");
-            fixPointers(vaultLoadContext, VltPointerType.Bin, readWrapper.BinStream);
-            fixPointers(vaultLoadContext, VltPointerType.Vlt, readWrapper.VltStream);
-
-            //Debug.WriteLine("Reading exports");
-            ReadExports(vaultLoadContext, vltStreamReader, binStreamReader);
-
-            Vaults.Add(vault);
-
-            return vault;
-        }
-
-        private static BinaryReader CreateStreamReader(Stream stream, ByteOrder byteOrder)
-        {
-            return byteOrder == ByteOrder.Big ? new BigEndianBinaryReader(stream) : new BinaryReader(stream);
-        }
-
-        /// <summary>
-        ///     Called after all vaults have been loaded in order to generate a proper hierarchy.
-        /// </summary>
-        public void CompleteLoad()
-        {
-            ulong Hash(string s)
-            {
-                return Options.Type == DatabaseType.X64Database ? Vlt64Hasher.Hash(s) : Vlt32Hasher.Hash(s);
-            }
-
-            var stopwatch = Stopwatch.StartNew();
-
-            var hashDictionary = Classes.ToDictionary(c => c, c => Hash(c.Name));
-            var collectionDictionary =
-                RowManager.Rows.GroupBy(r => hashDictionary[r.Class])
-                    .ToDictionary(g => g.Key, g => g.ToDictionary(c => Hash(c.Name), c => c));
-
-            foreach (var row in RowManager.Rows)
-            {
-                if (!_parentKeyDictionary.TryGetValue(row, out var parentKey)) continue;
-                var parentCollection = collectionDictionary[hashDictionary[row.Class]][parentKey];
-                parentCollection.AddChild(row);
-            }
-
-            stopwatch.Stop();
-            _parentKeyDictionary.Clear();
-        }
-
-        #region Internal Data Reading
-
-        private void ReadExports(VaultReadContext context, BinaryReader vltStreamReader, BinaryReader binStreamReader)
-        {
-            foreach (Exports.BaseExport vaultExport in context.Vault.Exports)
-            {
-                vltStreamReader.BaseStream.Position = vaultExport.Offset;
-                vaultExport.Read(context, vltStreamReader);
+            vltStreamReader.BaseStream.Position = vaultExport.Offset;
+            vaultExport.Read(context, vltStreamReader);
 #if DEBUG
-                if ((vltStreamReader.BaseStream.Position - vaultExport.Offset) != vaultExport.Size)
-                    throw new Exception();
+            if ((vltStreamReader.BaseStream.Position - vaultExport.Offset) != vaultExport.Size)
+                throw new Exception();
 #endif
 
-                if (vaultExport is IPointerObject pointerObject)
-                {
-                    pointerObject.ReadPointerData(context, binStreamReader);
-                }
-
-                if (vaultExport is BaseCollectionLoad bcl)
-                {
-                    if (bcl.ParentKey != 0)
-                    {
-                        _parentKeyDictionary[bcl.Collection] = bcl.ParentKey;
-                    }
-                }
-            }
-
-            context.Vault.IsPrimaryVault = context.Vault.Exports.OfType<BaseClassLoad>().Any();
-        }
-
-        private void fixPointers(VaultReadContext context, VltPointerType pointerType, Stream stream)
-        {
-            IEnumerable<VltPointer> pointers =
-                from pointer in context.Pointers where pointer.Type == pointerType select pointer;
-
-            ByteOrder byteOrder = context.Vault.ByteOrder;
-            bool isBigEndian = byteOrder == ByteOrder.Big;
-
-            foreach (VltPointer pointer in pointers)
+            if (vaultExport is IPointerObject pointerObject)
             {
-                stream.Position = pointer.FixUpOffset;
-                uint destination = pointer.Destination;
-                byte[] destBytes = BitConverter.GetBytes(destination);
-
-                if (isBigEndian)
-                {
-                    Array.Reverse(destBytes);
-                }
-
-                stream.Write(destBytes, 0, 4);
+                pointerObject.ReadPointerData(context, binStreamReader);
             }
-        }
 
-        private void processBinChunks(VaultReadContext context, ChunkReader chunkReader)
-        {
-            chunkReader.NextChunk().Read(context, chunkReader.Reader);
-        }
-
-        private void processVltChunks(VaultReadContext context, ChunkReader chunkReader)
-        {
-            while (chunkReader.Reader.BaseStream.Position < chunkReader.Reader.BaseStream.Length)
+            if (vaultExport is BaseCollectionLoad bcl)
             {
-                Chunks.ChunkBase chunk = chunkReader.NextChunk();
-
-                if (chunk == null)
+                if (bcl.ParentKey != 0)
                 {
-                    break;
+                    _parentKeyDictionary[bcl.Collection] = bcl.ParentKey;
                 }
-
-                chunk.Read(context, chunkReader.Reader);
-                chunk.GoToEnd(chunkReader.Reader.BaseStream);
             }
         }
 
-        #endregion
+        context.Vault.IsPrimaryVault = context.Vault.Exports.OfType<BaseClassLoad>().Any();
     }
+
+    private void fixPointers(VaultReadContext context, VltPointerType pointerType, Stream stream)
+    {
+        IEnumerable<VltPointer> pointers =
+            from pointer in context.Pointers where pointer.Type == pointerType select pointer;
+
+        ByteOrder byteOrder = context.Vault.ByteOrder;
+        bool isBigEndian = byteOrder == ByteOrder.Big;
+
+        foreach (VltPointer pointer in pointers)
+        {
+            stream.Position = pointer.FixUpOffset;
+            uint destination = pointer.Destination;
+            byte[] destBytes = BitConverter.GetBytes(destination);
+
+            if (isBigEndian)
+            {
+                Array.Reverse(destBytes);
+            }
+
+            stream.Write(destBytes, 0, 4);
+        }
+    }
+
+    private void processBinChunks(VaultReadContext context, ChunkReader chunkReader)
+    {
+        chunkReader.NextChunk().Read(context, chunkReader.Reader);
+    }
+
+    private void processVltChunks(VaultReadContext context, ChunkReader chunkReader)
+    {
+        while (chunkReader.Reader.BaseStream.Position < chunkReader.Reader.BaseStream.Length)
+        {
+            Chunks.ChunkBase chunk = chunkReader.NextChunk();
+
+            if (chunk == null)
+            {
+                break;
+            }
+
+            chunk.Read(context, chunkReader.Reader);
+            chunk.GoToEnd(chunkReader.Reader.BaseStream);
+        }
+    }
+
+    #endregion
 }

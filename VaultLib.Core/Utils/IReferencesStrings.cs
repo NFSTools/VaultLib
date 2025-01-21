@@ -4,10 +4,9 @@
 
 using System.Collections.Generic;
 
-namespace VaultLib.Core.Utils
+namespace VaultLib.Core.Utils;
+
+public interface IReferencesStrings : IVltPointerObject
 {
-    public interface IReferencesStrings : IVltPointerObject
-    {
-        IEnumerable<string> GetStrings();
-    }
+    IEnumerable<string> GetStrings();
 }

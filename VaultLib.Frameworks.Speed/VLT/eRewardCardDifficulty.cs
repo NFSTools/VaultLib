@@ -4,14 +4,13 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(eRewardCardDifficulty))]
+public enum eRewardCardDifficulty
 {
-    [VltTypeInfo(nameof(eRewardCardDifficulty))]
-    public enum eRewardCardDifficulty
-    {
-        DIFFICULTY_UNSPECIFIED = -1,
-        DIFFICULTY_EASY = 0x0,
-        DIFFICULTY_MEDUIM = 0x1,
-        DIFFICULTY_HARD = 0x2,
-    }
+    DIFFICULTY_UNSPECIFIED = -1,
+    DIFFICULTY_EASY = 0x0,
+    DIFFICULTY_MEDUIM = 0x1,
+    DIFFICULTY_HARD = 0x2,
 }

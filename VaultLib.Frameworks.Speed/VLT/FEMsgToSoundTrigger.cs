@@ -1,11 +1,10 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(FEMsgToSoundTrigger))]
+public struct FEMsgToSoundTrigger
 {
-    [VltTypeInfo(nameof(FEMsgToSoundTrigger))]
-    public struct FEMsgToSoundTrigger
-    {
-        public uint FEngMsg;
-        public eMenuSoundTriggers SoundTrigger;
-    }
+    public uint FEngMsg;
+    public eMenuSoundTriggers SoundTrigger;
 }

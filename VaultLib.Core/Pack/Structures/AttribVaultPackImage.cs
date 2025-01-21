@@ -5,36 +5,35 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace VaultLib.Core.Pack.Structures
+namespace VaultLib.Core.Pack.Structures;
+
+public class AttribVaultPackImage
 {
-    public class AttribVaultPackImage
+    public AttribVaultPackHeader Header { get; set; }
+
+    public List<AttribVaultPackEntry> Entries { get; set; }
+
+    public void Read(BinaryReader br)
     {
-        public AttribVaultPackHeader Header { get; set; }
+        Entries = new List<AttribVaultPackEntry>();
+        Header = new AttribVaultPackHeader();
+        Header.Read(br);
 
-        public List<AttribVaultPackEntry> Entries { get; set; }
-
-        public void Read(BinaryReader br)
+        for (var i = 0; i < Header.NumEntries; i++)
         {
-            Entries = new List<AttribVaultPackEntry>();
-            Header = new AttribVaultPackHeader();
-            Header.Read(br);
-
-            for (var i = 0; i < Header.NumEntries; i++)
-            {
-                var entry = new AttribVaultPackEntry();
-                entry.Read(br);
-                Entries.Add(entry);
-            }
+            var entry = new AttribVaultPackEntry();
+            entry.Read(br);
+            Entries.Add(entry);
         }
+    }
 
-        public void Write(BinaryWriter bw)
+    public void Write(BinaryWriter bw)
+    {
+        Header.Write(bw);
+
+        foreach (var entry in Entries)
         {
-            Header.Write(bw);
-
-            foreach (var entry in Entries)
-            {
-                entry.Write(bw);
-            }
+            entry.Write(bw);
         }
     }
 }

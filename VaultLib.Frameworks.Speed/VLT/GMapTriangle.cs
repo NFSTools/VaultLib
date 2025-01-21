@@ -4,13 +4,12 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(GMapTriangle))]
+public struct GMapTriangle
 {
-    [VltTypeInfo(nameof(GMapTriangle))]
-    public struct GMapTriangle
-    {
-        public ushort mPoint1;
-        public ushort mPoint2;
-        public ushort mPoint3;
-    }
+    public ushort mPoint1;
+    public ushort mPoint2;
+    public ushort mPoint3;
 }

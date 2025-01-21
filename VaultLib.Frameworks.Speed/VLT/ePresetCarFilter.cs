@@ -1,13 +1,12 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(ePresetCarFilter))]
+public enum ePresetCarFilter
 {
-    [VltTypeInfo(nameof(ePresetCarFilter))]
-    public enum ePresetCarFilter
-    {
-        PRESET_CAR_FILTER_BONUS = 0x0,
-        PRESET_CAR_FILTER_CUSTOM = 0x1,
-        PRESET_CAR_FILTER_AI = 0x2,
-        PRESET_CAR_FILTER_DEBUG = 0x3,
-    }
+    PRESET_CAR_FILTER_BONUS = 0x0,
+    PRESET_CAR_FILTER_CUSTOM = 0x1,
+    PRESET_CAR_FILTER_AI = 0x2,
+    PRESET_CAR_FILTER_DEBUG = 0x3,
 }

@@ -4,12 +4,11 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(DamageScaleRecord))]
+public struct DamageScaleRecord
 {
-    [VltTypeInfo(nameof(DamageScaleRecord))]
-    public struct DamageScaleRecord
-    {
-        public float VisualScale;
-        public float HitPointScale;
-    }
+    public float VisualScale;
+    public float HitPointScale;
 }

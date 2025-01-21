@@ -1,13 +1,12 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(FEDefaultUnlockable))]
+public struct FEDefaultUnlockable
 {
-    [VltTypeInfo(nameof(FEDefaultUnlockable))]
-    public struct FEDefaultUnlockable
-    {
-        public eUnlockableEntity UnlockType;
-        public uint UnlockName;
-        public int UnlockLevel;
-        public int UnlockTier;
-    }
+    public eUnlockableEntity UnlockType;
+    public uint UnlockName;
+    public int UnlockLevel;
+    public int UnlockTier;
 }

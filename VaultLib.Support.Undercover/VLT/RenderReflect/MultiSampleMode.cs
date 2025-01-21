@@ -1,9 +1,8 @@
-﻿namespace VaultLib.Support.Undercover.VLT.RenderReflect
+﻿namespace VaultLib.Support.Undercover.VLT.RenderReflect;
+
+public enum MultiSampleMode
 {
-    public enum MultiSampleMode
-    {
-        MultiSampleMode_None = 0x0,
-        MultiSampleMode_2 = 0x1,
-        MultiSampleMode_4 = 0x2,
-    }
+    MultiSampleMode_None = 0x0,
+    MultiSampleMode_2 = 0x1,
+    MultiSampleMode_4 = 0x2,
 }

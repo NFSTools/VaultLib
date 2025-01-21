@@ -1,24 +1,23 @@
 ﻿using System;
 using System.IO;
 
-namespace VaultLib.Core.Chunks
+namespace VaultLib.Core.Chunks;
+
+public class EndChunk : ChunkBase
 {
-    public class EndChunk : ChunkBase
+    public override uint Id => 0x456E6443;
+    public override uint Size { get; set; }
+    public override long Offset { get; set; }
+
+    public override void Read(VaultReadContext context, BinaryReader br)
     {
-        public override uint Id => 0x456E6443;
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
+        //Debug.WriteLine("end");
+    }
 
-        public override void Read(VaultReadContext context, BinaryReader br)
-        {
-            //Debug.WriteLine("end");
-        }
+    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    {
+        if ((bw.BaseStream.Position - 8) % 0x10 != 0) throw new Exception();
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
-        {
-            if ((bw.BaseStream.Position - 8) % 0x10 != 0) throw new Exception();
-
-            bw.Write(new byte[8]);
-        }
+        bw.Write(new byte[8]);
     }
 }

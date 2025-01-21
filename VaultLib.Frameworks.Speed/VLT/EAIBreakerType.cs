@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(EAIBreakerType))]
+public enum EAIBreakerType
 {
-    [VltTypeInfo(nameof(EAIBreakerType))]
-    public enum EAIBreakerType
-    {
-        BT_NONE = 0x0,
-        BT_REAR = 0x1,
-        BT_SIDE = 0x2,
-    }
+    BT_NONE = 0x0,
+    BT_REAR = 0x1,
+    BT_SIDE = 0x2,
 }

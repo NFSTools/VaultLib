@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT.GRace
+namespace VaultLib.Support.ProStreet.VLT.GRace;
+
+[VltTypeInfo("GRace::AI_AggressionLevel")]
+public enum AI_AggressionLevel
 {
-    [VltTypeInfo("GRace::AI_AggressionLevel")]
-    public enum AI_AggressionLevel
-    {
-        kAggression_Careful = 0x0,
-        kAggression_Intermediate = 0x1,
-        kAggression_Aggressive = 0x2,
-    }
+    kAggression_Careful = 0x0,
+    kAggression_Intermediate = 0x1,
+    kAggression_Aggressive = 0x2,
 }

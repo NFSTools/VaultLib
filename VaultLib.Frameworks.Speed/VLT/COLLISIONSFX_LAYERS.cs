@@ -4,16 +4,15 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(COLLISIONSFX_LAYERS))]
+public enum COLLISIONSFX_LAYERS : uint
 {
-    [VltTypeInfo(nameof(COLLISIONSFX_LAYERS))]
-    public enum COLLISIONSFX_LAYERS : uint
-    {
-        LAYER_NONE = 0xFFFFFFFF,
-        LAYER_CORE = 0x1,
-        LAYER_ZONE = 0x2,
-        LAYER_SURFACE = 0x3,
-        LAYER_OBJECT = 0x4,
-        LAYER_SWEETENERS = 0x5,
-    }
+    LAYER_NONE = 0xFFFFFFFF,
+    LAYER_CORE = 0x1,
+    LAYER_ZONE = 0x2,
+    LAYER_SURFACE = 0x3,
+    LAYER_OBJECT = 0x4,
+    LAYER_SWEETENERS = 0x5,
 }

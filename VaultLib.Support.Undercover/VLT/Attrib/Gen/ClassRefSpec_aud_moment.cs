@@ -5,13 +5,12 @@
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib.Gen;
 
-namespace VaultLib.Support.Undercover.VLT.Attrib.Gen
+namespace VaultLib.Support.Undercover.VLT.Attrib.Gen;
+
+[VltTypeInfo("Attrib::Gen::ClassRefSpec_aud_moment")]
+public class ClassRefSpec_aud_moment : ClassRefSpec_template
 {
-    [VltTypeInfo("Attrib::Gen::ClassRefSpec_aud_moment")]
-    public class ClassRefSpec_aud_moment : ClassRefSpec_template
+    public ClassRefSpec_aud_moment() : base("aud_moment")
     {
-        public ClassRefSpec_aud_moment() : base("aud_moment")
-        {
-        }
     }
 }

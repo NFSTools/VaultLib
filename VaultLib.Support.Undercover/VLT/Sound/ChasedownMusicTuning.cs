@@ -2,82 +2,81 @@ using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Undercover.VLT.Sound
+namespace VaultLib.Support.Undercover.VLT.Sound;
+
+[VltTypeInfo("Sound::ChasedownMusicTuning")]
+public class ChasedownMusicTuning : VltBaseType
 {
-    [VltTypeInfo("Sound::ChasedownMusicTuning")]
-    public class ChasedownMusicTuning : VltBaseType
+    public float[] StartTimeLimit { get; set; } = new float[2];
+    public float[] LowTimeLimit { get; set; } = new float[2];
+    public float[] FailureTimeLimit { get; set; } = new float[2];
+    public float[] MediumTimeLimit { get; set; } = new float[2];
+    public float[] HighTimeLimit { get; set; } = new float[2];
+    public float[] OpponentDamageThreshold { get; set; } = new float[2];
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public float[] StartTimeLimit { get; set; } = new float[2];
-        public float[] LowTimeLimit { get; set; } = new float[2];
-        public float[] FailureTimeLimit { get; set; } = new float[2];
-        public float[] MediumTimeLimit { get; set; } = new float[2];
-        public float[] HighTimeLimit { get; set; } = new float[2];
-        public float[] OpponentDamageThreshold { get; set; } = new float[2];
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+        for (int i = 0; i < StartTimeLimit.Length; i++)
         {
-            for (int i = 0; i < StartTimeLimit.Length; i++)
-            {
-                StartTimeLimit[i] = br.ReadSingle();
-            }
-
-            for (int i = 0; i < LowTimeLimit.Length; i++)
-            {
-                LowTimeLimit[i] = br.ReadSingle();
-            }
-
-            for (int i = 0; i < FailureTimeLimit.Length; i++)
-            {
-                FailureTimeLimit[i] = br.ReadSingle();
-            }
-
-            for (int i = 0; i < MediumTimeLimit.Length; i++)
-            {
-                MediumTimeLimit[i] = br.ReadSingle();
-            }
-
-            for (int i = 0; i < HighTimeLimit.Length; i++)
-            {
-                HighTimeLimit[i] = br.ReadSingle();
-            }
-
-            for (int i = 0; i < OpponentDamageThreshold.Length; i++)
-            {
-                OpponentDamageThreshold[i] = br.ReadSingle();
-            }
+            StartTimeLimit[i] = br.ReadSingle();
         }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+        for (int i = 0; i < LowTimeLimit.Length; i++)
         {
-            for (int i = 0; i < StartTimeLimit.Length; i++)
-            {
-                bw.Write(StartTimeLimit[i]);
-            }
+            LowTimeLimit[i] = br.ReadSingle();
+        }
 
-            for (int i = 0; i < LowTimeLimit.Length; i++)
-            {
-                bw.Write(LowTimeLimit[i]);
-            }
+        for (int i = 0; i < FailureTimeLimit.Length; i++)
+        {
+            FailureTimeLimit[i] = br.ReadSingle();
+        }
 
-            for (int i = 0; i < FailureTimeLimit.Length; i++)
-            {
-                bw.Write(FailureTimeLimit[i]);
-            }
+        for (int i = 0; i < MediumTimeLimit.Length; i++)
+        {
+            MediumTimeLimit[i] = br.ReadSingle();
+        }
 
-            for (int i = 0; i < MediumTimeLimit.Length; i++)
-            {
-                bw.Write(MediumTimeLimit[i]);
-            }
+        for (int i = 0; i < HighTimeLimit.Length; i++)
+        {
+            HighTimeLimit[i] = br.ReadSingle();
+        }
 
-            for (int i = 0; i < HighTimeLimit.Length; i++)
-            {
-                bw.Write(HighTimeLimit[i]);
-            }
+        for (int i = 0; i < OpponentDamageThreshold.Length; i++)
+        {
+            OpponentDamageThreshold[i] = br.ReadSingle();
+        }
+    }
 
-            for (int i = 0; i < OpponentDamageThreshold.Length; i++)
-            {
-                bw.Write(OpponentDamageThreshold[i]);
-            }
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        for (int i = 0; i < StartTimeLimit.Length; i++)
+        {
+            bw.Write(StartTimeLimit[i]);
+        }
+
+        for (int i = 0; i < LowTimeLimit.Length; i++)
+        {
+            bw.Write(LowTimeLimit[i]);
+        }
+
+        for (int i = 0; i < FailureTimeLimit.Length; i++)
+        {
+            bw.Write(FailureTimeLimit[i]);
+        }
+
+        for (int i = 0; i < MediumTimeLimit.Length; i++)
+        {
+            bw.Write(MediumTimeLimit[i]);
+        }
+
+        for (int i = 0; i < HighTimeLimit.Length; i++)
+        {
+            bw.Write(HighTimeLimit[i]);
+        }
+
+        for (int i = 0; i < OpponentDamageThreshold.Length; i++)
+        {
+            bw.Write(OpponentDamageThreshold[i]);
         }
     }
 }

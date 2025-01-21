@@ -1,14 +1,13 @@
 ﻿using System;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.GameCore
+namespace VaultLib.Support.World.VLT.GameCore;
+
+[Flags]
+[VltTypeInfo("GameCore::ObjFlags")]
+public enum ObjFlag
 {
-    [Flags]
-    [VltTypeInfo("GameCore::ObjFlags")]
-    public enum ObjFlag
-    {
-        kFlag_None = 0,
-        kFlag_Engagable = 64,
-        kFlag_Activatable = 128,
-    }
+    kFlag_None = 0,
+    kFlag_Engagable = 64,
+    kFlag_Activatable = 128,
 }

@@ -1,15 +1,14 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(SCRAPE_SURFACES))]
+public enum SCRAPE_SURFACES
 {
-    [VltTypeInfo(nameof(SCRAPE_SURFACES))]
-    public enum SCRAPE_SURFACES
-    {
-        SCRAPE_NONE = 0x0,
-        SCRAPE_CONCRETE = 0x1,
-        SCRAPE_METAL = 0x2,
-        SCRAPE_RUBBER = 0x3,
-        SCRAPE_OFFROAD = 0x4,
-        MAX_SCRAPES = 0x5,
-    }
+    SCRAPE_NONE = 0x0,
+    SCRAPE_CONCRETE = 0x1,
+    SCRAPE_METAL = 0x2,
+    SCRAPE_RUBBER = 0x3,
+    SCRAPE_OFFROAD = 0x4,
+    MAX_SCRAPES = 0x5,
 }

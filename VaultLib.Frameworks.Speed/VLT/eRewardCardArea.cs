@@ -4,15 +4,14 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(eRewardCardArea))]
+public enum eRewardCardArea
 {
-    [VltTypeInfo(nameof(eRewardCardArea))]
-    public enum eRewardCardArea
-    {
-        REWARD_CARD_AREA_UNSPECIFIED = -1,
-        REWARD_CARD_AREA_OFFLINE = 0x0,
-        REWARD_CARD_AREA_ONLINE = 0x1,
-        REWARD_CARD_AREA_ACHEIVEMENTS = 0x2,
-        NUM_REWARD_CARD_AREAS = 0x3,
-    }
+    REWARD_CARD_AREA_UNSPECIFIED = -1,
+    REWARD_CARD_AREA_OFFLINE = 0x0,
+    REWARD_CARD_AREA_ONLINE = 0x1,
+    REWARD_CARD_AREA_ACHEIVEMENTS = 0x2,
+    NUM_REWARD_CARD_AREAS = 0x3,
 }

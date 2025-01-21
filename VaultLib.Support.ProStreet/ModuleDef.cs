@@ -11,21 +11,20 @@ using VaultLib.ModernBase;
 using VaultLib.ModernBase.Exports;
 using VaultLib.ModernBase.Structures;
 
-namespace VaultLib.Support.ProStreet
-{
-    public class ModuleDef : BaseGameModule
-    {
-        public override void RegisterTypes(TypeRegistry typeRegistry)
-        {
-            typeRegistry.Register<StringKey>("Attrib::StringKey");
-            SpeedFramework.Register(typeRegistry);
-            typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
-        }
+namespace VaultLib.Support.ProStreet;
 
-        public override ExportFactory CreateExportFactory()
-        {
-            return new ExportFactory(() => new DatabaseLoad(), () => new ClassLoad(), () => new CollectionLoad(),
-                () => new ExportEntry());
-        }
+public class ModuleDef : BaseGameModule
+{
+    public override void RegisterTypes(TypeRegistry typeRegistry)
+    {
+        typeRegistry.Register<StringKey>("Attrib::StringKey");
+        SpeedFramework.Register(typeRegistry);
+        typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
+    }
+
+    public override ExportFactory CreateExportFactory()
+    {
+        return new ExportFactory(() => new DatabaseLoad(), () => new ClassLoad(), () => new CollectionLoad(),
+            () => new ExportEntry());
     }
 }

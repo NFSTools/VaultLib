@@ -8,62 +8,61 @@ using System.Diagnostics;
 using System.IO;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Core.Types
+namespace VaultLib.Core.Types;
+
+public class VltAttribType : VltBaseType, IVltPointerObject
 {
-    public class VltAttribType : VltBaseType, IVltPointerObject
+    private long _offsetDst;
+
+    private long _offsetSrc;
+
+    public uint Offset { get; set; } // pointer to bin stream
+    public object Data { get; set; }
+
+    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        private long _offsetDst;
+        Debug.Assert(Offset != 0);
 
-        private long _offsetSrc;
+        br.BaseStream.Position = Offset;
+        Data = context.Database.TypeRegistry.ReadFieldValue(context, fieldContext, br);
 
-        public uint Offset { get; set; } // pointer to bin stream
-        public object Data { get; set; }
+        if (!(Data is VltArrayType))
+            Debug.Assert(br.BaseStream.Position - Offset == fieldContext.Field.Size,
+                "br.BaseStream.Position - Offset == fieldContext.Field.Size");
+    }
 
-        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        var field = fieldContext.Field;
+        var minAlignment = field.IsArray ? 2 : 1;
+        var actualAlignment = Math.Max(field.Alignment, minAlignment);
+
+        bw.AlignWriter(actualAlignment);
+
+        _offsetDst = bw.BaseStream.Position;
+        context.Database.TypeRegistry.WriteFieldValue(Data, context, fieldContext, bw);
+    }
+
+    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    {
+        Debug.Assert(_offsetSrc != 0 && _offsetDst != 0);
+
+        context.AddPointer(_offsetSrc, _offsetDst, true);
+
+        if (Data is IVltPointerObject vltPointerObject)
         {
-            Debug.Assert(Offset != 0);
-
-            br.BaseStream.Position = Offset;
-            Data = context.Database.TypeRegistry.ReadFieldValue(context, fieldContext, br);
-
-            if (!(Data is VltArrayType))
-                Debug.Assert(br.BaseStream.Position - Offset == fieldContext.Field.Size,
-                    "br.BaseStream.Position - Offset == fieldContext.Field.Size");
+            vltPointerObject.AddPointers(context, fieldContext);
         }
+    }
 
-        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            var field = fieldContext.Field;
-            var minAlignment = field.IsArray ? 2 : 1;
-            var actualAlignment = Math.Max(field.Alignment, minAlignment);
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+        Offset = br.ReadPointer();
+    }
 
-            bw.AlignWriter(actualAlignment);
-
-            _offsetDst = bw.BaseStream.Position;
-            context.Database.TypeRegistry.WriteFieldValue(Data, context, fieldContext, bw);
-        }
-
-        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
-        {
-            Debug.Assert(_offsetSrc != 0 && _offsetDst != 0);
-
-            context.AddPointer(_offsetSrc, _offsetDst, true);
-
-            if (Data is IVltPointerObject vltPointerObject)
-            {
-                vltPointerObject.AddPointers(context, fieldContext);
-            }
-        }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            Offset = br.ReadPointer();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            _offsetSrc = bw.BaseStream.Position;
-            bw.Write(0);
-        }
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        _offsetSrc = bw.BaseStream.Position;
+        bw.Write(0);
     }
 }

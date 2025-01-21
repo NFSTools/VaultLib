@@ -4,17 +4,16 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
-{
-    [VltTypeInfo(nameof(AxlePair))]
-    public struct AxlePair
-    {
-        public float Front;
-        public float Rear;
+namespace VaultLib.Frameworks.Speed.VLT;
 
-        public override string ToString()
-        {
-            return $"[{Front}, {Rear}]";
-        }
+[VltTypeInfo(nameof(AxlePair))]
+public struct AxlePair
+{
+    public float Front;
+    public float Rear;
+
+    public override string ToString()
+    {
+        return $"[{Front}, {Rear}]";
     }
 }

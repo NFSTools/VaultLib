@@ -4,17 +4,16 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT
-{
-    [VltTypeInfo(nameof(RwacSampleBankAsset))]
-    public struct RwacSampleBankAsset
-    {
-        public uint Bank;
-        public uint Asset;
+namespace VaultLib.Support.World.VLT;
 
-        public override string ToString()
-        {
-            return $"RWAC Bank {Bank:X8} -> Asset {Asset:X8}";
-        }
+[VltTypeInfo(nameof(RwacSampleBankAsset))]
+public struct RwacSampleBankAsset
+{
+    public uint Bank;
+    public uint Asset;
+
+    public override string ToString()
+    {
+        return $"RWAC Bank {Bank:X8} -> Asset {Asset:X8}";
     }
 }

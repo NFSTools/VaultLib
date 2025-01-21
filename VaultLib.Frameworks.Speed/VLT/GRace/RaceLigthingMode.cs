@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT.GRace
+namespace VaultLib.Frameworks.Speed.VLT.GRace;
+
+[VltTypeInfo("GRace::RaceLigthingMode")]
+public enum RaceLigthingMode
 {
-    [VltTypeInfo("GRace::RaceLigthingMode")]
-    public enum RaceLigthingMode
-    {
-        kLighting_Normal = 0x0,
-        kLightingDrift = 0x1,
-        kLightingCanyon = 0x2,
-    }
+    kLighting_Normal = 0x0,
+    kLightingDrift = 0x1,
+    kLightingCanyon = 0x2,
 }

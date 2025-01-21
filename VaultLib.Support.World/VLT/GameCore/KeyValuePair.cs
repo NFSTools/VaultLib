@@ -9,48 +9,47 @@ using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Support.World.VLT.GameCore
+namespace VaultLib.Support.World.VLT.GameCore;
+
+[VltTypeInfo("GameCore::KeyValuePair")]
+public class KeyValuePair : VltBaseType, IReferencesStrings
 {
-    [VltTypeInfo("GameCore::KeyValuePair")]
-    public class KeyValuePair : VltBaseType, IReferencesStrings
+    public string KeyString { get; set; } = string.Empty;
+
+    public float Value { get; set; }
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public string KeyString { get; set; } = string.Empty;
+        KeyString = context.ReadString(br);
 
-        public float Value { get; set; }
+        br.ReadUInt32(); // stringhash32(KeyString)
+        Value = br.ReadSingle();
+    }
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            KeyString = context.ReadString(br);
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        context.WriteString(KeyString, fieldContext, bw);
+        bw.Write(Vlt32Hasher.Hash(KeyString));
+        bw.Write(Value);
+    }
 
-            br.ReadUInt32(); // stringhash32(KeyString)
-            Value = br.ReadSingle();
-        }
+    public IEnumerable<string> GetStrings()
+    {
+        return new[] { KeyString };
+    }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            context.WriteString(KeyString, fieldContext, bw);
-            bw.Write(Vlt32Hasher.Hash(KeyString));
-            bw.Write(Value);
-        }
+    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+        //
+    }
 
-        public IEnumerable<string> GetStrings()
-        {
-            return new[] { KeyString };
-        }
+    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        //
+    }
 
-        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            //
-        }
-
-        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            //
-        }
-
-        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
-        {
-            //
-        }
+    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    {
+        //
     }
 }

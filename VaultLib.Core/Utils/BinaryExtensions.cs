@@ -4,13 +4,12 @@
 
 using System.IO;
 
-namespace VaultLib.Core.Utils
+namespace VaultLib.Core.Utils;
+
+public static class BinaryExtensions
 {
-    public static class BinaryExtensions
+    public static uint ReadPointer(this BinaryReader br)
     {
-        public static uint ReadPointer(this BinaryReader br)
-        {
-            return br.ReadUInt32();
-        }
+        return br.ReadUInt32();
     }
 }

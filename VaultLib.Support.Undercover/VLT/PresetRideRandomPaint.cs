@@ -2,24 +2,23 @@
 using VaultLib.Core;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Undercover.VLT
+namespace VaultLib.Support.Undercover.VLT;
+
+[VltTypeInfo(nameof(PresetRideRandomPaint))]
+public class PresetRideRandomPaint : VltBaseType
 {
-    [VltTypeInfo(nameof(PresetRideRandomPaint))]
-    public class PresetRideRandomPaint : VltBaseType
+    public PresetRidePaint Paint { get; set; } = new();
+    public float Chance { get; set; }
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public PresetRidePaint Paint { get; set; } = new();
-        public float Chance { get; set; }
+        Paint.Read(context, fieldContext, br);
+        Chance = br.ReadSingle();
+    }
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            Paint.Read(context, fieldContext, br);
-            Chance = br.ReadSingle();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            Paint.Write(context, fieldContext, bw);
-            bw.Write(Chance);
-        }
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        Paint.Write(context, fieldContext, bw);
+        bw.Write(Chance);
     }
 }

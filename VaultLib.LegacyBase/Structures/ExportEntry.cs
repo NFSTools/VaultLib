@@ -2,32 +2,31 @@ using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
 
-namespace VaultLib.LegacyBase.Structures
+namespace VaultLib.LegacyBase.Structures;
+
+public class ExportEntry : IExportEntry
 {
-    public class ExportEntry : IExportEntry
+    public void Read(VaultReadContext context, BinaryReader br)
     {
-        public void Read(VaultReadContext context, BinaryReader br)
-        {
-            ID = br.ReadUInt32();
-            Type = br.ReadUInt32();
-            if (br.ReadUInt32() != 0)
-                throw new InvalidDataException();
-            Size = br.ReadUInt32();
-            Offset = br.ReadUInt32();
-        }
-
-        public void Write(VaultWriteContext context, BinaryWriter bw)
-        {
-            bw.Write((uint)ID);
-            bw.Write((uint)Type);
-            bw.Write(0);
-            bw.Write(Size);
-            bw.Write(Offset);
-        }
-
-        public ulong ID { get; set; }
-        public ulong Type { get; set; }
-        public uint Size { get; set; }
-        public uint Offset { get; set; }
+        ID = br.ReadUInt32();
+        Type = br.ReadUInt32();
+        if (br.ReadUInt32() != 0)
+            throw new InvalidDataException();
+        Size = br.ReadUInt32();
+        Offset = br.ReadUInt32();
     }
+
+    public void Write(VaultWriteContext context, BinaryWriter bw)
+    {
+        bw.Write((uint)ID);
+        bw.Write((uint)Type);
+        bw.Write(0);
+        bw.Write(Size);
+        bw.Write(Offset);
+    }
+
+    public ulong ID { get; set; }
+    public ulong Type { get; set; }
+    public uint Size { get; set; }
+    public uint Offset { get; set; }
 }

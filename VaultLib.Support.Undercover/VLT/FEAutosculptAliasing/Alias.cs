@@ -9,61 +9,60 @@ using VaultLib.Core;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
+namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing;
+
+[VltTypeInfo("FEAutosculptAliasing::Alias")]
+public class Alias : VltBaseType, IVltPointerObject
 {
-    [VltTypeInfo("FEAutosculptAliasing::Alias")]
-    public class Alias : VltBaseType, IVltPointerObject
+    public byte Kit { get; set; }
+    public uint Region { get; set; }
+    public List<Slider> Sliders { get; set; }
+
+    private uint _slidersPointer;
+
+    private long _srcSlidersPtr;
+    private long _dstSlidersPtr;
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public byte Kit { get; set; }
-        public uint Region { get; set; }
-        public List<Slider> Sliders { get; set; }
+        Kit = br.ReadByte();
+        br.AlignReader(4);
+        Region = br.ReadUInt32();
+        _slidersPointer = br.ReadUInt32();
+        Sliders = new List<Slider>(br.ReadByte());
+        br.AlignReader(4);
+    }
 
-        private uint _slidersPointer;
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        bw.Write(Kit);
+        bw.AlignWriter(4);
+        bw.Write(Region);
+        _srcSlidersPtr = bw.BaseStream.Position;
+        bw.Write(0);
+        bw.Write((byte)Sliders.Count);
+        bw.AlignWriter(4);
+    }
 
-        private long _srcSlidersPtr;
-        private long _dstSlidersPtr;
+    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+        br.BaseStream.Position = _slidersPointer;
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+        for (int i = 0; i < Sliders.Capacity; i++)
         {
-            Kit = br.ReadByte();
-            br.AlignReader(4);
-            Region = br.ReadUInt32();
-            _slidersPointer = br.ReadUInt32();
-            Sliders = new List<Slider>(br.ReadByte());
-            br.AlignReader(4);
+            Slider slider = new Slider();
+            slider.Read(context, fieldContext, br);
+            Sliders.Add(slider);
         }
+    }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.Write(Kit);
-            bw.AlignWriter(4);
-            bw.Write(Region);
-            _srcSlidersPtr = bw.BaseStream.Position;
-            bw.Write(0);
-            bw.Write((byte)Sliders.Count);
-            bw.AlignWriter(4);
-        }
+    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        _dstSlidersPtr = bw.BaseStream.Position;
+    }
 
-        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            br.BaseStream.Position = _slidersPointer;
-
-            for (int i = 0; i < Sliders.Capacity; i++)
-            {
-                Slider slider = new Slider();
-                slider.Read(context, fieldContext, br);
-                Sliders.Add(slider);
-            }
-        }
-
-        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            _dstSlidersPtr = bw.BaseStream.Position;
-        }
-
-        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
-        {
-            context.AddPointer(_srcSlidersPtr, _dstSlidersPtr, false);
-        }
+    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    {
+        context.AddPointer(_srcSlidersPtr, _dstSlidersPtr, false);
     }
 }

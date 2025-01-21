@@ -1,10 +1,9 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(SpecialSliderType))]
+public enum SpecialSliderType
 {
-    [VltTypeInfo(nameof(SpecialSliderType))]
-    public enum SpecialSliderType
-    {
-        SHEAR = 0
-    }
+    SHEAR = 0
 }

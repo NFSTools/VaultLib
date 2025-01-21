@@ -6,58 +6,57 @@ using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Core.Types
+namespace VaultLib.Core.Types;
+
+public class VltListContainer<T> : VltBaseType, IVltPointerObject where T : VltBaseType
 {
-    public class VltListContainer<T> : VltBaseType, IVltPointerObject where T : VltBaseType
+    private long _dstPtr;
+
+    private uint _pointer;
+
+    private long _srcPtr;
+
+    public VltListContainer(int count)
     {
-        private long _dstPtr;
+        Items = new List<T>(count);
+    }
 
-        private uint _pointer;
+    public List<T> Items { get; }
 
-        private long _srcPtr;
+    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+        br.BaseStream.Position = _pointer;
 
-        public VltListContainer(int count)
+        var databaseTypeRegistry = context.Database.TypeRegistry;
+        for (var i = 0; i < Items.Capacity; i++)
         {
-            Items = new List<T>(count);
+            var item = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T));
+            //var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
+            item.Read(context, fieldContext, br);
+            Items.Add(item);
         }
+    }
 
-        public List<T> Items { get; }
+    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        _dstPtr = bw.BaseStream.Position;
 
-        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            br.BaseStream.Position = _pointer;
+        foreach (var item in Items) item.Write(context, fieldContext, bw);
+    }
 
-            var databaseTypeRegistry = context.Database.TypeRegistry;
-            for (var i = 0; i < Items.Capacity; i++)
-            {
-                var item = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T));
-                //var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
-                item.Read(context, fieldContext, br);
-                Items.Add(item);
-            }
-        }
+    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    {
+        context.AddPointer(_srcPtr, _dstPtr, false);
+    }
 
-        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            _dstPtr = bw.BaseStream.Position;
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+        _pointer = br.ReadUInt32();
+    }
 
-            foreach (var item in Items) item.Write(context, fieldContext, bw);
-        }
-
-        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
-        {
-            context.AddPointer(_srcPtr, _dstPtr, false);
-        }
-
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            _pointer = br.ReadUInt32();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            _srcPtr = bw.BaseStream.Position;
-            bw.Write(0);
-        }
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        _srcPtr = bw.BaseStream.Position;
+        bw.Write(0);
     }
 }

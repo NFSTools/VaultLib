@@ -4,10 +4,9 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT
+namespace VaultLib.Support.World.VLT;
+
+[VltTypeInfo(nameof(IndexedBarrierName), MappedTo = typeof(int))]
+public class IndexedBarrierName
 {
-    [VltTypeInfo(nameof(IndexedBarrierName), MappedTo = typeof(int))]
-    public class IndexedBarrierName
-    {
-    }
 }

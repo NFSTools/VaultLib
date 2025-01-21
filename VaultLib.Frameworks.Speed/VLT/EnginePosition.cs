@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(EnginePosition))]
+public enum EnginePosition
 {
-    [VltTypeInfo(nameof(EnginePosition))]
-    public enum EnginePosition
-    {
-        ENGINE_REAR = 0x0,
-        ENGINE_MID = 0x1,
-        ENGINE_FRONT = 0x2,
-    }
+    ENGINE_REAR = 0x0,
+    ENGINE_MID = 0x1,
+    ENGINE_FRONT = 0x2,
 }

@@ -1,14 +1,13 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT.Physics.Info
+namespace VaultLib.Frameworks.Speed.VLT.Physics.Info;
+
+[VltTypeInfo("Physics::Info::eInductionType")]
+public enum eInductionType
 {
-    [VltTypeInfo("Physics::Info::eInductionType")]
-    public enum eInductionType
-    {
-        INDUCTION_NONE = 0x0,
-        INDUCTION_TURBO_CHARGER = 0x1,
-        INDUCTION_ROOTS_BLOWER = 0x2,
-        INDUCTION_CENTRIFUGAL_BLOWER = 0x3,
-        INDUCTION_TWINSCREW_BLOWER = 0x4,
-    }
+    INDUCTION_NONE = 0x0,
+    INDUCTION_TURBO_CHARGER = 0x1,
+    INDUCTION_ROOTS_BLOWER = 0x2,
+    INDUCTION_CENTRIFUGAL_BLOWER = 0x3,
+    INDUCTION_TWINSCREW_BLOWER = 0x4,
 }

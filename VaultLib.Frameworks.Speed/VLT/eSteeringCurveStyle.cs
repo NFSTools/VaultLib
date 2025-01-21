@@ -1,11 +1,10 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(eSteeringCurveStyle))]
+public enum eSteeringCurveStyle
 {
-    [VltTypeInfo(nameof(eSteeringCurveStyle))]
-    public enum eSteeringCurveStyle
-    {
-        kSTEPS = 0x0,
-        kCONTINUOUS = 0x1
-    }
+    kSTEPS = 0x0,
+    kCONTINUOUS = 0x1
 }

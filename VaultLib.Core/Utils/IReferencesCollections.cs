@@ -5,12 +5,11 @@
 using System.Collections.Generic;
 using VaultLib.Core.DB;
 
-namespace VaultLib.Core.Utils
-{
-    public interface IReferencesCollections
-    {
-        IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault);
+namespace VaultLib.Core.Utils;
 
-        bool ReferencesCollection(string classKey, string collectionKey);
-    }
+public interface IReferencesCollections
+{
+    IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault);
+
+    bool ReferencesCollection(string classKey, string collectionKey);
 }

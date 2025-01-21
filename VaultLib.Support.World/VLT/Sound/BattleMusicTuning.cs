@@ -4,14 +4,13 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.Sound
+namespace VaultLib.Support.World.VLT.Sound;
+
+[VltTypeInfo("Sound::BattleMusicTuning")]
+public struct BattleMusicTuning
 {
-    [VltTypeInfo("Sound::BattleMusicTuning")]
-    public struct BattleMusicTuning
-    {
-        public float TimeAhead_HiToMed { get; set; }
-        public float TimeAhead_MedToLo { get; set; }
-        public float TimeBehind_HiToFail { get; set; }
-        public float TimeAhead_FailToHi { get; set; }
-    }
+    public float TimeAhead_HiToMed { get; set; }
+    public float TimeAhead_MedToLo { get; set; }
+    public float TimeBehind_HiToFail { get; set; }
+    public float TimeAhead_FailToHi { get; set; }
 }

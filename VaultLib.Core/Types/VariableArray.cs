@@ -6,50 +6,49 @@ using System.Diagnostics;
 using System.IO;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Core.Types
+namespace VaultLib.Core.Types;
+
+public class VariableArray : IPointerObject
 {
-    public class VariableArray : IPointerObject
+    private uint _mArray;
+    private long _ptrDst;
+
+    private long _ptrSrc;
+    public float[] Data { get; set; }
+
+    public void Read(BinaryReader br)
     {
-        private uint _mArray;
-        private long _ptrDst;
+        _mArray = br.ReadPointer();
+        Debug.Assert(_mArray != 0);
+        var mLength = br.ReadUInt32();
 
-        private long _ptrSrc;
-        public float[] Data { get; set; }
+        Data = new float[mLength];
+    }
 
-        public void Read(BinaryReader br)
-        {
-            _mArray = br.ReadPointer();
-            Debug.Assert(_mArray != 0);
-            var mLength = br.ReadUInt32();
+    public void Write(BinaryWriter bw)
+    {
+        _ptrSrc = bw.BaseStream.Position;
+        bw.Write(0);
+        bw.Write(Data.Length);
+    }
 
-            Data = new float[mLength];
-        }
+    public void ReadPointerData(VaultReadContext context, BinaryReader br)
+    {
+        br.BaseStream.Position = _mArray;
 
-        public void Write(BinaryWriter bw)
-        {
-            _ptrSrc = bw.BaseStream.Position;
-            bw.Write(0);
-            bw.Write(Data.Length);
-        }
+        for (var i = 0; i < Data.Length; i++) Data[i] = br.ReadSingle();
+    }
 
-        public void ReadPointerData(VaultReadContext context, BinaryReader br)
-        {
-            br.BaseStream.Position = _mArray;
+    public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+    {
+        _ptrDst = bw.BaseStream.Position;
 
-            for (var i = 0; i < Data.Length; i++) Data[i] = br.ReadSingle();
-        }
+        foreach (var f in Data) bw.Write(f);
+    }
 
-        public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
-        {
-            _ptrDst = bw.BaseStream.Position;
-
-            foreach (var f in Data) bw.Write(f);
-        }
-
-        public void AddPointers(VaultWriteContext context)
-        {
-            Debug.Assert(_ptrSrc != 0 && _ptrDst != 0);
-            context.AddPointer(_ptrSrc, _ptrDst, false);
-        }
+    public void AddPointers(VaultWriteContext context)
+    {
+        Debug.Assert(_ptrSrc != 0 && _ptrDst != 0);
+        context.AddPointer(_ptrSrc, _ptrDst, false);
     }
 }

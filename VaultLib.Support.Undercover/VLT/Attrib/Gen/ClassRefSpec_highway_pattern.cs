@@ -5,13 +5,12 @@
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib.Gen;
 
-namespace VaultLib.Support.Undercover.VLT.Attrib.Gen
+namespace VaultLib.Support.Undercover.VLT.Attrib.Gen;
+
+[VltTypeInfo("Attrib::Gen::ClassRefSpec_highway_pattern")]
+public class ClassRefSpec_highway_pattern : ClassRefSpec_template
 {
-    [VltTypeInfo("Attrib::Gen::ClassRefSpec_highway_pattern")]
-    public class ClassRefSpec_highway_pattern : ClassRefSpec_template
+    public ClassRefSpec_highway_pattern() : base("highway_pattern")
     {
-        public ClassRefSpec_highway_pattern() : base("highway_pattern")
-        {
-        }
     }
 }

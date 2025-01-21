@@ -11,55 +11,54 @@ using VaultLib.Core.Utils;
 using VaultLib.Frameworks.Speed.VLT;
 using VaultLib.ModernBase;
 
-namespace VaultLib.Support.World.VLT
+namespace VaultLib.Support.World.VLT;
+
+[VltTypeInfo(nameof(ControllerDataRecord))]
+public class ControllerDataRecord : VltBaseType, IReferencesStrings
 {
-    [VltTypeInfo(nameof(ControllerDataRecord))]
-    public class ControllerDataRecord : VltBaseType, IReferencesStrings
+    public string DeviceId { get; set; } = string.Empty;
+    public InputUpdateType UpdateType { get; set; }
+    public float LowerDeadZone { get; set; }
+    public float UpperDeadZone { get; set; }
+
+    private StringKey InternalDeviceId { get; set; } = new();
+
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public string DeviceId { get; set; } = string.Empty;
-        public InputUpdateType UpdateType { get; set; }
-        public float LowerDeadZone { get; set; }
-        public float UpperDeadZone { get; set; }
+        InternalDeviceId.Read(context, fieldContext, br);
+        UpdateType = br.ReadEnum<InputUpdateType>();
+        LowerDeadZone = br.ReadSingle();
+        UpperDeadZone = br.ReadSingle();
+    }
 
-        private StringKey InternalDeviceId { get; set; } = new();
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        InternalDeviceId.Value = DeviceId;
+        InternalDeviceId.Write(context, fieldContext, bw);
+        bw.WriteEnum(UpdateType);
+        bw.Write(LowerDeadZone);
+        bw.Write(UpperDeadZone);
+    }
 
+    public IEnumerable<string> GetStrings()
+    {
+        return new[] { DeviceId };
+    }
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            InternalDeviceId.Read(context, fieldContext, br);
-            UpdateType = br.ReadEnum<InputUpdateType>();
-            LowerDeadZone = br.ReadSingle();
-            UpperDeadZone = br.ReadSingle();
-        }
+    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+        InternalDeviceId.ReadPointerData(context, fieldContext, br);
+        DeviceId = InternalDeviceId.Value;
+    }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            InternalDeviceId.Value = DeviceId;
-            InternalDeviceId.Write(context, fieldContext, bw);
-            bw.WriteEnum(UpdateType);
-            bw.Write(LowerDeadZone);
-            bw.Write(UpperDeadZone);
-        }
+    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        InternalDeviceId.WritePointerData(context, fieldContext, bw);
+    }
 
-        public IEnumerable<string> GetStrings()
-        {
-            return new[] { DeviceId };
-        }
-
-        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            InternalDeviceId.ReadPointerData(context, fieldContext, br);
-            DeviceId = InternalDeviceId.Value;
-        }
-
-        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            InternalDeviceId.WritePointerData(context, fieldContext, bw);
-        }
-
-        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
-        {
-            InternalDeviceId.AddPointers(context, fieldContext);
-        }
+    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    {
+        InternalDeviceId.AddPointers(context, fieldContext);
     }
 }

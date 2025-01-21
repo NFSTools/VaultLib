@@ -1,11 +1,10 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.Victory.Data.Objects.Customization
+namespace VaultLib.Support.World.VLT.Victory.Data.Objects.Customization;
+
+[VltTypeInfo("Victory::Data::Objects::Customization::SkillModEffectAmountConversion")]
+public enum SkillModEffectAmountConversion
 {
-    [VltTypeInfo("Victory::Data::Objects::Customization::SkillModEffectAmountConversion")]
-    public enum SkillModEffectAmountConversion
-    {
-        None,
-        Metres2Feet,
-    }
+    None,
+    Metres2Feet,
 }

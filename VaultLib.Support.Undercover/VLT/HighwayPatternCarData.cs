@@ -4,35 +4,34 @@ using VaultLib.Core;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
-namespace VaultLib.Support.Undercover.VLT
+namespace VaultLib.Support.Undercover.VLT;
+
+[VltTypeInfo(nameof(HighwayPatternCarData))]
+public class HighwayPatternCarData : VltBaseType
 {
-    [VltTypeInfo(nameof(HighwayPatternCarData))]
-    public class HighwayPatternCarData : VltBaseType
+    public int Row { get; set; }
+    public int Lane { get; set; }
+    public RefSpec Vehicle { get; set; } = new();
+    public EAILaneChangeType Change { get; set; }
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public int Row { get; set; }
-        public int Lane { get; set; }
-        public RefSpec Vehicle { get; set; } = new();
-        public EAILaneChangeType Change { get; set; }
+        Row = br.ReadInt32();
+        Lane = br.ReadInt32();
+        Vehicle.Read(context, fieldContext, br);
+        Change = br.ReadEnum<EAILaneChangeType>();
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            Row = br.ReadInt32();
-            Lane = br.ReadInt32();
-            Vehicle.Read(context, fieldContext, br);
-            Change = br.ReadEnum<EAILaneChangeType>();
+        var v = br.ReadUInt32();
+        if (v != 0)
+            throw new InvalidDataException();
+    }
 
-            var v = br.ReadUInt32();
-            if (v != 0)
-                throw new InvalidDataException();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.Write(Row);
-            bw.Write(Lane);
-            Vehicle.Write(context, fieldContext, bw);
-            bw.WriteEnum(Change);
-            bw.Write(0);
-        }
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        bw.Write(Row);
+        bw.Write(Lane);
+        Vehicle.Write(context, fieldContext, bw);
+        bw.WriteEnum(Change);
+        bw.Write(0);
     }
 }

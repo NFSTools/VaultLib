@@ -1,11 +1,10 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT.Hub
+namespace VaultLib.Support.ProStreet.VLT.Hub;
+
+[VltTypeInfo("Hub::LocationType")]
+public enum LocationType
 {
-    [VltTypeInfo("Hub::LocationType")]
-    public enum LocationType
-    {
-        kLocation_Street = 0x1,
-        kLocation_Track = 0x2,
-    }
+    kLocation_Street = 0x1,
+    kLocation_Track = 0x2,
 }

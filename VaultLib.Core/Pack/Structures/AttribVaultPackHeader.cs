@@ -4,29 +4,28 @@
 
 using System.IO;
 
-namespace VaultLib.Core.Pack.Structures
+namespace VaultLib.Core.Pack.Structures;
+
+public class AttribVaultPackHeader
 {
-    public class AttribVaultPackHeader
+    public uint NumEntries { get; set; }
+    public uint StringBlockOffset { get; set; }
+    public uint StringBlockSize { get; set; }
+
+    public void Read(BinaryReader br)
     {
-        public uint NumEntries { get; set; }
-        public uint StringBlockOffset { get; set; }
-        public uint StringBlockSize { get; set; }
+        if (br.ReadUInt32() != 0x4B415056) throw new InvalidDataException("Pack header invalid");
 
-        public void Read(BinaryReader br)
-        {
-            if (br.ReadUInt32() != 0x4B415056) throw new InvalidDataException("Pack header invalid");
+        NumEntries = br.ReadUInt32();
+        StringBlockOffset = br.ReadUInt32();
+        StringBlockSize = br.ReadUInt32();
+    }
 
-            NumEntries = br.ReadUInt32();
-            StringBlockOffset = br.ReadUInt32();
-            StringBlockSize = br.ReadUInt32();
-        }
-
-        public void Write(BinaryWriter bw)
-        {
-            bw.Write(0x4B415056);
-            bw.Write(NumEntries);
-            bw.Write(StringBlockOffset);
-            bw.Write(StringBlockSize);
-        }
+    public void Write(BinaryWriter bw)
+    {
+        bw.Write(0x4B415056);
+        bw.Write(NumEntries);
+        bw.Write(StringBlockOffset);
+        bw.Write(StringBlockSize);
     }
 }

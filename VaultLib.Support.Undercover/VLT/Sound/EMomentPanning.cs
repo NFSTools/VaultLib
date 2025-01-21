@@ -4,12 +4,11 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Undercover.VLT.Sound
+namespace VaultLib.Support.Undercover.VLT.Sound;
+
+[VltTypeInfo("Sound::EMomentPanning")]
+public enum EMomentPanning
 {
-    [VltTypeInfo("Sound::EMomentPanning")]
-    public enum EMomentPanning
-    {
-        eMOMENT_PANNING_NONE = 0x0,
-        eMOMENT_PANNING_POINTSOURCE = 0x1,
-    }
+    eMOMENT_PANNING_NONE = 0x0,
+    eMOMENT_PANNING_POINTSOURCE = 0x1,
 }

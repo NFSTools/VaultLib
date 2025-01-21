@@ -6,23 +6,22 @@ using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing
+namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing;
+
+public class Slider : VltBaseType
 {
-    public class Slider : VltBaseType
+    public uint Region { get; set; }
+    public uint Zone { get; set; }
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public uint Region { get; set; }
-        public uint Zone { get; set; }
+        Region = br.ReadUInt32();
+        Zone = br.ReadUInt32();
+    }
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            Region = br.ReadUInt32();
-            Zone = br.ReadUInt32();
-        }
-
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.Write(Region);
-            bw.Write(Zone);
-        }
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        bw.Write(Region);
+        bw.Write(Zone);
     }
 }

@@ -11,109 +11,108 @@ using VaultLib.Core.Data;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 
-namespace VaultLib.Core
+namespace VaultLib.Core;
+
+/// <summary>
+///     Provides utilities for the saving process
+/// </summary>
+public class VaultWriteContext
 {
+    private VaultWriteOptions Options { get; }
+
+    public Database Database { get; }
+
+    public Vault Vault { get; }
+
     /// <summary>
-    ///     Provides utilities for the saving process
+    /// A set containing every string value in the vault's data.
     /// </summary>
-    public class VaultWriteContext
+    public HashSet<string> Strings { get; set; }
+
+    /// <summary>
+    /// A list of <see cref="VltCollection"/> instances in the vault.
+    /// </summary>
+    public IList<VltCollection> Collections { get; set; }
+
+    /// <summary>
+    /// A set of <see cref="VltPointer"/> instances for vault data.
+    /// </summary>
+    public HashSet<VltPointer> Pointers { get; set; }
+
+    /// <summary>
+    /// A mapping of string values to data offsets, for pointer generation.
+    /// </summary>
+    public Dictionary<string, long> StringOffsets { get; set; }
+
+    public VaultHashMode HashMode => Options.HashMode;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VaultWriteContext"/> class.
+    /// </summary>
+    /// <param name="vault"></param>
+    /// <param name="options">The options to use in the saving process.</param>
+    public VaultWriteContext(Vault vault, VaultWriteOptions options)
     {
-        private VaultWriteOptions Options { get; }
+        Database = vault.Database;
+        Vault = vault;
+        Options = options;
+    }
 
-        public Database Database { get; }
+    /// <summary>
+    /// Adds a pointer from the given source offset to the given destination offset.
+    /// </summary>
+    /// <param name="src">The pointer source offset.</param>
+    /// <param name="dst">The pointer destination offset.</param>
+    /// <param name="isVlt">Whether the pointer is a VLT pointer.</param>
+    /// <exception cref="Exception">if a duplicate pointer is added</exception>
+    public void AddPointer(long src, long dst, bool isVlt)
+    {
+        Debug.Assert(src != 0);
 
-        public Vault Vault { get; }
-
-        /// <summary>
-        /// A set containing every string value in the vault's data.
-        /// </summary>
-        public HashSet<string> Strings { get; set; }
-
-        /// <summary>
-        /// A list of <see cref="VltCollection"/> instances in the vault.
-        /// </summary>
-        public IList<VltCollection> Collections { get; set; }
-
-        /// <summary>
-        /// A set of <see cref="VltPointer"/> instances for vault data.
-        /// </summary>
-        public HashSet<VltPointer> Pointers { get; set; }
-
-        /// <summary>
-        /// A mapping of string values to data offsets, for pointer generation.
-        /// </summary>
-        public Dictionary<string, long> StringOffsets { get; set; }
-
-        public VaultHashMode HashMode => Options.HashMode;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VaultWriteContext"/> class.
-        /// </summary>
-        /// <param name="vault"></param>
-        /// <param name="options">The options to use in the saving process.</param>
-        public VaultWriteContext(Vault vault, VaultWriteOptions options)
+        var pointer = new VltPointer
         {
-            Database = vault.Database;
-            Vault = vault;
-            Options = options;
+            Type = isVlt ? VltPointerType.Vlt : VltPointerType.Bin,
+            FixUpOffset = (uint)src,
+            Destination = (uint)dst
+        };
+
+        if (!Pointers.Add(pointer)) throw new Exception("Duplicate pointer added?");
+    }
+
+    /// <summary>
+    /// Computes the appropriate string hash value for the given input text.
+    /// </summary>
+    /// <param name="text">The text to be hashed.</param>
+    /// <returns>The string hash value.</returns>
+    /// <remarks>Strings beginning with "0x" will be converted to numeric values.</remarks>
+    public ulong StringHash(string text)
+    {
+        if (text.StartsWith("0x") && ulong.TryParse(text.Substring(2),
+                System.Globalization.NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out ulong l))
+        {
+            return l;
         }
 
-        /// <summary>
-        /// Adds a pointer from the given source offset to the given destination offset.
-        /// </summary>
-        /// <param name="src">The pointer source offset.</param>
-        /// <param name="dst">The pointer destination offset.</param>
-        /// <param name="isVlt">Whether the pointer is a VLT pointer.</param>
-        /// <exception cref="Exception">if a duplicate pointer is added</exception>
-        public void AddPointer(long src, long dst, bool isVlt)
+        switch (Options.HashMode)
         {
-            Debug.Assert(src != 0);
-
-            var pointer = new VltPointer
-            {
-                Type = isVlt ? VltPointerType.Vlt : VltPointerType.Bin,
-                FixUpOffset = (uint)src,
-                Destination = (uint)dst
-            };
-
-            if (!Pointers.Add(pointer)) throw new Exception("Duplicate pointer added?");
+            case VaultHashMode.Hash32:
+                return Vlt32Hasher.Hash(text);
+            case VaultHashMode.Hash64:
+                return Vlt64Hasher.Hash(text);
+            default:
+                throw new ArgumentOutOfRangeException();
         }
+    }
 
-        /// <summary>
-        /// Computes the appropriate string hash value for the given input text.
-        /// </summary>
-        /// <param name="text">The text to be hashed.</param>
-        /// <returns>The string hash value.</returns>
-        /// <remarks>Strings beginning with "0x" will be converted to numeric values.</remarks>
-        public ulong StringHash(string text)
-        {
-            if (text.StartsWith("0x") && ulong.TryParse(text.Substring(2),
-                    System.Globalization.NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out ulong l))
-            {
-                return l;
-            }
-
-            switch (Options.HashMode)
-            {
-                case VaultHashMode.Hash32:
-                    return Vlt32Hasher.Hash(text);
-                case VaultHashMode.Hash64:
-                    return Vlt64Hasher.Hash(text);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public void WriteString(string str, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            if (!StringOffsets.TryGetValue(str, out var strPtr))
-                throw new KeyNotFoundException($"String offset table does not have an entry for: {str}");
+    public void WriteString(string str, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        if (!StringOffsets.TryGetValue(str, out var strPtr))
+            throw new KeyNotFoundException($"String offset table does not have an entry for: {str}");
             
-            var ptrPos = bw.BaseStream.Position;
+        var ptrPos = bw.BaseStream.Position;
             
-            bw.Write(0u);
+        bw.Write(0u);
 
-            AddPointer(ptrPos, strPtr, fieldContext.IsInVlt);
-        }
+        AddPointer(ptrPos, strPtr, fieldContext.IsInVlt);
     }
 }

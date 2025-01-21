@@ -4,14 +4,13 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(eRewardCardConditionModifyer))]
+public enum eRewardCardConditionModifyer
 {
-    [VltTypeInfo(nameof(eRewardCardConditionModifyer))]
-    public enum eRewardCardConditionModifyer
-    {
-        CONDITION_UNSPECIFIED = -1,
-        CONDITION_LESS_THAN = 0x0,
-        CONDITION_GREATER_THAN = 0x1,
-        CONDITION_EQUAL_TO = 0x2,
-    }
+    CONDITION_UNSPECIFIED = -1,
+    CONDITION_LESS_THAN = 0x0,
+    CONDITION_GREATER_THAN = 0x1,
+    CONDITION_EQUAL_TO = 0x2,
 }

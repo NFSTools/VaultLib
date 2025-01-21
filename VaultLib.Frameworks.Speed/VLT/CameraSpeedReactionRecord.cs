@@ -1,13 +1,12 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(CameraSpeedReactionRecord))]
+public struct CameraSpeedReactionRecord
 {
-    [VltTypeInfo(nameof(CameraSpeedReactionRecord))]
-    public struct CameraSpeedReactionRecord
-    {
-        public float SpeedMin;
-        public float ValueMin;
-        public float SpeedMax;
-        public float ValueMax;
-    }
+    public float SpeedMin;
+    public float ValueMin;
+    public float SpeedMax;
+    public float ValueMax;
 }

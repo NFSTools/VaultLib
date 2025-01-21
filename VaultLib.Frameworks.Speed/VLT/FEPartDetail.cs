@@ -2,11 +2,10 @@
 // 
 // Created: 10/19/2019 @ 4:59 PM.
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+public struct FEPartDetail
 {
-    public struct FEPartDetail
-    {
-        public uint Logo;
-        public uint Name;
-    }
+    public uint Logo;
+    public uint Name;
 }

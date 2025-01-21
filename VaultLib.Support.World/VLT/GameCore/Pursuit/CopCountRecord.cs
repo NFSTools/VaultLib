@@ -4,10 +4,9 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.GameCore.Pursuit
+namespace VaultLib.Support.World.VLT.GameCore.Pursuit;
+
+[VltTypeInfo("GameCore::Pursuit::CopCountRecord", MappedTo = typeof(Frameworks.Speed.VLT.CopCountRecord))]
+public class CopCountRecord
 {
-    [VltTypeInfo("GameCore::Pursuit::CopCountRecord", MappedTo = typeof(Frameworks.Speed.VLT.CopCountRecord))]
-    public class CopCountRecord
-    {
-    }
 }

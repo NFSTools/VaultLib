@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(eENGINE_GROUP))]
+public enum eENGINE_GROUP
 {
-    [VltTypeInfo(nameof(eENGINE_GROUP))]
-    public enum eENGINE_GROUP
-    {
-        eENGINE_V4 = 0x0,
-        eENGINE_V6 = 0x1,
-        eENGINE_V8 = 0x2,
-    }
+    eENGINE_V4 = 0x0,
+    eENGINE_V6 = 0x1,
+    eENGINE_V8 = 0x2,
 }

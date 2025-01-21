@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Undercover.VLT.NIS
+namespace VaultLib.Support.Undercover.VLT.NIS;
+
+[VltTypeInfo("NIS::eFinishOutcome")]
+public enum eFinishOutcome
 {
-    [VltTypeInfo("NIS::eFinishOutcome")]
-    public enum eFinishOutcome
-    {
-        FINISH_WIN = 0x0,
-        FINISH_LOSE = 0x1,
-        FINISH_INVALID = 0x2,
-    }
+    FINISH_WIN = 0x0,
+    FINISH_LOSE = 0x1,
+    FINISH_INVALID = 0x2,
 }

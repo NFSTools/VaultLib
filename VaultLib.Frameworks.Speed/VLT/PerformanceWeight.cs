@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 using VaultLib.Frameworks.Speed.VLT.Physics;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(PerformanceWeight))]
+public struct PerformanceWeight
 {
-    [VltTypeInfo(nameof(PerformanceWeight))]
-    public struct PerformanceWeight
-    {
-        public ePerformanceType PerformanceType;
-        public float Percentage;
-    }
+    public ePerformanceType PerformanceType;
+    public float Percentage;
 }

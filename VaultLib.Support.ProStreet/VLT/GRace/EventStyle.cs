@@ -1,11 +1,10 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT.GRace
+namespace VaultLib.Support.ProStreet.VLT.GRace;
+
+[VltTypeInfo("GRace::EventStyle")]
+public enum EventStyle
 {
-    [VltTypeInfo("GRace::EventStyle")]
-    public enum EventStyle
-    {
-        kEventStyle_BestRound = 0x0,
-        kEventStyle_Elimination = 0x1,
-    }
+    kEventStyle_BestRound = 0x0,
+    kEventStyle_Elimination = 0x1,
 }

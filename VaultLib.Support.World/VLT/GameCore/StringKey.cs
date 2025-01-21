@@ -4,10 +4,9 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.GameCore
+namespace VaultLib.Support.World.VLT.GameCore;
+
+[VltTypeInfo("GameCore::StringKey", MappedTo = typeof(uint))]
+public class StringKey
 {
-    [VltTypeInfo("GameCore::StringKey", MappedTo = typeof(uint))]
-    public class StringKey
-    {
-    }
 }

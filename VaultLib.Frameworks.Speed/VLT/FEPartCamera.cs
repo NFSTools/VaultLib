@@ -11,41 +11,40 @@ using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(FEPartCamera))]
+public class FEPartCamera : VltBaseType, IReferencesStrings
 {
-    [VltTypeInfo(nameof(FEPartCamera))]
-    public class FEPartCamera : VltBaseType, IReferencesStrings
+    public string SlotName { get; set; } = string.Empty;
+    public RefSpec Camera { get; set; } = new();
+
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        public string SlotName { get; set; } = string.Empty;
-        public RefSpec Camera { get; set; } = new();
+        SlotName = context.ReadString(br);
+        Camera.Read(context, fieldContext, br);
+    }
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            SlotName = context.ReadString(br);
-            Camera.Read(context, fieldContext, br);
-        }
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        context.WriteString(SlotName, fieldContext, bw);
+        Camera.Write(context, fieldContext, bw);
+    }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            context.WriteString(SlotName, fieldContext, bw);
-            Camera.Write(context, fieldContext, bw);
-        }
+    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+    }
 
-        public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-        }
+    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+    }
 
-        public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-        }
+    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    {
+    }
 
-        public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
-        {
-        }
-
-        public IEnumerable<string> GetStrings()
-        {
-            return new[] { SlotName };
-        }
+    public IEnumerable<string> GetStrings()
+    {
+        return new[] { SlotName };
     }
 }

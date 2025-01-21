@@ -5,15 +5,14 @@
 using System.Runtime.InteropServices;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.Sound
-{
-    [VltTypeInfo("Sound::BinarySequence")]
-    [StructLayout(LayoutKind.Explicit, Pack = 1, Size = 8)]
-    public struct BinarySequence
-    {
-        [FieldOffset(0)] [MarshalAs(UnmanagedType.U1)]
-        public bool Value;
+namespace VaultLib.Support.World.VLT.Sound;
 
-        [FieldOffset(4)] public float Duration;
-    }
+[VltTypeInfo("Sound::BinarySequence")]
+[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 8)]
+public struct BinarySequence
+{
+    [FieldOffset(0)] [MarshalAs(UnmanagedType.U1)]
+    public bool Value;
+
+    [FieldOffset(4)] public float Duration;
 }

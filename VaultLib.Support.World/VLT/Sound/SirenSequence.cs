@@ -4,24 +4,23 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.Sound
-{
-    [VltTypeInfo("Sound::SirenSequence")]
-    public struct SirenSequence
-    {
-        public enum SirenMode
-        {
-            SIREN_OFF = 0x1,
-            SIREN_WAIL = 0x2,
-            SIREN_YELP = 0x3,
-            SIREN_PRIORITY = 0x4,
-            SIREN_HORN = 0x5,
-            SIREN_DEATH = 0x6,
-            SIREN_INIT = 0x7,
-            MAX_SIREN_STATES = 0x8,
-        }
+namespace VaultLib.Support.World.VLT.Sound;
 
-        public SirenMode mMode;
-        public float mDuration;
+[VltTypeInfo("Sound::SirenSequence")]
+public struct SirenSequence
+{
+    public enum SirenMode
+    {
+        SIREN_OFF = 0x1,
+        SIREN_WAIL = 0x2,
+        SIREN_YELP = 0x3,
+        SIREN_PRIORITY = 0x4,
+        SIREN_HORN = 0x5,
+        SIREN_DEATH = 0x6,
+        SIREN_INIT = 0x7,
+        MAX_SIREN_STATES = 0x8,
     }
+
+    public SirenMode mMode;
+    public float mDuration;
 }

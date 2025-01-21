@@ -1,28 +1,27 @@
-﻿namespace VaultLib.Core.DB
+﻿namespace VaultLib.Core.DB;
+
+public enum DatabaseType
 {
-    public enum DatabaseType
-    {
-        /// <summary>
-        /// 32-bit hashes
-        /// </summary>
-        X86Database,
+    /// <summary>
+    /// 32-bit hashes
+    /// </summary>
+    X86Database,
 
-        /// <summary>
-        /// 64-bit hashes
-        /// </summary>
-        X64Database
+    /// <summary>
+    /// 64-bit hashes
+    /// </summary>
+    X64Database
+}
+
+public class DatabaseOptions
+{
+    public DatabaseOptions(string gameId, DatabaseType type)
+    {
+        GameId = gameId;
+        Type = type;
     }
 
-    public class DatabaseOptions
-    {
-        public DatabaseOptions(string gameId, DatabaseType type)
-        {
-            GameId = gameId;
-            Type = type;
-        }
+    public string GameId { get; }
 
-        public string GameId { get; }
-
-        public DatabaseType Type { get; }
-    }
+    public DatabaseType Type { get; }
 }

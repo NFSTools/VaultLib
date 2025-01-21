@@ -4,17 +4,16 @@
 
 using System;
 
-namespace VaultLib.Core.Types
-{
-    public class VltTypeInfoAttribute : Attribute
-    {
-        public VltTypeInfoAttribute(string name)
-        {
-            Name = name;
-        }
+namespace VaultLib.Core.Types;
 
-        public string Name { get; }
-        
-        public Type MappedTo { get; set; }
+public class VltTypeInfoAttribute : Attribute
+{
+    public VltTypeInfoAttribute(string name)
+    {
+        Name = name;
     }
+
+    public string Name { get; }
+        
+    public Type MappedTo { get; set; }
 }

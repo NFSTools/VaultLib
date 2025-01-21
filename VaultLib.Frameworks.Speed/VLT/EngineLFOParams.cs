@@ -4,15 +4,14 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(EngineLFOParams))]
+public struct EngineLFOParams
 {
-    [VltTypeInfo(nameof(EngineLFOParams))]
-    public struct EngineLFOParams
-    {
-        public float frequency_start;
-        public float frequency_end;
-        public float RPM_amplitude;
-        public float vol_amplitude;
-        public float lifespan;
-    }
+    public float frequency_start;
+    public float frequency_end;
+    public float RPM_amplitude;
+    public float vol_amplitude;
+    public float lifespan;
 }

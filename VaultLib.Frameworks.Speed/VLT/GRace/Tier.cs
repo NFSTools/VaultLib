@@ -4,15 +4,14 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT.GRace
+namespace VaultLib.Frameworks.Speed.VLT.GRace;
+
+[VltTypeInfo("GRace::Tier")]
+public enum Tier
 {
-    [VltTypeInfo("GRace::Tier")]
-    public enum Tier
-    {
-        kRaceTier_None = 0x0,
-        kRaceTier_1 = 0x1,
-        kRaceTier_2 = 0x2,
-        kRaceTier_3 = 0x3,
-        kRaceTier_NumTiers = 0x4,
-    }
+    kRaceTier_None = 0x0,
+    kRaceTier_1 = 0x1,
+    kRaceTier_2 = 0x2,
+    kRaceTier_3 = 0x3,
+    kRaceTier_NumTiers = 0x4,
 }

@@ -6,31 +6,30 @@ using System;
 using System.IO;
 using CoreLibraries.IO;
 
-namespace VaultLib.Core
+namespace VaultLib.Core;
+
+public class VaultReadWrapper : IDisposable
 {
-    public class VaultReadWrapper : IDisposable
+    public VaultReadWrapper(string vaultName, Stream binStream, Stream vltStream,
+        ByteOrder byteOrder = ByteOrder.Little)
     {
-        public VaultReadWrapper(string vaultName, Stream binStream, Stream vltStream,
-            ByteOrder byteOrder = ByteOrder.Little)
-        {
-            VaultName = vaultName;
-            ByteOrder = byteOrder;
+        VaultName = vaultName;
+        ByteOrder = byteOrder;
             
-            BinStream = binStream;
-            VltStream = vltStream;
-        }
+        BinStream = binStream;
+        VltStream = vltStream;
+    }
 
-        public string VaultName { get; }
+    public string VaultName { get; }
 
-        public Stream BinStream { get; }
-        public Stream VltStream { get; }
+    public Stream BinStream { get; }
+    public Stream VltStream { get; }
 
-        public ByteOrder ByteOrder { get; }
+    public ByteOrder ByteOrder { get; }
 
-        public void Dispose()
-        {
-            BinStream?.Dispose();
-            VltStream?.Dispose();
-        }
+    public void Dispose()
+    {
+        BinStream?.Dispose();
+        VltStream?.Dispose();
     }
 }

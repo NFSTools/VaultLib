@@ -1,9 +1,8 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT
+namespace VaultLib.Support.ProStreet.VLT;
+
+[VltTypeInfo(nameof(DefinitionKey), MappedTo = typeof(uint))]
+public class DefinitionKey
 {
-    [VltTypeInfo(nameof(DefinitionKey), MappedTo = typeof(uint))]
-    public class DefinitionKey
-    {
-    }
 }

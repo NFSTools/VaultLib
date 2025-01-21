@@ -4,17 +4,16 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.PerformanceUpgrades
+namespace VaultLib.Support.World.VLT.PerformanceUpgrades;
+
+[VltTypeInfo("PerformanceUpgrades::PartZone")]
+public enum PartZone
 {
-    [VltTypeInfo("PerformanceUpgrades::PartZone")]
-    public enum PartZone
-    {
-        PERFSLOT_ENGINE,
-        PERFSLOT_FORCED_INDUCTION,
-        PERFSLOT_TRANSMISSION,
-        PERFSLOT_SUSPENSION,
-        PERFSLOT_BRAKES,
-        PERFSLOT_TIRES,
-        PERFSLOT_MISC
-    }
+    PERFSLOT_ENGINE,
+    PERFSLOT_FORCED_INDUCTION,
+    PERFSLOT_TRANSMISSION,
+    PERFSLOT_SUSPENSION,
+    PERFSLOT_BRAKES,
+    PERFSLOT_TIRES,
+    PERFSLOT_MISC
 }

@@ -6,27 +6,26 @@ using System.Collections.Generic;
 using VaultLib.Core.DB;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Core.Types.Abstractions
+namespace VaultLib.Core.Types.Abstractions;
+
+public abstract class BaseRefSpec : VltBaseType, IReferencesCollections
 {
-    public abstract class BaseRefSpec : VltBaseType, IReferencesCollections
+    public abstract string ClassKey { get; set; }
+    public abstract string CollectionKey { get; set; }
+
+    public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
     {
-        public abstract string ClassKey { get; set; }
-        public abstract string CollectionKey { get; set; }
+        yield return new CollectionReferenceInfo(this,
+            database.RowManager.FindCollectionByName(ClassKey, CollectionKey));
+    }
 
-        public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
-        {
-            yield return new CollectionReferenceInfo(this,
-                database.RowManager.FindCollectionByName(ClassKey, CollectionKey));
-        }
+    public bool ReferencesCollection(string classKey, string collectionKey)
+    {
+        return ClassKey == classKey && CollectionKey == collectionKey;
+    }
 
-        public bool ReferencesCollection(string classKey, string collectionKey)
-        {
-            return ClassKey == classKey && CollectionKey == collectionKey;
-        }
-
-        public override string ToString()
-        {
-            return $"{ClassKey} -> {CollectionKey}";
-        }
+    public override string ToString()
+    {
+        return $"{ClassKey} -> {CollectionKey}";
     }
 }

@@ -7,34 +7,33 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.GameCore
+namespace VaultLib.Support.World.VLT.GameCore;
+
+[VltTypeInfo("GameCore::BlackBoardSlot")]
+public class BlackBoardSlot : VltBaseType
 {
-    [VltTypeInfo("GameCore::BlackBoardSlot")]
-    public class BlackBoardSlot : VltBaseType
+    public enum BlackBoardFlag
     {
-        public enum BlackBoardFlag
-        {
-            kBlackBoardFlag_Loading = 1,
-            kBlackBoardFlag_Running = 2,
-            kBlackBoardFlag_Countdown = 4
-        }
+        kBlackBoardFlag_Loading = 1,
+        kBlackBoardFlag_Running = 2,
+        kBlackBoardFlag_Countdown = 4
+    }
 
-        public BlackBoardChannel mChannel { get; set; }
-        public uint mBlackBoardKey { get; set; }
-        public BlackBoardFlag mFlag { get; set; }
+    public BlackBoardChannel mChannel { get; set; }
+    public uint mBlackBoardKey { get; set; }
+    public BlackBoardFlag mFlag { get; set; }
 
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
-        {
-            mChannel = br.ReadEnum<BlackBoardChannel>();
-            mBlackBoardKey = br.ReadUInt32();
-            mFlag = br.ReadEnum<BlackBoardFlag>();
-        }
+    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    {
+        mChannel = br.ReadEnum<BlackBoardChannel>();
+        mBlackBoardKey = br.ReadUInt32();
+        mFlag = br.ReadEnum<BlackBoardFlag>();
+    }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
-        {
-            bw.WriteEnum(mChannel);
-            bw.Write(mBlackBoardKey);
-            bw.WriteEnum(mFlag);
-        }
+    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    {
+        bw.WriteEnum(mChannel);
+        bw.Write(mBlackBoardKey);
+        bw.WriteEnum(mFlag);
     }
 }

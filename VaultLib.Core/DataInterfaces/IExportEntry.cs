@@ -1,12 +1,11 @@
 using VaultLib.Core.Utils;
 
-namespace VaultLib.Core.DataInterfaces
+namespace VaultLib.Core.DataInterfaces;
+
+public interface IExportEntry : IVaultFileAccess
 {
-    public interface IExportEntry : IVaultFileAccess
-    {
-        ulong ID { get; set; }
-        ulong Type { get; set; }
-        uint Size { get; set; }
-        uint Offset { get; set; }
-    }
+    ulong ID { get; set; }
+    ulong Type { get; set; }
+    uint Size { get; set; }
+    uint Offset { get; set; }
 }

@@ -9,49 +9,48 @@ using System.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 
-namespace VaultLib.Core.Chunks
+namespace VaultLib.Core.Chunks;
+
+public class VltDataChunk : ChunkBase
 {
-    public class VltDataChunk : ChunkBase
+    private readonly IList<BaseExport> _exports;
+
+    public VltDataChunk(IList<BaseExport> exports)
     {
-        private readonly IList<BaseExport> _exports;
+        _exports = exports;
+        ExportEntries = new List<IExportEntry>();
+    }
 
-        public VltDataChunk(IList<BaseExport> exports)
+    public List<IExportEntry> ExportEntries { get; }
+
+    public override uint Id => 0x4461744E;
+    public override uint Size { get; set; }
+    public override long Offset { get; set; }
+
+    public override void Read(VaultReadContext context, BinaryReader br)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    {
+        foreach (var t in _exports)
         {
-            _exports = exports;
-            ExportEntries = new List<IExportEntry>();
-        }
+            var offset = bw.BaseStream.Position;
 
-        public List<IExportEntry> ExportEntries { get; }
+            t.Write(context, bw);
 
-        public override uint Id => 0x4461744E;
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
+            var endOffset = bw.BaseStream.Position;
 
-        public override void Read(VaultReadContext context, BinaryReader br)
-        {
-            throw new NotImplementedException();
-        }
+            var exportEntry = context.Database.ExportFactory.BuildExportEntry();
+            exportEntry.ID = t.GetExportId();
+            exportEntry.Offset = (uint)offset;
+            exportEntry.Type = context.StringHash(t.GetTypeId());
+            exportEntry.Size = (uint)(endOffset - offset);
 
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
-        {
-            foreach (var t in _exports)
-            {
-                var offset = bw.BaseStream.Position;
+            ExportEntries.Add(exportEntry);
 
-                t.Write(context, bw);
-
-                var endOffset = bw.BaseStream.Position;
-
-                var exportEntry = context.Database.ExportFactory.BuildExportEntry();
-                exportEntry.ID = t.GetExportId();
-                exportEntry.Offset = (uint)offset;
-                exportEntry.Type = context.StringHash(t.GetTypeId());
-                exportEntry.Size = (uint)(endOffset - offset);
-
-                ExportEntries.Add(exportEntry);
-
-                bw.AlignWriter(8);
-            }
+            bw.AlignWriter(8);
         }
     }
 }

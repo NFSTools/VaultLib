@@ -1,22 +1,21 @@
-﻿namespace VaultLib.Core
+﻿namespace VaultLib.Core;
+
+/// <summary>
+/// An enumeration of the available stringhash implementations.
+/// </summary>
+public enum VaultHashMode
+{
+    Hash32,
+    Hash64
+}
+
+/// <summary>
+/// Options for the vault saving process
+/// </summary>
+public class VaultWriteOptions
 {
     /// <summary>
-    /// An enumeration of the available stringhash implementations.
+    /// The string hash implementation to use.
     /// </summary>
-    public enum VaultHashMode
-    {
-        Hash32,
-        Hash64
-    }
-
-    /// <summary>
-    /// Options for the vault saving process
-    /// </summary>
-    public class VaultWriteOptions
-    {
-        /// <summary>
-        /// The string hash implementation to use.
-        /// </summary>
-        public VaultHashMode HashMode { get; init; } = VaultHashMode.Hash32;
-    }
+    public VaultHashMode HashMode { get; init; } = VaultHashMode.Hash32;
 }

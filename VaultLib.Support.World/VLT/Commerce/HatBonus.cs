@@ -4,14 +4,13 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.Commerce
+namespace VaultLib.Support.World.VLT.Commerce;
+
+[VltTypeInfo("Commerce::HatBonus")]
+public struct HatBonus
 {
-    [VltTypeInfo("Commerce::HatBonus")]
-    public struct HatBonus
-    {
-        public int Handling;
-        public int Acceleration;
-        public int TopSpeed;
-        public int RequiredPartCount;
-    }
+    public int Handling;
+    public int Acceleration;
+    public int TopSpeed;
+    public int RequiredPartCount;
 }

@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.ProStreet.VLT.GRace
+namespace VaultLib.Support.ProStreet.VLT.GRace;
+
+[VltTypeInfo("GRace::CareerElementDrawStyle")]
+public enum CareerElementDrawStyle
 {
-    [VltTypeInfo("GRace::CareerElementDrawStyle")]
-    public enum CareerElementDrawStyle
-    {
-        kDrawStyleBox = 0x0,
-        kDrawStyleEllipse = 0x1,
-        kDrawStyleDiamond = 0x2,
-    }
+    kDrawStyleBox = 0x0,
+    kDrawStyleEllipse = 0x1,
+    kDrawStyleDiamond = 0x2,
 }

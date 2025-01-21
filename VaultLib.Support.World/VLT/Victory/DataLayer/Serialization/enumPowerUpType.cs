@@ -1,22 +1,21 @@
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.Victory.DataLayer.Serialization
+namespace VaultLib.Support.World.VLT.Victory.DataLayer.Serialization;
+
+[VltTypeInfo("Victory::DataLayer::Serialization::enumPowerUpType")]
+public enum enumPowerUpType
 {
-    [VltTypeInfo("Victory::DataLayer::Serialization::enumPowerUpType")]
-    public enum enumPowerUpType
-    {
-        None,
-        EmergencyEvade,
-        InstantCooldown,
-        Juggernaut,
-        NosShot,
-        OneMoreLap,
-        Ready,
-        RunFlatTires,
-        Shield,
-        Slingshot,
-        TeamEmergencyEvade,
-        TeamSlingshot,
-        TrafficMagnet,
-    }
+    None,
+    EmergencyEvade,
+    InstantCooldown,
+    Juggernaut,
+    NosShot,
+    OneMoreLap,
+    Ready,
+    RunFlatTires,
+    Shield,
+    Slingshot,
+    TeamEmergencyEvade,
+    TeamSlingshot,
+    TrafficMagnet,
 }

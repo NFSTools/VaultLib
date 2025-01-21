@@ -4,14 +4,13 @@
 
 using VaultLib.Core.Types;
 
-namespace VaultLib.Support.World.VLT.GameCore.Collision
+namespace VaultLib.Support.World.VLT.GameCore.Collision;
+
+[VltTypeInfo("GameCore::Collision::TriggerType")]
+public enum TriggerType
 {
-    [VltTypeInfo("GameCore::Collision::TriggerType")]
-    public enum TriggerType
-    {
-        Unknown,
-        Cylinder,
-        Box,
-        Plane
-    }
+    Unknown,
+    Cylinder,
+    Box,
+    Plane
 }

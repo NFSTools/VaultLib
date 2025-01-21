@@ -1,11 +1,10 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Support.Undercover.VLT
+namespace VaultLib.Support.Undercover.VLT;
+
+[VltTypeInfo(nameof(EmitterShaderTechnique))]
+public enum EmitterShaderTechnique
 {
-    [VltTypeInfo(nameof(EmitterShaderTechnique))]
-    public enum EmitterShaderTechnique
-    {
-        EmitterShaderTechnique_DEFAULT = 0x0,
-        EmitterShaderTechnique_WATERSPLASH = 0x1,
-    }
+    EmitterShaderTechnique_DEFAULT = 0x0,
+    EmitterShaderTechnique_WATERSPLASH = 0x1,
 }

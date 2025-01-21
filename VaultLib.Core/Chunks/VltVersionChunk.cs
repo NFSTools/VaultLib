@@ -1,23 +1,22 @@
 ﻿using System.IO;
 
-namespace VaultLib.Core.Chunks
+namespace VaultLib.Core.Chunks;
+
+public class VltVersionChunk : ChunkBase
 {
-    public class VltVersionChunk : ChunkBase
+    public override uint Id => 0x56657273;
+    public override uint Size { get; set; }
+    public override long Offset { get; set; }
+
+    public override void Read(VaultReadContext context, BinaryReader br)
     {
-        public override uint Id => 0x56657273;
-        public override uint Size { get; set; }
-        public override long Offset { get; set; }
+        context.Vault.Version = br.ReadUInt64();
 
-        public override void Read(VaultReadContext context, BinaryReader br)
-        {
-            context.Vault.Version = br.ReadUInt64();
+        //Debug.WriteLine("VLT version is: {0:X16}", Version);
+    }
 
-            //Debug.WriteLine("VLT version is: {0:X16}", Version);
-        }
-
-        public override void Write(VaultWriteContext context, BinaryWriter bw)
-        {
-            bw.Write(context.Vault.Version);
-        }
+    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    {
+        bw.Write(context.Vault.Version);
     }
 }

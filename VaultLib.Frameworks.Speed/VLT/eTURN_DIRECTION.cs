@@ -1,12 +1,11 @@
 ﻿using VaultLib.Core.Types;
 
-namespace VaultLib.Frameworks.Speed.VLT
+namespace VaultLib.Frameworks.Speed.VLT;
+
+[VltTypeInfo(nameof(eTURN_DIRECTION))]
+public enum eTURN_DIRECTION
 {
-    [VltTypeInfo(nameof(eTURN_DIRECTION))]
-    public enum eTURN_DIRECTION
-    {
-        kTurnIndicatorRight = 0x0,
-        kTurnIndicatorLeft = 0x1,
-        kNumTurnIndicatorDirections = 0x2,
-    }
+    kTurnIndicatorRight = 0x0,
+    kTurnIndicatorLeft = 0x1,
+    kNumTurnIndicatorDirections = 0x2,
 }
