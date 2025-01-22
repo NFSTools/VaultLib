@@ -10,7 +10,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo(nameof(CollisionStream))]
 public class CollisionStream : VltBaseType
 {
-    public RefSpec StreamMoment { get; set; }
+    public RefSpec StreamMoment { get; set; } = new();
     public byte Threshold { get; set; }
 
     public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
