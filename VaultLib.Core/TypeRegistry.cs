@@ -12,6 +12,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using VaultLib.Core.Data;
+using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -57,7 +58,7 @@ public class TypeRegistry
         RegisterPrimitive<ulong>("EA::Reflection::UInt64", r => r.ReadUInt64(), (v, w) => w.Write(v));
         RegisterPrimitive<float>("EA::Reflection::Float", r => r.ReadSingle(), (v, w) => w.Write(v));
 
-        _typeDictionary["EA::Reflection::Text"] = typeof(string);
+        AddType("EA::Reflection::Text", typeof(string));
         _activators[typeof(string)] = _ => null;
         _readers[typeof(string)] = (_, ctx, _, br) => ctx.ReadString(br);
         _writers[typeof(string)] = (s, ctx, fieldCtx, bw) => ctx.WriteString((string)s, fieldCtx, bw);
@@ -68,12 +69,23 @@ public class TypeRegistry
         RegisterStruct<Matrix4x4>("Attrib::Types::Matrix");
     }
 
+    private void AddType(string typeName, Type type)
+    {
+        _typeDictionary[typeName] = type;
+
+        // TODO: Get rid of this. When we have type-safe keys, this should no longer be necessary.
+        var hash32 = Vlt32Hasher.Hash(typeName);
+        var hash64 = Vlt64Hasher.Hash(typeName);
+        _typeDictionary[$"0x{hash32:X8}"] = type;
+        _typeDictionary[$"0x{hash64:X16}"] = type;
+    }
+
     public void Map<TDest>(string typeId)
     {
         var destType = typeof(TDest);
         if (!_activators.ContainsKey(destType))
             throw new KeyNotFoundException($"Type {destType} has not been registered");
-        _typeDictionary[typeId] = destType;
+        AddType(typeId, destType);
     }
 
     public bool IsConstructorRegistered<T>() => IsConstructorRegistered(typeof(T));
@@ -100,7 +112,7 @@ public class TypeRegistry
             throw new MissingMethodException(
                 $"Could not find zero-parameter constructor for type {type} (registered as {typeId})");
 
-        _typeDictionary[typeId] = type;
+        AddType(typeId, type);
         _activators[type] = ReflectionUtils.GetActivator<object>(constructorInfo);
 
         _readers[type] = (instance, context, fieldContext, reader) =>
@@ -131,7 +143,7 @@ public class TypeRegistry
             _writers[type] = CreateStructWriterProxy(type);
         }
 
-        _typeDictionary[typeId] = type;
+        AddType(typeId, type);
     }
 
     private static TypeReader CreateStructReaderProxy(Type structType)
@@ -199,7 +211,7 @@ public class TypeRegistry
     private void RegisterPrimitive<T>(string typeId, Func<BinaryReader, T> reader, Action<T, BinaryWriter> writer,
         Type type) where T : struct, IConvertible
     {
-        _typeDictionary[typeId] = type;
+        AddType(typeId, type);
         _activators[type] = _ => default(T);
         _readers[type] = (_, _, _, r) => reader(r);
         _writers[type] = (instance, _, _, w) => writer((T)instance, w);
@@ -261,11 +273,11 @@ public class TypeRegistry
 
             if (typeInfoAttribute.MappedTo != null)
             {
-                _typeDictionary[typeInfoAttribute.Name] = typeInfoAttribute.MappedTo;
+                AddType(typeInfoAttribute.Name, typeInfoAttribute.MappedTo);
             }
             else if (type.IsEnum)
             {
-                _typeDictionary[typeInfoAttribute.Name] = type;
+                AddType(typeInfoAttribute.Name, type);
                 var defaultValue = Activator.CreateInstance(type);
                 _activators[type] = _ => defaultValue;
 
