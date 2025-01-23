@@ -18,7 +18,7 @@ namespace VaultLib.Core;
 /// </summary>
 public class VaultWriteContext
 {
-    private VaultWriteOptions Options { get; }
+    public VaultWriteOptions Options { get; }
 
     public Database Database { get; }
 

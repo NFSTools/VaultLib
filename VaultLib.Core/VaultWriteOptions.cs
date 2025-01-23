@@ -24,6 +24,11 @@ public class VaultWriteQuirks
     /// vaults, but the chunk order doesn't seem to matter to any of the games.
     /// </remarks>
     public bool StartChunkBeforeDepChunk { get; set; }
+    
+    /// <summary>
+    /// When set to true, the <see cref="EndChunk"/> will be written to the BIN stream.
+    /// </summary>
+    public bool EnableBinEndChunk { get; set; }
 }
 
 /// <summary>

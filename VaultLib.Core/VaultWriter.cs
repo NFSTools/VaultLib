@@ -87,7 +87,11 @@ public class VaultWriter
         var stringsChunk = new BinStringsChunk { Strings = new List<string>(stringsSet) };
 
         cw.WriteChunk(stringsChunk);
-        cw.WriteChunk(new EndChunk());
+
+        if (_writeContext.Options.Quirks.EnableBinEndChunk)
+        {
+            cw.WriteChunk(new EndChunk());
+        }
 
         return ms;
     }
