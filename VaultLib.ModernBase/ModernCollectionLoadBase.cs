@@ -115,24 +115,29 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
     public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
     {
         // Part 1: write base fields (layout)
-        foreach (var baseField in Collection.Class.BaseFields)
+        if (Collection.Class.HasBaseFields)
         {
-            var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
+            bw.AlignWriter(4);
 
-            bw.AlignWriter(baseField.Alignment);
-            if (DestinationLayoutPointer == 0)
+            foreach (var baseField in Collection.Class.BaseFields)
             {
-                DestinationLayoutPointer = bw.BaseStream.Position;
-            }
+                var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
 
-            if (bw.BaseStream.Position - DestinationLayoutPointer != baseField.Offset)
-            {
-                throw new Exception(
-                    $"incorrect offset before writing {Collection.ShortPath}[{baseField.Name}]; expected to be at {baseField.Offset} but we are at {bw.BaseStream.Position - DestinationLayoutPointer}");
-            }
+                bw.AlignWriter(baseField.Alignment);
+                if (DestinationLayoutPointer == 0)
+                {
+                    DestinationLayoutPointer = bw.BaseStream.Position;
+                }
 
-            var rawValue = Collection.GetRawValue(baseField.Name);
-            context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
+                if (bw.BaseStream.Position - DestinationLayoutPointer != baseField.Offset)
+                {
+                    throw new Exception(
+                        $"incorrect offset before writing {Collection.ShortPath}[{baseField.Name}]; expected to be at {baseField.Offset} but we are at {bw.BaseStream.Position - DestinationLayoutPointer}");
+                }
+
+                var rawValue = Collection.GetRawValue(baseField.Name);
+                context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
+            }
         }
 
         // Part 2: Write non-inline optional fields

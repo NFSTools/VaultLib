@@ -24,6 +24,8 @@ public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
         var mNumTypes = br.ReadUInt16();
         var mTypesLen = br.ReadUInt16();
         LayoutPointer = br.ReadPointer();
+        
+        Debug.Assert(LayoutPointer % 4 == 0, "LayoutPointer % 4 == 0");
 
         Debug.Assert(mTableReserve == mNumEntries);
 
