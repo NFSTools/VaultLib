@@ -102,14 +102,22 @@ public class VaultWriter
         cw.WriteChunk(versionChunk);
 
         var startChunk = new VltStartChunk();
-        cw.WriteChunk(startChunk);
-
         var dependencyChunk = new VltDependencyChunk(new List<string>
         {
             $"{Vault.Name}.vlt",
             $"{Vault.Name}.bin"
         });
-        cw.WriteChunk(dependencyChunk);
+
+        if (Options.Quirks.StartChunkBeforeDepChunk)
+        {
+            cw.WriteChunk(startChunk);
+            cw.WriteChunk(dependencyChunk);
+        }
+        else
+        {
+            cw.WriteChunk(dependencyChunk);
+            cw.WriteChunk(startChunk);
+        }
 
         var dataChunk = new VltDataChunk(ExportManager.GetExports());
         cw.WriteChunk(dataChunk);

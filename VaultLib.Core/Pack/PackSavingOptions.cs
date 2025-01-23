@@ -11,10 +11,13 @@ namespace VaultLib.Core.Pack;
 /// </summary>
 public class PackSavingOptions
 {
-    public PackSavingOptions(ByteOrder byteOrder = ByteOrder.Little)
+    public PackSavingOptions(ByteOrder byteOrder = ByteOrder.Little, VaultWriteOptions vaultWriteOptions = null)
     {
         ByteOrder = byteOrder;
+        VaultWriteOptions = vaultWriteOptions ?? new VaultWriteOptions();
     }
 
     public ByteOrder ByteOrder { get; }
+    
+    public VaultWriteOptions VaultWriteOptions { get; }
 }

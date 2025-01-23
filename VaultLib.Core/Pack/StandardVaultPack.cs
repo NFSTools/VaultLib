@@ -71,9 +71,11 @@ public class StandardVaultPack : IVaultPack
         filteredAndSortedVaults.Sort((x, y) => string.CompareOrdinal(x.Name, y.Name));
         Dictionary<string, VaultStreamInfo> streamDictionary = new Dictionary<string, VaultStreamInfo>();
 
+        var vaultWriteOptions = savingOptions?.VaultWriteOptions ?? new VaultWriteOptions();
         foreach (var vault in filteredAndSortedVaults)
         {
-            VaultWriter vaultWriter = new VaultWriter(vault, new VaultWriteOptions());
+            VaultWriter vaultWriter =
+                new VaultWriter(vault, vaultWriteOptions);
             streamDictionary[vault.Name] = vaultWriter.BuildVault();
         }
 
