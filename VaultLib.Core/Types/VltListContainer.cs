@@ -8,7 +8,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltListContainer<T> : VltBaseType, IVltPointerObject where T : VltBaseType
+public class VltListContainer<T> : VltBaseType, IVltPointerObject
 {
     private long _dstPtr;
 
@@ -16,9 +16,13 @@ public class VltListContainer<T> : VltBaseType, IVltPointerObject where T : VltB
 
     private long _srcPtr;
 
-    public VltListContainer(int count)
+    public VltListContainer(int count) : this(new List<T>(count))
     {
-        Items = new List<T>(count);
+    }
+
+    public VltListContainer(List<T> items)
+    {
+        Items = items;
     }
 
     public List<T> Items { get; }
@@ -30,9 +34,9 @@ public class VltListContainer<T> : VltBaseType, IVltPointerObject where T : VltB
         var databaseTypeRegistry = context.Database.TypeRegistry;
         for (var i = 0; i < Items.Capacity; i++)
         {
-            var item = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T));
+            // var item = (T)databaseTypeRegistry.ConstructTypeInstance(typeof(T));
             //var item = (T) Activator.CreateInstance(typeof(T), Class, Field, Collection);
-            item.Read(context, fieldContext, br);
+            var item = (T)databaseTypeRegistry.ReadTypeInstance(context, fieldContext, br, typeof(T));
             Items.Add(item);
         }
     }
@@ -41,7 +45,11 @@ public class VltListContainer<T> : VltBaseType, IVltPointerObject where T : VltB
     {
         _dstPtr = bw.BaseStream.Position;
 
-        foreach (var item in Items) item.Write(context, fieldContext, bw);
+        foreach (var item in Items)
+        {
+            // item.Write(context, fieldContext, bw);
+            context.Database.TypeRegistry.WriteTypeInstance(item, context, fieldContext, bw, typeof(T));
+        }
     }
 
     public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)

@@ -4,6 +4,7 @@
 
 using System.Diagnostics;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
@@ -20,6 +21,7 @@ public class VariableArray : IPointerObject
     {
         _mArray = br.ReadPointer();
         Debug.Assert(_mArray != 0);
+        Debug.Assert(_mArray % 4 == 0);
         var mLength = br.ReadUInt32();
 
         Data = new float[mLength];
@@ -41,6 +43,7 @@ public class VariableArray : IPointerObject
 
     public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
     {
+        bw.AlignWriter(4);
         _ptrDst = bw.BaseStream.Position;
 
         foreach (var f in Data) bw.Write(f);

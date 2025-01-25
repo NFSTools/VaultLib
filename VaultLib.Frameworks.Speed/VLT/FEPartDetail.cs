@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
-[VltTypeInfo("FEPartDetail")]
+[VltTypeInfo("DUMMY_FEPartDetail")]
 public struct FEPartDetail
 {
     public uint Logo;

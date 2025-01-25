@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
@@ -114,10 +115,16 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
     public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
     {
+        // if (bw.BaseStream.Position >= 0x6c100)
+        //     Debugger.Break();
+        
         // Part 1: write base fields (layout)
         if (Collection.Class.HasBaseFields)
         {
-            bw.AlignWriter(4);
+            if (Collection.Class.BaseFields.Any(f => f.IsArray || f.Alignment > 1))
+            {
+                bw.AlignWriter(4);
+            }
 
             foreach (var baseField in Collection.Class.BaseFields)
             {

@@ -22,6 +22,7 @@ public class VltAttribType : VltBaseType, IVltPointerObject
     public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
         Debug.Assert(Offset != 0);
+        Debug.Assert(Offset % fieldContext.Field.Alignment == 0);
 
         br.BaseStream.Position = Offset;
         Data = context.Database.TypeRegistry.ReadFieldValue(context, fieldContext, br);
