@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
@@ -95,6 +96,7 @@ public class ClassLoad : BaseClassLoad
 
     public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
     {
+        bw.AlignWriter(0x8);
         _dstDefinitionsPtr = bw.BaseStream.Position;
 
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))

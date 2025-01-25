@@ -143,7 +143,7 @@ public class CollectionLoad : BaseCollectionLoad
             foreach (var baseField in Collection.Class.BaseFields)
             {
                 var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
-                br.AlignReader(baseField.Alignment);
+                br.SafeAlignReader(baseField.Alignment);
 
                 long startPos = br.BaseStream.Position;
                 var data =
@@ -197,50 +197,100 @@ public class CollectionLoad : BaseCollectionLoad
 
     public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
     {
-        foreach (var baseField in Collection.Class.BaseFields)
+        // Part 1: write base fields (layout)
+        if (Collection.Class.HasBaseFields)
         {
-            var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
-            bw.AlignWriter(baseField.Alignment);
-            if (_dstLayoutPtr == 0)
-            {
-                _dstLayoutPtr = bw.BaseStream.Position;
-            }
+            bw.AlignWriter(4);
 
-            if (bw.BaseStream.Position - _dstLayoutPtr != baseField.Offset)
+            foreach (var baseField in Collection.Class.BaseFields)
             {
-                throw new Exception("incorrect offset");
-            }
+                var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
 
-            var rawValue = Collection.GetRawValue(baseField.Name);
-            context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
+                bw.AlignWriter(baseField.Alignment);
+                if (_dstLayoutPtr == 0)
+                {
+                    _dstLayoutPtr = bw.BaseStream.Position;
+                }
+
+                if (bw.BaseStream.Position - _dstLayoutPtr != baseField.Offset)
+                {
+                    throw new Exception(
+                        $"incorrect offset before writing {Collection.ShortPath}[{baseField.Name}]; expected to be at {baseField.Offset} but we are at {bw.BaseStream.Position - _dstLayoutPtr}");
+                }
+
+                var rawValue = Collection.GetRawValue(baseField.Name);
+                context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
+            }
         }
 
-        foreach (var dataPair in Collection.GetData())
+        // Part 2: Write non-inline optional fields
+        foreach (var entry in _entries)
         {
-            VltClassField field = Collection.Class[dataPair.Key];
+            if (entry.InlineData is not VltAttribType attrib)
+            {
+                continue;
+            }
+
+            var field = Collection.Class[entry.Key];
             var fieldContext = new FieldReadWriteContext(Collection.Class, field, Collection);
 
-            if (!field.IsInLayout)
-            {
-                var entry = _entries.First(e => e.Key == field.Key);
-
-                if (entry.InlineData is IVltPointerObject vltPointerObject)
-                {
-                    bw.AlignWriter(field.Alignment);
-                    vltPointerObject.WritePointerData(context, fieldContext, bw);
-                }
-            }
-            else
-            {
-                if (dataPair.Value is IVltPointerObject vltPointerObject)
-                {
-                    bw.AlignWriter(field.Alignment);
-                    vltPointerObject.WritePointerData(context, fieldContext, bw);
-                }
-            }
+            attrib.WritePointerData(context, fieldContext, bw);
         }
 
-        bw.AlignWriter(Collection.Class.HasBaseFields ? 4 : 2);
+        // Part 3: Write pointer data for all fields
+        foreach (var entry in Collection.GetOrderedData())
+        {
+            var field = Collection.Class[entry.Key];
+            var fieldContext = new FieldReadWriteContext(Collection.Class, field, Collection);
+            if (entry.Value is IVltPointerObject vltPointerObject)
+            {
+                vltPointerObject.WritePointerData(context, fieldContext, bw);
+            }
+        }
+        // foreach (var baseField in Collection.Class.BaseFields)
+        // {
+        //     var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
+        //     bw.AlignWriter(baseField.Alignment);
+        //     if (_dstLayoutPtr == 0)
+        //     {
+        //         _dstLayoutPtr = bw.BaseStream.Position;
+        //     }
+        //
+        //     if (bw.BaseStream.Position - _dstLayoutPtr != baseField.Offset)
+        //     {
+        //         throw new Exception("incorrect offset");
+        //     }
+        //
+        //     var rawValue = Collection.GetRawValue(baseField.Name);
+        //     context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
+        // }
+        //
+        // foreach (var dataPair in Collection.GetData())
+        // {
+        //     VltClassField field = Collection.Class[dataPair.Key];
+        //     var fieldContext = new FieldReadWriteContext(Collection.Class, field, Collection);
+        //
+        //     if (!field.IsInLayout)
+        //     {
+        //         var entry = _entries.First(e => e.Key == field.Key);
+        //
+        //         if (entry.InlineData is IVltPointerObject vltPointerObject)
+        //         {
+        //             bw.AlignWriter(field.Alignment);
+        //             vltPointerObject.WritePointerData(context, fieldContext, bw);
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (dataPair.Value is IVltPointerObject vltPointerObject)
+        //         {
+        //             bw.AlignWriter(field.Alignment);
+        //             vltPointerObject.WritePointerData(context, fieldContext, bw);
+        //         }
+        //     }
+        // }
+        //
+        // bw.AlignWriter(Collection.Class.HasBaseFields ? 4 : 2);
     }
 
     public override void AddPointers(VaultWriteContext context)

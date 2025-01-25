@@ -3,6 +3,7 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
@@ -18,7 +19,7 @@ public class PhysicsUpgrade : VltBaseType
     {
         ReferencedAttribute.Read(context, fieldContext, br);
         IsMember = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         MemberIndex = br.ReadUInt32();
         BlendingPower = br.ReadSingle();
     }

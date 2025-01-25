@@ -42,7 +42,7 @@ public class AttribEntry : IVaultFileAccess, IPointerObject
             InlineData = attrib;
         }
 
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         TypeIndex = br.ReadUInt16();
         NodeFlags = (NodeFlagsEnum)br.ReadUInt16();
         Debug.Assert((ushort)NodeFlags <= 0x20);

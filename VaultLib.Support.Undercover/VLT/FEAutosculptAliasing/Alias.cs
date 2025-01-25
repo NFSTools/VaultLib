@@ -26,11 +26,11 @@ public class Alias : VltBaseType, IVltPointerObject
     public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
         Kit = br.ReadByte();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         Region = br.ReadUInt32();
         _slidersPointer = br.ReadUInt32();
         Sliders = new List<Slider>(br.ReadByte());
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)

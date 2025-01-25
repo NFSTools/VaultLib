@@ -8,16 +8,15 @@ namespace VaultLib.Support.Undercover.VLT.VinylsAttrib;
 [VltTypeInfo(nameof(VinylColor))]
 public class VinylColor : VltBaseType
 {
-    public sbyte Swatch { get; set; }
-    public sbyte Saturation { get; set; }
-    public sbyte Brightness { get; set; }
+    public byte Swatch { get; set; }
+    public byte Saturation { get; set; }
+    public byte Brightness { get; set; }
 
     public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        Swatch = br.ReadSByte();
-        Saturation = br.ReadSByte();
-        Brightness = br.ReadSByte();
-        br.AlignReader(4);
+        Swatch = br.ReadByte();
+        Saturation = br.ReadByte();
+        Brightness = br.ReadByte();
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
@@ -25,6 +24,5 @@ public class VinylColor : VltBaseType
         bw.Write(Swatch);
         bw.Write(Saturation);
         bw.Write(Brightness);
-        bw.AlignWriter(4);
     }
 }

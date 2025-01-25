@@ -35,7 +35,7 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
             foreach (var baseField in Collection.Class.BaseFields)
             {
                 var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
-                br.AlignReader(baseField.Alignment);
+                br.SafeAlignReader(baseField.Alignment);
 
                 if (br.BaseStream.Position - LayoutPointer != baseField.Offset)
                 {
@@ -43,18 +43,22 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
                         $"trying to read field {baseField.Name} at offset {br.BaseStream.Position - LayoutPointer:X}, need to be at {baseField.Offset:X}");
                 }
 
-                var startPos = br.BaseStream.Position;
-                var data =
+                var valueStartPos = br.BaseStream.Position;
+                var rawValue =
                     context.Database.TypeRegistry.ReadFieldValue(context,
                         fieldContext, br);
-                var endPos = br.BaseStream.Position;
+                var valueEndPos = br.BaseStream.Position;
 
-                if (!baseField.IsArray && endPos - startPos != baseField.Size)
-                {
-                    throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
-                }
+                var valueBytesRead = valueEndPos - valueStartPos;
 
-                Collection.SetRawValue(baseField.Name, data);
+                Debug.Assert(valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos),
+                    "valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos)");
+                // if (!baseField.IsArray && endPos - startPos != baseField.Size)
+                // {
+                //     throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
+                // }
+
+                Collection.SetRawValue(baseField.Name, rawValue);
             }
         }
 
@@ -115,35 +119,50 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
     public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
     {
+        // if (Collection.Class.Name == "0x2D90E13A")
+        //     Debugger.Break();
         // if (bw.BaseStream.Position >= 0x6c100)
         //     Debugger.Break();
-        
+
         // Part 1: write base fields (layout)
         if (Collection.Class.HasBaseFields)
         {
-            if (Collection.Class.BaseFields.Any(f => f.IsArray || f.Alignment > 1))
-            {
-                bw.AlignWriter(4);
-            }
+            // if (Collection.Class.BaseFields.Any(f => f.IsArray || f.Alignment > 1))
+            // {
+            //     bw.AlignWriter(2);
+            // }
+
+            // Align for first field
+            var firstField = Collection.Class.BaseFields.First();
+            bw.AlignWriter(firstField.Alignment);
+            DestinationLayoutPointer = bw.BaseStream.Position;
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
                 var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
 
-                bw.AlignWriter(baseField.Alignment);
-                if (DestinationLayoutPointer == 0)
-                {
-                    DestinationLayoutPointer = bw.BaseStream.Position;
-                }
+                // bw.AlignWriter(baseField.Alignment);
+                // if (DestinationLayoutPointer == 0)
+                // {
+                //     DestinationLayoutPointer = bw.BaseStream.Position;
+                // }
+                //
+                // if (bw.BaseStream.Position - DestinationLayoutPointer != baseField.Offset)
+                // {
+                //     throw new Exception(
+                //         $"incorrect offset before writing {Collection.ShortPath}[{baseField.Name}]; expected to be at {baseField.Offset} but we are at {bw.BaseStream.Position - DestinationLayoutPointer}");
+                // }
 
-                if (bw.BaseStream.Position - DestinationLayoutPointer != baseField.Offset)
-                {
-                    throw new Exception(
-                        $"incorrect offset before writing {Collection.ShortPath}[{baseField.Name}]; expected to be at {baseField.Offset} but we are at {bw.BaseStream.Position - DestinationLayoutPointer}");
-                }
+                bw.BaseStream.Position = DestinationLayoutPointer + baseField.Offset;
 
                 var rawValue = Collection.GetRawValue(baseField.Name);
+                var valueStartPos = bw.BaseStream.Position;
                 context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
+                var valueEndPos = bw.BaseStream.Position;
+                var valueBytesWritten = valueEndPos - valueStartPos;
+
+                Debug.Assert(valueBytesWritten == GetExpectedDataSize(baseField, rawValue, valueStartPos),
+                    "valueBytesWritten == GetExpectedDataSize(baseField, rawValue, valueStartPos)");
             }
         }
 
@@ -196,5 +215,27 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
                 vltPointerObject.AddPointers(context, fieldContext);
             }
         }
+    }
+
+    private static uint GetStartAlignment(VltClass vltClass)
+    {
+        Debug.Assert(vltClass.HasBaseFields);
+        var field = vltClass.BaseFields.First();
+        return (uint)(field.IsArray ? 2 : field.Alignment);
+    }
+
+    private static long GetExpectedDataSize(VltClassField field, object value, long offset)
+    {
+        if (!field.IsArray)
+        {
+            return field.Size;
+        }
+
+        var array = (VltArrayType)value;
+        var dataStartPos = offset + 8;
+        var alignmentOffset = field.Alignment - 1;
+        var alignedDataStartPos = (dataStartPos + alignmentOffset) & ~alignmentOffset;
+
+        return (alignedDataStartPos - offset) + field.Size * array.Capacity;
     }
 }

@@ -27,10 +27,10 @@ public class NISActor : VltBaseType, IReferencesStrings
         ActorName = context.ReadString(br);
         CarChannelName = context.ReadString(br);
         IsDriver = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         ExitAnimSec = br.ReadSingle();
         IsFacePixelation = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)

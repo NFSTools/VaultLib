@@ -8,16 +8,31 @@ public class VinylTransform : VltBaseType
 {
     public short TranslationX { get; set; }
     public short TranslationY { get; set; }
+    public byte Rotation { get; set; }
+    public byte ScaleX { get; set; }
+    public byte ScaleY { get; set; }
+    public bool ProportionalScale { get; set; }
+    public byte Shear { get; set; }
 
     public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
         TranslationX = br.ReadInt16();
         TranslationY = br.ReadInt16();
+        Rotation = br.ReadByte();
+        ScaleX = br.ReadByte();
+        ScaleY = br.ReadByte();
+        ProportionalScale = br.ReadBoolean();
+        Shear = br.ReadByte();
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
     {
         bw.Write(TranslationX);
         bw.Write(TranslationY);
+        bw.Write(Rotation);
+        bw.Write(ScaleX);
+        bw.Write(ScaleY);
+        bw.Write(ProportionalScale);
+        bw.Write(Shear);
     }
 }

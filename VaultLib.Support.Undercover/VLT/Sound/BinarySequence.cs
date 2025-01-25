@@ -7,6 +7,7 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
@@ -19,7 +20,7 @@ public class BinarySequence : VltBaseType
     public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
         Value = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         Duration = br.ReadSingle();
     }
 

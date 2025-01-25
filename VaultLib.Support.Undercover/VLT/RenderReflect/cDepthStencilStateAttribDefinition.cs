@@ -67,7 +67,7 @@ public class cDepthStencilStateAttribDefinition : VltBaseType, IReferencesString
         HiStencilRef = br.ReadUInt32();
         HiStencilEnable = br.ReadBoolean();
         HiStencilWriteEnable = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)

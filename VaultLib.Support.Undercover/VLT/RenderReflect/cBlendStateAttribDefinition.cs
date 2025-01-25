@@ -44,7 +44,7 @@ public class cBlendStateAttribDefinition : VltBaseType, IReferencesStrings
         DebugName = context.ReadString(br);
         BlendEnable = br.ReadBoolean();
         AlphaTestEnable = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         AlphaTestRef = br.ReadUInt32();
         AlphaTestFunc = br.ReadEnum<State_BlendFunc>();
         SourceColor = br.ReadArray(br.ReadEnum<State_BlendInput>, 4);
@@ -63,7 +63,7 @@ public class cBlendStateAttribDefinition : VltBaseType, IReferencesStrings
         HiPrecisionBlendEnable_XENON = br.ReadArray(br.ReadBoolean, 4);
         BlendEnable_PS3 = br.ReadArray(br.ReadBoolean, 4);
         BlendFactorF16_PS3 = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)

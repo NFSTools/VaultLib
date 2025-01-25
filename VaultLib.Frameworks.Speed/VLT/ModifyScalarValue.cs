@@ -3,6 +3,7 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
+using VaultLib.Core.Utils;
 using VaultLib.Frameworks.Speed.VLT.Physics.Upgrades;
 
 namespace VaultLib.Frameworks.Speed.VLT;
@@ -22,10 +23,10 @@ public class ModifyScalarValue : VltBaseType
     {
         ReferencedRow.Read(context, fieldContext, br);
         IsMember = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         MemberIndex = br.ReadUInt32();
         IsElement = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         ElementIndex = br.ReadUInt32();
         ModificationType = br.ReadEnum<eModifyValueType>();
         Value = br.ReadSingle();

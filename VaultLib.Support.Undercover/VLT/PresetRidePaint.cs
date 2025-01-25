@@ -3,6 +3,7 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
+using VaultLib.Core.Utils;
 using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.Undercover.VLT;
@@ -22,11 +23,11 @@ public class PresetRidePaint : VltBaseType
         SlotID = br.ReadEnum<ePaintSlot>();
         Group.Read(context, fieldContext, br);
         Swatch = br.ReadByte();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         Saturation = br.ReadSingle();
         Variance = br.ReadSingle();
         Unknown = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)

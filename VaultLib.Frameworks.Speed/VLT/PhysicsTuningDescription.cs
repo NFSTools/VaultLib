@@ -3,6 +3,7 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
@@ -16,7 +17,7 @@ public class PhysicsTuningDescription : VltBaseType
     {
         PhysicsTuning.Read(context, fieldContext, br);
         Increase = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)

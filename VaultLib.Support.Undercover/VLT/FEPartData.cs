@@ -51,7 +51,7 @@ public class FEPartData : VltBaseType, IVltPointerObject, IReferencesStrings
         Tier2ShowroomUnlock = br.ReadByte();
         Tier3ShowroomUnlock = br.ReadByte();
         Tier4ShowroomUnlock = br.ReadByte();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         BrandHALId = br.ReadUInt32();
         LogoTextureId = br.ReadUInt32();
         DetailHash = br.ReadUInt32();
@@ -59,7 +59,7 @@ public class FEPartData : VltBaseType, IVltPointerObject, IReferencesStrings
         PartDetails.Read(context, fieldContext, br);
         OfferID = context.ReadString(br);
         IsOnlineLockable = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)

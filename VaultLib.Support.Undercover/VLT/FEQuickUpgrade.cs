@@ -35,7 +35,7 @@ public class FEQuickUpgrade : VltBaseType, IVltPointerObject, IReferencesStrings
         Tier4_Cost = br.ReadSingle();
         OfferID = context.ReadString(br);
         _packageLength = br.ReadByte();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
     }
 
     public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)

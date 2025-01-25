@@ -3,6 +3,7 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
@@ -17,7 +18,7 @@ public class PhysicsTuningPreset : VltBaseType
     {
         PhysicsTuningSlider.Read(context, fieldContext, br);
         CenteredAroundPreset = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         Position = br.ReadSingle();
     }
 

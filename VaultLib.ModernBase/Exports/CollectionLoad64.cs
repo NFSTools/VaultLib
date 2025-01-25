@@ -176,7 +176,7 @@ public class CollectionLoad64 : BaseCollectionLoad
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                br.AlignReader(baseField.Alignment);
+                br.SafeAlignReader(baseField.Alignment);
 
                 if (br.BaseStream.Position - _layoutPointer != baseField.Offset)
                 {

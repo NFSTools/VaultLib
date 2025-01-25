@@ -2,6 +2,7 @@
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib;
 
@@ -25,13 +26,14 @@ public class VinylLayer : VltBaseType
 
     public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
     {
-        PartNameHash = br.ReadUInt32(); // 4
-        Mirrored = br.ReadBoolean(); // 5
-        br.AlignReader(4); // 5 + (4 - 5 % 4) = 8
+        PartNameHash = br.ReadUInt32();
+        Mirrored = br.ReadBoolean();
+        br.AlignReader(2);
         Transform.Read(context, fieldContext, br);
-        for (int i = 0; i < 4; i++)
+        br.AlignReader(2);
+        foreach (var t in Colors)
         {
-            Colors[i].Read(context, fieldContext, br);
+            t.Read(context, fieldContext, br);
         }
     }
 
@@ -39,9 +41,10 @@ public class VinylLayer : VltBaseType
     {
         bw.Write(PartNameHash);
         bw.Write(Mirrored);
-        bw.AlignWriter(4);
+        bw.AlignWriter(2);
         Transform.Write(context, fieldContext, bw);
-        for (int i = 0; i < 4; i++)
+        bw.AlignWriter(2);
+        for (var i = 0; i < 4; i++)
         {
             Colors[i].Write(context, fieldContext, bw);
         }

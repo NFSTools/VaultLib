@@ -12,6 +12,7 @@ using VaultLib.Core.Data;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.IO;
+using VaultLib.Core.Types.Attrib.Query;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.DB;
@@ -89,6 +90,9 @@ public class Database
         var binStreamReader = CreateStreamReader(readWrapper.BinStream, readWrapper.ByteOrder);
         var vltStreamReader = CreateStreamReader(readWrapper.VltStream, readWrapper.ByteOrder);
 
+        Debug.WriteLine("[IN] vault {0}: bin size 0x{1:X} vlt size 0x{2:X}", vault.Name, readWrapper.BinStream.Length,
+            readWrapper.VltStream.Length);
+
         var binChunkReader = new ChunkReader(binStreamReader);
         var vltChunkReader = new ChunkReader(vltStreamReader);
 
@@ -143,6 +147,75 @@ public class Database
 
         stopwatch.Stop();
         _parentKeyDictionary.Clear();
+
+        FixupStaticData();
+    }
+
+    private void FixupStaticData()
+    {
+        foreach (var vltClass in Classes)
+        {
+            foreach (var staticField in vltClass.StaticFields)
+            {
+                // TODO: We should really have some kind of post-processing abstraction for static data.
+                if (staticField.StaticValue is Static_Inorder_N_to_1 staticTree)
+                {
+                    Static_Inorder_N_to_1.TreeNodeType? nodeType = null;
+                    for (var i = 0; i < staticTree.Keys.Count; i++)
+                    {
+                        var key = staticTree.Keys[i];
+                        var indexTableEntry = staticTree.Indices[i];
+                        var values = staticTree.Values.GetRange(indexTableEntry.Index, indexTableEntry.Count);
+
+                        var keyToName = HashManager.ResolveVlt(key);
+
+                        if (key != 0)
+                        {
+                            var collection = RowManager.FindCollectionByName(vltClass.Name, keyToName);
+
+                            if (collection == null)
+                            {
+                                throw new InvalidDataException(
+                                    $"static index references nonexistent collection: {keyToName}");
+                            }
+
+                            if (values.Count == 1)
+                            {
+                                var linkedKey = values[0];
+                                var linkedKeyToName = HashManager.ResolveVlt(linkedKey);
+                                var linkedCollection = RowManager.FindCollectionByName(vltClass.Name, linkedKeyToName);
+
+                                if (ReferenceEquals(collection.Parent, linkedCollection))
+                                {
+                                    if (nodeType == null)
+                                    {
+                                        nodeType = Static_Inorder_N_to_1.TreeNodeType.ParentKey;
+                                    }
+                                    else if (nodeType != Static_Inorder_N_to_1.TreeNodeType.ParentKey)
+                                    {
+                                        throw new Exception("strange mixture of nodes in static index");
+                                    }
+                                }
+                                else
+                                {
+                                    nodeType = Static_Inorder_N_to_1.TreeNodeType.ChildKeys;
+                                }
+                            }
+                            else if (nodeType == Static_Inorder_N_to_1.TreeNodeType.ParentKey)
+                            {
+                                throw new Exception("each node in a ParentKey index must have exactly 1 value");
+                            }
+                            else
+                            {
+                                nodeType = Static_Inorder_N_to_1.TreeNodeType.ChildKeys;
+                            }
+                        }
+                    }
+
+                    staticTree.NodeType = nodeType ?? Static_Inorder_N_to_1.TreeNodeType.ChildKeys;
+                }
+            }
+        }
     }
 
     #region Internal Data Reading

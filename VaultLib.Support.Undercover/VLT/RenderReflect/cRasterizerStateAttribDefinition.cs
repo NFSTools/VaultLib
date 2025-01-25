@@ -39,16 +39,16 @@ public class cRasterizerStateAttribDefinition : VltBaseType, IReferencesStrings
         ScaleDepthBias = br.ReadSingle();
         ScissorTestEnable = br.ReadBoolean();
         PrimitiveResetEnable = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         PrimitiveResetIndex = br.ReadUInt32();
         ScissorData.Read(context, fieldContext, br);
         FillMode = br.ReadEnum<State_RasterizerFillMode>();
         MultiSampleAntialiasEnable = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         MultiSampleMask = br.ReadUInt32();
         ViewPortEnable = br.ReadBoolean();
         HalfPixelOffsetEnable = br.ReadBoolean();
-        br.AlignReader(4);
+        br.SafeAlignReader(4);
         ShadeMode = br.ReadEnum<State_RasterizerShadeMode>();
         FrontFace = br.ReadEnum<State_RasterizerFrontFace>();
     }

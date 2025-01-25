@@ -114,7 +114,7 @@ public class ClassLoad64 : BaseClassLoad
 
             foreach (var staticField in Class.StaticFields)
             {
-                br.AlignReader(staticField.Alignment);
+                br.SafeAlignReader(staticField.Alignment);
                 var fieldContext = new FieldReadWriteContext(Class, staticField, null);
                 var staticData =
                     context.Database.TypeRegistry.ReadFieldValue(context, fieldContext,

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VaultLib.Core.Chunks;
@@ -65,6 +66,9 @@ public class VaultWriter
         VltStream = BuildVltStream();
 
         BinStream.Position = VltStream.Position = 0;
+        
+        Debug.WriteLine("[OUT] vault {0}: bin size 0x{1:X} vlt size 0x{2:X}", Vault.Name, BinStream.Length,
+            VltStream.Length);
 
         return new VaultStreamInfo(BinStream, VltStream);
     }
@@ -128,7 +132,8 @@ public class VaultWriter
 
         var exportChunk = new VltExportChunk(dataChunk.ExportEntries);
         cw.WriteChunk(exportChunk);
-        var binWriter = new BinaryWriter(BinStream);
+        // var binWriter = new BinaryWriter(BinStream);
+        var binWriter = new SpyingBinaryWriter(BinStream);
 
         foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>())
             pointerObject.WritePointerData(_writeContext, binWriter);

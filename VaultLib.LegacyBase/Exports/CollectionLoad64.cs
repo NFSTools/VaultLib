@@ -147,7 +147,7 @@ public class CollectionLoad64 : BaseCollectionLoad
             foreach (var baseField in Collection.Class.BaseFields)
             {
                 var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
-                br.AlignReader(baseField.Alignment);
+                br.SafeAlignReader(baseField.Alignment);
 
                 long startPos = br.BaseStream.Position;
                 var data =
