@@ -1,4 +1,4 @@
-  using System;
+using System;
 using System.Diagnostics;
 using CoreLibraries.IO;
 using System.IO;
@@ -32,7 +32,7 @@ public class ClassLoad : BaseClassLoad
         _definitionsPtr = br.ReadPointer();
         uint staticSize = br.ReadUInt32(); // static size
         _staticDataPtr = br.ReadPointer();
-        br.ReadUInt32(); // Total size of required fields
+        var layoutSize = br.ReadUInt32(); // Total size of required fields
         br.ReadUInt16(); // can be 0
         br.ReadUInt16(); // Number of required fields
 
@@ -44,8 +44,11 @@ public class ClassLoad : BaseClassLoad
         NumDefinitions = mNumDefinitions;
         Class = new VltClass(HashManager.ResolveVlt(ClassHash))
         {
-            StaticSize = staticSize
+            LayoutSize = layoutSize,
+            StaticSize = staticSize,
         };
+
+        // Debug.WriteLine("class load: {0} - layout size = {1}, static size = {2}", Class.Name, layoutSize, staticSize);
     }
 
     public override void Write(VaultWriteContext context, BinaryWriter bw)
@@ -59,17 +62,16 @@ public class ClassLoad : BaseClassLoad
         bw.Write(Class.Fields.Count);
         _srcDefinitionsPtr = bw.BaseStream.Position;
         bw.Write(0);
-        var staticSize = Class.StaticSize;
-        bw.Write(staticSize);
+        bw.Write(Class.StaticSize);
 
-        if (staticSize > 0)
+        if (Class.StaticSize > 0)
         {
             _srcStaticPtr = bw.BaseStream.Position;
         }
 
         bw.Write(0);
 
-        bw.Write(ComputeBaseSize());
+        bw.Write(Class.LayoutSize);
         bw.Write((ushort)0);
         bw.Write((ushort)Class.BaseFields.Count());
     }
@@ -94,16 +96,6 @@ public class ClassLoad : BaseClassLoad
                 definition.Offset);
 
             Class.Fields.Add(definition.Key, field);
-            //field.Key = definition.Key;
-            //field.Name = HashManager.ResolveVLT((uint) definition.Key);
-            //field.TypeName = HashManager.ResolveVLT((uint) definition.Type);
-            //field.Flags = definition.Flags;
-            //field.Size = definition.Size;
-            //field.MaxCount = definition.MaxCount;
-            //field.Offset = definition.Offset;
-            //field.Alignment = definition.Alignment;
-
-            //Class.Fields.Add(definition.Key, field);
         }
 
         if (_staticDataPtr != 0)
@@ -119,6 +111,13 @@ public class ClassLoad : BaseClassLoad
                     context.Database.TypeRegistry.ReadFieldValue(context, fieldContext,
                         br);
                 staticField.StaticValue = staticData;
+            }
+
+            var staticEndPos = br.BaseStream.Position;
+
+            if (staticEndPos - _staticDataPtr > Class.StaticSize)
+            {
+                throw new Exception("read too much static data, something went wrong!");
             }
         }
 
@@ -154,11 +153,6 @@ public class ClassLoad : BaseClassLoad
 
         if (_srcStaticPtr != 0)
         {
-            if (ComputeStaticSize() > Class.StaticSize)
-            {
-                throw new Exception("Class has too much static data; StaticSize needs to be updated!");
-            }
-
             _dstStaticPtr = bw.BaseStream.Position;
 
             foreach (var staticField in Class.StaticFields)
@@ -215,28 +209,36 @@ public class ClassLoad : BaseClassLoad
     }
 
 
-    private int ComputeBaseSize()
+    private int ComputeLayoutSize()
     {
-        int rfs = 0;
+        if (!Class.HasBaseFields)
+            return 0;
+
+        var layoutSize = 0;
+        var packingRequirement = 1;
         foreach (var baseField in Class.BaseFields)
         {
-            if (rfs % baseField.Alignment != 0)
+            if (layoutSize % baseField.Alignment != 0)
             {
-                rfs += baseField.Alignment - rfs % baseField.Alignment;
+                layoutSize += baseField.Alignment - layoutSize % baseField.Alignment;
             }
 
             if ((baseField.Flags & DefinitionFlags.Array) != 0)
             {
-                rfs += 8;
-                rfs += baseField.Size * baseField.MaxCount;
+                layoutSize += 8;
+                layoutSize += baseField.Size * baseField.MaxCount;
             }
             else
             {
-                rfs += baseField.Size;
+                layoutSize += baseField.Size;
             }
+
+            packingRequirement = Math.Max(packingRequirement, baseField.Alignment);
         }
 
-        return rfs;
+        Debug.Assert((packingRequirement & (packingRequirement - 1)) == 0);
+
+        return (layoutSize + packingRequirement - 1) & ~(packingRequirement - 1);
     }
 
     private int ComputeStaticSize()

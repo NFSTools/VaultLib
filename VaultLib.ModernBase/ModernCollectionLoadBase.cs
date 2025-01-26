@@ -32,6 +32,9 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
         {
             br.BaseStream.Position = LayoutPointer;
 
+            var maxAlignment = Collection.Class.BaseFields.Max(f => f.Alignment);
+            Debug.Assert(LayoutPointer % maxAlignment == 0);
+            
             foreach (var baseField in Collection.Class.BaseFields)
             {
                 var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
@@ -53,12 +56,15 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
                 Debug.Assert(valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos),
                     "valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos)");
-                // if (!baseField.IsArray && endPos - startPos != baseField.Size)
-                // {
-                //     throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
-                // }
 
                 Collection.SetRawValue(baseField.Name, rawValue);
+            }
+
+            var layoutBytesRead = br.BaseStream.Position - LayoutPointer;
+
+            if (layoutBytesRead > Collection.Class.LayoutSize)
+            {
+                throw new Exception("read too much layout data");
             }
         }
 
@@ -119,39 +125,17 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
     public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
     {
-        // if (Collection.Class.Name == "0x2D90E13A")
-        //     Debugger.Break();
-        // if (bw.BaseStream.Position >= 0x6c100)
-        //     Debugger.Break();
-
         // Part 1: write base fields (layout)
         if (Collection.Class.HasBaseFields)
         {
-            // if (Collection.Class.BaseFields.Any(f => f.IsArray || f.Alignment > 1))
-            // {
-            //     bw.AlignWriter(2);
-            // }
-
-            // Align for first field
-            var firstField = Collection.Class.BaseFields.First();
-            bw.AlignWriter(firstField.Alignment);
+            var maxAlignment = Collection.Class.BaseFields.Max(f => f.Alignment);
+            bw.AlignWriter(maxAlignment);
+            
             DestinationLayoutPointer = bw.BaseStream.Position;
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
                 var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
-
-                // bw.AlignWriter(baseField.Alignment);
-                // if (DestinationLayoutPointer == 0)
-                // {
-                //     DestinationLayoutPointer = bw.BaseStream.Position;
-                // }
-                //
-                // if (bw.BaseStream.Position - DestinationLayoutPointer != baseField.Offset)
-                // {
-                //     throw new Exception(
-                //         $"incorrect offset before writing {Collection.ShortPath}[{baseField.Name}]; expected to be at {baseField.Offset} but we are at {bw.BaseStream.Position - DestinationLayoutPointer}");
-                // }
 
                 bw.BaseStream.Position = DestinationLayoutPointer + baseField.Offset;
 
@@ -215,13 +199,6 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
                 vltPointerObject.AddPointers(context, fieldContext);
             }
         }
-    }
-
-    private static uint GetStartAlignment(VltClass vltClass)
-    {
-        Debug.Assert(vltClass.HasBaseFields);
-        var field = vltClass.BaseFields.First();
-        return (uint)(field.IsArray ? 2 : field.Alignment);
     }
 
     private static long GetExpectedDataSize(VltClassField field, object value, long offset)

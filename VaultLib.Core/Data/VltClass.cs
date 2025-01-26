@@ -35,7 +35,12 @@ public class VltClass
     public Dictionary<ulong, VltClassField> Fields { get; }
         
     /// <summary>
-    /// Gets or sets the size of the static data section for the class.
+    /// Gets or sets the size of the collection layout of the class.
+    /// </summary>
+    public uint LayoutSize { get; set; }
+        
+    /// <summary>
+    /// Gets or sets the size of the static layout of the class.
     /// </summary>
     public uint StaticSize { get; set; }
 

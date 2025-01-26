@@ -32,14 +32,17 @@ public class ClassLoad : BaseClassLoad
             throw new InvalidDataException("Definitions pointer is NULL, this is not good!");
         }
 
-        br.ReadUInt32();
+        var layoutSize = br.ReadUInt32();
         uint u = br.ReadUInt32(); // null
         Debug.Assert(u == 0);
 
         ushort requiredCount = br.ReadUInt16();
         Debug.Assert(requiredCount <= NumDefinitions);
         br.ReadInt16();
-        Class = new VltClass(HashManager.ResolveVlt(ClassHash));
+        Class = new VltClass(HashManager.ResolveVlt(ClassHash))
+        {
+            LayoutSize = layoutSize,
+        };
     }
 
     public override void Write(VaultWriteContext context, BinaryWriter bw)
@@ -58,7 +61,7 @@ public class ClassLoad : BaseClassLoad
         bw.Write(Class.Fields.Count);
         _srcDefinitionsPtr = bw.BaseStream.Position;
         bw.Write(0);
-        bw.Write(ComputeBaseSize());
+        bw.Write(Class.LayoutSize);
         bw.Write(0);
         bw.Write((ushort)Class.BaseFields.Count());
         bw.Write((ushort)0);
@@ -117,29 +120,5 @@ public class ClassLoad : BaseClassLoad
     public override void AddPointers(VaultWriteContext context)
     {
         context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
-    }
-
-    private int ComputeBaseSize()
-    {
-        int rfs = 0;
-        foreach (var baseField in Class.BaseFields)
-        {
-            if (rfs % baseField.Alignment != 0)
-            {
-                rfs += baseField.Alignment - rfs % baseField.Alignment;
-            }
-
-            if ((baseField.Flags & DefinitionFlags.Array) != 0)
-            {
-                rfs += 8;
-                rfs += baseField.Size * baseField.MaxCount;
-            }
-            else
-            {
-                rfs += baseField.Size;
-            }
-        }
-
-        return rfs;
     }
 }
