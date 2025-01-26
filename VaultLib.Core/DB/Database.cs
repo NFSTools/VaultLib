@@ -133,16 +133,37 @@ public class Database
 
         var stopwatch = Stopwatch.StartNew();
 
-        var hashDictionary = Classes.ToDictionary(c => c, c => Hash(c.Name));
-        var collectionDictionary =
-            RowManager.Rows.GroupBy(r => hashDictionary[r.Class])
-                .ToDictionary(g => g.Key, g => g.ToDictionary(c => Hash(c.Name), c => c));
+        var classToCollections = new Dictionary<VltClass, Dictionary<ulong, VltCollection>>();
 
-        foreach (var row in RowManager.Rows)
+        foreach (var vltCollection in RowManager.Rows)
         {
-            if (!_parentKeyDictionary.TryGetValue(row, out var parentKey)) continue;
-            var parentCollection = collectionDictionary[hashDictionary[row.Class]][parentKey];
-            parentCollection.AddChild(row);
+            if (!classToCollections.TryGetValue(vltCollection.Class, out var collections))
+            {
+                collections = new Dictionary<ulong, VltCollection>();
+                classToCollections.Add(vltCollection.Class, collections);
+            }
+
+            var hash = Hash(vltCollection.Name);
+            if (!collections.TryAdd(hash, vltCollection))
+            {
+                Debug.WriteLine("WARN: duplicate key detected in class {2}: {0} (0x{1:X})", vltCollection.Name, hash,
+                    vltCollection.Class.Name);
+            }
+        }
+
+        foreach (var vltCollection in RowManager.Rows)
+        {
+            if (!_parentKeyDictionary.TryGetValue(vltCollection, out var parentKey)) continue;
+            
+            var collections = classToCollections[vltCollection.Class];
+
+            if (!collections.TryGetValue(parentKey, out var parentCollection))
+            {
+                throw new KeyNotFoundException(
+                    $"could not find parent collection for {vltCollection.Name}: 0x{parentKey:X}");
+            }
+
+            parentCollection.AddChild(vltCollection);
         }
 
         stopwatch.Stop();

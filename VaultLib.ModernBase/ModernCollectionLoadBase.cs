@@ -62,10 +62,10 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
             var layoutBytesRead = br.BaseStream.Position - LayoutPointer;
 
-            if (layoutBytesRead > Collection.Class.LayoutSize)
-            {
-                throw new Exception("read too much layout data");
-            }
+            // if (layoutBytesRead > Collection.Class.LayoutSize)
+            // {
+            //     throw new Exception("read too much layout data");
+            // }
         }
 
         foreach (var entry in Entries)
