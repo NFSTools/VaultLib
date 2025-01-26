@@ -52,5 +52,7 @@ public class VltDataChunk : ChunkBase
 
             bw.AlignWriter(8);
         }
+        
+        bw.AlignWriter(0x10);
     }
 }
