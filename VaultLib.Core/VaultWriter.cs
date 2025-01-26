@@ -132,8 +132,7 @@ public class VaultWriter
 
         var exportChunk = new VltExportChunk(dataChunk.ExportEntries);
         cw.WriteChunk(exportChunk);
-        // var binWriter = new BinaryWriter(BinStream);
-        var binWriter = new SpyingBinaryWriter(BinStream);
+        var binWriter = new BinaryWriter(BinStream);
 
         foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>())
             pointerObject.WritePointerData(_writeContext, binWriter);
