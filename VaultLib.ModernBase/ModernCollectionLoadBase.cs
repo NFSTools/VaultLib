@@ -178,7 +178,10 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
     public override void AddPointers(VaultWriteContext context)
     {
-        context.AddPointer(SourceLayoutPointer, DestinationLayoutPointer, true);
+        if (DestinationLayoutPointer != 0)
+        {
+            context.AddPointer(SourceLayoutPointer, DestinationLayoutPointer, true);
+        }
 
         foreach (var baseField in Collection.Class.BaseFields)
         {
