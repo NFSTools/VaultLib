@@ -45,7 +45,7 @@ public class ClassLoad64 : BaseClassLoad<ulong>
             throw new InvalidDataException("Definitions pointer is NULL, this is not good!");
         }
 
-        Class = new VltClass<ulong>(HashManager.ResolveVlt(ClassHash));
+        Class = new VltClass<ulong>(HashManager.ResolveVlt(ClassHash), ClassHash);
     }
 
     public override void Write(VaultWriteContext<ulong> context, BinaryWriter bw)

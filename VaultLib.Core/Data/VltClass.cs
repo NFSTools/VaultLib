@@ -18,16 +18,19 @@ public class VltClass<TKey>
     /// Initializes a new instance of the <see cref="VltClass{TKey}"/> class.
     /// </summary>
     /// <param name="name">The name of the class.</param>
-    public VltClass(string name)
+    public VltClass(string name, TKey key)
     {
         Name = name;
         Fields = new Dictionary<TKey, VltClassField<TKey>>();
+        Key = key;
     }
 
     /// <summary>
     /// Gets the name of the class.
     /// </summary>
     public string Name { get; }
+    
+    public TKey Key { get; set; }
 
     /// <summary>
     /// Gets the list of fields that are part of the class.

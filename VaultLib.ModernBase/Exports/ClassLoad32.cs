@@ -42,7 +42,7 @@ public class ClassLoad32 : BaseClassLoad<uint>
         }
 
         NumDefinitions = mNumDefinitions;
-        Class = new VltClass<uint>(HashManager.ResolveVlt(ClassHash))
+        Class = new VltClass<uint>(HashManager.ResolveVlt(ClassHash), ClassHash)
         {
             LayoutSize = layoutSize,
             StaticSize = staticSize,

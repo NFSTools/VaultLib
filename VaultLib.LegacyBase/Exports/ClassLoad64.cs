@@ -38,7 +38,7 @@ public class ClassLoad64 : BaseClassLoad<ulong>
         ushort requiredCount = br.ReadUInt16();
         Debug.Assert(requiredCount <= NumDefinitions);
         br.ReadInt16();
-        Class = new VltClass<ulong>(HashManager.ResolveVlt(ClassHash));
+        Class = new VltClass<ulong>(HashManager.ResolveVlt(ClassHash), ClassHash);
     }
 
     public override void Write(VaultWriteContext<ulong> context, BinaryWriter bw)

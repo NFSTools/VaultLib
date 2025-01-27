@@ -39,7 +39,7 @@ public class ClassLoad32 : BaseClassLoad<uint>
         ushort requiredCount = br.ReadUInt16();
         Debug.Assert(requiredCount <= NumDefinitions);
         br.ReadInt16();
-        Class = new VltClass<uint>(HashManager.ResolveVlt(ClassHash))
+        Class = new VltClass<uint>(HashManager.ResolveVlt(ClassHash), ClassHash)
         {
             LayoutSize = layoutSize,
         };
