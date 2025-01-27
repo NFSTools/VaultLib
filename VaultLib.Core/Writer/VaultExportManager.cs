@@ -8,19 +8,19 @@ namespace VaultLib.Core.Writer;
 /// <summary>
 /// Manages information about exports to be built into a file.
 /// </summary>
-public class VaultExportManager
+public class VaultExportManager<TKey>
 {
-    private VaultWriteContext WriteContext { get; }
-    private List<BaseExport> Exports { get; }
+    private VaultWriteContext<TKey> WriteContext { get; }
+    private List<BaseExport<TKey>> Exports { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VaultExportManager"/> class.
     /// </summary>
     /// <param name="writeContext">The vault to build exports for.</param>
-    public VaultExportManager(VaultWriteContext writeContext)
+    public VaultExportManager(VaultWriteContext<TKey> writeContext)
     {
         WriteContext = writeContext;
-        Exports = new List<BaseExport>();
+        Exports = new List<BaseExport<TKey>>();
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class VaultExportManager
     /// Adds an export to the list of exports.
     /// </summary>
     /// <param name="export">The export to add.</param>
-    public void AddExport(BaseExport export)
+    public void AddExport(BaseExport<TKey> export)
     {
         Exports.Add(export);
     }
@@ -73,8 +73,8 @@ public class VaultExportManager
     /// Gets a read-only view of the list of exports.
     /// </summary>
     /// <returns>The read-only list of exports.</returns>
-    public IList<BaseExport> GetExports()
+    public IList<BaseExport<TKey>> GetExports()
     {
-        return new ReadOnlyCollection<BaseExport>(Exports);
+        return new ReadOnlyCollection<BaseExport<TKey>>(Exports);
     }
 }

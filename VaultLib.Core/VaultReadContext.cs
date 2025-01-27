@@ -12,11 +12,11 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides utilities for the saving process
 /// </summary>
-public class VaultReadContext
+public class VaultReadContext<TKey>
 {
-    public Database Database { get; }
+    public Database<TKey> Database { get; }
 
-    public Vault Vault { get; }
+    public Vault<TKey> Vault { get; }
 
     public Dictionary<long, string> Strings { get; }
 
@@ -41,7 +41,7 @@ public class VaultReadContext
     /// <param name="vault"></param>
     /// <param name="binStream"></param>
     /// <param name="vltStream"></param>
-    public VaultReadContext(Vault vault, Stream binStream, Stream vltStream)
+    public VaultReadContext(Vault<TKey> vault, Stream binStream, Stream vltStream)
     {
         Database = vault.Database;
         Vault = vault;

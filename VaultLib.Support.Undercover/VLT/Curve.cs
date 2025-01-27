@@ -10,7 +10,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(Curve))]
-public class Curve : VltBaseType, IVltPointerObject
+public class Curve: VltBaseType<uint>, IVltPointerObject<uint>
 {
     public float MinX { get; set; }
     public float MaxX { get; set; }
@@ -22,11 +22,11 @@ public class Curve : VltBaseType, IVltPointerObject
     public float[] YValues { get; set; }
     public float[] Y2Values { get; set; }
 
-    private VariableArray _xArray = new();
-    private VariableArray _yArray = new();
-    private VariableArray _y2Array = new();
+    private VariableArray<uint> _xArray = new();
+    private VariableArray<uint> _yArray = new();
+    private VariableArray<uint> _y2Array = new();
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         MinX = br.ReadSingle();
         MaxX = br.ReadSingle();
@@ -40,7 +40,7 @@ public class Curve : VltBaseType, IVltPointerObject
         //Debug.Assert(br.ReadUInt32()==0);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         _xArray.Data = XValues;
         _yArray.Data = YValues;
@@ -59,7 +59,7 @@ public class Curve : VltBaseType, IVltPointerObject
         bw.Write(0); // AllocatedMemory (bool1 + 3 align bytes)
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         _xArray.ReadPointerData(context, br);
         _yArray.ReadPointerData(context, br);
@@ -70,14 +70,14 @@ public class Curve : VltBaseType, IVltPointerObject
         Y2Values = _y2Array.Data;
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         _xArray.WritePointerData(context, bw);
         _yArray.WritePointerData(context, bw);
         _y2Array.WritePointerData(context, bw);
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
         _xArray.AddPointers(context);
         _yArray.AddPointers(context);

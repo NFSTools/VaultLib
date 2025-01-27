@@ -7,7 +7,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(CameraReactionRecord))]
-public class CameraReactionRecord : VltBaseType
+public class CameraReactionRecord: VltBaseType<uint>
 {
     public CameraReactionType Type { get; set; }
     public float InputMin { get; set; }
@@ -15,7 +15,7 @@ public class CameraReactionRecord : VltBaseType
     public float InputMax { get; set; }
     public float[] ValueMax { get; set; } = new float[2];
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Type = br.ReadEnum<CameraReactionType>();
         InputMin = br.ReadSingle();
@@ -24,7 +24,7 @@ public class CameraReactionRecord : VltBaseType
         ValueMax = br.ReadArray(br.ReadSingle, 2);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(Type);
         bw.Write(InputMin);

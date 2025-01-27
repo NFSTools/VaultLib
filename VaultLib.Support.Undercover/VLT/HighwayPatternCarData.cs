@@ -7,14 +7,14 @@ using VaultLib.Core.Types.Attrib;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(HighwayPatternCarData))]
-public class HighwayPatternCarData : VltBaseType
+public class HighwayPatternCarData: VltBaseType<uint>
 {
     public int Row { get; set; }
     public int Lane { get; set; }
-    public RefSpec Vehicle { get; set; } = new();
+    public RefSpec<uint> Vehicle { get; set; } = new();
     public EAILaneChangeType Change { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Row = br.ReadInt32();
         Lane = br.ReadInt32();
@@ -26,7 +26,7 @@ public class HighwayPatternCarData : VltBaseType
             throw new InvalidDataException();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(Row);
         bw.Write(Lane);

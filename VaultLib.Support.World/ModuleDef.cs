@@ -14,19 +14,19 @@ using VaultLib.ModernBase.Structures;
 
 namespace VaultLib.Support.World;
 
-public class ModuleDef : BaseGameModule
+public class ModuleDef : BaseGameModule<uint>
 {
-    public override void RegisterTypes(TypeRegistry typeRegistry)
+    public override void RegisterTypes(TypeRegistry<uint> typeRegistry)
     {
-        typeRegistry.Register<StringKey>("Attrib::StringKey");
+        typeRegistry.Register<StringKey32>("Attrib::StringKey");
         typeRegistry.Register<Static_Inorder_N_to_1>("Attrib::Query::Static_Inorder_N_to_1<Attrib::Query::Typespace<Attrib::Key,Attrib::Key,EA::Reflection::UInt32> >");
         SpeedFramework.Register(typeRegistry);
         typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
     }
 
-    public override ExportFactory CreateExportFactory()
+    public override ExportFactory<uint> CreateExportFactory()
     {
-        return new ExportFactory(() => new DatabaseLoad(), () => new ClassLoad(), () => new CollectionLoad(),
-            () => new ExportEntry());
+        return new ExportFactory<uint>(() => new DatabaseLoad(), () => new ClassLoad32(), () => new CollectionLoad(),
+            () => new ExportEntry32());
     }
 }

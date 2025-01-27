@@ -8,13 +8,13 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(PhysicsTuningPreset))]
-public class PhysicsTuningPreset : VltBaseType
+public class PhysicsTuningPreset: VltBaseType<uint>
 {
-    public RefSpec PhysicsTuningSlider { get; set; } = new();
+    public RefSpec<uint> PhysicsTuningSlider { get; set; } = new();
     public bool CenteredAroundPreset { get; set; }
     public float Position { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         PhysicsTuningSlider.Read(context, fieldContext, br);
         CenteredAroundPreset = br.ReadBoolean();
@@ -22,7 +22,7 @@ public class PhysicsTuningPreset : VltBaseType
         Position = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         PhysicsTuningSlider.Write(context, fieldContext, bw);
         bw.Write(CenteredAroundPreset);

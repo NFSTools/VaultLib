@@ -12,13 +12,13 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.World.VLT.GameCore;
 
 [VltTypeInfo("GameCore::KeyValuePair")]
-public class KeyValuePair : VltBaseType, IReferencesStrings
+public class KeyValuePair: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string KeyString { get; set; } = string.Empty;
 
     public float Value { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         KeyString = context.ReadString(br);
 
@@ -26,7 +26,7 @@ public class KeyValuePair : VltBaseType, IReferencesStrings
         Value = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         context.WriteString(KeyString, fieldContext, bw);
         bw.Write(Vlt32Hasher.Hash(KeyString));
@@ -38,17 +38,17 @@ public class KeyValuePair : VltBaseType, IReferencesStrings
         return new[] { KeyString };
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         //
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         //
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
         //
     }

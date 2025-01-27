@@ -10,14 +10,14 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::BattleMusicTuning")]
-public class BattleMusicTuning : VltBaseType
+public class BattleMusicTuning: VltBaseType<uint>
 {
     public float TimeAhead_HiToMed { get; set; }
     public float TimeAhead_MedToLo { get; set; }
     public float TimeBehind_HiToFail { get; set; }
     public float TimeAhead_FailToHi { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         TimeAhead_HiToMed = br.ReadSingle();
         TimeAhead_MedToLo = br.ReadSingle();
@@ -25,7 +25,7 @@ public class BattleMusicTuning : VltBaseType
         TimeAhead_FailToHi = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(TimeAhead_HiToMed);
         bw.Write(TimeAhead_MedToLo);

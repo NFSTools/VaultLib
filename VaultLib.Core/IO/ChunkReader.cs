@@ -11,7 +11,7 @@ namespace VaultLib.Core.IO;
 /// <summary>
 ///     Reads chunks from a data stream
 /// </summary>
-public class ChunkReader
+public class ChunkReader<TKey>
 {
     public ChunkReader(BinaryReader reader)
     {
@@ -20,37 +20,37 @@ public class ChunkReader
 
     public BinaryReader Reader { get; }
 
-    public ChunkBase NextChunk()
+    public ChunkBase<TKey> NextChunk()
     {
         var header = new ChunkBlockHeader();
         header.Read(Reader);
-        ChunkBase chunk;
+        ChunkBase<TKey> chunk;
 
         switch (header.ID)
         {
             case 0x53747245:
-                chunk = new BinStringsChunk();
+                chunk = new BinStringsChunk<TKey>();
                 break;
             case 0x5374724E:
-                chunk = new VltStartChunk();
+                chunk = new VltStartChunk<TKey>();
                 break;
             case 0x456E6443:
-                chunk = new EndChunk();
+                chunk = new EndChunk<TKey>();
                 break;
             case 0x56657273:
-                chunk = new VltVersionChunk();
+                chunk = new VltVersionChunk<TKey>();
                 break;
             case 0x4465704E:
-                chunk = new VltDependencyChunk();
+                chunk = new VltDependencyChunk<TKey>();
                 break;
             case 0x4578704E:
-                chunk = new VltExportChunk();
+                chunk = new VltExportChunk<TKey>();
                 break;
             case 0x5074724E:
-                chunk = new VltPointersChunk();
+                chunk = new VltPointersChunk<TKey>();
                 break;
             default:
-                chunk = new GenericChunk(header.ID);
+                chunk = new GenericChunk<TKey>(header.ID);
                 break;
         }
 

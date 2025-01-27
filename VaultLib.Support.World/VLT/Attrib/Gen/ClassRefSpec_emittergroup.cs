@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 namespace VaultLib.Support.World.VLT.Attrib.Gen;
 
 [VltTypeInfo("Attrib::Gen::ClassRefSpec_emittergroup")]
-public class ClassRefSpec_emittergroup : ClassRefSpec_template
+public class ClassRefSpec_emittergroup : ClassRefSpec_template<uint>
 {
     public ClassRefSpec_emittergroup() : base("emittergroup")
     {

@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 namespace VaultLib.Support.Undercover.VLT.Attrib.Gen;
 
 [VltTypeInfo("Attrib::Gen::ClassRefSpec_car_damage_objects")]
-public class ClassRefSpec_car_damage_objects : ClassRefSpec_template
+public class ClassRefSpec_car_damage_objects : ClassRefSpec_template<uint>
 {
     public ClassRefSpec_car_damage_objects() : base("car_damage_objects")
     {

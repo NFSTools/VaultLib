@@ -3,7 +3,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib;
 
-public abstract class BaseBlob : VltBaseType, IVltPointerObject
+public abstract class BaseBlob<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey>
 {
     public byte[] Data { get; set; }
 
@@ -14,7 +14,7 @@ public abstract class BaseBlob : VltBaseType, IVltPointerObject
 
     private long _dataPtrSrc;
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
         Length = br.ReadInt32();
 
@@ -26,7 +26,8 @@ public abstract class BaseBlob : VltBaseType, IVltPointerObject
         _dataOffset = br.ReadPointer();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         if (Data != null)
         {
@@ -42,7 +43,7 @@ public abstract class BaseBlob : VltBaseType, IVltPointerObject
         bw.Write(0);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
         if (_dataOffset != 0)
         {
@@ -51,7 +52,7 @@ public abstract class BaseBlob : VltBaseType, IVltPointerObject
         }
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
     {
         if (Data != null)
         {
@@ -60,7 +61,7 @@ public abstract class BaseBlob : VltBaseType, IVltPointerObject
         }
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext)
     {
         context.AddPointer(_dataPtrSrc, _dataPtrDst, false);
     }

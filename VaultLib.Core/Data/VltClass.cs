@@ -12,16 +12,16 @@ namespace VaultLib.Core.Data;
 ///     A class has fields, which can each have different properties.
 ///     A class also has collections, which are like rows in a table.
 /// </summary>
-public class VltClass
+public class VltClass<TKey>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="VltClass"/> class.
+    /// Initializes a new instance of the <see cref="VltClass{TKey}"/> class.
     /// </summary>
     /// <param name="name">The name of the class.</param>
     public VltClass(string name)
     {
         Name = name;
-        Fields = new Dictionary<ulong, VltClassField>();
+        Fields = new Dictionary<TKey, VltClassField<TKey>>();
     }
 
     /// <summary>
@@ -32,13 +32,13 @@ public class VltClass
     /// <summary>
     /// Gets the list of fields that are part of the class.
     /// </summary>
-    public Dictionary<ulong, VltClassField> Fields { get; }
-        
+    public Dictionary<TKey, VltClassField<TKey>> Fields { get; }
+
     /// <summary>
     /// Gets or sets the size of the collection layout of the class.
     /// </summary>
     public uint LayoutSize { get; set; }
-        
+
     /// <summary>
     /// Gets or sets the size of the static layout of the class.
     /// </summary>
@@ -49,14 +49,14 @@ public class VltClass
     /// </summary>
     /// <param name="name">The name of the field to find.</param>
     /// <returns>The <see cref="VltClassField"/> instance for the field.</returns>
-    public VltClassField this[string name] => FindField(name);
+    public VltClassField<TKey> this[string name] => FindField(name);
 
     /// <summary>
     /// Finds the field with the given name in the class.
     /// </summary>
     /// <param name="name">The name of the field to find.</param>
     /// <returns>The <see cref="VltClassField"/> instance for the field.</returns>
-    public VltClassField FindField(string name) => Fields.Values.First(f => f.Name == name);
+    public VltClassField<TKey> FindField(string name) => Fields.Values.First(f => f.Name == name);
 
     /// <summary>
     /// Gets a value indicating if there is a field with the given name within the class.
@@ -70,21 +70,21 @@ public class VltClass
     /// </summary>
     /// <param name="key">The key of the field to find.</param>
     /// <returns>The <see cref="VltClassField"/> instance for the field.</returns>
-    public VltClassField this[ulong key] => FindField(key);
+    public VltClassField<TKey> this[TKey key] => FindField(key);
 
     /// <summary>
     /// Finds the field with the given key in the class.
     /// </summary>
     /// <param name="key">The key of the field to find.</param>
     /// <returns>The <see cref="VltClassField"/> instance for the field.</returns>
-    public VltClassField FindField(ulong key) => Fields[key];
+    public VltClassField<TKey> FindField(TKey key) => Fields[key];
 
     /// <summary>
     /// Gets a value indicating if there is a field with the given key within the class.
     /// </summary>
     /// <param name="key">The key of the field to search for.</param>
     /// <returns><c>true</c> if the field exists; otherwise, <c>false</c></returns>
-    public bool HasField(ulong key) => Fields.ContainsKey(key);
+    public bool HasField(TKey key) => Fields.ContainsKey(key);
 
     /// <summary>
     /// Returns the field with the given key, if it exists.
@@ -92,7 +92,7 @@ public class VltClass
     /// <param name="key">The key to search for</param>
     /// <param name="field">A reference to a <see cref="VltClassField"/> that will be populated.</param>
     /// <returns><c>true</c> if a field was found; otherwise, <c>false</c></returns>
-    public bool TryGetField(ulong key, out VltClassField field) => Fields.TryGetValue(key, out field);
+    public bool TryGetField(TKey key, out VltClassField<TKey> field) => Fields.TryGetValue(key, out field);
 
     /// <summary>
     /// Returns the field with the given key, if it exists.
@@ -100,7 +100,7 @@ public class VltClass
     /// <param name="key">The key to search for</param>
     /// <param name="field">A reference to a <see cref="VltClassField"/> that will be populated.</param>
     /// <returns><c>true</c> if a field was found; otherwise, <c>false</c></returns>
-    public bool TryGetField(string key, out VltClassField field)
+    public bool TryGetField(string key, out VltClassField<TKey> field)
     {
         if (HasField(key))
         {
@@ -117,12 +117,14 @@ public class VltClass
     /// <summary>
     /// Gets an enumerator of every required field in the class.
     /// </summary>
-    public IEnumerable<VltClassField> BaseFields => from field in Fields.Values where field.IsInLayout orderby field.Offset select field;
+    public IEnumerable<VltClassField<TKey>> BaseFields =>
+        from field in Fields.Values where field.IsInLayout orderby field.Offset select field;
 
     /// <summary>
     /// Gets an enumerator of every static field in the class.
     /// </summary>
-    public IEnumerable<VltClassField> StaticFields => from field in Fields.Values where field.IsStatic orderby field.Offset select field;
+    public IEnumerable<VltClassField<TKey>> StaticFields =>
+        from field in Fields.Values where field.IsStatic orderby field.Offset select field;
 
     /// <summary>
     /// Gets a value indicating whether the class has any base fields.

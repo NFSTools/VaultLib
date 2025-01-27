@@ -4,7 +4,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib;
 
-public class VinylTransform : VltBaseType
+public class VinylTransform: VltBaseType<uint>
 {
     public short TranslationX { get; set; }
     public short TranslationY { get; set; }
@@ -14,7 +14,7 @@ public class VinylTransform : VltBaseType
     public bool ProportionalScale { get; set; }
     public byte Shear { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         TranslationX = br.ReadInt16();
         TranslationY = br.ReadInt16();
@@ -25,7 +25,7 @@ public class VinylTransform : VltBaseType
         Shear = br.ReadByte();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(TranslationX);
         bw.Write(TranslationY);

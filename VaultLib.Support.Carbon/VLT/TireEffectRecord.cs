@@ -8,14 +8,14 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.Carbon.VLT;
 
 [VltTypeInfo(nameof(TireEffectRecord))]
-public class TireEffectRecord : VltBaseType
+public class TireEffectRecord: VltBaseType<uint>
 {
     public TireCondition mTireCondition { get; set; }
-    public RefSpecPacked mEmitter { get; set; } = new();
+    public RefSpecPacked<uint> mEmitter { get; set; } = new();
     public float mMinSpeed { get; set; }
     public float mMaxSpeed { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         mTireCondition = br.ReadEnum<TireCondition>();
         mEmitter.Read(context, fieldContext, br);
@@ -23,7 +23,7 @@ public class TireEffectRecord : VltBaseType
         mMaxSpeed = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(mTireCondition);
         mEmitter.Write(context, fieldContext, bw);

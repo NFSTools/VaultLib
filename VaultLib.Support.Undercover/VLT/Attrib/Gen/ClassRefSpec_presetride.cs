@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 namespace VaultLib.Support.Undercover.VLT.Attrib.Gen;
 
 [VltTypeInfo("Attrib::Gen::ClassRefSpec_presetride")]
-public class ClassRefSpec_presetride : ClassRefSpec_template
+public class ClassRefSpec_presetride : ClassRefSpec_template<uint>
 {
     public ClassRefSpec_presetride() : base("presetride")
     {

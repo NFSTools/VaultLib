@@ -11,14 +11,14 @@ namespace VaultLib.Core.IO;
 /// <summary>
 ///     Writes AttribSys-style chunks to a data stream.
 /// </summary>
-public class ChunkWriter
+public class ChunkWriter<TKey>
 {
     /// <summary>
     ///     Initializes the chunk writer with a backing <see cref="BinaryWriter" /> and <see cref="VaultLib.Core.Vault" />
     /// </summary>
     /// <param name="writer">The <see cref="BinaryWriter" /> instance that will write to the stream</param>
     /// <param name="writeContext">The <see cref="VaultWriteContext" /> instance to provide to chunk instances</param>
-    public ChunkWriter(BinaryWriter writer, VaultWriteContext writeContext)
+    public ChunkWriter(BinaryWriter writer, VaultWriteContext<TKey> writeContext)
     {
         Writer = writer ?? throw new ArgumentNullException(nameof(writer));
         WriteContext = writeContext ?? throw new ArgumentNullException(nameof(writeContext));
@@ -26,13 +26,13 @@ public class ChunkWriter
 
     private BinaryWriter Writer { get; }
 
-    private VaultWriteContext WriteContext { get; }
+    private VaultWriteContext<TKey> WriteContext { get; }
 
     /// <summary>
     ///     Writes a chunk to the data stream.
     /// </summary>
     /// <param name="chunk">The chunk to write.</param>
-    public void WriteChunk(ChunkBase chunk)
+    public void WriteChunk(ChunkBase<TKey> chunk)
     {
         var beginPos = Writer.BaseStream.Position;
         Writer.Write(chunk.Id);

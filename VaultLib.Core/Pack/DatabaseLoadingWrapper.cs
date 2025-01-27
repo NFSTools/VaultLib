@@ -6,11 +6,11 @@ namespace VaultLib.Core.Pack;
 /// <summary>
 /// Simple disposable class that calls <see cref="Database.CompleteLoad"/> so you don't have to.
 /// </summary>
-public class DatabaseLoadingWrapper : IDisposable
+public class DatabaseLoadingWrapper<TKey> : IDisposable
 {
-    private readonly Database _database;
+    private readonly Database<TKey> _database;
 
-    public DatabaseLoadingWrapper(Database database)
+    public DatabaseLoadingWrapper(Database<TKey> database)
     {
         _database = database;
     }

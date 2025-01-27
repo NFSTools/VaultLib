@@ -13,33 +13,33 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
-[VltTypeInfo(nameof(CCarKitSlotEntry))]
-public class CCarKitSlotEntry : VltBaseType, IReferencesStrings
+[VltTypeInfo("CCarKitSlotEntry")]
+public abstract class CCarKitSlotEntry : VltBaseType<uint>, IReferencesStrings<uint>
 {
-    public RefSpec Part { get; set; } = new();
+    public RefSpec<uint> Part { get; set; } = new();
     public string SlotName { get; set; } = string.Empty;
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Part.Read(context, fieldContext, br);
         SlotName = context.ReadString(br);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         Part.Write(context, fieldContext, bw);
         context.WriteString(SlotName, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

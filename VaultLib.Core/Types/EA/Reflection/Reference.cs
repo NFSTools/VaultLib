@@ -5,14 +5,14 @@ namespace VaultLib.Core.Types.EA.Reflection
 {
     // TODO: What is this type?
     [VltTypeInfo("EA::Reflection::Reference")]
-    public class Reference : VltBaseType
+    public class Reference: VltBaseType<uint>
     {
-        public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+        public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+        public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
         {
             throw new System.NotImplementedException();
         }

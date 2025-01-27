@@ -11,7 +11,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports;
 
-public class ClassLoad : BaseClassLoad
+public class ClassLoad32 : BaseClassLoad<uint>
 {
     private uint ClassHash { get; set; }
     private int NumDefinitions { get; set; }
@@ -24,7 +24,7 @@ public class ClassLoad : BaseClassLoad
     private long _dstDefinitionsPtr;
     private long _dstStaticPtr;
 
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, BinaryReader br)
     {
         ClassHash = br.ReadUInt32();
         br.ReadUInt32(); // Collection reserve
@@ -42,7 +42,7 @@ public class ClassLoad : BaseClassLoad
         }
 
         NumDefinitions = mNumDefinitions;
-        Class = new VltClass(HashManager.ResolveVlt(ClassHash))
+        Class = new VltClass<uint>(HashManager.ResolveVlt(ClassHash))
         {
             LayoutSize = layoutSize,
             StaticSize = staticSize,
@@ -51,7 +51,7 @@ public class ClassLoad : BaseClassLoad
         // Debug.WriteLine("class load: {0} - layout size = {1}, static size = {2}", Class.Name, layoutSize, staticSize);
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, BinaryWriter bw)
     {
         int collectionReserve = (from collection in context.Collections
             where collection.Class.Name == Class.Name
@@ -76,16 +76,16 @@ public class ClassLoad : BaseClassLoad
         bw.Write((ushort)Class.BaseFields.Count());
     }
 
-    public override void ReadPointerData(VaultReadContext context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<uint> context, BinaryReader br)
     {
         br.BaseStream.Position = _definitionsPtr;
 
         for (int i = 0; i < NumDefinitions; i++)
         {
-            AttribDefinition definition = new AttribDefinition();
+            AttribDefinition32 definition = new AttribDefinition32();
             definition.Read(context, br);
 
-            VltClassField field = new VltClassField(
+            var field = new VltClassField<uint>(
                 definition.Key,
                 HashManager.ResolveVlt((uint)definition.Key),
                 HashManager.ResolveVlt((uint)definition.Type),
@@ -106,7 +106,7 @@ public class ClassLoad : BaseClassLoad
             {
                 br.SafeAlignReader(staticField.Alignment);
 
-                var fieldContext = new FieldReadWriteContext(Class, staticField, null);
+                var fieldContext = new FieldReadWriteContext<uint>(Class, staticField, null);
                 var staticData =
                     context.Database.TypeRegistry.ReadFieldValue(context, fieldContext,
                         br);
@@ -123,8 +123,8 @@ public class ClassLoad : BaseClassLoad
 
         foreach (var staticField in Class.StaticFields)
         {
-            var fieldContext = new FieldReadWriteContext(Class, staticField, null);
-            if (staticField.StaticValue is IVltPointerObject vltPointerObject)
+            var fieldContext = new FieldReadWriteContext<uint>(Class, staticField, null);
+            if (staticField.StaticValue is IVltPointerObject<uint> vltPointerObject)
             {
                 vltPointerObject.ReadPointerData(context, fieldContext, br);
             }
@@ -133,14 +133,14 @@ public class ClassLoad : BaseClassLoad
         context.Database.AddClass(Class);
     }
 
-    public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<uint> context, BinaryWriter bw)
     {
         bw.AlignWriter(0x8);
         _dstDefinitionsPtr = bw.BaseStream.Position;
 
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
-            AttribDefinition definition = new AttribDefinition();
+            AttribDefinition32 definition = new AttribDefinition32();
             definition.Key = Vlt32Hasher.Hash(field.Name);
             definition.Alignment = field.Alignment;
             definition.Flags = field.Flags;
@@ -158,7 +158,7 @@ public class ClassLoad : BaseClassLoad
             foreach (var staticField in Class.StaticFields)
             {
                 bw.AlignWriter(staticField.Alignment);
-                var fieldContext = new FieldReadWriteContext(Class, staticField, null);
+                var fieldContext = new FieldReadWriteContext<uint>(Class, staticField, null);
                 context.Database.TypeRegistry.WriteFieldValue(staticField.StaticValue, context,
                     fieldContext, bw);
             }
@@ -180,8 +180,8 @@ public class ClassLoad : BaseClassLoad
 
             foreach (var staticField in Class.StaticFields)
             {
-                var fieldContext = new FieldReadWriteContext(Class, staticField, null);
-                if (staticField.StaticValue is IVltPointerObject vltPointerObject)
+                var fieldContext = new FieldReadWriteContext<uint>(Class, staticField, null);
+                if (staticField.StaticValue is IVltPointerObject<uint> vltPointerObject)
                 {
                     vltPointerObject.WritePointerData(context, fieldContext, bw);
                 }
@@ -189,7 +189,7 @@ public class ClassLoad : BaseClassLoad
         }
     }
 
-    public override void AddPointers(VaultWriteContext context)
+    public override void AddPointers(VaultWriteContext<uint> context)
     {
         context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
 
@@ -199,8 +199,8 @@ public class ClassLoad : BaseClassLoad
 
             foreach (var staticField in Class.StaticFields)
             {
-                var fieldContext = new FieldReadWriteContext(Class, staticField, null);
-                if (staticField.StaticValue is IVltPointerObject vltPointerObject)
+                var fieldContext = new FieldReadWriteContext<uint>(Class, staticField, null);
+                if (staticField.StaticValue is IVltPointerObject<uint> vltPointerObject)
                 {
                     vltPointerObject.AddPointers(context, fieldContext);
                 }
@@ -208,6 +208,10 @@ public class ClassLoad : BaseClassLoad
         }
     }
 
+    public override uint GetExportId()
+    {
+        return Vlt32Hasher.Hash(Class.Name);
+    }
 
     private int ComputeLayoutSize()
     {

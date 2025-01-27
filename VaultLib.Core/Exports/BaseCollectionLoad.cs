@@ -5,26 +5,27 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Exports;
 
-public abstract class BaseCollectionLoad : BaseExport, IPointerObject
+public abstract class BaseCollectionLoad<TKey> : BaseExport<TKey>, IPointerObject<TKey>
 {
     /// <summary>
     ///     The collection being described by this export.
     /// </summary>
-    public VltCollection Collection { get; set; }
+    public VltCollection<TKey> Collection { get; set; }
 
-    public ulong ParentKey { get; protected set; }
+    public TKey ParentKey { get; protected set; }
 
-    public abstract void ReadPointerData(VaultReadContext context, BinaryReader br);
-    public abstract void WritePointerData(VaultWriteContext context, BinaryWriter bw);
-    public abstract void AddPointers(VaultWriteContext context);
+    public abstract void ReadPointerData(VaultReadContext<TKey> context, BinaryReader br);
+    public abstract void WritePointerData(VaultWriteContext<TKey> context, BinaryWriter bw);
+    public abstract void AddPointers(VaultWriteContext<TKey> context);
 
     public override string GetTypeId()
     {
         return "Attrib::CollectionLoadData";
     }
 
-    public override ulong GetExportId()
-    {
-        return Vlt32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
-    }
+    public abstract override TKey GetExportId();
+    // public override ulong GetExportId()
+    // {
+    //     return Vlt32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
+    // }
 }

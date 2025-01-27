@@ -13,14 +13,14 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(TrafficPatternRecord))]
-public class TrafficPatternRecord : VltBaseType, IReferencesCollections
+public class TrafficPatternRecord: VltBaseType<uint>, IReferencesCollections<uint>
 {
-    public RefSpec Vehicle { get; set; } = new();
+    public RefSpec<uint> Vehicle { get; set; } = new();
     public float Rate { get; set; }
     public uint MaxInstances { get; set; }
     public uint Percent { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Vehicle.Read(context, fieldContext, br);
         Rate = br.ReadSingle();
@@ -28,7 +28,7 @@ public class TrafficPatternRecord : VltBaseType, IReferencesCollections
         Percent = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         Vehicle.Write(context, fieldContext, bw);
         bw.Write(Rate);
@@ -41,7 +41,7 @@ public class TrafficPatternRecord : VltBaseType, IReferencesCollections
         return $"Vehicle: {Vehicle} | Spawn rate: {Rate} | Instances: {MaxInstances} | {Percent}%";
     }
 
-    public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
+    public IEnumerable<CollectionReferenceInfo<uint>> GetReferencedCollections(Database<uint> database, Vault<uint> vault)
     {
         return Vehicle.GetReferencedCollections(database, vault);
     }

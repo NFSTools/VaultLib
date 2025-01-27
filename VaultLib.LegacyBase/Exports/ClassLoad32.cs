@@ -11,7 +11,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports;
 
-public class ClassLoad : BaseClassLoad
+public class ClassLoad32 : BaseClassLoad<uint>
 {
     private uint ClassHash { get; set; }
     private int NumDefinitions { get; set; }
@@ -20,7 +20,7 @@ public class ClassLoad : BaseClassLoad
     private long _srcDefinitionsPtr;
     private long _dstDefinitionsPtr;
 
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, BinaryReader br)
     {
         ClassHash = br.ReadUInt32();
         uint cr = br.ReadUInt32(); // collection reserve
@@ -39,13 +39,13 @@ public class ClassLoad : BaseClassLoad
         ushort requiredCount = br.ReadUInt16();
         Debug.Assert(requiredCount <= NumDefinitions);
         br.ReadInt16();
-        Class = new VltClass(HashManager.ResolveVlt(ClassHash))
+        Class = new VltClass<uint>(HashManager.ResolveVlt(ClassHash))
         {
             LayoutSize = layoutSize,
         };
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, BinaryWriter bw)
     {
         bw.Write(Vlt32Hasher.Hash(Class.Name));
 
@@ -67,13 +67,13 @@ public class ClassLoad : BaseClassLoad
         bw.Write((ushort)0);
     }
 
-    public override void ReadPointerData(VaultReadContext context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<uint> context, BinaryReader br)
     {
         br.BaseStream.Position = _definitionsPtr;
 
         for (int i = 0; i < NumDefinitions; i++)
         {
-            AttribDefinition definition = new AttribDefinition();
+            AttribDefinition32 definition = new AttribDefinition32();
             definition.Read(context, br);
 
             if ((definition.Flags & DefinitionFlags.IsStatic) != 0)
@@ -81,10 +81,10 @@ public class ClassLoad : BaseClassLoad
                 throw new Exception("Legacy format does not support static fields");
             }
 
-            VltClassField field = new VltClassField(
+            var field = new VltClassField<uint>(
                 definition.Key,
-                HashManager.ResolveVlt((uint)definition.Key),
-                HashManager.ResolveVlt((uint)definition.Type),
+                HashManager.ResolveVlt(definition.Key),
+                HashManager.ResolveVlt(definition.Type),
                 definition.Flags,
                 definition.Alignment,
                 definition.Size,
@@ -97,14 +97,14 @@ public class ClassLoad : BaseClassLoad
         context.Database.AddClass(Class);
     }
 
-    public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<uint> context, BinaryWriter bw)
     {
         bw.AlignWriter(0x8);
         _dstDefinitionsPtr = bw.BaseStream.Position;
 
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
-            AttribDefinition definition = new AttribDefinition();
+            AttribDefinition32 definition = new AttribDefinition32();
             definition.Key = Vlt32Hasher.Hash(field.Name);
             definition.Type = Vlt32Hasher.Hash(field.TypeName);
             definition.Flags = field.Flags;
@@ -117,8 +117,13 @@ public class ClassLoad : BaseClassLoad
         }
     }
 
-    public override void AddPointers(VaultWriteContext context)
+    public override void AddPointers(VaultWriteContext<uint> context)
     {
         context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
+    }
+
+    public override uint GetExportId()
+    {
+        return Vlt32Hasher.Hash(Class.Name);
     }
 }

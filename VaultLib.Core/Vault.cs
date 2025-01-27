@@ -14,12 +14,12 @@ namespace VaultLib.Core;
 /// <summary>
 ///     A vault is the main holder of data. Classes, collections, and collection data are all stored in vaults.
 /// </summary>
-public class Vault
+public class Vault<TKey>
 {
     public Vault(string name)
     {
         Name = name;
-        Exports = new List<BaseExport>();
+        Exports = new List<BaseExport<TKey>>();
     }
 
     /// <summary>
@@ -32,12 +32,12 @@ public class Vault
     /// <summary>
     ///     The exported data items.
     /// </summary>
-    public List<BaseExport> Exports { get; }
+    public List<BaseExport<TKey>> Exports { get; }
 
     /// <summary>
     ///     The database that has this vault
     /// </summary>
-    public Database Database { get; set; }
+    public Database<TKey> Database { get; set; }
 
     /// <summary>
     /// This is set to <c>true</c> if this vault is the "primary" vault - the one with class definitions

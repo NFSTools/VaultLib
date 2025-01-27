@@ -10,18 +10,18 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(RwacSampleBankAsset))]
-public class RwacSampleBankAsset : VltBaseType
+public class RwacSampleBankAsset: VltBaseType<uint>
 {
     public uint Bank { get; set; }
     public uint Asset { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Bank = br.ReadUInt32();
         Asset = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(Bank);
         bw.Write(Asset);

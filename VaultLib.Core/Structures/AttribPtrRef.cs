@@ -7,9 +7,9 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Structures;
 
-public class AttribPtrRef : IPtrRef
+public class AttribPtrRef<TKey> : IPtrRef<TKey>
 {
-    public void Read(VaultReadContext context, BinaryReader br)
+    public void Read(VaultReadContext<TKey> context, BinaryReader br)
     {
         FixupOffset = br.ReadUInt32();
         PtrType = (EPtrRefType)br.ReadUInt16();
@@ -17,7 +17,7 @@ public class AttribPtrRef : IPtrRef
         Destination = br.ReadUInt32();
     }
 
-    public void Write(VaultWriteContext context, BinaryWriter bw)
+    public void Write(VaultWriteContext<TKey> context, BinaryWriter bw)
     {
         bw.Write(FixupOffset);
         bw.Write((ushort)PtrType);

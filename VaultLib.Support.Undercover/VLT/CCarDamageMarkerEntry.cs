@@ -12,16 +12,16 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(CCarDamageMarkerEntry))]
-public class CCarDamageMarkerEntry : VltBaseType, IReferencesStrings
+public class CCarDamageMarkerEntry: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string MarkerName { get; set; } = string.Empty;
     public int PartID { get; set; }
     public int SlotID { get; set; }
     public string AttachPart { get; set; } = string.Empty;
     public string SmackableCollisionName { get; set; } = string.Empty;
-    public RefSpec SmackableCollisionAttribute { get; set; } = new();
+    public RefSpec<uint> SmackableCollisionAttribute { get; set; } = new();
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         MarkerName = context.ReadString(br);
         PartID = br.ReadInt32();
@@ -31,7 +31,7 @@ public class CCarDamageMarkerEntry : VltBaseType, IReferencesStrings
         SmackableCollisionAttribute.Read(context, fieldContext, br);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         context.WriteString(MarkerName, fieldContext, bw);
         bw.Write(PartID);
@@ -41,15 +41,15 @@ public class CCarDamageMarkerEntry : VltBaseType, IReferencesStrings
         SmackableCollisionAttribute.Write(context, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

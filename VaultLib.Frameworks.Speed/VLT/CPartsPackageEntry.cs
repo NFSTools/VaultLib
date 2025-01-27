@@ -9,19 +9,19 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(CPartsPackageEntry))]
-public class CPartsPackageEntry : VltBaseType
+public class CPartsPackageEntry : VltBaseType<uint>
 {
-    public RefSpec Part { get; set; } = new();
+    public RefSpec<uint> Part { get; set; } = new();
     public byte KitNum { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Part.Read(context, fieldContext, br);
         KitNum = br.ReadByte();
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         Part.Write(context, fieldContext, bw);
         bw.Write(KitNum);

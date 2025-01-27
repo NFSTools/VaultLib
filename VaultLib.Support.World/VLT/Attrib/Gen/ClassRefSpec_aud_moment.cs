@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 namespace VaultLib.Support.World.VLT.Attrib.Gen;
 
 [VltTypeInfo("Attrib::Gen::ClassRefSpec_aud_moment")]
-public class ClassRefSpec_aud_moment : ClassRefSpec_template
+public class ClassRefSpec_aud_moment : ClassRefSpec_template<uint>
 {
     public ClassRefSpec_aud_moment() : base("aud_moment")
     {

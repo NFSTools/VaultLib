@@ -11,9 +11,9 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports;
 
-public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
+public class CollectionLoad : ModernCollectionLoadBase<uint, AttribEntry32>
 {
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, BinaryReader br)
     {
         var mKey = br.ReadUInt32();
         var mClass = br.ReadUInt32();
@@ -24,13 +24,13 @@ public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
         var mNumTypes = br.ReadUInt16();
         var mTypesLen = br.ReadUInt16();
         LayoutPointer = br.ReadPointer();
-        
+
         // Debug.Assert(LayoutPointer % 4 == 0, "LayoutPointer % 4 == 0");
 
         Debug.Assert(mTableReserve == mNumEntries);
 
-        Collection = new VltCollection(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
-            HashManager.ResolveVlt(mKey));
+        Collection = new VltCollection<uint>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
+            HashManager.ResolveVlt(mKey), mKey);
 
         Debug.Assert(mTypesLen >= mNumTypes);
 
@@ -45,11 +45,11 @@ public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
             br.ReadUInt32();
         }
 
-        Entries = new List<AttribEntry>();
+        Entries = new List<AttribEntry32>();
 
         for (var i = 0; i < mNumEntries; i++)
         {
-            var attribEntry = new AttribEntry(Collection);
+            var attribEntry = new AttribEntry32(Collection);
 
             attribEntry.Read(context, br);
 
@@ -70,14 +70,14 @@ public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
         context.Database.RowManager.AddCollection(Collection);
     }
 
-    public override void Prepare(Vault vault)
+    public override void Prepare(Vault<uint> vault)
     {
         List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetOrderedData()
             let field = Collection.Class[pair.Key]
             where !field.IsInLayout
             select new KeyValuePair<string, object>(pair.Key, pair.Value)).ToList();
 
-        Entries = new List<AttribEntry>();
+        Entries = new List<AttribEntry32>();
         Types = Collection.Class.BaseFields.Select(f => f.TypeName)
             .Concat(optionalDataColumns.Select(c => Collection.Class[c.Key].TypeName))
             .Select(s => Vlt32Hasher.Hash(s)).Distinct().ToArray();
@@ -85,7 +85,7 @@ public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
         for (var index = 0; index < optionalDataColumns.Count; index++)
         {
             var optionalDataColumn = optionalDataColumns[index];
-            var entry = new AttribEntry(Collection);
+            var entry = new AttribEntry32(Collection);
             var vltClassField = Collection.Class[optionalDataColumn.Key];
 
             entry.Key = Vlt32Hasher.Hash(optionalDataColumn.Key);
@@ -102,7 +102,7 @@ public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
             else
             {
                 entry.InlineData =
-                    new VltAttribType()
+                    new VltAttribType<uint>()
                         { Data = optionalDataColumn.Value };
             }
 
@@ -120,7 +120,7 @@ public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
         }
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, BinaryWriter bw)
     {
         bw.Write(Vlt32Hasher.Hash(Collection.Name));
         bw.Write(Vlt32Hasher.Hash(Collection.Class.Name));
@@ -151,7 +151,7 @@ public class CollectionLoad : ModernCollectionLoadBase<AttribEntry>
         }
     }
 
-    public override ulong GetExportId()
+    public override uint GetExportId()
     {
         return Vlt32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
     }

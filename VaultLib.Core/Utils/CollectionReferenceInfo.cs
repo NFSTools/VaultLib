@@ -7,14 +7,14 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Core.Utils;
 
-public class CollectionReferenceInfo
+public class CollectionReferenceInfo<TKey>
 {
-    public CollectionReferenceInfo(VltBaseType source, VltCollection destination)
+    public CollectionReferenceInfo(VltBaseType<TKey> source, VltCollection<TKey> destination)
     {
         Source = source;
         Destination = destination;
     }
 
-    public VltBaseType Source { get; }
-    public VltCollection Destination { get; }
+    public VltBaseType<TKey> Source { get; }
+    public VltCollection<TKey> Destination { get; }
 }

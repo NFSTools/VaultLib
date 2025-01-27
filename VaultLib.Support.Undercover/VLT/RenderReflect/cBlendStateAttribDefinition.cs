@@ -15,7 +15,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cBlendStateAttribDefinition")]
-public class cBlendStateAttribDefinition : VltBaseType, IReferencesStrings
+public class cBlendStateAttribDefinition: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string DebugName { get; set; } = string.Empty;
 
@@ -39,7 +39,7 @@ public class cBlendStateAttribDefinition : VltBaseType, IReferencesStrings
     public bool[] BlendEnable_PS3 { get; set; } = new bool[4];
     public bool BlendFactorF16_PS3 { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         DebugName = context.ReadString(br);
         BlendEnable = br.ReadBoolean();
@@ -66,7 +66,7 @@ public class cBlendStateAttribDefinition : VltBaseType, IReferencesStrings
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         context.WriteString(DebugName, fieldContext, bw);
         bw.Write(BlendEnable);
@@ -96,15 +96,15 @@ public class cBlendStateAttribDefinition : VltBaseType, IReferencesStrings
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

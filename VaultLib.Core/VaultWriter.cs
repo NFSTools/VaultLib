@@ -13,21 +13,21 @@ namespace VaultLib.Core;
 /// <summary>
 /// Generates BIN and VLT data streams for a <see cref="VaultLib.Core.Vault"/> instance.
 /// </summary>
-public class VaultWriter
+public class VaultWriter<TKey>
 {
-    private readonly VaultWriteContext _writeContext;
+    private readonly VaultWriteContext<TKey> _writeContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VaultWriter"/> class.
     /// </summary>
     /// <param name="vault">The <see cref="VaultLib.Core.Vault"/> instance to generate data for.</param>
     /// <param name="options">The options for the saving process.</param>
-    public VaultWriter(Vault vault, VaultWriteOptions options)
+    public VaultWriter(Vault<TKey> vault, VaultWriteOptions options)
     {
         Vault = vault;
         Options = options;
 
-        _writeContext = new VaultWriteContext(vault, options)
+        _writeContext = new VaultWriteContext<TKey>(vault, options)
         {
             Collections = vault.Database.RowManager.GetCollectionsInVault(vault).ToList(),
             Pointers = new HashSet<VltPointer>(VltPointer.FixUpOffsetDestinationTypeComparer),
@@ -35,14 +35,14 @@ public class VaultWriter
             StringOffsets = new Dictionary<string, long>()
         };
 
-        ExportManager = new VaultExportManager(_writeContext);
+        ExportManager = new VaultExportManager<TKey>(_writeContext);
         ExportManager.BuildVaultExports();
     }
 
     /// <summary>
     /// Gets the vault to generate data for.
     /// </summary>
-    public Vault Vault { get; }
+    public Vault<TKey> Vault { get; }
 
     /// <summary>
     /// Gets the options for the saving process. 
@@ -52,7 +52,7 @@ public class VaultWriter
     /// <summary>
     /// Gets the export manager.
     /// </summary>
-    public VaultExportManager ExportManager { get; }
+    public VaultExportManager<TKey> ExportManager { get; }
 
     /// <summary>
     /// Builds BIN and VLT streams for the vault and returns them.
@@ -83,18 +83,18 @@ public class VaultWriter
         MemoryStream ms = new MemoryStream(8192);
         BinaryWriter bw = new BinaryWriter(ms);
 
-        ChunkWriter cw = new ChunkWriter(bw, _writeContext);
+        ChunkWriter<TKey> cw = new ChunkWriter<TKey>(bw, _writeContext);
         var stringsSet = new HashSet<string>();
 
         var strings = _writeContext.Collections.SelectMany(CollectStrings).ToList();
         stringsSet.UnionWith(strings);
-        var stringsChunk = new BinStringsChunk { Strings = new List<string>(stringsSet) };
+        var stringsChunk = new BinStringsChunk<TKey> { Strings = new List<string>(stringsSet) };
 
         cw.WriteChunk(stringsChunk);
 
         if (_writeContext.Options.Quirks.EnableBinEndChunk)
         {
-            cw.WriteChunk(new EndChunk());
+            cw.WriteChunk(new EndChunk<TKey>());
         }
 
         return ms;
@@ -104,13 +104,13 @@ public class VaultWriter
     {
         MemoryStream ms = new MemoryStream(8192);
         BinaryWriter bw = new BinaryWriter(ms);
-        ChunkWriter cw = new ChunkWriter(bw, _writeContext);
+        ChunkWriter<TKey> cw = new ChunkWriter<TKey>(bw, _writeContext);
 
-        var versionChunk = new VltVersionChunk();
+        var versionChunk = new VltVersionChunk<TKey>();
         cw.WriteChunk(versionChunk);
 
-        var startChunk = new VltStartChunk();
-        var dependencyChunk = new VltDependencyChunk(new List<string>
+        var startChunk = new VltStartChunk<TKey>();
+        var dependencyChunk = new VltDependencyChunk<TKey>(new List<string>
         {
             $"{Vault.Name}.vlt",
             $"{Vault.Name}.bin"
@@ -127,22 +127,22 @@ public class VaultWriter
             cw.WriteChunk(startChunk);
         }
 
-        var dataChunk = new VltDataChunk(ExportManager.GetExports());
+        var dataChunk = new VltDataChunk<TKey>(ExportManager.GetExports());
         cw.WriteChunk(dataChunk);
 
-        var exportChunk = new VltExportChunk(dataChunk.ExportEntries);
+        var exportChunk = new VltExportChunk<TKey>(dataChunk.ExportEntries);
         cw.WriteChunk(exportChunk);
         var binWriter = new BinaryWriter(BinStream);
 
-        foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>())
+        foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject<TKey>>())
             pointerObject.WritePointerData(_writeContext, binWriter);
 
         // after writing exports, we can build pointers
         BuildPointers();
 
-        var pointersChunk = new VltPointersChunk();
+        var pointersChunk = new VltPointersChunk<TKey>();
         cw.WriteChunk(pointersChunk);
-        var endChunk = new EndChunk();
+        var endChunk = new EndChunk<TKey>();
         cw.WriteChunk(endChunk);
 
         return ms;
@@ -150,11 +150,11 @@ public class VaultWriter
 
     private void BuildPointers()
     {
-        foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject>())
+        foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject<TKey>>())
             pointerObject.AddPointers(_writeContext);
     }
 
-    private static IEnumerable<string> CollectStrings(VltCollection collection)
+    private static IEnumerable<string> CollectStrings(VltCollection<TKey> collection)
     {
         foreach (var value in collection.GetData().Values)
         {
@@ -163,7 +163,7 @@ public class VaultWriter
                 case string stringValue:
                     yield return stringValue;
                     break;
-                case IReferencesStrings referencesStrings:
+                case IReferencesStrings<TKey> referencesStrings:
                 {
                     foreach (var s in referencesStrings.GetStrings())
                     {

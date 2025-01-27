@@ -10,7 +10,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(FEQuickUpgrade))]
-public class FEQuickUpgrade : VltBaseType, IVltPointerObject, IReferencesStrings
+public class FEQuickUpgrade: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public float Cost { get; set; }
     public float Tier1_Cost { get; set; }
@@ -25,7 +25,7 @@ public class FEQuickUpgrade : VltBaseType, IVltPointerObject, IReferencesStrings
     private long _ptrPackagesSrc;
     private long _ptrPackagesDst;
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         _ptrPackages = br.ReadUInt32();
         Cost = br.ReadSingle();
@@ -38,7 +38,7 @@ public class FEQuickUpgrade : VltBaseType, IVltPointerObject, IReferencesStrings
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         _ptrPackagesSrc = bw.BaseStream.Position;
         bw.Write(0);
@@ -52,7 +52,7 @@ public class FEQuickUpgrade : VltBaseType, IVltPointerObject, IReferencesStrings
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         br.BaseStream.Position = _ptrPackages;
 
@@ -67,7 +67,7 @@ public class FEQuickUpgrade : VltBaseType, IVltPointerObject, IReferencesStrings
         }
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         _ptrPackagesDst = bw.BaseStream.Position;
 
@@ -77,7 +77,7 @@ public class FEQuickUpgrade : VltBaseType, IVltPointerObject, IReferencesStrings
         }
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
         Debug.Assert(_ptrPackagesSrc != 0 && _ptrPackagesDst != 0);
         context.AddPointer(_ptrPackagesSrc, _ptrPackagesDst, false);

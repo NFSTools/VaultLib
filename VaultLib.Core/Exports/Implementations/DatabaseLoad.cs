@@ -11,7 +11,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Exports.Implementations;
 
-public class DatabaseLoad : BaseDatabaseLoad, IPointerObject
+public class DatabaseLoad : BaseDatabaseLoad<uint>, IPointerObject<uint>
 {
     private uint _numTypes;
     private long _typeNames;
@@ -19,7 +19,7 @@ public class DatabaseLoad : BaseDatabaseLoad, IPointerObject
 
     private long _typeNamesSrc;
 
-    public void ReadPointerData(VaultReadContext context, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, BinaryReader br)
     {
         br.BaseStream.Position = _typeNames;
 
@@ -30,7 +30,7 @@ public class DatabaseLoad : BaseDatabaseLoad, IPointerObject
         }
     }
 
-    public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, BinaryWriter bw)
     {
         _typeNamesDst = bw.BaseStream.Position;
 
@@ -39,12 +39,12 @@ public class DatabaseLoad : BaseDatabaseLoad, IPointerObject
         bw.AlignWriter(8);
     }
 
-    public void AddPointers(VaultWriteContext context)
+    public void AddPointers(VaultWriteContext<uint> context)
     {
         context.AddPointer(_typeNamesSrc, _typeNamesDst, true);
     }
 
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, BinaryReader br)
     {
         br.ReadUInt32();
         br.ReadUInt32();
@@ -61,7 +61,7 @@ public class DatabaseLoad : BaseDatabaseLoad, IPointerObject
         }
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, BinaryWriter bw)
     {
         bw.Write(context.Database.Classes.Count);
         // DefaultDataSize is the size, in bytes, of the largest defined type.

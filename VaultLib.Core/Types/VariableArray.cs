@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VariableArray : IPointerObject
+public class VariableArray<TKey> : IPointerObject<TKey>
 {
     private uint _mArray;
     private long _ptrDst;
@@ -34,14 +34,14 @@ public class VariableArray : IPointerObject
         bw.Write(Data.Length);
     }
 
-    public void ReadPointerData(VaultReadContext context, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<TKey> context, BinaryReader br)
     {
         br.BaseStream.Position = _mArray;
 
         for (var i = 0; i < Data.Length; i++) Data[i] = br.ReadSingle();
     }
 
-    public void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<TKey> context, BinaryWriter bw)
     {
         bw.AlignWriter(4);
         _ptrDst = bw.BaseStream.Position;
@@ -49,7 +49,7 @@ public class VariableArray : IPointerObject
         foreach (var f in Data) bw.Write(f);
     }
 
-    public void AddPointers(VaultWriteContext context)
+    public void AddPointers(VaultWriteContext<TKey> context)
     {
         Debug.Assert(_ptrSrc != 0 && _ptrDst != 0);
         context.AddPointer(_ptrSrc, _ptrDst, false);

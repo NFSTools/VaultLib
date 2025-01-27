@@ -12,20 +12,20 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.World.VLT;
 
 [VltTypeInfo(nameof(IntegratedKitWheelOffset))]
-public class IntegratedKitWheelOffset : VltBaseType, IReferencesStrings
+public class IntegratedKitWheelOffset: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string KitName { get; set; } = string.Empty;
 
     public uint Offset { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         br.ReadUInt32(); // stringhash32(KitName)
         KitName = context.ReadString(br);
         Offset = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(Vlt32Hasher.Hash(KitName));
         context.WriteString(KitName, fieldContext, bw);
@@ -37,17 +37,17 @@ public class IntegratedKitWheelOffset : VltBaseType, IReferencesStrings
         return new[] { KitName };
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         //
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         //
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
         //
     }

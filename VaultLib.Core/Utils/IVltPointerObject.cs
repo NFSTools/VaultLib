@@ -6,7 +6,7 @@ using System.IO;
 
 namespace VaultLib.Core.Utils;
 
-public interface IVltPointerObject
+public interface IVltPointerObject<TKey>
 {
     /// <summary>
     ///     Read data stored through pointers to the BIN stream
@@ -14,7 +14,7 @@ public interface IVltPointerObject
     /// <param name="context"></param>
     /// <param name="fieldContext"></param>
     /// <param name="br"></param>
-    void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br);
+    void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br);
 
     /// <summary>
     ///     Read data stored through pointers to the BIN stream
@@ -22,12 +22,12 @@ public interface IVltPointerObject
     /// <param name="context"></param>
     /// <param name="fieldContext"></param>
     /// <param name="bw"></param>
-    void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw);
+    void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw);
 
     /// <summary>
     ///     Add pointer information to the vault
     /// </summary>
     /// <param name="context"></param>
     /// <param name="fieldContext"></param>
-    void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext);
+    void AddPointers(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext);
 }

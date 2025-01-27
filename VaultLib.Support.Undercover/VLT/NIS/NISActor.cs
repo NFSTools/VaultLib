@@ -14,7 +14,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.NIS;
 
 [VltTypeInfo("NIS::NISActor")]
-public class NISActor : VltBaseType, IReferencesStrings
+public class NISActor: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string ActorName { get; set; } = string.Empty;
     public string CarChannelName { get; set; } = string.Empty;
@@ -22,7 +22,7 @@ public class NISActor : VltBaseType, IReferencesStrings
     public float ExitAnimSec { get; set; }
     public bool IsFacePixelation { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         ActorName = context.ReadString(br);
         CarChannelName = context.ReadString(br);
@@ -33,7 +33,7 @@ public class NISActor : VltBaseType, IReferencesStrings
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         context.WriteString(ActorName, fieldContext, bw);
         context.WriteString(CarChannelName, fieldContext, bw);
@@ -44,15 +44,15 @@ public class NISActor : VltBaseType, IReferencesStrings
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

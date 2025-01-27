@@ -13,15 +13,15 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(TargetTimeOverrides))]
-public class TargetTimeOverrides : VltBaseType, IReferencesStrings
+public class TargetTimeOverrides: VltBaseType<uint>, IReferencesStrings<uint>
 {
-    public RefSpec Car { get; set; } = new();
+    public RefSpec<uint> Car { get; set; } = new();
     public string Event { get; set; } = string.Empty;
     public float MinDelta { get; set; }
     public float MaxDelta { get; set; }
     public float Shift { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Car.Read(context, fieldContext, br);
         Event = context.ReadString(br);
@@ -30,7 +30,7 @@ public class TargetTimeOverrides : VltBaseType, IReferencesStrings
         Shift = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         Car.Write(context, fieldContext, bw);
         context.WriteString(Event, fieldContext, bw);
@@ -39,15 +39,15 @@ public class TargetTimeOverrides : VltBaseType, IReferencesStrings
         bw.Write(Shift);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

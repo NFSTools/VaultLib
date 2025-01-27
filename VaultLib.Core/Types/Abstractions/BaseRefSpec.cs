@@ -8,14 +8,14 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Abstractions;
 
-public abstract class BaseRefSpec : VltBaseType, IReferencesCollections
+public abstract class BaseRefSpec<TKey> : VltBaseType<TKey>, IReferencesCollections<TKey>
 {
     public abstract string ClassKey { get; set; }
     public abstract string CollectionKey { get; set; }
 
-    public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
+    public IEnumerable<CollectionReferenceInfo<TKey>> GetReferencedCollections(Database<TKey> database, Vault<TKey> vault)
     {
-        yield return new CollectionReferenceInfo(this,
+        yield return new CollectionReferenceInfo<TKey>(this,
             database.RowManager.FindCollectionByName(ClassKey, CollectionKey));
     }
 

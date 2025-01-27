@@ -15,16 +15,16 @@ namespace VaultLib.Core;
 ///     Manager class for collections ("rows")
 ///     Provides methods to access and manage row data
 /// </summary>
-public class RowManager
+public class RowManager<TKey>
 {
-    private readonly Database _database;
+    private readonly Database<TKey> _database;
 
-    internal List<VltCollection> Rows { get; }
+    internal List<VltCollection<TKey>> Rows { get; }
 
-    public RowManager(Database database)
+    public RowManager(Database<TKey> database)
     {
         _database = database;
-        Rows = new List<VltCollection>();
+        Rows = new List<VltCollection<TKey>>();
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class RowManager
     /// </summary>
     /// <param name="vault">The vault to obtain collections for.</param>
     /// <returns>A collection enumerator</returns>
-    public IEnumerable<VltCollection> GetCollectionsInVault(Vault vault)
+    public IEnumerable<VltCollection<TKey>> GetCollectionsInVault(Vault<TKey> vault)
     {
         return Rows.Where(c => c.Vault == vault);
     }
@@ -41,7 +41,7 @@ public class RowManager
     ///     Gets a read-only list of all collections in the database.
     /// </summary>
     /// <returns>The list of collections</returns>
-    public IReadOnlyList<VltCollection> GetCollections()
+    public IReadOnlyList<VltCollection<TKey>> GetCollections()
     {
         return Rows;
     }
@@ -51,7 +51,7 @@ public class RowManager
     /// </summary>
     /// <param name="className"></param>
     /// <returns>The list of collections</returns>
-    public List<VltCollection> GetCollections(string className)
+    public List<VltCollection<TKey>> GetCollections(string className)
     {
         return Rows.FindAll(c => c.Class.Name == className);
     }
@@ -61,7 +61,7 @@ public class RowManager
     ///     This is ideal for high-performance requirements.
     /// </summary>
     /// <returns>The collection enumerator.</returns>
-    public IEnumerable<VltCollection> EnumerateCollections()
+    public IEnumerable<VltCollection<TKey>> EnumerateCollections()
     {
         return Rows;
     }
@@ -72,7 +72,7 @@ public class RowManager
     /// </summary>
     /// <param name="className">The name of the class to search in.</param>
     /// <returns>The collection enumerator.</returns>
-    public IEnumerable<VltCollection> EnumerateCollections(string className)
+    public IEnumerable<VltCollection<TKey>> EnumerateCollections(string className)
     {
         return Rows.Where(c => c.Class.Name == className);
     }
@@ -83,7 +83,7 @@ public class RowManager
     /// <param name="className">The class name to search in</param>
     /// <param name="collectionName">The collection name to search for</param>
     /// <returns>The collection, if one is found, or null</returns>
-    public VltCollection FindCollectionByName(string className, string collectionName)
+    public VltCollection<TKey> FindCollectionByName(string className, string collectionName)
     {
         return EnumerateCollections(className).FirstOrDefault(collection => collection.Name == collectionName);
     }
@@ -97,14 +97,14 @@ public class RowManager
     /// <param name="newName">The name of the collection.</param>
     /// <param name="parentCollection">The parent collection, if one is necessary.</param>
     /// <returns>The new collection</returns>
-    public VltCollection AddCollection(Vault vault, string className, string newName,
-        VltCollection parentCollection = null)
+    public VltCollection<TKey> AddCollection(Vault<TKey> vault, string className, string newName, TKey key,
+        VltCollection<TKey> parentCollection = null)
     {
         if (FindCollectionByName(className, newName) != null)
             throw new DuplicateNameException(
                 $"A collection in the class '{className}' with the name '{newName}' already exists.");
 
-        var collection = new VltCollection(vault, _database.FindClass(className), newName);
+        var collection = new VltCollection<TKey>(vault, _database.FindClass(className), newName, key);
 
         parentCollection?.AddChild(collection);
         Rows.Add(collection);
@@ -117,7 +117,7 @@ public class RowManager
     /// </summary>
     /// <param name="collection">The collection to add</param>
     /// <param name="check"></param>
-    public void AddCollection(VltCollection collection, bool check = false)
+    public void AddCollection(VltCollection<TKey> collection, bool check = false)
     {
         if (check && Rows.Any(r => r.ShortPath == collection.ShortPath))
             throw new Exception(
@@ -130,7 +130,7 @@ public class RowManager
     /// Removes a collection from the list of collections.
     /// </summary>
     /// <param name="collection">The collection to remove</param>
-    public void RemoveCollection(VltCollection collection)
+    public void RemoveCollection(VltCollection<TKey> collection)
     {
         Rows.Remove(collection);
     }

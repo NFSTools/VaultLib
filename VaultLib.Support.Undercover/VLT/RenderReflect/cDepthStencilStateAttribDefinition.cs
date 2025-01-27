@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cDepthStencilStateAttribDefinition")]
-public class cDepthStencilStateAttribDefinition : VltBaseType, IReferencesStrings
+public class cDepthStencilStateAttribDefinition: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string DebugName { get; set; } = string.Empty;
 
@@ -41,7 +41,7 @@ public class cDepthStencilStateAttribDefinition : VltBaseType, IReferencesString
     public bool HiStencilEnable { get; set; }
     public bool HiStencilWriteEnable { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         DebugName = context.ReadString(br);
         TwoSidedStencilMode = br.ReadBoolean();
@@ -70,7 +70,7 @@ public class cDepthStencilStateAttribDefinition : VltBaseType, IReferencesString
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         context.WriteString(DebugName, fieldContext, bw);
         bw.Write(TwoSidedStencilMode);
@@ -99,15 +99,15 @@ public class cDepthStencilStateAttribDefinition : VltBaseType, IReferencesString
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

@@ -1,27 +1,21 @@
-﻿// This file is part of VaultLib.Support.Undercover by heyitsleo.
-// 
-// Created: 10/31/2019 @ 10:01 PM.
-
-using System.Reflection;
+﻿using System.Reflection;
 using VaultLib.Core;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
-using VaultLib.Core.Types.Attrib.Query;
 using VaultLib.Frameworks.Speed;
 using VaultLib.ModernBase;
 using VaultLib.ModernBase.Exports;
 using VaultLib.ModernBase.Structures;
 
-namespace VaultLib.Support.Undercover;
+namespace VaultLib.Support.Carbon;
 
-public class ModuleDef : BaseGameModule<uint>
+public class ModuleDef32 : BaseGameModule<uint>
 {
     public override void RegisterTypes(TypeRegistry<uint> typeRegistry)
     {
         typeRegistry.Register<StringKey32>("Attrib::StringKey");
-        typeRegistry.Register<Static_Inorder_N_to_1>("Attrib::Query::Static_Inorder_N_to_1<Attrib::Query::Typespace<Attrib::Key,Attrib::Key,EA::Reflection::UInt32> >");
         SpeedFramework.Register(typeRegistry);
-        typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
+        typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef32)));
     }
 
     public override ExportFactory<uint> CreateExportFactory()

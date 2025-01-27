@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Core.Data;
@@ -13,27 +12,29 @@ namespace VaultLib.Core.Data;
 ///     A collection in VLT is like a row in a SQL database.
 ///     A collection specifies values for the fields of its class.
 /// </summary>
-public class VltCollection
+public class VltCollection<TKey>
 {
     /// <summary>
     /// Gets the <see cref="VltClass"/> that this collection is part of.
     /// </summary>
-    public VltClass Class { get; }
+    public VltClass<TKey> Class { get; }
 
     /// <summary>
     /// Gets or sets the <see cref="Core.Vault"/> that this collection is part of.
     /// </summary>
-    public Vault Vault { get; private set; }
+    public Vault<TKey> Vault { get; private set; }
 
     /// <summary>
     /// Gets the name of this collection.
     /// </summary>
     public string Name { get; private set; }
 
+    public TKey Key { get; private set; }
+
     /// <summary>
-    /// Gets the parent collection of this collection.
+    /// Gets the collection's parent.
     /// </summary>
-    public VltCollection Parent { get; private set; }
+    public VltCollection<TKey> Parent { get; private set; }
 
     /// <summary>
     /// Gets the short path of the collection.
@@ -53,11 +54,12 @@ public class VltCollection
     /// <param name="vault">The vault that contains the collection.</param>
     /// <param name="vltClass">The <see cref="VltClass"/> that the collection is part of.</param>
     /// <param name="name">The name of the collection.</param>
-    public VltCollection(Vault vault, VltClass vltClass, string name)
+    public VltCollection(Vault<TKey> vault, VltClass<TKey> vltClass, string name, TKey key)
     {
         Vault = vault;
         Class = vltClass;
         Name = name;
+        Key = key;
         Data = new VltDataTable();
     }
 
@@ -77,7 +79,7 @@ public class VltCollection
     /// Makes the current collection the parent of another collection.
     /// </summary>
     /// <param name="collection">The collection that is being made a child.</param>
-    public void AddChild(VltCollection collection)
+    public void AddChild(VltCollection<TKey> collection)
     {
         collection.Parent = this;
     }
@@ -86,7 +88,7 @@ public class VltCollection
     /// Breaks the parent-child relationship between the current collection and another collection.
     /// </summary>
     /// <param name="collection">The collection to break the relationship with.</param>
-    public void RemoveChild(VltCollection collection)
+    public void RemoveChild(VltCollection<TKey> collection)
     {
         if (!ReferenceEquals(collection.Parent, this))
         {
@@ -100,7 +102,7 @@ public class VltCollection
     /// Changes the vault that the collection is associated with.
     /// </summary>
     /// <param name="vault">The new parent vault.</param>
-    public void SetVault(Vault vault)
+    public void SetVault(Vault<TKey> vault)
     {
         Vault = vault;
     }
@@ -158,7 +160,7 @@ public class VltCollection
     /// <param name="key">The mapping key.</param>
     /// <param name="index">The array index to retrieve the value from.</param>
     /// <returns>The mapping value.</returns>
-    public T GetRawValue<T>(string key, int index) where T : VltBaseType
+    public T GetRawValue<T>(string key, int index)
     {
         var data = GetRawValue(key, index);
 
@@ -170,7 +172,7 @@ public class VltCollection
 
     public object GetRawValue(string key, int index)
     {
-        VltArrayType array = GetRawValue<VltArrayType>(key);
+        var array = GetRawValue<VltArrayType<TKey>>(key);
 
         if (index < 0 || index >= array.Items.Count)
         {
@@ -234,9 +236,9 @@ public class VltCollection
     /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
     /// <param name="index"></param>
     /// <param name="data">The mapping value.</param>
-    public void SetRawValue<T>(string key, int index, T data) where T : VltBaseType
+    public void SetRawValue<T>(string key, int index, T data)
     {
-        VltArrayType array = GetRawValue<VltArrayType>(key);
+        var array = GetRawValue<VltArrayType<TKey>>(key);
 
         if (index < 0 || index >= array.Items.Count)
         {

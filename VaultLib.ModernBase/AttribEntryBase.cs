@@ -6,24 +6,24 @@ using VaultLib.ModernBase.Exports;
 
 namespace VaultLib.ModernBase;
 
-public abstract class AttribEntryBase : IVaultFileAccess, IPointerObject
+public abstract class AttribEntryBase<TKey> : IVaultFileAccess<TKey>, IPointerObject<TKey>
 {
-    public ulong Key { get; set; }
+    public TKey Key { get; set; }
     public ushort TypeIndex { get; set; }
     public NodeFlagsEnum NodeFlags { get; set; }
     public byte EntryFlags { get; set; }
     public long InlineDataPointer { get; set; }
     public object InlineData { get; set; }
-    public VltCollection Collection { get; }
+    public VltCollection<TKey> Collection { get; }
 
-    protected AttribEntryBase(VltCollection collection)
+    protected AttribEntryBase(VltCollection<TKey> collection)
     {
         Collection = collection;
     }
 
-    public abstract void AddPointers(VaultWriteContext context);
-    public abstract void Read(VaultReadContext context, BinaryReader br);
-    public abstract void ReadPointerData(VaultReadContext context, BinaryReader br);
-    public abstract void Write(VaultWriteContext context, BinaryWriter bw);
-    public abstract void WritePointerData(VaultWriteContext context, BinaryWriter bw);
+    public abstract void AddPointers(VaultWriteContext<TKey> context);
+    public abstract void Read(VaultReadContext<TKey> context, BinaryReader br);
+    public abstract void ReadPointerData(VaultReadContext<TKey> context, BinaryReader br);
+    public abstract void Write(VaultWriteContext<TKey> context, BinaryWriter bw);
+    public abstract void WritePointerData(VaultWriteContext<TKey> context, BinaryWriter bw);
 }

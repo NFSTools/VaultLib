@@ -5,7 +5,7 @@ using VaultLib.Core.Structures;
 
 namespace VaultLib.Core.Exports;
 
-public class ExportFactory
+public class ExportFactory<TKey>
 {
     // private static readonly Dictionary<string, Func<IExportEntry>> ExportEntryCreatorDictionary =
     //     new Dictionary<string, Func<IExportEntry>>();
@@ -47,24 +47,24 @@ public class ExportFactory
     //     DatabaseLoadBuilderDictionary.Add(game, () => new T());
     // }
 
-    private readonly Func<BaseDatabaseLoad> _databaseLoadFactory;
-    private readonly Func<BaseClassLoad> _classLoadFactory;
-    private readonly Func<BaseCollectionLoad> _collectionLoadFactory;
-    private readonly Func<IExportEntry> _exportEntryFactory;
-    private readonly Func<IPtrRef> _ptrRefFactory;
+    private readonly Func<BaseDatabaseLoad<TKey>> _databaseLoadFactory;
+    private readonly Func<BaseClassLoad<TKey>> _classLoadFactory;
+    private readonly Func<BaseCollectionLoad<TKey>> _collectionLoadFactory;
+    private readonly Func<IExportEntry<TKey>> _exportEntryFactory;
+    private readonly Func<IPtrRef<TKey>> _ptrRefFactory;
 
-    public ExportFactory(Func<BaseDatabaseLoad> databaseLoadFactory,
-        Func<BaseClassLoad> classLoadFactory, Func<BaseCollectionLoad> collectionLoadFactory,
-        Func<IExportEntry> exportEntryFactory, Func<IPtrRef> ptrRefFactory = null)
+    public ExportFactory(Func<BaseDatabaseLoad<TKey>> databaseLoadFactory,
+        Func<BaseClassLoad<TKey>> classLoadFactory, Func<BaseCollectionLoad<TKey>> collectionLoadFactory,
+        Func<IExportEntry<TKey>> exportEntryFactory, Func<IPtrRef<TKey>> ptrRefFactory = null)
     {
         _databaseLoadFactory = databaseLoadFactory;
         _classLoadFactory = classLoadFactory;
         _collectionLoadFactory = collectionLoadFactory;
         _exportEntryFactory = exportEntryFactory;
-        _ptrRefFactory = ptrRefFactory ?? (() => new AttribPtrRef());
+        _ptrRefFactory = ptrRefFactory ?? (() => new AttribPtrRef<TKey>());
     }
 
-    public BaseCollectionLoad BuildCollectionLoad(VltCollection collection)
+    public BaseCollectionLoad<TKey> BuildCollectionLoad(VltCollection<TKey> collection)
     {
         var collectionLoad = _collectionLoadFactory();
         collectionLoad.Collection = collection;
@@ -72,7 +72,7 @@ public class ExportFactory
         return collectionLoad;
     }
 
-    public BaseClassLoad BuildClassLoad(VltClass vltClass)
+    public BaseClassLoad<TKey> BuildClassLoad(VltClass<TKey> vltClass)
     {
         var classLoad = _classLoadFactory();
 
@@ -80,17 +80,17 @@ public class ExportFactory
         return classLoad;
     }
 
-    public BaseDatabaseLoad BuildDatabaseLoad()
+    public BaseDatabaseLoad<TKey> BuildDatabaseLoad()
     {
         return _databaseLoadFactory();
     }
 
-    public IPtrRef CreatePtrRef()
+    public IPtrRef<TKey> CreatePtrRef()
     {
         return _ptrRefFactory();
     }
 
-    public IExportEntry BuildExportEntry()
+    public IExportEntry<TKey> BuildExportEntry()
     {
         return _exportEntryFactory();
     }

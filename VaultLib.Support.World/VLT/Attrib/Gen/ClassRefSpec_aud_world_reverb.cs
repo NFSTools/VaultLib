@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 namespace VaultLib.Support.World.VLT.Attrib.Gen;
 
 [VltTypeInfo("Attrib::Gen::ClassRefSpec_aud_world_reverb")]
-public class ClassRefSpec_aud_world_reverb : ClassRefSpec_template
+public class ClassRefSpec_aud_world_reverb : ClassRefSpec_template<uint>
 {
     public ClassRefSpec_aud_world_reverb() : base("aud_world_reverb")
     {

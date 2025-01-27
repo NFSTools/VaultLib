@@ -11,7 +11,7 @@ public enum EPtrRefType : ushort
     PtrExport = 0x4
 }
 
-public interface IPtrRef : IVaultFileAccess
+public interface IPtrRef<TKey> : IVaultFileAccess<TKey>
 {
     uint FixupOffset { get; set; }
     EPtrRefType PtrType { get; set; }

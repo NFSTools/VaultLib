@@ -8,7 +8,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cSamplerStateAttribDefinition")]
-public class cSamplerStateAttribDefinition : VltBaseType, IReferencesStrings
+public class cSamplerStateAttribDefinition: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string Name { get; set; } = string.Empty;
     public uint Unknown1 { get; set; }
@@ -27,7 +27,7 @@ public class cSamplerStateAttribDefinition : VltBaseType, IReferencesStrings
     public uint Unknown14 { get; set; }
     public uint Unknown15 { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Name = context.ReadString(br);
         Unknown1 = br.ReadUInt32();
@@ -47,7 +47,7 @@ public class cSamplerStateAttribDefinition : VltBaseType, IReferencesStrings
         Unknown15 = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         context.WriteString(Name, fieldContext, bw);
         bw.Write(Unknown1);
@@ -67,15 +67,15 @@ public class cSamplerStateAttribDefinition : VltBaseType, IReferencesStrings
         bw.Write(Unknown15);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

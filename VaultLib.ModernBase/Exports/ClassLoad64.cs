@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports;
 
-public class ClassLoad64 : BaseClassLoad
+public class ClassLoad64 : BaseClassLoad<ulong>
 {
     private ulong ClassHash { get; set; }
     private int NumDefinitions { get; set; }
@@ -27,7 +27,7 @@ public class ClassLoad64 : BaseClassLoad
         return Vlt64Hasher.Hash(Class.Name);
     }
 
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<ulong> context, BinaryReader br)
     {
         ClassHash = br.ReadUInt64();
         br.ReadInt32();
@@ -45,10 +45,10 @@ public class ClassLoad64 : BaseClassLoad
             throw new InvalidDataException("Definitions pointer is NULL, this is not good!");
         }
 
-        Class = new VltClass(HashManager.ResolveVlt(ClassHash));
+        Class = new VltClass<ulong>(HashManager.ResolveVlt(ClassHash));
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
     {
         int collectionReserve = (from collection in context.Collections
             where collection.Class.Name == Class.Name
@@ -75,7 +75,7 @@ public class ClassLoad64 : BaseClassLoad
         bw.Write(0); // align
     }
 
-    public override void ReadPointerData(VaultReadContext context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<ulong> context, BinaryReader br)
     {
         br.BaseStream.Position = _definitionsPtr;
 
@@ -84,7 +84,7 @@ public class ClassLoad64 : BaseClassLoad
             AttribDefinition64 definition = new AttribDefinition64();
             definition.Read(context, br);
 
-            VltClassField field = new VltClassField(
+            var field = new VltClassField<ulong>(
                 definition.Key,
                 HashManager.ResolveVlt(definition.Key),
                 HashManager.ResolveVlt(definition.Type),
@@ -115,7 +115,7 @@ public class ClassLoad64 : BaseClassLoad
             foreach (var staticField in Class.StaticFields)
             {
                 br.SafeAlignReader(staticField.Alignment);
-                var fieldContext = new FieldReadWriteContext(Class, staticField, null);
+                var fieldContext = new FieldReadWriteContext<ulong>(Class, staticField, null);
                 var staticData =
                     context.Database.TypeRegistry.ReadFieldValue(context, fieldContext,
                         br);
@@ -125,8 +125,8 @@ public class ClassLoad64 : BaseClassLoad
 
         foreach (var staticField in Class.StaticFields)
         {
-            var fieldContext = new FieldReadWriteContext(Class, staticField, null);
-            if (staticField.StaticValue is IVltPointerObject vltPointerObject)
+            var fieldContext = new FieldReadWriteContext<ulong>(Class, staticField, null);
+            if (staticField.StaticValue is IVltPointerObject<ulong> vltPointerObject)
             {
                 vltPointerObject.ReadPointerData(context, fieldContext, br);
             }
@@ -135,7 +135,7 @@ public class ClassLoad64 : BaseClassLoad
         context.Database.AddClass(Class);
     }
 
-    public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<ulong> context, BinaryWriter bw)
     {
         _dstDefinitionsPtr = bw.BaseStream.Position;
 
@@ -161,15 +161,15 @@ public class ClassLoad64 : BaseClassLoad
             foreach (var staticField in Class.StaticFields)
             {
                 bw.AlignWriter(staticField.Alignment);
-                var fieldContext = new FieldReadWriteContext(Class, staticField, null);
+                var fieldContext = new FieldReadWriteContext<ulong>(Class, staticField, null);
                 context.Database.TypeRegistry.WriteFieldValue(staticField.StaticValue, context,
                     fieldContext, bw);
             }
 
             foreach (var staticField in Class.StaticFields)
             {
-                var fieldContext = new FieldReadWriteContext(Class, staticField, null);
-                if (staticField.StaticValue is IVltPointerObject vltPointerObject)
+                var fieldContext = new FieldReadWriteContext<ulong>(Class, staticField, null);
+                if (staticField.StaticValue is IVltPointerObject<ulong> vltPointerObject)
                 {
                     vltPointerObject.WritePointerData(context, fieldContext, bw);
                 }
@@ -177,7 +177,7 @@ public class ClassLoad64 : BaseClassLoad
         }
     }
 
-    public override void AddPointers(VaultWriteContext context)
+    public override void AddPointers(VaultWriteContext<ulong> context)
     {
         context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
 
@@ -187,8 +187,8 @@ public class ClassLoad64 : BaseClassLoad
 
             foreach (var staticField in Class.StaticFields)
             {
-                var fieldContext = new FieldReadWriteContext(Class, staticField, null);
-                if (staticField.StaticValue is IVltPointerObject vltPointerObject)
+                var fieldContext = new FieldReadWriteContext<ulong>(Class, staticField, null);
+                if (staticField.StaticValue is IVltPointerObject<ulong> vltPointerObject)
                 {
                     vltPointerObject.AddPointers(context, fieldContext);
                 }

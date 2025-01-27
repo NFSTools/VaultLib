@@ -12,7 +12,7 @@ using VaultLib.LegacyBase;
 namespace VaultLib.Support.MostWanted.VLT;
 
 [VltTypeInfo(nameof(CopCountRecord))]
-public class CopCountRecord : VltBaseType, IReferencesStrings
+public class CopCountRecord: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string CopType { get; set; } = string.Empty;
     public uint Count { get; set; }
@@ -20,14 +20,14 @@ public class CopCountRecord : VltBaseType, IReferencesStrings
 
     private StringKey64 _copType = new();
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         _copType.Read(context, fieldContext, br);
         Count = br.ReadUInt32();
         Chance = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         _copType.Value = CopType;
         _copType.Write(context, fieldContext, bw);
@@ -35,18 +35,18 @@ public class CopCountRecord : VltBaseType, IReferencesStrings
         bw.Write(Chance);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         _copType.ReadPointerData(context, fieldContext, br);
         CopType = _copType.Value;
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         _copType.WritePointerData(context, fieldContext, bw);
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
         _copType.AddPointers(context, fieldContext);
     }

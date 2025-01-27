@@ -10,9 +10,9 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.LegacyBase;
 
-public class AttribDefinition64 : IAttribDefinition
+public class AttribDefinition64 : IAttribDefinition<ulong>
 {
-    public void Read(VaultReadContext context, BinaryReader br)
+    public void Read(VaultReadContext<ulong> context, BinaryReader br)
     {
         Key = br.ReadUInt64();
         Type = br.ReadUInt64();
@@ -28,7 +28,7 @@ public class AttribDefinition64 : IAttribDefinition
         }
     }
 
-    public void Write(VaultWriteContext context, BinaryWriter bw)
+    public void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
     {
         bw.Write(Key);
         bw.Write(Type);

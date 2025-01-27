@@ -9,7 +9,7 @@ using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Core.Types.Attrib;
 
-public class RefSpecPacked : BaseRefSpec
+public class RefSpecPacked<TKey> : BaseRefSpec<TKey>
 {
     public override string ClassKey { get; set; }
 
@@ -29,7 +29,7 @@ public class RefSpecPacked : BaseRefSpec
         set => _collectionKey = value;
     }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
         if (context.Database.Options.Type == DatabaseType.X64Database)
         {
@@ -44,7 +44,8 @@ public class RefSpecPacked : BaseRefSpec
         }
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         if (context.Database.Options.Type == DatabaseType.X64Database)
         {

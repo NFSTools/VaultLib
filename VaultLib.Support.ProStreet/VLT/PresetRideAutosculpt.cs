@@ -7,7 +7,7 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo(nameof(PresetRideAutosculpt))]
-public class PresetRideAutosculpt : VltBaseType
+public class PresetRideAutosculpt: VltBaseType<uint>
 {
     public PresetRideAutosculptRegion RegionID { get; set; }
     public float SculptZone0 { get; set; }
@@ -21,7 +21,7 @@ public class PresetRideAutosculpt : VltBaseType
     public float SculptZone8 { get; set; }
     public float SculptZone9 { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         RegionID = br.ReadEnum<PresetRideAutosculptRegion>();
         SculptZone0 = br.ReadSingle();
@@ -36,7 +36,7 @@ public class PresetRideAutosculpt : VltBaseType
         SculptZone9 = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(RegionID);
         bw.Write(SculptZone0);

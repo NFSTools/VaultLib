@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(CarPaintSwatch))]
-public class CarPaintSwatch : VltBaseType
+public class CarPaintSwatch: VltBaseType<uint>
 {
     public uint RGB { get; set; }
     public ePaintMaterialIndex MaterialA { get; set; }
@@ -14,7 +14,7 @@ public class CarPaintSwatch : VltBaseType
     public float Blend { get; set; }
     public ePaintSpeechColour SpeechColour { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         RGB = br.ReadUInt32();
         MaterialA = br.ReadEnum<ePaintMaterialIndex>();
@@ -23,7 +23,7 @@ public class CarPaintSwatch : VltBaseType
         SpeechColour = br.ReadEnum<ePaintSpeechColour>();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(RGB);
         bw.WriteEnum(MaterialA);

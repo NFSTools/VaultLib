@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cRenderTargetAttribDefinition")]
-public class cRenderTargetAttribDefinition : VltBaseType
+public class cRenderTargetAttribDefinition: VltBaseType<uint>
 {
     public uint NumColorSurfaces { get; set; }
     public ScreenSizeMode WidthMode { get; set; }
@@ -21,7 +21,7 @@ public class cRenderTargetAttribDefinition : VltBaseType
     public PixelFormatType TargetDepthStencilFormat { get; set; }
     public MultiSampleMode MultiSampleMode { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         NumColorSurfaces = br.ReadUInt32();
         WidthMode = br.ReadEnum<ScreenSizeMode>();
@@ -37,7 +37,7 @@ public class cRenderTargetAttribDefinition : VltBaseType
         MultiSampleMode = br.ReadEnum<MultiSampleMode>();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(NumColorSurfaces);
         bw.WriteEnum(WidthMode);

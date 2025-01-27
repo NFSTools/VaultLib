@@ -4,7 +4,7 @@ namespace VaultLib.Core.Types.Attrib;
 
 // For information about the blob system, go to: https://github.com/NFSTools/VaultLib/issues/1
 [VltTypeInfo("Attrib::Blob")]
-public class Blob : BaseBlob
+public class Blob<TKey> : BaseBlob<TKey>
 {
     protected override void PrepareData()
     {

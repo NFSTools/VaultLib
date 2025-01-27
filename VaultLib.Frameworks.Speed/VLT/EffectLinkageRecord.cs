@@ -15,14 +15,14 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(EffectLinkageRecord))]
-public class EffectLinkageRecord : VltBaseType, IReferencesCollections
+public class EffectLinkageRecord: VltBaseType<uint>, IReferencesCollections<uint>
 {
-    public RefSpec Surface { get; set; } = new();
-    public RefSpec Effect { get; set; } = new();
+    public RefSpec<uint> Surface { get; set; } = new();
+    public RefSpec<uint> Effect { get; set; } = new();
     public float MinSpeed { get; set; }
     public float MaxSpeed { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Surface.Read(context, fieldContext, br);
         Effect.Read(context, fieldContext, br);
@@ -31,7 +31,7 @@ public class EffectLinkageRecord : VltBaseType, IReferencesCollections
         MaxSpeed = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         Surface.Write(context, fieldContext, bw);
         Effect.Write(context, fieldContext, bw);
@@ -39,7 +39,7 @@ public class EffectLinkageRecord : VltBaseType, IReferencesCollections
         bw.Write(MaxSpeed);
     }
 
-    public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
+    public IEnumerable<CollectionReferenceInfo<uint>> GetReferencedCollections(Database<uint> database, Vault<uint> vault)
     {
         return Surface.GetReferencedCollections(database, vault)
             .Concat(Effect.GetReferencedCollections(database, vault));

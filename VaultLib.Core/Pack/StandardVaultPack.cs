@@ -18,7 +18,7 @@ namespace VaultLib.Core.Pack;
 /// </summary>
 public class StandardVaultPack : IVaultPack
 {
-    public IList<Vault> Load(BinaryReader br, Database database, PackLoadingOptions loadingOptions)
+    public IList<Vault<TKey>> Load<TKey>(BinaryReader br, Database<TKey> database, PackLoadingOptions loadingOptions)
     {
         ByteOrder byteOrder = loadingOptions?.ByteOrder ?? ByteOrder.Little;
 
@@ -28,7 +28,7 @@ public class StandardVaultPack : IVaultPack
 
         br.BaseStream.Position = vaultPackImage.Header.StringBlockOffset;
 
-        List<Vault> vaults = new List<Vault>();
+        List<Vault<TKey>> vaults = new();
 
         foreach (AttribVaultPackEntry attribVaultPackEntry in vaultPackImage.Entries)
         {
@@ -64,7 +64,7 @@ public class StandardVaultPack : IVaultPack
         return vaults;
     }
 
-    public void Save(BinaryWriter bw, IList<Vault> vaults, PackSavingOptions savingOptions = null)
+    public void Save<TKey>(BinaryWriter bw, IList<Vault<TKey>> vaults, PackSavingOptions savingOptions = null)
     {
         var filteredAndSortedVaults =
             vaults.Where(v => v.Database.RowManager.GetCollectionsInVault(v).Any()).ToList();
@@ -74,8 +74,8 @@ public class StandardVaultPack : IVaultPack
         var vaultWriteOptions = savingOptions?.VaultWriteOptions ?? new VaultWriteOptions();
         foreach (var vault in filteredAndSortedVaults)
         {
-            VaultWriter vaultWriter =
-                new VaultWriter(vault, vaultWriteOptions);
+            VaultWriter<TKey> vaultWriter =
+                new VaultWriter<TKey>(vault, vaultWriteOptions);
             streamDictionary[vault.Name] = vaultWriter.BuildVault();
         }
 

@@ -11,7 +11,7 @@ public static class SpeedFramework
     /// Registers the framework types.
     /// </summary>
     /// <param name="registry">The type registry to register the types with</param>
-    public static void Register(TypeRegistry registry)
+    public static void Register<TKey>(TypeRegistry<TKey> registry)
     {
         registry.RegisterAssemblyTypes(typeof(SpeedFramework).Assembly);
     }

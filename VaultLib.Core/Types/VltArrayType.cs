@@ -14,9 +14,9 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltArrayType : VltBaseType, IReferencesStrings, IReferencesCollections
+public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, IReferencesCollections<TKey>
 {
-    public VltArrayType(VltClassField field, Type itemType)
+    public VltArrayType(VltClassField<TKey> field, Type itemType)
     {
         ItemAlignment = field.Alignment;
         ItemType = itemType;
@@ -31,15 +31,15 @@ public class VltArrayType : VltBaseType, IReferencesStrings, IReferencesCollecti
 
     public IList<object> Items { get; set; }
 
-    public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
+    public IEnumerable<CollectionReferenceInfo<TKey>> GetReferencedCollections(Database<TKey> database, Vault<TKey> vault)
     {
-        return Items.OfType<IReferencesCollections>()
+        return Items.OfType<IReferencesCollections<TKey>>()
             .SelectMany(rc => rc.GetReferencedCollections(database, vault));
     }
 
     public bool ReferencesCollection(string classKey, string collectionKey)
     {
-        return Items.OfType<IReferencesCollections>().Any(rc => rc.ReferencesCollection(classKey, collectionKey));
+        return Items.OfType<IReferencesCollections<TKey>>().Any(rc => rc.ReferencesCollection(classKey, collectionKey));
     }
 
     /**
@@ -55,7 +55,7 @@ public class VltArrayType : VltBaseType, IReferencesStrings, IReferencesCollecti
                 case string stringValue:
                     yield return stringValue;
                     break;
-                case IReferencesStrings referencesStrings:
+                case IReferencesStrings<TKey> referencesStrings:
                 {
                     foreach (var s in referencesStrings.GetStrings())
                     {
@@ -69,28 +69,28 @@ public class VltArrayType : VltBaseType, IReferencesStrings, IReferencesCollecti
         // return Items.OfType<string>().Concat(Items.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings()));
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
-        foreach (var pointerObject in Items.OfType<IVltPointerObject>())
+        foreach (var pointerObject in Items.OfType<IVltPointerObject<TKey>>())
             pointerObject.ReadPointerData(context, fieldContext, br);
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
     {
-        foreach (var pointerObject in Items.OfType<IVltPointerObject>())
+        foreach (var pointerObject in Items.OfType<IVltPointerObject<TKey>>())
         {
             bw.AlignWriter(ItemAlignment);
             pointerObject.WritePointerData(context, fieldContext, bw);
         }
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext)
     {
-        foreach (var pointerObject in Items.OfType<IVltPointerObject>())
+        foreach (var pointerObject in Items.OfType<IVltPointerObject<TKey>>())
             pointerObject.AddPointers(context, fieldContext);
     }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
         Capacity = br.ReadUInt16();
         var count = br.ReadUInt16();
@@ -120,7 +120,8 @@ public class VltArrayType : VltBaseType, IReferencesStrings, IReferencesCollecti
         br.BaseStream.Position += (Capacity - count) * fieldSize;
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         bw.Write(Capacity);
         bw.Write((ushort)Items.Count);

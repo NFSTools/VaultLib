@@ -9,9 +9,9 @@ using VaultLib.Frameworks.Speed.VLT.Physics.Upgrades;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(ModifyScalarValue))]
-public class ModifyScalarValue : VltBaseType
+public class ModifyScalarValue: VltBaseType<uint>
 {
-    public RefSpecPacked ReferencedRow { get; set; } = new();
+    public RefSpecPacked<uint> ReferencedRow { get; set; } = new();
     public bool IsMember { get; set; }
     public uint MemberIndex { get; set; }
     public bool IsElement { get; set; }
@@ -19,7 +19,7 @@ public class ModifyScalarValue : VltBaseType
     public eModifyValueType ModificationType { get; set; }
     public float Value { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         ReferencedRow.Read(context, fieldContext, br);
         IsMember = br.ReadBoolean();
@@ -32,7 +32,7 @@ public class ModifyScalarValue : VltBaseType
         Value = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         ReferencedRow.Write(context, fieldContext, bw);
         bw.Write(IsMember);

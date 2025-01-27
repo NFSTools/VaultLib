@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib.Query;
 
-public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
+public class Static_Inorder_N_to_1 : VltBaseType<uint>, IVltPointerObject<uint>
 {
     public enum TreeNodeType
     {
@@ -40,7 +40,7 @@ public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
     internal List<uint> Values { get; private set; }
     internal List<(int Index, int Count)> Indices { get; private set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         _count = br.ReadUInt32();
         _keysPointer = br.ReadPointer();
@@ -50,7 +50,8 @@ public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
         Debug.WriteLine("Static_Inorder_N_to_1::Read - class={0} count={1}", fieldContext.Class.Name, _count);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+        BinaryWriter bw)
     {
         _countDst = bw.BaseStream.Position;
         bw.Write(0xAAAAAAAA);
@@ -59,7 +60,8 @@ public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
         _valsPointer = bw.WritePointer();
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+        BinaryReader br)
     {
         br.BaseStream.Position = _keysPointer;
         Keys = new List<uint>();
@@ -94,7 +96,8 @@ public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
         }
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+        BinaryWriter bw)
     {
         var entries = NodeType switch
         {
@@ -133,8 +136,8 @@ public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
         }
     }
 
-    private static List<(uint Key, List<uint> Values)> GetParentKeyEntries(VaultWriteContext context,
-        FieldReadWriteContext fieldContext)
+    private static List<(uint Key, List<uint> Values)> GetParentKeyEntries(VaultWriteContext<uint> context,
+        FieldReadWriteContext<uint> fieldContext)
     {
         return context.Database.RowManager.EnumerateCollections(fieldContext.Class.Name)
             .Select(c => (Vlt32Hasher.Hash(c.Name), Vlt32Hasher.Hash(c.Parent?.Name)))
@@ -142,8 +145,8 @@ public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
             .ToList();
     }
 
-    private static List<(uint Key, List<uint> Values)> GetChildKeyEntries(VaultWriteContext context,
-        FieldReadWriteContext fieldContext)
+    private static List<(uint Key, List<uint> Values)> GetChildKeyEntries(VaultWriteContext<uint> context,
+        FieldReadWriteContext<uint> fieldContext)
     {
         var collectionsGroupedByParent = context.Database.RowManager.EnumerateCollections(fieldContext.Class.Name)
             .GroupBy(c => Vlt32Hasher.Hash(c.Parent?.Name));
@@ -153,7 +156,7 @@ public class Static_Inorder_N_to_1 : VltBaseType, IVltPointerObject
             .ToList();
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
         context.AddPointer(_keysPointer, _keysDst, false);
         context.AddPointer(_indicesPointer, _indicesDst, false);

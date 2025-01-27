@@ -7,9 +7,9 @@ using VaultLib.Core.DB;
 
 namespace VaultLib.Core.Utils;
 
-public interface IReferencesCollections
+public interface IReferencesCollections<TKey>
 {
-    IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault);
+    IEnumerable<CollectionReferenceInfo<TKey>> GetReferencedCollections(Database<TKey> database, Vault<TKey> vault);
 
     bool ReferencesCollection(string classKey, string collectionKey);
 }

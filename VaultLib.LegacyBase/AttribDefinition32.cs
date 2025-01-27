@@ -10,9 +10,9 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.LegacyBase;
 
-public class AttribDefinition : IAttribDefinition
+public class AttribDefinition32 : IAttribDefinition<uint>
 {
-    public void Read(VaultReadContext context, BinaryReader br)
+    public void Read(VaultReadContext<uint> context, BinaryReader br)
     {
         Key = br.ReadUInt32();
         Type = br.ReadUInt32();
@@ -28,7 +28,7 @@ public class AttribDefinition : IAttribDefinition
         }
     }
 
-    public void Write(VaultWriteContext context, BinaryWriter bw)
+    public void Write(VaultWriteContext<uint> context, BinaryWriter bw)
     {
         bw.Write((uint)Key);
         bw.Write((uint)Type);
@@ -39,8 +39,8 @@ public class AttribDefinition : IAttribDefinition
         bw.Write((byte)Math.Log(Alignment, 2));
     }
 
-    public ulong Key { get; set; }
-    public ulong Type { get; set; }
+    public uint Key { get; set; }
+    public uint Type { get; set; }
     public ushort Offset { get; set; }
     public ushort Size { get; set; }
     public ushort MaxCount { get; set; }

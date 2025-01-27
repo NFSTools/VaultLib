@@ -6,25 +6,25 @@ using System.IO;
 
 namespace VaultLib.Core.Utils;
 
-public interface IPointerObject
+public interface IPointerObject<TKey>
 {
     /// <summary>
     ///     Read data stored through pointers to the BIN stream
     /// </summary>
     /// <param name="context"></param>
     /// <param name="br"></param>
-    void ReadPointerData(VaultReadContext context, BinaryReader br);
+    void ReadPointerData(VaultReadContext<TKey> context, BinaryReader br);
 
     /// <summary>
     ///     Read data stored through pointers to the BIN stream
     /// </summary>
     /// <param name="context"></param>
     /// <param name="bw"></param>
-    void WritePointerData(VaultWriteContext context, BinaryWriter bw);
+    void WritePointerData(VaultWriteContext<TKey> context, BinaryWriter bw);
 
     /// <summary>
     ///     Add pointer information to the vault
     /// </summary>
     /// <param name="context"></param>
-    void AddPointers(VaultWriteContext context);
+    void AddPointers(VaultWriteContext<TKey> context);
 }

@@ -10,7 +10,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports;
 
-public class ClassLoad64 : BaseClassLoad
+public class ClassLoad64 : BaseClassLoad<ulong>
 {
     private ulong ClassHash { get; set; }
     private int NumDefinitions { get; set; }
@@ -19,7 +19,7 @@ public class ClassLoad64 : BaseClassLoad
     private long _srcDefinitionsPtr;
     private long _dstDefinitionsPtr;
 
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<ulong> context, BinaryReader br)
     {
         ClassHash = br.ReadUInt64();
         uint cr = br.ReadUInt32(); // collection reserve
@@ -38,10 +38,10 @@ public class ClassLoad64 : BaseClassLoad
         ushort requiredCount = br.ReadUInt16();
         Debug.Assert(requiredCount <= NumDefinitions);
         br.ReadInt16();
-        Class = new VltClass(HashManager.ResolveVlt(ClassHash));
+        Class = new VltClass<ulong>(HashManager.ResolveVlt(ClassHash));
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
     {
         bw.Write(Vlt64Hasher.Hash(Class.Name));
 
@@ -63,7 +63,7 @@ public class ClassLoad64 : BaseClassLoad
         bw.Write((ushort)0);
     }
 
-    public override void ReadPointerData(VaultReadContext context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<ulong> context, BinaryReader br)
     {
         br.BaseStream.Position = _definitionsPtr;
 
@@ -77,7 +77,7 @@ public class ClassLoad64 : BaseClassLoad
                 throw new Exception("Legacy format does not support static fields");
             }
 
-            VltClassField field = new VltClassField(
+            var field = new VltClassField<ulong>(
                 definition.Key,
                 HashManager.ResolveVlt(definition.Key),
                 HashManager.ResolveVlt(definition.Type),
@@ -93,7 +93,7 @@ public class ClassLoad64 : BaseClassLoad
         context.Database.AddClass(Class);
     }
 
-    public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<ulong> context, BinaryWriter bw)
     {
         _dstDefinitionsPtr = bw.BaseStream.Position;
 
@@ -112,9 +112,14 @@ public class ClassLoad64 : BaseClassLoad
         }
     }
 
-    public override void AddPointers(VaultWriteContext context)
+    public override void AddPointers(VaultWriteContext<ulong> context)
     {
         context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
+    }
+
+    public override ulong GetExportId()
+    {
+        return Vlt64Hasher.Hash(Class.Name);
     }
 
     private int ComputeBaseSize()

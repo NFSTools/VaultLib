@@ -13,8 +13,8 @@ using VaultLib.ModernBase.Exports;
 
 namespace VaultLib.ModernBase;
 
-public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoad
-    where TAttribEntry : AttribEntryBase
+public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollectionLoad<TKey>
+    where TAttribEntry : AttribEntryBase<TKey>
 {
     protected uint LayoutPointer { get; set; }
 
@@ -26,7 +26,7 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
     private long DestinationLayoutPointer { get; set; }
 
-    public override void ReadPointerData(VaultReadContext context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<TKey> context, BinaryReader br)
     {
         if (LayoutPointer != 0)
         {
@@ -37,7 +37,7 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
             
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
+                var fieldContext = new FieldReadWriteContext<TKey>(Collection.Class, baseField, Collection);
                 br.SafeAlignReader(baseField.Alignment);
 
                 if (br.BaseStream.Position - LayoutPointer != baseField.Offset)
@@ -71,7 +71,7 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
         foreach (var entry in Entries)
         {
             var optionalField = Collection.Class[entry.Key];
-            var fieldContext = new FieldReadWriteContext(Collection.Class, optionalField, Collection);
+            var fieldContext = new FieldReadWriteContext<TKey>(Collection.Class, optionalField, Collection);
 
             if ((optionalField.Flags & DefinitionFlags.IsStatic) != 0)
             {
@@ -98,7 +98,7 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
                 Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsArray) == 0);
             }
 
-            if (entry.InlineData is VltAttribType attribType)
+            if (entry.InlineData is VltAttribType<TKey> attribType)
             {
                 Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) == 0);
                 attribType.ReadPointerData(context, fieldContext, br);
@@ -115,15 +115,15 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
         foreach (var dataEntry in Collection.GetData())
         {
             var fieldContext =
-                new FieldReadWriteContext(Collection.Class, Collection.Class[dataEntry.Key], Collection);
-            if (dataEntry.Value is IVltPointerObject vltPointerObject)
+                new FieldReadWriteContext<TKey>(Collection.Class, Collection.Class[dataEntry.Key], Collection);
+            if (dataEntry.Value is IVltPointerObject<TKey> vltPointerObject)
             {
                 vltPointerObject.ReadPointerData(context, fieldContext, br);
             }
         }
     }
 
-    public override void WritePointerData(VaultWriteContext context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<TKey> context, BinaryWriter bw)
     {
         // Part 1: write base fields (layout)
         if (Collection.Class.HasBaseFields)
@@ -135,7 +135,7 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
+                var fieldContext = new FieldReadWriteContext<TKey>(Collection.Class, baseField, Collection);
 
                 bw.BaseStream.Position = DestinationLayoutPointer + baseField.Offset;
 
@@ -153,13 +153,13 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
         // Part 2: Write non-inline optional fields
         foreach (var entry in Entries)
         {
-            if (entry.InlineData is not VltAttribType attrib)
+            if (entry.InlineData is not VltAttribType<TKey> attrib)
             {
                 continue;
             }
 
             var field = Collection.Class[entry.Key];
-            var fieldContext = new FieldReadWriteContext(Collection.Class, field, Collection);
+            var fieldContext = new FieldReadWriteContext<TKey>(Collection.Class, field, Collection);
 
             attrib.WritePointerData(context, fieldContext, bw);
         }
@@ -168,15 +168,15 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
         foreach (var entry in Collection.GetOrderedData())
         {
             var field = Collection.Class[entry.Key];
-            var fieldContext = new FieldReadWriteContext(Collection.Class, field, Collection);
-            if (entry.Value is IVltPointerObject vltPointerObject)
+            var fieldContext = new FieldReadWriteContext<TKey>(Collection.Class, field, Collection);
+            if (entry.Value is IVltPointerObject<TKey> vltPointerObject)
             {
                 vltPointerObject.WritePointerData(context, fieldContext, bw);
             }
         }
     }
 
-    public override void AddPointers(VaultWriteContext context)
+    public override void AddPointers(VaultWriteContext<TKey> context)
     {
         if (DestinationLayoutPointer != 0)
         {
@@ -185,10 +185,10 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
         foreach (var baseField in Collection.Class.BaseFields)
         {
-            var fieldContext = new FieldReadWriteContext(Collection.Class, baseField, Collection);
+            var fieldContext = new FieldReadWriteContext<TKey>(Collection.Class, baseField, Collection);
             var rawValue = Collection.GetRawValue(baseField.Name);
 
-            if (rawValue is IVltPointerObject vltPointerObject)
+            if (rawValue is IVltPointerObject<TKey> vltPointerObject)
             {
                 vltPointerObject.AddPointers(context, fieldContext);
             }
@@ -196,22 +196,22 @@ public abstract class ModernCollectionLoadBase<TAttribEntry> : BaseCollectionLoa
 
         foreach (var entry in Entries)
         {
-            var fieldContext = new FieldReadWriteContext(Collection.Class, Collection.Class[entry.Key], Collection);
-            if (entry.InlineData is IVltPointerObject vltPointerObject)
+            var fieldContext = new FieldReadWriteContext<TKey>(Collection.Class, Collection.Class[entry.Key], Collection);
+            if (entry.InlineData is IVltPointerObject<TKey> vltPointerObject)
             {
                 vltPointerObject.AddPointers(context, fieldContext);
             }
         }
     }
 
-    private static long GetExpectedDataSize(VltClassField field, object value, long offset)
+    private static long GetExpectedDataSize(VltClassField<TKey> field, object value, long offset)
     {
         if (!field.IsArray)
         {
             return field.Size;
         }
 
-        var array = (VltArrayType)value;
+        var array = (VltArrayType<TKey>)value;
         var dataStartPos = offset + 8;
         var alignmentOffset = field.Alignment - 1;
         var alignedDataStartPos = (dataStartPos + alignmentOffset) & ~alignmentOffset;

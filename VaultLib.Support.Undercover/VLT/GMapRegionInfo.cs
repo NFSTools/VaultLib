@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(GMapRegionInfo))]
-public class GMapRegionInfo : VltBaseType, IReferencesStrings
+public class GMapRegionInfo: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string Name { get; set; } = string.Empty;
     public ushort mCurveStart { get; set; }
@@ -24,7 +24,7 @@ public class GMapRegionInfo : VltBaseType, IReferencesStrings
     public float mBoundsMaxX { get; set; }
     public float mBoundsMaxY { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Name = context.ReadString(br);
         mCurveStart = br.ReadUInt16();
@@ -37,7 +37,7 @@ public class GMapRegionInfo : VltBaseType, IReferencesStrings
         mBoundsMaxY = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         context.WriteString(Name, fieldContext, bw);
         bw.Write(mCurveStart);
@@ -50,17 +50,17 @@ public class GMapRegionInfo : VltBaseType, IReferencesStrings
         bw.Write(mBoundsMaxY);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         //
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         //
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
         //
     }

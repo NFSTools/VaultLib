@@ -11,28 +11,28 @@ using VaultLib.Core.Exports;
 
 namespace VaultLib.Core.Chunks;
 
-public class VltDataChunk : ChunkBase
+public class VltDataChunk<TKey> : ChunkBase<TKey>
 {
-    private readonly IList<BaseExport> _exports;
+    private readonly IList<BaseExport<TKey>> _exports;
 
-    public VltDataChunk(IList<BaseExport> exports)
+    public VltDataChunk(IList<BaseExport<TKey>> exports)
     {
         _exports = exports;
-        ExportEntries = new List<IExportEntry>();
+        ExportEntries = new List<IExportEntry<TKey>>();
     }
 
-    public List<IExportEntry> ExportEntries { get; }
+    public List<IExportEntry<TKey>> ExportEntries { get; }
 
     public override uint Id => 0x4461744E;
     public override uint Size { get; set; }
     public override long Offset { get; set; }
 
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, BinaryReader br)
     {
         throw new NotImplementedException();
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, BinaryWriter bw)
     {
         foreach (var t in _exports)
         {
@@ -43,9 +43,9 @@ public class VltDataChunk : ChunkBase
             var endOffset = bw.BaseStream.Position;
 
             var exportEntry = context.Database.ExportFactory.BuildExportEntry();
-            exportEntry.ID = t.GetExportId();
+            exportEntry.Id = t.GetExportId();
             exportEntry.Offset = (uint)offset;
-            exportEntry.Type = context.StringHash(t.GetTypeId());
+            exportEntry.Type = (TKey)(object)context.StringHash(t.GetTypeId());
             exportEntry.Size = (uint)(endOffset - offset);
 
             ExportEntries.Add(exportEntry);

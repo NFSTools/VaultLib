@@ -9,16 +9,16 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.World.VLT;
 
 [VltTypeInfo(nameof(SkyDomeModelStruct))]
-public class SkyDomeModelStruct : VltBaseType
+public class SkyDomeModelStruct: VltBaseType<uint>
 {
     public uint Hash { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Hash = br.ReadUInt32(); // SKYDOME_1_DAWN, SKYDOME_1_DUSK, etc
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(Hash);
     }

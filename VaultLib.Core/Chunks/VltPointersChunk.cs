@@ -12,16 +12,16 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Chunks;
 
-public class VltPointersChunk : ChunkBase
+public class VltPointersChunk<TKey> : ChunkBase<TKey>
 {
     public override uint Id => 0x5074724E;
     public override uint Size { get; set; }
     public override long Offset { get; set; }
 
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, BinaryReader br)
     {
-        var binPointers = new List<IPtrRef>();
-        var vltPointers = new List<IPtrRef>();
+        var binPointers = new List<IPtrRef<TKey>>();
+        var vltPointers = new List<IPtrRef<TKey>>();
 
         var isVltPointer = false;
 
@@ -63,7 +63,7 @@ public class VltPointersChunk : ChunkBase
                 { Type = VltPointerType.Vlt, Destination = ptrRef.Destination, FixUpOffset = ptrRef.FixupOffset });
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, BinaryWriter bw)
     {
         var binPointers = context.Pointers.Where(p => p.Type == VltPointerType.Bin).ToList();
         var vltPointers = context.Pointers.Where(p => p.Type == VltPointerType.Vlt).ToList();

@@ -3,10 +3,10 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.DataInterfaces;
 
-public interface IAttribDefinition : IVaultFileAccess
+public interface IAttribDefinition<TKey> : IVaultFileAccess<TKey>
 {
-    ulong Key { get; set; }
-    ulong Type { get; set; }
+    TKey Key { get; set; }
+    TKey Type { get; set; }
     ushort Offset { get; set; }
     ushort Size { get; set; }
     ushort MaxCount { get; set; }

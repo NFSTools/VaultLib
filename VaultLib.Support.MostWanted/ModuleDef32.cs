@@ -9,18 +9,18 @@ using VaultLib.LegacyBase.Structures;
 
 namespace VaultLib.Support.MostWanted;
 
-public class ModuleDef : BaseGameModule
+public class ModuleDef32 : BaseGameModule<uint>
 {
-    public override void RegisterTypes(TypeRegistry typeRegistry)
+    public override void RegisterTypes(TypeRegistry<uint> typeRegistry)
     {
         typeRegistry.Register<StringKey64>("Attrib::StringKey");
         SpeedFramework.Register(typeRegistry);
-        typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
+        typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef32)));
     }
 
-    public override ExportFactory CreateExportFactory()
+    public override ExportFactory<uint> CreateExportFactory()
     {
-        return new ExportFactory(() => new DatabaseLoad(), () => new ClassLoad(), () => new CollectionLoad(),
-            () => new ExportEntry());
+        return new ExportFactory<uint>(() => new DatabaseLoad(), () => new ClassLoad32(), () => new CollectionLoad32(),
+            () => new ExportEntry32());
     }
 }

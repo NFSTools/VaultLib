@@ -2,10 +2,10 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.DataInterfaces;
 
-public interface IExportEntry : IVaultFileAccess
+public interface IExportEntry<TKey> : IVaultFileAccess<TKey>
 {
-    ulong ID { get; set; }
-    ulong Type { get; set; }
+    TKey Id { get; set; }
+    TKey Type { get; set; }
     uint Size { get; set; }
     uint Offset { get; set; }
 }

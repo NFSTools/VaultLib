@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace VaultLib.Core.Utils;
 
-public interface IReferencesStrings : IVltPointerObject
+public interface IReferencesStrings<TKey> : IVltPointerObject<TKey>
 {
     IEnumerable<string> GetStrings();
 }

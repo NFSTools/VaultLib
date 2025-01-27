@@ -14,7 +14,7 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(FEPartData))]
-public class FEPartData : VltBaseType, IVltPointerObject, IReferencesStrings
+public class FEPartData : VltBaseType<uint>, IReferencesStrings<uint>
 {
     public uint HAL_ID { get; set; }
     public uint CF_HAL_ID { get; set; }
@@ -32,11 +32,11 @@ public class FEPartData : VltBaseType, IVltPointerObject, IReferencesStrings
     public uint BrandHALId { get; set; }
     public uint LogoTextureId { get; set; }
     public uint DetailHash { get; set; }
-    public VltPointerContainer<FEPartDetail> PartDetails { get; set; }
+    public VltPointerContainer<uint, FEPartDetail> PartDetails { get; set; }
     public string OfferID { get; set; } = string.Empty;
     public bool IsOnlineLockable { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         HAL_ID = br.ReadUInt32();
         CF_HAL_ID = br.ReadUInt32();
@@ -55,14 +55,15 @@ public class FEPartData : VltBaseType, IVltPointerObject, IReferencesStrings
         BrandHALId = br.ReadUInt32();
         LogoTextureId = br.ReadUInt32();
         DetailHash = br.ReadUInt32();
-        PartDetails = new VltPointerContainer<FEPartDetail>();
+        PartDetails = new VltPointerContainer<uint, FEPartDetail>();
         PartDetails.Read(context, fieldContext, br);
         OfferID = context.ReadString(br);
         IsOnlineLockable = br.ReadBoolean();
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+        BinaryWriter bw)
     {
         bw.Write(HAL_ID);
         bw.Write(CF_HAL_ID);
@@ -87,17 +88,19 @@ public class FEPartData : VltBaseType, IVltPointerObject, IReferencesStrings
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+        BinaryReader br)
     {
         PartDetails.ReadPointerData(context, fieldContext, br);
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+        BinaryWriter bw)
     {
         PartDetails.WritePointerData(context, fieldContext, bw);
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
         PartDetails.AddPointers(context, fieldContext);
     }

@@ -16,13 +16,13 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides utilities for the saving process
 /// </summary>
-public class VaultWriteContext
+public class VaultWriteContext<TKey>
 {
     public VaultWriteOptions Options { get; }
 
-    public Database Database { get; }
+    public Database<TKey> Database { get; }
 
-    public Vault Vault { get; }
+    public Vault<TKey> Vault { get; }
 
     /// <summary>
     /// A set containing every string value in the vault's data.
@@ -32,7 +32,7 @@ public class VaultWriteContext
     /// <summary>
     /// A list of <see cref="VltCollection"/> instances in the vault.
     /// </summary>
-    public IList<VltCollection> Collections { get; set; }
+    public IList<VltCollection<TKey>> Collections { get; set; }
 
     /// <summary>
     /// A set of <see cref="VltPointer"/> instances for vault data.
@@ -51,7 +51,7 @@ public class VaultWriteContext
     /// </summary>
     /// <param name="vault"></param>
     /// <param name="options">The options to use in the saving process.</param>
-    public VaultWriteContext(Vault vault, VaultWriteOptions options)
+    public VaultWriteContext(Vault<TKey> vault, VaultWriteOptions options)
     {
         Database = vault.Database;
         Vault = vault;
@@ -104,7 +104,7 @@ public class VaultWriteContext
         }
     }
 
-    public void WriteString(string str, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WriteString(string str, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
     {
         if (!StringOffsets.TryGetValue(str, out var strPtr))
             throw new KeyNotFoundException($"String offset table does not have an entry for: {str}");

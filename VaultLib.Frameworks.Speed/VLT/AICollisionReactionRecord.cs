@@ -12,26 +12,27 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
-[VltTypeInfo(nameof(AICollisionReactionRecord))]
-public class AICollisionReactionRecord : VltBaseType, IReferencesCollections
+[VltTypeInfo("AICollisionReactionRecord")]
+public class AICollisionReactionRecord : VltBaseType<uint>, IReferencesCollections<uint>
 {
     public uint Goal { get; set; }
 
-    public RefSpec Reaction { get; set; } = new();
+    public RefSpec<uint> Reaction { get; set; } = new();
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Goal = br.ReadUInt32();
         Reaction.Read(context, fieldContext, br);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+        BinaryWriter bw)
     {
         bw.Write(Goal);
         Reaction.Write(context, fieldContext, bw);
     }
 
-    public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
+    public IEnumerable<CollectionReferenceInfo<uint>> GetReferencedCollections(Database<uint> database, Vault<uint> vault)
     {
         throw new System.NotImplementedException();
     }

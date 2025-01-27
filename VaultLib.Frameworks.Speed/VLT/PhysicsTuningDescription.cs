@@ -8,19 +8,19 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(PhysicsTuningDescription))]
-public class PhysicsTuningDescription : VltBaseType
+public class PhysicsTuningDescription: VltBaseType<uint>
 {
-    public RefSpec PhysicsTuning { get; set; } = new();
+    public RefSpec<uint> PhysicsTuning { get; set; } = new();
     public bool Increase { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         PhysicsTuning.Read(context, fieldContext, br);
         Increase = br.ReadBoolean();
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         PhysicsTuning.Write(context, fieldContext, bw);
         bw.Write(Increase);

@@ -8,9 +8,9 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.ModernBase.Structures;
 
-public class PtrRef64 : IPtrRef
+public class PtrRef64 : IPtrRef<ulong>
 {
-    public void Read(VaultReadContext context, BinaryReader br)
+    public void Read(VaultReadContext<ulong> context, BinaryReader br)
     {
         FixupOffset = br.ReadUInt32();
         PtrType = (EPtrRefType)br.ReadUInt16();
@@ -18,7 +18,7 @@ public class PtrRef64 : IPtrRef
         Destination = (uint)br.ReadUInt64();
     }
 
-    public void Write(VaultWriteContext context, BinaryWriter bw)
+    public void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
     {
         bw.Write(FixupOffset);
         bw.Write((ushort)PtrType);

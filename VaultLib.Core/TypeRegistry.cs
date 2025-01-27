@@ -21,16 +21,16 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides a facility for mapping type names to actual types.
 /// </summary>
-public class TypeRegistry
+public class TypeRegistry<TKey>
 {
     private readonly Dictionary<string, Type> _typeDictionary = new();
 
     private readonly Dictionary<Type, ObjectActivator<object>> _activators = new();
 
-    private delegate object TypeReader(object init, VaultReadContext context, FieldReadWriteContext fieldContext,
+    private delegate object TypeReader(object init, VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
         BinaryReader br);
 
-    private delegate void TypeWriter(object value, VaultWriteContext context, FieldReadWriteContext fieldContext,
+    private delegate void TypeWriter(object value, VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
         BinaryWriter bw);
 
     private readonly Dictionary<Type, TypeReader>
@@ -44,7 +44,7 @@ public class TypeRegistry
     /// </summary>
     public TypeRegistry()
     {
-        RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TypeRegistry)));
+        RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TypeRegistry<>)));
 
         RegisterPrimitive<bool>("EA::Reflection::Bool", r => r.ReadByte() != 0,
             (v, w) => w.Write(v ? (byte)1 : (byte)0));
@@ -100,7 +100,7 @@ public class TypeRegistry
     /// </summary>
     /// <typeparam name="T">The actual type as defined in code.</typeparam>
     /// <param name="typeId">The text identifier for the type.</param>
-    public void Register<T>(string typeId) where T : VltBaseType
+    public void Register<T>(string typeId) where T : VltBaseType<TKey>
     {
         RegisterVltBaseType(typeId, typeof(T));
     }
@@ -117,14 +117,14 @@ public class TypeRegistry
 
         _readers[type] = (instance, context, fieldContext, reader) =>
         {
-            var vltBaseType = (VltBaseType)instance;
+            var vltBaseType = (VltBaseType<TKey>)instance;
             vltBaseType.Read(context, fieldContext, reader);
             return vltBaseType;
         };
 
         _writers[type] = (instance, context, fieldContext, writer) =>
         {
-            var vltBaseType = (VltBaseType)instance;
+            var vltBaseType = (VltBaseType<TKey>)instance;
             vltBaseType.Write(context, fieldContext, writer);
         };
     }
@@ -149,14 +149,14 @@ public class TypeRegistry
     private static TypeReader CreateStructReaderProxy(Type structType)
     {
         var paramInitValue = Expression.Parameter(typeof(object), "init");
-        var paramContext = Expression.Parameter(typeof(VaultReadContext), "context");
-        var paramFieldContext = Expression.Parameter(typeof(FieldReadWriteContext), "fieldContext");
+        var paramContext = Expression.Parameter(typeof(VaultReadContext<TKey>), "context");
+        var paramFieldContext = Expression.Parameter(typeof(FieldReadWriteContext<TKey>), "fieldContext");
         var paramBinaryReader = Expression.Parameter(typeof(BinaryReader), "br");
 
         var body = Expression.Block(
             typeof(object),
             Expression.Convert(Expression.Call(
-                    typeof(TypeRegistry), nameof(StructReader), new[] { structType }, paramBinaryReader),
+                    typeof(TypeRegistry<TKey>), nameof(StructReader), new[] { structType }, paramBinaryReader),
                 typeof(object))
         );
 
@@ -180,12 +180,12 @@ public class TypeRegistry
     private static TypeWriter CreateStructWriterProxy(Type structType)
     {
         var paramValue = Expression.Parameter(typeof(object), "value");
-        var paramContext = Expression.Parameter(typeof(VaultWriteContext), "context");
-        var paramFieldContext = Expression.Parameter(typeof(FieldReadWriteContext), "fieldContext");
+        var paramContext = Expression.Parameter(typeof(VaultWriteContext<TKey>), "context");
+        var paramFieldContext = Expression.Parameter(typeof(FieldReadWriteContext<TKey>), "fieldContext");
         var paramBinaryWriter = Expression.Parameter(typeof(BinaryWriter), "bw");
 
         var body = Expression.Call(
-            typeof(TypeRegistry), nameof(StructWriter), new[] { structType },
+            typeof(TypeRegistry<TKey>), nameof(StructWriter), new[] { structType },
             Expression.Convert(paramValue, structType), paramBinaryWriter);
 
         return Expression.Lambda<TypeWriter>(body, paramValue, paramContext, paramFieldContext,
@@ -261,13 +261,15 @@ public class TypeRegistry
 
             if (typeInfoAttribute == null)
             {
-                Debug.WriteLine("WARN: skipping registering type {0} because it doesn't have VLTTypeInfo",
+                Debug.WriteLine("DEBUG: skipping registering type {0} because it doesn't have VLTTypeInfo",
                     new object[] { type.FullName });
                 continue;
             }
 
             if (type.IsGenericType || type.IsAbstract || type.IsNested)
             {
+                Debug.WriteLine("DEBUG: skipping registering type {0} because it's either generic, abstract, or nested",
+                    new object[] { type.FullName });
                 continue;
             }
 
@@ -293,7 +295,7 @@ public class TypeRegistry
                     throw new Exception($"Can't register managed struct: {type}");
                 RegisterStruct(typeInfoAttribute.Name, type);
             }
-            else if (type.DescendsFrom(typeof(VltBaseType)))
+            else if (type.DescendsFrom(typeof(VltBaseType<TKey>)))
             {
                 RegisterVltBaseType(typeInfoAttribute.Name, type);
             }
@@ -330,14 +332,14 @@ Any user-defined struct type that contains fields of unmanaged types only.
         return _activators[type]();
     }
 
-    public object ReadFieldValue(VaultReadContext readContext, FieldReadWriteContext fieldContext,
+    public object ReadFieldValue(VaultReadContext<TKey> readContext, FieldReadWriteContext<TKey> fieldContext,
         BinaryReader binaryReader)
     {
         var vltClassField = fieldContext.Field;
         var type = ResolveType(vltClassField.TypeName);
         if (vltClassField.IsArray)
         {
-            var array = new VltArrayType(vltClassField, type);
+            var array = new VltArrayType<TKey>(vltClassField, type);
             array.Read(readContext, fieldContext, binaryReader);
             return array;
         }
@@ -345,7 +347,7 @@ Any user-defined struct type that contains fields of unmanaged types only.
         return ReadTypeInstance(readContext, fieldContext, binaryReader);
     }
 
-    public object ReadTypeInstance(VaultReadContext readContext, FieldReadWriteContext fieldContext,
+    public object ReadTypeInstance(VaultReadContext<TKey> readContext, FieldReadWriteContext<TKey> fieldContext,
         BinaryReader binaryReader)
     {
         var vltClassField = fieldContext.Field;
@@ -353,7 +355,7 @@ Any user-defined struct type that contains fields of unmanaged types only.
         return ReadTypeInstance(readContext, fieldContext, binaryReader, type);
     }
 
-    public object ReadTypeInstance(VaultReadContext readContext, FieldReadWriteContext fieldContext,
+    public object ReadTypeInstance(VaultReadContext<TKey> readContext, FieldReadWriteContext<TKey> fieldContext,
         BinaryReader binaryReader, Type type)
     {
         var init = ConstructTypeInstance(type);
@@ -361,12 +363,12 @@ Any user-defined struct type that contains fields of unmanaged types only.
     }
 
     public void WriteFieldValue(object instance,
-        VaultWriteContext writeContext, FieldReadWriteContext fieldContext, BinaryWriter binaryWriter)
+        VaultWriteContext<TKey> writeContext, FieldReadWriteContext<TKey> fieldContext, BinaryWriter binaryWriter)
     {
         var vltClassField = fieldContext.Field;
         if (vltClassField.IsArray)
         {
-            var array = (VltArrayType)instance;
+            var array = (VltArrayType<TKey>)instance;
             array.Write(writeContext, fieldContext, binaryWriter);
         }
         else
@@ -375,16 +377,16 @@ Any user-defined struct type that contains fields of unmanaged types only.
         }
     }
 
-    public void WriteTypeInstance(VltClassField vltClassField,
+    public void WriteTypeInstance(VltClassField<TKey> vltClassField,
         object instance,
-        VaultWriteContext writeContext, FieldReadWriteContext fieldContext, BinaryWriter binaryWriter)
+        VaultWriteContext<TKey> writeContext, FieldReadWriteContext<TKey> fieldContext, BinaryWriter binaryWriter)
     {
         var type = ResolveType(vltClassField.TypeName);
 
         WriteTypeInstance(instance, writeContext, fieldContext, binaryWriter, type);
     }
 
-    public void WriteTypeInstance(object instance, VaultWriteContext writeContext, FieldReadWriteContext fieldContext,
+    public void WriteTypeInstance(object instance, VaultWriteContext<TKey> writeContext, FieldReadWriteContext<TKey> fieldContext,
         BinaryWriter binaryWriter, Type type)
     {
         Debug.Assert(instance.GetType() == type, "instance.GetType() == type");

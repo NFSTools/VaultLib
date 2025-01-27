@@ -6,18 +6,18 @@ using VaultLib.Core.Types.Attrib;
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo(nameof(FEVinylRegionData))]
-public class FEVinylRegionData : VltBaseType
+public class FEVinylRegionData: VltBaseType<uint>
 {
     public uint HAL_ID { get; set; }
-    public RefSpec Camera { get; set; } = new();
+    public RefSpec<uint> Camera { get; set; } = new();
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         HAL_ID = br.ReadUInt32();
         Camera.Read(context, fieldContext, br);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(HAL_ID);
         Camera.Write(context, fieldContext, bw);

@@ -11,7 +11,7 @@ namespace VaultLib.Core.Exports;
 ///     An export is an object that describes an entity in the VLT database.
 ///     For example, a class is described by a "ClassLoadData" export.
 /// </summary>
-public abstract class BaseExport : IVaultFileAccess
+public abstract class BaseExport<TKey> : IVaultFileAccess<TKey>
 {
     /// <summary>
     ///     The offset of the export data in the VLT stream.
@@ -22,13 +22,13 @@ public abstract class BaseExport : IVaultFileAccess
     /// </summary>
     public uint Size { get; set; }
 
-    public abstract void Read(VaultReadContext context, BinaryReader br);
-    public abstract void Write(VaultWriteContext context, BinaryWriter bw);
+    public abstract void Read(VaultReadContext<TKey> context, BinaryReader br);
+    public abstract void Write(VaultWriteContext<TKey> context, BinaryWriter bw);
 
     /// <summary>
     ///     Perform any necessary preparation work before data is read.
     /// </summary>
-    public virtual void PrepareRead(Vault vault)
+    public virtual void PrepareRead(Vault<TKey> vault)
     {
 
     }
@@ -36,7 +36,7 @@ public abstract class BaseExport : IVaultFileAccess
     /// <summary>
     ///     Perform any necessary preparation work before data is written.
     /// </summary>
-    public virtual void Prepare(Vault vault)
+    public virtual void Prepare(Vault<TKey> vault)
     {
     }
 
@@ -44,7 +44,7 @@ public abstract class BaseExport : IVaultFileAccess
     ///     Retrieve a unique key for the export.
     /// </summary>
     /// <returns>The export's unique key.</returns>
-    public abstract ulong GetExportId();
+    public abstract TKey GetExportId();
 
     /// <summary>
     ///     Retrieve the type ID for the export.

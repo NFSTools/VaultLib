@@ -14,14 +14,14 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.NIS;
 
 [VltTypeInfo("NIS::NISCar")]
-public class NISCar : VltBaseType, IReferencesStrings
+public class NISCar: VltBaseType<uint>, IReferencesStrings<uint>
 {
-    public RefSpec PresetRide { get; set; } = new();
+    public RefSpec<uint> PresetRide { get; set; } = new();
     public string PresetSkinName { get; set; } = string.Empty;
     public uint VehicleCategory { get; set; }
     public string ChannelName { get; set; } = string.Empty;
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         PresetRide.Read(context, fieldContext, br);
         PresetSkinName = context.ReadString(br);
@@ -29,7 +29,7 @@ public class NISCar : VltBaseType, IReferencesStrings
         ChannelName = context.ReadString(br);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         PresetRide.Write(context, fieldContext, bw);
         context.WriteString(PresetSkinName, fieldContext, bw);
@@ -37,15 +37,15 @@ public class NISCar : VltBaseType, IReferencesStrings
         context.WriteString(ChannelName, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

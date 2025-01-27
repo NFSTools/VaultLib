@@ -4,6 +4,7 @@
 
 using CoreLibraries.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
@@ -11,15 +12,15 @@ using VaultLib.Core.Exports;
 
 namespace VaultLib.Core.Chunks;
 
-public class VltExportChunk : ChunkBase
+public class VltExportChunk<TKey> : ChunkBase<TKey>
 {
-    private readonly List<IExportEntry> _exports;
+    private readonly List<IExportEntry<TKey>> _exports;
 
     public VltExportChunk()
     {
     }
 
-    public VltExportChunk(List<IExportEntry> exports)
+    public VltExportChunk(List<IExportEntry<TKey>> exports)
     {
         _exports = exports;
     }
@@ -28,7 +29,7 @@ public class VltExportChunk : ChunkBase
     public override uint Size { get; set; }
     public override long Offset { get; set; }
 
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, BinaryReader br)
     {
         var numExports = context.Database.Options.Type == DatabaseType.X64Database ? br.ReadUInt64() : br.ReadUInt32();
         for (ulong i = 0; i < numExports; i++)
@@ -39,7 +40,7 @@ public class VltExportChunk : ChunkBase
 
             var export = CreateExport(context, exportEntry.Type);
 
-            if (export == null) continue;
+            Debug.Assert(export != null);
 
             export.Offset = exportEntry.Offset;
             export.Size = exportEntry.Size;
@@ -47,7 +48,7 @@ public class VltExportChunk : ChunkBase
         }
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, BinaryWriter bw)
     {
         //bw.Write(_exports.Count);
         if (context.Database.Options.Type == DatabaseType.X64Database)
@@ -60,18 +61,19 @@ public class VltExportChunk : ChunkBase
         bw.AlignWriter(0x10);
     }
 
-    private BaseExport CreateExport(VaultReadContext context, ulong type)
+    private BaseExport<TKey> CreateExport(VaultReadContext<TKey> context, TKey type)
     {
+        // TODO: these shouldn't be hardcoded
         switch (type)
         {
-            case 0x5E970CBC: // Attrib::ClassLoadData
-            case 0x2A7895AC4A876152: // Attrib::ClassLoadData
+            case 0x5E970CBCu: // Attrib::ClassLoadData
+            case 0x2A7895AC4A876152u: // Attrib::ClassLoadData
                 return context.Database.ExportFactory.BuildClassLoad(null);
-            case 0xCBBC628F: // Attrib::DatabaseLoadData
-            case 0xB38846845E9C175: // Attrib::DatabaseLoadData
+            case 0xCBBC628Fu: // Attrib::DatabaseLoadData
+            case 0xB38846845E9C175u: // Attrib::DatabaseLoadData
                 return context.Database.ExportFactory.BuildDatabaseLoad();
-            case 0x8E112EB7:
-            case 0xAD303B8F42B3307E:
+            case 0x8E112EB7u:
+            case 0xAD303B8F42B3307Eu:
                 return context.Database.ExportFactory.BuildCollectionLoad(null);
             default:
                 return null;

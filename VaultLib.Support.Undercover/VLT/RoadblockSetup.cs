@@ -5,7 +5,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(RoadblockSetup))]
-public class RoadblockSetup : VltBaseType
+public class RoadblockSetup: VltBaseType<uint>
 {
     public RoadblockSetup()
     {
@@ -20,7 +20,7 @@ public class RoadblockSetup : VltBaseType
     public float MaximumThreatLevel { get; set; }
     public RoadblockElement[] Contents { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         MinimumWidthRequired = br.ReadSingle();
         RequiredVehicles = br.ReadUInt32();
@@ -33,7 +33,7 @@ public class RoadblockSetup : VltBaseType
         }
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(MinimumWidthRequired);
         bw.Write(RequiredVehicles);

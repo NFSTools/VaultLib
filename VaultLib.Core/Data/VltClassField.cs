@@ -10,13 +10,12 @@ namespace VaultLib.Core.Data;
 ///     Fields can be BASE fields (required) or ATTRIBUTE fields (optional).
 /// </summary>
 /// <remarks>In the version of AttribSys used from 2006 onwards, fields can have "static" values - a static field cannot occur in a collection. It has one value.</remarks>
-public class VltClassField
+public class VltClassField<TKey>
 {
     /// <summary>
-    /// Gets the field's numeric (hashed) key.
+    /// Gets the field's key.
     /// </summary>
-    /// <remarks>This is the VLT(32 or 64) hash of <see cref="Name"/>.</remarks>
-    public ulong Key { get; }
+    public TKey Key { get; }
 
     /// <summary>
     /// Gets the name of the field.
@@ -73,7 +72,7 @@ public class VltClassField
     /// <param name="size">The field's data size.</param>
     /// <param name="maxCount">The maximum number of instances of the field.</param>
     /// <param name="offset">The field's data offset.</param>
-    public VltClassField(ulong key, string name, string typeName, DefinitionFlags flags, int alignment, ushort size,
+    public VltClassField(TKey key, string name, string typeName, DefinitionFlags flags, int alignment, ushort size,
         ushort maxCount, ushort offset)
     {
         Name = name;

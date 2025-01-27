@@ -14,17 +14,17 @@ using VaultLib.ModernBase;
 namespace VaultLib.Support.World.VLT;
 
 [VltTypeInfo(nameof(ControllerDataRecord))]
-public class ControllerDataRecord : VltBaseType, IReferencesStrings
+public class ControllerDataRecord: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public string DeviceId { get; set; } = string.Empty;
     public InputUpdateType UpdateType { get; set; }
     public float LowerDeadZone { get; set; }
     public float UpperDeadZone { get; set; }
 
-    private StringKey InternalDeviceId { get; set; } = new();
+    private StringKey32 InternalDeviceId { get; set; } = new();
 
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         InternalDeviceId.Read(context, fieldContext, br);
         UpdateType = br.ReadEnum<InputUpdateType>();
@@ -32,7 +32,7 @@ public class ControllerDataRecord : VltBaseType, IReferencesStrings
         UpperDeadZone = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         InternalDeviceId.Value = DeviceId;
         InternalDeviceId.Write(context, fieldContext, bw);
@@ -46,18 +46,18 @@ public class ControllerDataRecord : VltBaseType, IReferencesStrings
         return new[] { DeviceId };
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         InternalDeviceId.ReadPointerData(context, fieldContext, br);
         DeviceId = InternalDeviceId.Value;
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         InternalDeviceId.WritePointerData(context, fieldContext, bw);
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
         InternalDeviceId.AddPointers(context, fieldContext);
     }

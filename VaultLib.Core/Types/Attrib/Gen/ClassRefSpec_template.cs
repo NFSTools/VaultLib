@@ -9,7 +9,7 @@ using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Core.Types.Attrib.Gen;
 
-public abstract class ClassRefSpec_template : BaseRefSpec
+public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey>
 {
     protected ClassRefSpec_template(string classKey)
     {
@@ -34,7 +34,7 @@ public abstract class ClassRefSpec_template : BaseRefSpec
         set => _collectionKey = value;
     }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
         if (context.Database.Options.Type == DatabaseType.X86Database)
         {
@@ -47,7 +47,8 @@ public abstract class ClassRefSpec_template : BaseRefSpec
         br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         if (context.Database.Options.Type == DatabaseType.X86Database)
             bw.Write(Vlt32Hasher.Hash(CollectionKey));

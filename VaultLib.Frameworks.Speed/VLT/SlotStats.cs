@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(SlotStats))]
-public class SlotStats : VltBaseType, IReferencesStrings
+public class SlotStats: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public enum StatsModeFlag
     {
@@ -71,7 +71,7 @@ public class SlotStats : VltBaseType, IReferencesStrings
     public uint TuningSliderListString { get; set; }
     public FEPhysicsStatType[] Stats { get; set; } = new FEPhysicsStatType[2];
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         SlotName = context.ReadString(br);
         ModeFlags = br.ReadEnum<StatsModeFlag>();
@@ -80,7 +80,7 @@ public class SlotStats : VltBaseType, IReferencesStrings
         Stats = br.ReadArray(br.ReadEnum<FEPhysicsStatType>, 2);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         context.WriteString(SlotName, fieldContext, bw);
         bw.WriteEnum(ModeFlags);
@@ -89,15 +89,15 @@ public class SlotStats : VltBaseType, IReferencesStrings
         bw.WriteArray(Stats, bw.WriteEnum);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

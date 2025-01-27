@@ -8,14 +8,14 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(PhysicsUpgrade))]
-public class PhysicsUpgrade : VltBaseType
+public class PhysicsUpgrade: VltBaseType<uint>
 {
-    public AttributeRefSpec ReferencedAttribute { get; set; } = new();
+    public AttributeRefSpec32 ReferencedAttribute { get; set; } = new();
     public bool IsMember { get; set; }
     public uint MemberIndex { get; set; }
     public float BlendingPower { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         ReferencedAttribute.Read(context, fieldContext, br);
         IsMember = br.ReadBoolean();
@@ -24,7 +24,7 @@ public class PhysicsUpgrade : VltBaseType
         BlendingPower = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         ReferencedAttribute.Write(context, fieldContext, bw);
         bw.Write(IsMember);

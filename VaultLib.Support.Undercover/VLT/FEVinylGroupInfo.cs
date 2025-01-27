@@ -5,7 +5,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(FEVinylGroupInfo))]
-public class FEVinylGroupInfo : VltBaseType
+public class FEVinylGroupInfo: VltBaseType<uint>
 {
     public uint Value1 { get; set; }
     public uint Value2 { get; set; }
@@ -13,7 +13,7 @@ public class FEVinylGroupInfo : VltBaseType
     public uint Value4 { get; set; }
     public uint Value5 { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         Value1 = br.ReadUInt32();
         Value2 = br.ReadUInt32();
@@ -22,7 +22,7 @@ public class FEVinylGroupInfo : VltBaseType
         Value5 = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.Write(Value1);
         bw.Write(Value2);

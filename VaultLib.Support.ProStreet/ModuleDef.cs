@@ -13,18 +13,18 @@ using VaultLib.ModernBase.Structures;
 
 namespace VaultLib.Support.ProStreet;
 
-public class ModuleDef : BaseGameModule
+public class ModuleDef : BaseGameModule<uint>
 {
-    public override void RegisterTypes(TypeRegistry typeRegistry)
+    public override void RegisterTypes(TypeRegistry<uint> typeRegistry)
     {
-        typeRegistry.Register<StringKey>("Attrib::StringKey");
+        typeRegistry.Register<StringKey32>("Attrib::StringKey");
         SpeedFramework.Register(typeRegistry);
         typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
     }
 
-    public override ExportFactory CreateExportFactory()
+    public override ExportFactory<uint> CreateExportFactory()
     {
-        return new ExportFactory(() => new DatabaseLoad(), () => new ClassLoad(), () => new CollectionLoad(),
-            () => new ExportEntry());
+        return new ExportFactory<uint>(() => new DatabaseLoad(), () => new ClassLoad32(), () => new CollectionLoad(),
+            () => new ExportEntry32());
     }
 }

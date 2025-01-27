@@ -9,7 +9,7 @@ using VaultLib.Core.Hashing;
 
 namespace VaultLib.Core.Chunks;
 
-public class BinStringsChunk : ChunkBase
+public class BinStringsChunk<TKey> : ChunkBase<TKey>
 {
     public List<string> Strings { get; set; }
 
@@ -17,7 +17,7 @@ public class BinStringsChunk : ChunkBase
     public override uint Size { get; set; }
     public override long Offset { get; set; }
 
-    public override void Read(VaultReadContext context, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, BinaryReader br)
     {
         while (br.BaseStream.Position < EndOffset)
         {
@@ -28,7 +28,7 @@ public class BinStringsChunk : ChunkBase
         }
     }
 
-    public override void Write(VaultWriteContext context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, BinaryWriter bw)
     {
         // Assembly currentAssembly = Assembly.GetAssembly(typeof(Database));
         // AssemblyMetadataAttribute metadataAttribute =

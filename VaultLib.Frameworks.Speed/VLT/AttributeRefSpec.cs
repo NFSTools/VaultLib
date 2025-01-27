@@ -8,12 +8,12 @@ using VaultLib.Core.Types;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo("AtttributeRefSpec")]
-public class AttributeRefSpec : VltBaseType
+public abstract class AttributeRefSpec<TKey> : VltBaseType<TKey>
 {
     public string ClassKey { get; set; }
     public string DefinitionKey { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
         if (context.Database.Options.Type == DatabaseType.X86Database)
         {
@@ -27,7 +27,7 @@ public class AttributeRefSpec : VltBaseType
         }
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
     {
         if (context.Database.Options.Type == DatabaseType.X86Database)
         {
@@ -41,3 +41,6 @@ public class AttributeRefSpec : VltBaseType
         }
     }
 }
+
+public class AttributeRefSpec32 : AttributeRefSpec<uint> {}
+public class AttributeRefSpec64 : AttributeRefSpec<ulong> {}

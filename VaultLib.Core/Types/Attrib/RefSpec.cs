@@ -10,7 +10,7 @@ using VaultLib.Core.Types.Abstractions;
 namespace VaultLib.Core.Types.Attrib;
 
 [VltTypeInfo("Attrib::RefSpec")]
-public class RefSpec : BaseRefSpec
+public class RefSpec<TKey> : BaseRefSpec<TKey>
 {
     public override string ClassKey { get; set; }
 
@@ -32,7 +32,7 @@ public class RefSpec : BaseRefSpec
         set => _collectionKey = value;
     }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
         if (context.Database.Options.Type == DatabaseType.X64Database)
         {
@@ -49,7 +49,8 @@ public class RefSpec : BaseRefSpec
         }
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         if (context.Database.Options.Type == DatabaseType.X64Database)
         {
@@ -70,3 +71,6 @@ public class RefSpec : BaseRefSpec
     private ulong _collectionHash64;
     private string _collectionKey;
 }
+
+public class RefSpec32 : RefSpec<uint> {}
+public class RefSpec64 : RefSpec<ulong> {}

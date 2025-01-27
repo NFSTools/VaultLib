@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.NIS;
 
 [VltTypeInfo("NIS::SceneRoot")]
-public class SceneRoot : VltBaseType, IReferencesStrings
+public class SceneRoot: VltBaseType<uint>, IReferencesStrings<uint>
 {
     public enum eSceneRoot
     {
@@ -35,27 +35,27 @@ public class SceneRoot : VltBaseType, IReferencesStrings
     public eSceneRoot SceneRootType { get; set; }
     public string MarkerName { get; set; } = string.Empty;
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         SceneRootType = br.ReadEnum<eSceneRoot>();
         MarkerName = context.ReadString(br);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(SceneRootType);
         context.WriteString(MarkerName, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext context, FieldReadWriteContext fieldContext)
+    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
     {
     }
 

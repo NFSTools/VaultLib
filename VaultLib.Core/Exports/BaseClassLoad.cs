@@ -1,22 +1,23 @@
 using System.IO;
 using VaultLib.Core.Data;
-using VaultLib.Core.Hashing;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Exports;
 
-public abstract class BaseClassLoad : BaseExport, IPointerObject
+public abstract class BaseClassLoad<TKey> : BaseExport<TKey>, IPointerObject<TKey>
 {
-    public VltClass Class { get; set; }
+    public VltClass<TKey> Class { get; set; }
 
-    public abstract void ReadPointerData(VaultReadContext context, BinaryReader br);
-    public abstract void WritePointerData(VaultWriteContext context, BinaryWriter bw);
-    public abstract void AddPointers(VaultWriteContext context);
+    public abstract void ReadPointerData(VaultReadContext<TKey> context, BinaryReader br);
+    public abstract void WritePointerData(VaultWriteContext<TKey> context, BinaryWriter bw);
+    public abstract void AddPointers(VaultWriteContext<TKey> context);
 
-    public override ulong GetExportId()
-    {
-        return Vlt32Hasher.Hash(Class.Name);
-    }
+    // public override ulong GetExportId()
+    // {
+    //     return Vlt32Hasher.Hash(Class.Name);
+    // }
+
+    public abstract override TKey GetExportId();
 
     public override string GetTypeId()
     {

@@ -4,11 +4,11 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.LegacyBase.Structures;
 
-public class ExportEntry64 : IExportEntry
+public class ExportEntry64 : IExportEntry<ulong>
 {
-    public void Read(VaultReadContext context, BinaryReader br)
+    public void Read(VaultReadContext<ulong> context, BinaryReader br)
     {
-        ID = br.ReadUInt64();
+        Id = br.ReadUInt64();
         Type = br.ReadUInt64();
         if (br.ReadUInt32() != 0)
             throw new InvalidDataException();
@@ -18,9 +18,9 @@ public class ExportEntry64 : IExportEntry
             throw new InvalidDataException();
     }
 
-    public void Write(VaultWriteContext context, BinaryWriter bw)
+    public void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
     {
-        bw.Write(ID);
+        bw.Write(Id);
         bw.Write(Type);
         bw.Write(0);
         bw.Write(Size);
@@ -28,7 +28,7 @@ public class ExportEntry64 : IExportEntry
         bw.Write(0);
     }
 
-    public ulong ID { get; set; }
+    public ulong Id { get; set; }
     public ulong Type { get; set; }
     public uint Size { get; set; }
     public uint Offset { get; set; }

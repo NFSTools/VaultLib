@@ -13,15 +13,15 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.World.VLT.PowerUps;
 
 [VltTypeInfo("PowerUps::EmitterEffectAndTarget")]
-public class EmitterEffectAndTarget : VltBaseType, IReferencesCollections
+public class EmitterEffectAndTarget: VltBaseType<uint>, IReferencesCollections<uint>
 {
     public string EmitterKey { get; set; }
     public uint Type { get; set; }
     public float Intensity { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
-        RefSpec rs = new RefSpec();
+        var rs = new RefSpec<uint>();
         rs.Read(context, fieldContext, br);
 
         EmitterKey = rs.CollectionKey;
@@ -29,9 +29,9 @@ public class EmitterEffectAndTarget : VltBaseType, IReferencesCollections
         Intensity = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
-        RefSpec rs = new RefSpec();
+        var rs = new RefSpec<uint>();
         rs.ClassKey = "emittergroup";
         rs.CollectionKey = EmitterKey;
         rs.Write(context, fieldContext, bw);
@@ -39,9 +39,9 @@ public class EmitterEffectAndTarget : VltBaseType, IReferencesCollections
         bw.Write(Intensity);
     }
 
-    public IEnumerable<CollectionReferenceInfo> GetReferencedCollections(Database database, Vault vault)
+    public IEnumerable<CollectionReferenceInfo<uint>> GetReferencedCollections(Database<uint> database, Vault<uint> vault)
     {
-        yield return new CollectionReferenceInfo(this,
+        yield return new CollectionReferenceInfo<uint>(this,
             database.RowManager.FindCollectionByName("emittergroup", EmitterKey));
     }
 

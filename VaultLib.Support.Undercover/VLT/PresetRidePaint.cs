@@ -9,16 +9,16 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(PresetRidePaint))]
-public class PresetRidePaint : VltBaseType
+public class PresetRidePaint: VltBaseType<uint>
 {
     public ePaintSlot SlotID { get; set; }
-    public RefSpec Group { get; set; } = new();
+    public RefSpec<uint> Group { get; set; } = new();
     public byte Swatch { get; set; }
     public float Saturation { get; set; }
     public float Variance { get; set; }
     public bool Unknown { get; set; }
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         SlotID = br.ReadEnum<ePaintSlot>();
         Group.Read(context, fieldContext, br);
@@ -30,7 +30,7 @@ public class PresetRidePaint : VltBaseType
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(SlotID);
         Group.Write(context, fieldContext, bw);

@@ -5,7 +5,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.World.VLT.Sound;
 
 [VltTypeInfo("Sound::ChasedownMusicTuning")]
-public class ChasedownMusicTuning : VltBaseType
+public class ChasedownMusicTuning: VltBaseType<uint>
 {
     public float[] StartTimeLimit { get; set; } = new float[2];
     public float[] LowTimeLimit { get; set; } = new float[2];
@@ -14,7 +14,7 @@ public class ChasedownMusicTuning : VltBaseType
     public float[] HighTimeLimit { get; set; } = new float[2];
     public float[] OpponentDamageThreshold { get; set; } = new float[2];
 
-    public override void Read(VaultReadContext context, FieldReadWriteContext fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
     {
         for (int i = 0; i < StartTimeLimit.Length; i++)
         {
@@ -47,7 +47,7 @@ public class ChasedownMusicTuning : VltBaseType
         }
     }
 
-    public override void Write(VaultWriteContext context, FieldReadWriteContext fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
     {
         for (int i = 0; i < StartTimeLimit.Length; i++)
         {
