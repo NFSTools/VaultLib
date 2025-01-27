@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 namespace VaultLib.Support.World.VLT.Attrib.Gen;
 
 [VltTypeInfo("Attrib::Gen::ClassRefSpec_fe_flashers")]
-public class ClassRefSpec_fe_flashers : ClassRefSpec_template<uint>
+public class ClassRefSpec_fe_flashers : ClassRefSpec_template<VaultLib.Core.DataInterfaces.Key32>
 {
     public ClassRefSpec_fe_flashers() : base("fe_flashers")
     {

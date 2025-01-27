@@ -4,10 +4,11 @@
 
 using System;
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Chunks;
 
-public class GenericChunk<TKey> : ChunkBase<TKey>
+public class GenericChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
 {
     public GenericChunk(uint id)
     {

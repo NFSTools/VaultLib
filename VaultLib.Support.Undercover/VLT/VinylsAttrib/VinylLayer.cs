@@ -7,7 +7,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib;
 
 [VltTypeInfo("VinylsAttrib::VinylLayer")]
-public class VinylLayer: VltBaseType<uint>
+public class VinylLayer: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public VinylLayer()
     {
@@ -24,7 +24,7 @@ public class VinylLayer: VltBaseType<uint>
     public VinylTransform Transform { get; set; }
     public VinylColor[] Colors { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         PartNameHash = br.ReadUInt32();
         Mirrored = br.ReadBoolean();
@@ -37,7 +37,7 @@ public class VinylLayer: VltBaseType<uint>
         }
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(PartNameHash);
         bw.Write(Mirrored);

@@ -7,10 +7,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>VaultLib.Support.World</PackageId>
     <Product>VaultLib.Support.World</Product>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Version>3.0.0-dev</Version>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

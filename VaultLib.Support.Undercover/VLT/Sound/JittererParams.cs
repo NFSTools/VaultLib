@@ -6,14 +6,14 @@ namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::JittererParams")]
 // TODO: determine what this is
-public class JittererParams: VltBaseType<uint>
+public class JittererParams: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public float Unknown1 { get; set; }
     public float Unknown2 { get; set; }
     public float Unknown3 { get; set; }
     public float Unknown4 { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         Unknown1 = br.ReadSingle();
         Unknown2 = br.ReadSingle();
@@ -21,7 +21,7 @@ public class JittererParams: VltBaseType<uint>
         Unknown4 = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(Unknown1);
         bw.Write(Unknown2);

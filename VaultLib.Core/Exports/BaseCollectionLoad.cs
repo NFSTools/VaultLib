@@ -1,11 +1,11 @@
 using System.IO;
 using VaultLib.Core.Data;
-using VaultLib.Core.Hashing;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Exports;
 
-public abstract class BaseCollectionLoad<TKey> : BaseExport<TKey>, IPointerObject<TKey>
+public abstract class BaseCollectionLoad<TKey> : BaseExport<TKey>, IPointerObject<TKey> where TKey : IKey<TKey>
 {
     /// <summary>
     ///     The collection being described by this export.

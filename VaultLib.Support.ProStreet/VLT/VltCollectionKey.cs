@@ -7,17 +7,17 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo("DUMMY_VltCollectionKey")]
-public class VltCollectionKey: VltBaseType<uint>, IStringValue
+public class VltCollectionKey: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IStringValue
 {
     public string CollectionKey { get; set; } = string.Empty;
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         var collectionKey = br.ReadUInt32();
         CollectionKey = HashManager.ResolveVlt(collectionKey);
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(Vlt32Hasher.Hash(CollectionKey));
     }

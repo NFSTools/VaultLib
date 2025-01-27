@@ -4,21 +4,22 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT;
 
 [VltTypeInfo(nameof(SkyDomeModelStruct))]
-public class SkyDomeModelStruct: VltBaseType<uint>
+public class SkyDomeModelStruct: VltBaseType<Key32>
 {
     public uint Hash { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         Hash = br.ReadUInt32(); // SKYDOME_1_DAWN, SKYDOME_1_DUSK, etc
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(Hash);
     }

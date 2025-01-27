@@ -5,11 +5,12 @@
 using System.Diagnostics;
 using System.IO;
 using CoreLibraries.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VariableArray<TKey> : IPointerObject<TKey>
+public class VariableArray<TKey> : IPointerObject<TKey> where TKey : IKey<TKey>
 {
     private uint _mArray;
     private long _ptrDst;

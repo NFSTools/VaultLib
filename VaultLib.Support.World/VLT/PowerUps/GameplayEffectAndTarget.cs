@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -13,14 +14,14 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.World.VLT.PowerUps;
 
 [VltTypeInfo("PowerUps::GameplayEffectAndTarget")]
-public class GameplayEffectAndTarget: VltBaseType<uint>, IReferencesCollections<uint>
+public class GameplayEffectAndTarget: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesCollections<VaultLib.Core.DataInterfaces.Key32>
 {
     public string GroupKey { get; set; }
     public uint Type { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
-        var rs = new RefSpec<uint>();
+        var rs = new RefSpec<Key32>();
         rs.Read(context, fieldContext, br);
         uint type = br.ReadUInt32();
 
@@ -28,18 +29,18 @@ public class GameplayEffectAndTarget: VltBaseType<uint>, IReferencesCollections<
         Type = type;
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
-        var rs = new RefSpec<uint>();
+        var rs = new RefSpec<Key32>();
         rs.ClassKey = "powerup_gamegroup";
         rs.CollectionKey = GroupKey;
         rs.Write(context, fieldContext, bw);
         bw.Write(Type);
     }
 
-    public IEnumerable<CollectionReferenceInfo<uint>> GetReferencedCollections(Database<uint> database, Vault<uint> vault)
+    public IEnumerable<CollectionReferenceInfo<VaultLib.Core.DataInterfaces.Key32>> GetReferencedCollections(Database<VaultLib.Core.DataInterfaces.Key32> database, Vault<VaultLib.Core.DataInterfaces.Key32> vault)
     {
-        yield return new CollectionReferenceInfo<uint>(this,
+        yield return new CollectionReferenceInfo<VaultLib.Core.DataInterfaces.Key32>(this,
             database.RowManager.FindCollectionByName("powerup_gamegroup", GroupKey));
     }
 

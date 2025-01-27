@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 
 namespace VaultLib.Core.Writer;
@@ -8,7 +9,7 @@ namespace VaultLib.Core.Writer;
 /// <summary>
 /// Manages information about exports to be built into a file.
 /// </summary>
-public class VaultExportManager<TKey>
+public class VaultExportManager<TKey> where TKey : IKey<TKey>
 {
     private VaultWriteContext<TKey> WriteContext { get; }
     private List<BaseExport<TKey>> Exports { get; }

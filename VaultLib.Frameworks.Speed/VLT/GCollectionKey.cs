@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
@@ -12,9 +13,9 @@ using VaultLib.Core.Types.Abstractions;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(GCollectionKey))]
-public class GCollectionKey : BaseRefSpec<uint>
+public class GCollectionKey : BaseRefSpec<Key32>
 {
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         if (context.Database.Options.Type == DatabaseType.X86Database)
         {
@@ -26,7 +27,7 @@ public class GCollectionKey : BaseRefSpec<uint>
         }
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
     {
         if (context.Database.Options.Type == DatabaseType.X86Database)
             bw.Write(Vlt32Hasher.Hash(CollectionKey));

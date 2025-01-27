@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.IO;
@@ -20,7 +21,7 @@ namespace VaultLib.Core.DB;
 /// <summary>
 ///     The <see cref="Database" /> is the powerhouse of the library. It keeps track of all data that is loaded.
 /// </summary>
-public class Database<TKey>
+public class Database<TKey> where TKey: IKey<TKey>
 {
     private Dictionary<VltCollection<TKey>, TKey> _parentKeyDictionary = new();
 

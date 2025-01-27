@@ -9,12 +9,13 @@ using System.IO;
 using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, IReferencesCollections<TKey>
+public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, IReferencesCollections<TKey> where TKey : IKey<TKey>
 {
     public VltArrayType(VltClassField<TKey> field, Type itemType)
     {

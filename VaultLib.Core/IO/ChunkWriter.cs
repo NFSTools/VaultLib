@@ -5,13 +5,14 @@
 using System;
 using System.IO;
 using VaultLib.Core.Chunks;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.IO;
 
 /// <summary>
 ///     Writes AttribSys-style chunks to a data stream.
 /// </summary>
-public class ChunkWriter<TKey>
+public class ChunkWriter<TKey> where TKey : IKey<TKey>
 {
     /// <summary>
     ///     Initializes the chunk writer with a backing <see cref="BinaryWriter" /> and <see cref="VaultLib.Core.Vault" />

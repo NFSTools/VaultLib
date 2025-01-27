@@ -3,10 +3,11 @@
 // Created: 09/24/2019 @ 4:12 PM.
 
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Chunks;
 
-public class VltStartChunk<TKey> : ChunkBase<TKey>
+public class VltStartChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
 {
     public override uint Id => 0x5374724E;
     public override uint Size { get; set; }

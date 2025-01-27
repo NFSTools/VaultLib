@@ -2,23 +2,23 @@
 // 
 // Created: 10/07/2019 @ 4:19 PM.
 
-using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports;
 
-public class CollectionLoad64 : BaseCollectionLoad<ulong>
+public class CollectionLoad64 : BaseCollectionLoad<Key64>
 {
     private uint _layoutPointer;
     private ulong[] _types;
@@ -27,7 +27,7 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
     private long _srcLayoutPtr;
     private long _dstLayoutPtr;
 
-    public override void Read(VaultReadContext<ulong> context, BinaryReader br)
+    public override void Read(VaultReadContext<Key64> context, BinaryReader br)
     {
         var mKey = br.ReadUInt64();
         var mClass = br.ReadUInt64();
@@ -43,8 +43,8 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
 
         Debug.Assert(mTableReserve == mNumEntries);
 
-        Collection = new VltCollection<ulong>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
-            HashManager.ResolveVlt(mKey), mKey);
+        Collection = new VltCollection<Key64>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
+            HashManager.ResolveVlt(mKey), new Key64(mKey));
 
         _types = new ulong[mNumTypes];
         for (var i = 0; i < mNumTypes; i++)
@@ -61,11 +61,11 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
             _entries[i] = attribEntry;
         }
 
-        ParentKey = mParent;
+        ParentKey = new Key64(mParent);
         context.Database.RowManager.AddCollection(Collection);
     }
 
-    public override void Prepare(Vault<ulong> vault)
+    public override void Prepare(Vault<Key64> vault)
     {
         List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetData()
             where !Collection.Class[pair.Key].IsInLayout
@@ -81,7 +81,7 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
             var optionalDataColumn = optionalDataColumns[index];
             var entry = new AttribEntry64(Collection);
 
-            entry.Key = Vlt64Hasher.Hash(optionalDataColumn.Key);
+            entry.Key = new Key64(Vlt64Hasher.Hash(optionalDataColumn.Key));
             var vltClassField = Collection.Class[optionalDataColumn.Key];
             entry.TypeIndex = (ushort)Array.IndexOf(_types,
                 Vlt64Hasher.Hash(vltClassField.TypeName));
@@ -94,7 +94,7 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
             }
             else
             {
-                entry.InlineData = new VltAttribType<ulong>()
+                entry.InlineData = new VltAttribType<Key64>
                 {
                     Data = optionalDataColumn.Value
                 };
@@ -109,7 +109,7 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
         }
     }
 
-    public override void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
         bw.Write(Vlt64Hasher.Hash(Collection.Name));
         bw.Write(Vlt64Hasher.Hash(Collection.Class.Name));
@@ -133,12 +133,12 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
         }
     }
 
-    public override ulong GetExportId()
+    public override Key64 GetExportId()
     {
-        return Vlt64Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
+        return Key64.FromString($"{Collection.Class.Name}/{Collection.Name}");
     }
 
-    public override void ReadPointerData(VaultReadContext<ulong> context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<Key64> context, BinaryReader br)
     {
         if (_layoutPointer != 0)
         {
@@ -146,7 +146,7 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                var fieldContext = new FieldReadWriteContext<ulong>(Collection.Class, baseField, Collection);
+                var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, baseField, Collection);
                 br.SafeAlignReader(baseField.Alignment);
 
                 long startPos = br.BaseStream.Position;
@@ -168,7 +168,7 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
         foreach (var entry in _entries)
         {
             var optionalField = Collection.Class[entry.Key];
-            var fieldContext = new FieldReadWriteContext<ulong>(Collection.Class, optionalField, Collection);
+            var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, optionalField, Collection);
 
             if ((optionalField.Flags & DefinitionFlags.IsStatic) != 0)
             {
@@ -176,7 +176,7 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
                     "Congratulations. You have successfully broken this library. Please consult with your doctor for further instructions.");
             }
 
-            if (entry.InlineData is VltAttribType<ulong> attribType)
+            if (entry.InlineData is VltAttribType<Key64> attribType)
             {
                 attribType.ReadPointerData(context, fieldContext, br);
                 Collection.SetRawValue(optionalField.Name, attribType.Data);
@@ -192,19 +192,19 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
         foreach (var dataEntry in Collection.GetData())
         {
             var fieldContext =
-                new FieldReadWriteContext<ulong>(Collection.Class, Collection.Class[dataEntry.Key], Collection);
-            if (dataEntry.Value is IVltPointerObject<ulong> vltPointerObject)
+                new FieldReadWriteContext<Key64>(Collection.Class, Collection.Class[dataEntry.Key], Collection);
+            if (dataEntry.Value is IVltPointerObject<Key64> vltPointerObject)
             {
                 vltPointerObject.ReadPointerData(context, fieldContext, br);
             }
         }
     }
 
-    public override void WritePointerData(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
         foreach (var baseField in Collection.Class.BaseFields)
         {
-            var fieldContext = new FieldReadWriteContext<ulong>(Collection.Class, baseField, Collection);
+            var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, baseField, Collection);
             bw.AlignWriter(baseField.Alignment);
             if (_dstLayoutPtr == 0)
             {
@@ -223,13 +223,13 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
         foreach (var dataPair in Collection.GetData())
         {
             var field = Collection.Class[dataPair.Key];
-            var fieldContext = new FieldReadWriteContext<ulong>(Collection.Class, field, Collection);
+            var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, field, Collection);
 
             if (!field.IsInLayout)
             {
                 var entry = _entries.First(e => e.Key == field.Key);
 
-                if (entry.InlineData is IVltPointerObject<ulong> vltPointerObject)
+                if (entry.InlineData is IVltPointerObject<Key64> vltPointerObject)
                 {
                     bw.AlignWriter(field.Alignment);
                     vltPointerObject.WritePointerData(context, fieldContext, bw);
@@ -237,7 +237,7 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
             }
             else
             {
-                if (dataPair.Value is IVltPointerObject<ulong> vltPointerObject)
+                if (dataPair.Value is IVltPointerObject<Key64> vltPointerObject)
                 {
                     bw.AlignWriter(field.Alignment);
                     vltPointerObject.WritePointerData(context, fieldContext, bw);
@@ -248,16 +248,16 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
         bw.AlignWriter(Collection.Class.HasBaseFields ? 4 : 2);
     }
 
-    public override void AddPointers(VaultWriteContext<ulong> context)
+    public override void AddPointers(VaultWriteContext<Key64> context)
     {
         context.AddPointer(_srcLayoutPtr, _dstLayoutPtr, true);
 
         foreach (var baseField in Collection.Class.BaseFields)
         {
-            var fieldContext = new FieldReadWriteContext<ulong>(Collection.Class, baseField, Collection);
+            var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, baseField, Collection);
             var rawValue = Collection.GetRawValue(baseField.Name);
 
-            if (rawValue is IVltPointerObject<ulong> vltPointerObject)
+            if (rawValue is IVltPointerObject<Key64> vltPointerObject)
             {
                 vltPointerObject.AddPointers(context, fieldContext);
             }
@@ -265,8 +265,9 @@ public class CollectionLoad64 : BaseCollectionLoad<ulong>
 
         foreach (var entry in _entries)
         {
-            var fieldContext = new FieldReadWriteContext<ulong>(Collection.Class, Collection.Class[entry.Key], Collection);
-            if (entry.InlineData is IVltPointerObject<ulong> vltPointerObject)
+            var fieldContext =
+                new FieldReadWriteContext<Key64>(Collection.Class, Collection.Class[entry.Key], Collection);
+            if (entry.InlineData is IVltPointerObject<Key64> vltPointerObject)
             {
                 vltPointerObject.AddPointers(context, fieldContext);
             }

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 
 namespace VaultLib.Core;
@@ -12,7 +13,7 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides utilities for the saving process
 /// </summary>
-public class VaultReadContext<TKey>
+public class VaultReadContext<TKey> where TKey : IKey<TKey>
 {
     public Database<TKey> Database { get; }
 

@@ -12,7 +12,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using VaultLib.Core.Data;
-using VaultLib.Core.Hashing;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -21,9 +21,9 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides a facility for mapping type names to actual types.
 /// </summary>
-public class TypeRegistry<TKey>
+public class TypeRegistry<TKey> where TKey : IKey<TKey>
 {
-    private readonly Dictionary<string, Type> _typeDictionary = new();
+    private readonly Dictionary<TKey, Type> _typeDictionary = new();
 
     private readonly Dictionary<Type, ObjectActivator<object>> _activators = new();
 
@@ -71,13 +71,7 @@ public class TypeRegistry<TKey>
 
     private void AddType(string typeName, Type type)
     {
-        _typeDictionary[typeName] = type;
-
-        // TODO: Get rid of this. When we have type-safe keys, this should no longer be necessary.
-        var hash32 = Vlt32Hasher.Hash(typeName);
-        var hash64 = Vlt64Hasher.Hash(typeName);
-        _typeDictionary[$"0x{hash32:X8}"] = type;
-        _typeDictionary[$"0x{hash64:X16}"] = type;
+        _typeDictionary[TKey.FromString(typeName)] = type;
     }
 
     public void Map<TDest>(string typeId)
@@ -395,7 +389,7 @@ Any user-defined struct type that contains fields of unmanaged types only.
 
     public Type ResolveType(string typeId)
     {
-        if (_typeDictionary.TryGetValue(typeId, out var type))
+        if (_typeDictionary.TryGetValue(TKey.FromString(typeId), out var type))
             return type;
 
         throw new KeyNotFoundException($"Type '{typeId}' is not registered");

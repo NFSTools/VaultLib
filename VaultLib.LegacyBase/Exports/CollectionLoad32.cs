@@ -2,14 +2,15 @@
 // 
 // Created: 10/07/2019 @ 4:19 PM.
 
-using CoreLibraries.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
@@ -17,7 +18,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports;
 
-public class CollectionLoad32 : BaseCollectionLoad<uint>
+public class CollectionLoad32 : BaseCollectionLoad<Key32>
 {
     private uint _layoutPointer;
     private uint[] _types;
@@ -26,7 +27,7 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
     private long _srcLayoutPtr;
     private long _dstLayoutPtr;
 
-    public override void Read(VaultReadContext<uint> context, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, BinaryReader br)
     {
         var mKey = br.ReadUInt32(); // 4
         var mClass = br.ReadUInt32(); // 8
@@ -39,8 +40,8 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
 
         Debug.Assert(mTableReserve == mNumEntries);
 
-        Collection = new VltCollection<uint>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
-            HashManager.ResolveVlt(mKey), mKey);
+        Collection = new VltCollection<Key32>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
+            HashManager.ResolveVlt(mKey), new Key32(mKey));
 
         _types = new uint[mNumTypes];
         for (var i = 0; i < mNumTypes; i++)
@@ -57,11 +58,11 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
             _entries[i] = attribEntry;
         }
 
-        ParentKey = mParent;
+        ParentKey = new Key32(mParent);
         context.Database.RowManager.AddCollection(Collection);
     }
 
-    public override void Prepare(Vault<uint> vault)
+    public override void Prepare(Vault<Key32> vault)
     {
         List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetData()
             where !Collection.Class[pair.Key].IsInLayout
@@ -77,7 +78,7 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
             var optionalDataColumn = optionalDataColumns[index];
             var entry = new AttribEntry32(Collection);
 
-            entry.Key = Vlt32Hasher.Hash(optionalDataColumn.Key);
+            entry.Key = Key32.FromString(optionalDataColumn.Key);
             var vltClassField = Collection.Class[optionalDataColumn.Key];
             entry.TypeIndex = (ushort)Array.IndexOf(_types,
                 Vlt32Hasher.Hash(vltClassField.TypeName));
@@ -90,7 +91,7 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
             }
             else
             {
-                entry.InlineData = new VltAttribType<uint>()
+                entry.InlineData = new VltAttribType<Key32>()
                 {
                     Data = optionalDataColumn.Value
                 };
@@ -105,7 +106,7 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
         }
     }
 
-    public override void Write(VaultWriteContext<uint> context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
         bw.Write(Vlt32Hasher.Hash(Collection.Name));
         bw.Write(Vlt32Hasher.Hash(Collection.Class.Name));
@@ -129,12 +130,12 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
         }
     }
 
-    public override uint GetExportId()
+    public override Key32 GetExportId()
     {
-        return Vlt32Hasher.Hash($"{Collection.Class.Name}/{Collection.Name}");
+        return Key32.FromString($"{Collection.Class.Name}/{Collection.Name}");
     }
 
-    public override void ReadPointerData(VaultReadContext<uint> context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<Key32> context, BinaryReader br)
     {
         if (_layoutPointer != 0)
         {
@@ -145,7 +146,7 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, baseField, Collection);
+                var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, baseField, Collection);
                 br.SafeAlignReader(baseField.Alignment);
 
                 if (br.BaseStream.Position - _layoutPointer != baseField.Offset)
@@ -179,7 +180,7 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
         foreach (var entry in _entries)
         {
             var optionalField = Collection.Class[entry.Key];
-            var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, optionalField, Collection);
+            var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, optionalField, Collection);
 
             if ((optionalField.Flags & DefinitionFlags.IsStatic) != 0)
             {
@@ -196,7 +197,7 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
                 Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsArray) == 0);
             }
 
-            if (entry.InlineData is VltAttribType<uint> attribType)
+            if (entry.InlineData is VltAttribType<Key32> attribType)
             {
                 Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) == 0);
                 attribType.ReadPointerData(context, fieldContext, br);
@@ -213,15 +214,15 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
         foreach (var dataEntry in Collection.GetData())
         {
             var fieldContext =
-                new FieldReadWriteContext<uint>(Collection.Class, Collection.Class[dataEntry.Key], Collection);
-            if (dataEntry.Value is IVltPointerObject<uint> vltPointerObject)
+                new FieldReadWriteContext<Key32>(Collection.Class, Collection.Class[dataEntry.Key], Collection);
+            if (dataEntry.Value is IVltPointerObject<Key32> vltPointerObject)
             {
                 vltPointerObject.ReadPointerData(context, fieldContext, br);
             }
         }
     }
 
-    public override void WritePointerData(VaultWriteContext<uint> context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
         // Part 1: write base fields (layout)
         if (Collection.Class.HasBaseFields)
@@ -233,7 +234,7 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
 
             foreach (var baseField in Collection.Class.BaseFields)
             {
-                var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, baseField, Collection);
+                var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, baseField, Collection);
 
                 bw.BaseStream.Position = _dstLayoutPtr + baseField.Offset;
 
@@ -251,13 +252,13 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
         // Part 2: Write non-inline optional fields
         foreach (var entry in _entries)
         {
-            if (entry.InlineData is not VltAttribType<uint> attrib)
+            if (entry.InlineData is not VltAttribType<Key32> attrib)
             {
                 continue;
             }
 
             var field = Collection.Class[entry.Key];
-            var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, field, Collection);
+            var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, field, Collection);
 
             attrib.WritePointerData(context, fieldContext, bw);
         }
@@ -266,24 +267,24 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
         foreach (var entry in Collection.GetOrderedData())
         {
             var field = Collection.Class[entry.Key];
-            var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, field, Collection);
-            if (entry.Value is IVltPointerObject<uint> vltPointerObject)
+            var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, field, Collection);
+            if (entry.Value is IVltPointerObject<Key32> vltPointerObject)
             {
                 vltPointerObject.WritePointerData(context, fieldContext, bw);
             }
         }
     }
 
-    public override void AddPointers(VaultWriteContext<uint> context)
+    public override void AddPointers(VaultWriteContext<Key32> context)
     {
         context.AddPointer(_srcLayoutPtr, _dstLayoutPtr, true);
 
         foreach (var baseField in Collection.Class.BaseFields)
         {
-            var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, baseField, Collection);
+            var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, baseField, Collection);
             var rawValue = Collection.GetRawValue(baseField.Name);
 
-            if (rawValue is IVltPointerObject<uint> vltPointerObject)
+            if (rawValue is IVltPointerObject<Key32> vltPointerObject)
             {
                 vltPointerObject.AddPointers(context, fieldContext);
             }
@@ -292,22 +293,22 @@ public class CollectionLoad32 : BaseCollectionLoad<uint>
         foreach (var entry in _entries)
         {
             var fieldContext =
-                new FieldReadWriteContext<uint>(Collection.Class, Collection.Class[entry.Key], Collection);
-            if (entry.InlineData is IVltPointerObject<uint> vltPointerObject)
+                new FieldReadWriteContext<Key32>(Collection.Class, Collection.Class[entry.Key], Collection);
+            if (entry.InlineData is IVltPointerObject<Key32> vltPointerObject)
             {
                 vltPointerObject.AddPointers(context, fieldContext);
             }
         }
     }
 
-    private static long GetExpectedDataSize(VltClassField<uint> field, object value, long offset)
+    private static long GetExpectedDataSize(VltClassField<Key32> field, object value, long offset)
     {
         if (!field.IsArray)
         {
             return field.Size;
         }
 
-        var array = (VltArrayType<uint>)value;
+        var array = (VltArrayType<Key32>)value;
         var dataStartPos = offset + 8;
         var alignmentOffset = field.Alignment - 1;
         var alignedDataStartPos = (dataStartPos + alignmentOffset) & ~alignmentOffset;

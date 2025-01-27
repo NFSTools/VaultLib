@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 namespace VaultLib.Support.Undercover.VLT.Attrib.Gen;
 
 [VltTypeInfo("Attrib::Gen::ClassRefSpec_aud_wall_reverb")]
-public class ClassRefSpec_aud_wall_reverb : ClassRefSpec_template<uint>
+public class ClassRefSpec_aud_wall_reverb : ClassRefSpec_template<VaultLib.Core.DataInterfaces.Key32>
 {
     public ClassRefSpec_aud_wall_reverb() : base("aud_wall_reverb")
     {

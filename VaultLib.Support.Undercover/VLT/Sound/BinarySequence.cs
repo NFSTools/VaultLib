@@ -12,19 +12,19 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::BinarySequence")]
-public class BinarySequence: VltBaseType<uint>
+public class BinarySequence: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public bool Value { get; set; }
     public float Duration { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         Value = br.ReadBoolean();
         br.SafeAlignReader(4);
         Duration = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(Value);
         bw.AlignWriter(4);

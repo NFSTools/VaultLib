@@ -1,10 +1,11 @@
 ﻿using System.IO;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Types.Attrib;
 
 // For information about the blob system, go to: https://github.com/NFSTools/VaultLib/issues/1
 [VltTypeInfo("Attrib::Blob")]
-public class Blob<TKey> : BaseBlob<TKey>
+public class Blob<TKey> : BaseBlob<TKey> where TKey : IKey<TKey>
 {
     protected override void PrepareData()
     {

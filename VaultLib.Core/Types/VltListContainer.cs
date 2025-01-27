@@ -4,11 +4,12 @@
 
 using System.Collections.Generic;
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltListContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey>
+public class VltListContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : IKey<TKey>
 {
     private long _dstPtr;
 
@@ -27,7 +28,8 @@ public class VltListContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObjec
 
     public List<TItem> Items { get; }
 
-    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryReader br)
     {
         br.BaseStream.Position = _pointer;
 
@@ -41,7 +43,8 @@ public class VltListContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObjec
         }
     }
 
-    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         _dstPtr = bw.BaseStream.Position;
 
@@ -62,7 +65,8 @@ public class VltListContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObjec
         _pointer = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         _srcPtr = bw.BaseStream.Position;
         bw.Write(0);

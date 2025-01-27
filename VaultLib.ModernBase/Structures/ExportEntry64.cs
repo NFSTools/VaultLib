@@ -8,26 +8,26 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.ModernBase.Structures;
 
-public class ExportEntry64 : IExportEntry<ulong>
+public class ExportEntry64 : IExportEntry<Key64>
 {
-    public void Read(VaultReadContext<ulong> context, BinaryReader br)
+    public void Read(VaultReadContext<Key64> context, BinaryReader br)
     {
-        Id = br.ReadUInt64();
-        Type = br.ReadUInt64();
+        Id = new Key64(br.ReadUInt64());
+        Type = new Key64(br.ReadUInt64());
         Size = br.ReadUInt32();
         Offset = br.ReadUInt32();
     }
 
-    public void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
-        bw.Write(Id);
-        bw.Write(Type);
+        bw.Write(Id.Hash);
+        bw.Write(Type.Hash);
         bw.Write(Size);
         bw.Write(Offset);
     }
 
-    public ulong Id { get; set; }
-    public ulong Type { get; set; }
+    public Key64 Id { get; set; }
+    public Key64 Type { get; set; }
     public uint Size { get; set; }
     public uint Offset { get; set; }
 }

@@ -8,18 +8,18 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing;
 
-public class Slider: VltBaseType<uint>
+public class Slider: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public uint Region { get; set; }
     public uint Zone { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         Region = br.ReadUInt32();
         Zone = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(Region);
         bw.Write(Zone);

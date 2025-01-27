@@ -1,8 +1,9 @@
 using System;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Exports;
 
-public abstract class BaseDatabaseLoad<TKey> : BaseExport<TKey>
+public abstract class BaseDatabaseLoad<TKey> : BaseExport<TKey> where TKey : IKey<TKey>
 {
     public override TKey GetExportId()
     {

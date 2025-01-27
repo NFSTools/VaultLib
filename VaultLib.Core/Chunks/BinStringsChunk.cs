@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 
 namespace VaultLib.Core.Chunks;
 
-public class BinStringsChunk<TKey> : ChunkBase<TKey>
+public class BinStringsChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
 {
     public List<string> Strings { get; set; }
 

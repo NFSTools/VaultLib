@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cRenderTargetAttribDefinition")]
-public class cRenderTargetAttribDefinition: VltBaseType<uint>
+public class cRenderTargetAttribDefinition: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public uint NumColorSurfaces { get; set; }
     public ScreenSizeMode WidthMode { get; set; }
@@ -21,7 +21,7 @@ public class cRenderTargetAttribDefinition: VltBaseType<uint>
     public PixelFormatType TargetDepthStencilFormat { get; set; }
     public MultiSampleMode MultiSampleMode { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         NumColorSurfaces = br.ReadUInt32();
         WidthMode = br.ReadEnum<ScreenSizeMode>();
@@ -37,7 +37,7 @@ public class cRenderTargetAttribDefinition: VltBaseType<uint>
         MultiSampleMode = br.ReadEnum<MultiSampleMode>();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(NumColorSurfaces);
         bw.WriteEnum(WidthMode);

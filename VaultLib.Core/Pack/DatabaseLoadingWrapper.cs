@@ -1,4 +1,5 @@
 ﻿using System;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 
 namespace VaultLib.Core.Pack;
@@ -6,7 +7,7 @@ namespace VaultLib.Core.Pack;
 /// <summary>
 /// Simple disposable class that calls <see cref="Database.CompleteLoad"/> so you don't have to.
 /// </summary>
-public class DatabaseLoadingWrapper<TKey> : IDisposable
+public class DatabaseLoadingWrapper<TKey> : IDisposable where TKey : IKey<TKey>
 {
     private readonly Database<TKey> _database;
 

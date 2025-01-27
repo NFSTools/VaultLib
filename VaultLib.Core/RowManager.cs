@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 
 namespace VaultLib.Core;
@@ -15,7 +16,7 @@ namespace VaultLib.Core;
 ///     Manager class for collections ("rows")
 ///     Provides methods to access and manage row data
 /// </summary>
-public class RowManager<TKey>
+public class RowManager<TKey> where TKey : IKey<TKey>
 {
     private readonly Database<TKey> _database;
 

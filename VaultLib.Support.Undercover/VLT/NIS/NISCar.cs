@@ -14,14 +14,14 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.NIS;
 
 [VltTypeInfo("NIS::NISCar")]
-public class NISCar: VltBaseType<uint>, IReferencesStrings<uint>
+public class NISCar: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<uint> PresetRide { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> PresetRide { get; set; } = new();
     public string PresetSkinName { get; set; } = string.Empty;
     public uint VehicleCategory { get; set; }
     public string ChannelName { get; set; } = string.Empty;
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         PresetRide.Read(context, fieldContext, br);
         PresetSkinName = context.ReadString(br);
@@ -29,7 +29,7 @@ public class NISCar: VltBaseType<uint>, IReferencesStrings<uint>
         ChannelName = context.ReadString(br);
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         PresetRide.Write(context, fieldContext, bw);
         context.WriteString(PresetSkinName, fieldContext, bw);
@@ -37,15 +37,15 @@ public class NISCar: VltBaseType<uint>, IReferencesStrings<uint>
         context.WriteString(ChannelName, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
+    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
     {
     }
 

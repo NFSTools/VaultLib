@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 
@@ -16,7 +17,7 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides utilities for the saving process
 /// </summary>
-public class VaultWriteContext<TKey>
+public class VaultWriteContext<TKey> where TKey: IKey<TKey>
 {
     public VaultWriteOptions Options { get; }
 

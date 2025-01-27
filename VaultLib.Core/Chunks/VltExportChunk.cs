@@ -2,17 +2,17 @@
 // 
 // Created: 09/24/2019 @ 4:32 PM.
 
-using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Exports;
 
 namespace VaultLib.Core.Chunks;
 
-public class VltExportChunk<TKey> : ChunkBase<TKey>
+public class VltExportChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
 {
     private readonly List<IExportEntry<TKey>> _exports;
 

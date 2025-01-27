@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core;
-using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -15,14 +15,14 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(EffectLinkageRecord))]
-public class EffectLinkageRecord: VltBaseType<uint>, IReferencesCollections<uint>
+public class EffectLinkageRecord: VltBaseType<Key32>, IReferencesCollections<Key32>
 {
-    public RefSpec<uint> Surface { get; set; } = new();
-    public RefSpec<uint> Effect { get; set; } = new();
+    public RefSpec<Key32> Surface { get; set; } = new();
+    public RefSpec<Key32> Effect { get; set; } = new();
     public float MinSpeed { get; set; }
     public float MaxSpeed { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         Surface.Read(context, fieldContext, br);
         Effect.Read(context, fieldContext, br);
@@ -31,7 +31,7 @@ public class EffectLinkageRecord: VltBaseType<uint>, IReferencesCollections<uint
         MaxSpeed = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
     {
         Surface.Write(context, fieldContext, bw);
         Effect.Write(context, fieldContext, bw);
@@ -39,7 +39,7 @@ public class EffectLinkageRecord: VltBaseType<uint>, IReferencesCollections<uint
         bw.Write(MaxSpeed);
     }
 
-    public IEnumerable<CollectionReferenceInfo<uint>> GetReferencedCollections(Database<uint> database, Vault<uint> vault)
+    public IEnumerable<CollectionReferenceInfo<Key32>> GetReferencedCollections(Database<Key32> database, Vault<Key32> vault)
     {
         return Surface.GetReferencedCollections(database, vault)
             .Concat(Effect.GetReferencedCollections(database, vault));

@@ -10,12 +10,12 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.LegacyBase;
 
-public class AttribDefinition32 : IAttribDefinition<uint>
+public class AttribDefinition32 : IAttribDefinition<Key32>
 {
-    public void Read(VaultReadContext<uint> context, BinaryReader br)
+    public void Read(VaultReadContext<Key32> context, BinaryReader br)
     {
-        Key = br.ReadUInt32();
-        Type = br.ReadUInt32();
+        Key = new Key32(br.ReadUInt32());
+        Type = new Key32(br.ReadUInt32());
         Offset = br.ReadUInt16();
         Size = br.ReadUInt16();
         MaxCount = br.ReadUInt16();
@@ -28,10 +28,10 @@ public class AttribDefinition32 : IAttribDefinition<uint>
         }
     }
 
-    public void Write(VaultWriteContext<uint> context, BinaryWriter bw)
+    public void Write(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
-        bw.Write((uint)Key);
-        bw.Write((uint)Type);
+        bw.Write(Key.Hash);
+        bw.Write(Type.Hash);
         bw.Write(Offset);
         bw.Write(Size);
         bw.Write(MaxCount);
@@ -39,8 +39,8 @@ public class AttribDefinition32 : IAttribDefinition<uint>
         bw.Write((byte)Math.Log(Alignment, 2));
     }
 
-    public uint Key { get; set; }
-    public uint Type { get; set; }
+    public Key32 Key { get; set; }
+    public Key32 Type { get; set; }
     public ushort Offset { get; set; }
     public ushort Size { get; set; }
     public ushort MaxCount { get; set; }

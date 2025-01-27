@@ -3,6 +3,7 @@
 // Created: 09/24/2019 @ 5:07 PM.
 
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Exports;
@@ -11,7 +12,7 @@ namespace VaultLib.Core.Exports;
 ///     An export is an object that describes an entity in the VLT database.
 ///     For example, a class is described by a "ClassLoadData" export.
 /// </summary>
-public abstract class BaseExport<TKey> : IVaultFileAccess<TKey>
+public abstract class BaseExport<TKey> : IVaultFileAccess<TKey> where TKey : IKey<TKey>
 {
     /// <summary>
     ///     The offset of the export data in the VLT stream.

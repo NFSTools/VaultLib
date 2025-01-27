@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Chunks;
 
-public class VltDependencyChunk<TKey> : ChunkBase<TKey>
+public class VltDependencyChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
 {
     public VltDependencyChunk(List<string> dependencyNames)
     {

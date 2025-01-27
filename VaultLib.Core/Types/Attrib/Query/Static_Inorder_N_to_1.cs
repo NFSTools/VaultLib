@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib.Query;
 
-public class Static_Inorder_N_to_1 : VltBaseType<uint>, IVltPointerObject<uint>
+public class Static_Inorder_N_to_1 : VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IVltPointerObject<VaultLib.Core.DataInterfaces.Key32>
 {
     public enum TreeNodeType
     {
@@ -40,7 +40,7 @@ public class Static_Inorder_N_to_1 : VltBaseType<uint>, IVltPointerObject<uint>
     internal List<uint> Values { get; private set; }
     internal List<(int Index, int Count)> Indices { get; private set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         _count = br.ReadUInt32();
         _keysPointer = br.ReadPointer();
@@ -50,7 +50,7 @@ public class Static_Inorder_N_to_1 : VltBaseType<uint>, IVltPointerObject<uint>
         Debug.WriteLine("Static_Inorder_N_to_1::Read - class={0} count={1}", fieldContext.Class.Name, _count);
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext,
         BinaryWriter bw)
     {
         _countDst = bw.BaseStream.Position;
@@ -60,7 +60,7 @@ public class Static_Inorder_N_to_1 : VltBaseType<uint>, IVltPointerObject<uint>
         _valsPointer = bw.WritePointer();
     }
 
-    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext,
         BinaryReader br)
     {
         br.BaseStream.Position = _keysPointer;
@@ -96,7 +96,7 @@ public class Static_Inorder_N_to_1 : VltBaseType<uint>, IVltPointerObject<uint>
         }
     }
 
-    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext,
         BinaryWriter bw)
     {
         var entries = NodeType switch
@@ -136,8 +136,8 @@ public class Static_Inorder_N_to_1 : VltBaseType<uint>, IVltPointerObject<uint>
         }
     }
 
-    private static List<(uint Key, List<uint> Values)> GetParentKeyEntries(VaultWriteContext<uint> context,
-        FieldReadWriteContext<uint> fieldContext)
+    private static List<(uint Key, List<uint> Values)> GetParentKeyEntries(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
     {
         return context.Database.RowManager.EnumerateCollections(fieldContext.Class.Name)
             .Select(c => (Vlt32Hasher.Hash(c.Name), Vlt32Hasher.Hash(c.Parent?.Name)))
@@ -145,8 +145,8 @@ public class Static_Inorder_N_to_1 : VltBaseType<uint>, IVltPointerObject<uint>
             .ToList();
     }
 
-    private static List<(uint Key, List<uint> Values)> GetChildKeyEntries(VaultWriteContext<uint> context,
-        FieldReadWriteContext<uint> fieldContext)
+    private static List<(uint Key, List<uint> Values)> GetChildKeyEntries(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
     {
         var collectionsGroupedByParent = context.Database.RowManager.EnumerateCollections(fieldContext.Class.Name)
             .GroupBy(c => Vlt32Hasher.Hash(c.Parent?.Name));
@@ -156,7 +156,7 @@ public class Static_Inorder_N_to_1 : VltBaseType<uint>, IVltPointerObject<uint>
             .ToList();
     }
 
-    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
+    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
     {
         context.AddPointer(_keysPointer, _keysDst, false);
         context.AddPointer(_indicesPointer, _indicesDst, false);

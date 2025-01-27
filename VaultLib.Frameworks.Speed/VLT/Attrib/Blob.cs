@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
@@ -9,7 +9,7 @@ namespace VaultLib.Frameworks.Speed.VLT.Attrib;
 /// Need for Speed games by EA Black Box have compressed data stored in Attrib::Blob instances.
 /// </summary>
 [VltTypeInfo("Attrib::Blob")]
-public abstract class Blob<TKey> : BaseBlob<TKey>
+public abstract class Blob<TKey> : BaseBlob<TKey> where TKey : IKey<TKey>
 {
     private CompressedBlob _blob;
 
@@ -38,5 +38,5 @@ public abstract class Blob<TKey> : BaseBlob<TKey>
     }
 }
 
-public class Blob32 : Blob<uint> {}
-public class Blob64 : Blob<ulong> {}
+public class Blob32 : Blob<Key32> {}
+public class Blob64 : Blob<Key64> {}

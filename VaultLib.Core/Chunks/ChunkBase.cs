@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Chunks;
 
-public abstract class ChunkBase<TKey> : IVaultFileAccess<TKey>
+public abstract class ChunkBase<TKey> : IVaultFileAccess<TKey> where TKey : IKey<TKey>
 {
     public abstract uint Id { get; }
     public abstract uint Size { get; set; }

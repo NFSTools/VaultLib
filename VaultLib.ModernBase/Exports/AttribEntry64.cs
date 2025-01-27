@@ -1,21 +1,22 @@
-using CoreLibraries.IO;
 using System;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 
 namespace VaultLib.ModernBase.Exports;
 
-public class AttribEntry64 : AttribEntryBase<ulong>
+public class AttribEntry64 : AttribEntryBase<Key64>
 {
-    public AttribEntry64(VltCollection<ulong> collection) : base(collection)
+    public AttribEntry64(VltCollection<Key64> collection) : base(collection)
     {
     }
 
-    public override void Read(VaultReadContext<ulong> context, BinaryReader br)
+    public override void Read(VaultReadContext<Key64> context, BinaryReader br)
     {
-        Key = br.ReadUInt64();
+        Key = new Key64(br.ReadUInt64());
         InlineDataPointer = br.BaseStream.Position;
         br.ReadUInt32(); // skip data for now
         TypeIndex = br.ReadUInt16();
@@ -23,13 +24,13 @@ public class AttribEntry64 : AttribEntryBase<ulong>
         EntryFlags = br.ReadByte();
     }
 
-    public virtual bool ReadData(VaultReadContext<ulong> context, BinaryReader br)
+    public virtual bool ReadData(VaultReadContext<Key64> context, BinaryReader br)
     {
         if (Collection.Class.TryGetField(Key, out var field))
         {
             br.BaseStream.Position = InlineDataPointer;
 
-            var fieldContext = new FieldReadWriteContext<ulong>(Collection.Class, field, Collection);
+            var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, field, Collection);
 
             if (IsInline())
             {
@@ -37,7 +38,7 @@ public class AttribEntry64 : AttribEntryBase<ulong>
             }
             else
             {
-                var attrib = new VltAttribType<ulong>();
+                var attrib = new VltAttribType<Key64>();
                 attrib.Read(context, fieldContext, br);
                 InlineData = attrib;
             }
@@ -48,13 +49,13 @@ public class AttribEntry64 : AttribEntryBase<ulong>
         return false;
     }
 
-    public override void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
-        bw.Write(Key);
+        bw.Write(Key.Hash);
 
-        var fieldContext = new FieldReadWriteContext<ulong>(Collection.Class, Collection.Class[Key], Collection);
+        var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, Collection.Class[Key], Collection);
 
-        if (InlineData is VltAttribType<ulong> attrib)
+        if (InlineData is VltAttribType<Key64> attrib)
         {
             attrib.Write(context, fieldContext, bw);
         }
@@ -84,17 +85,17 @@ public class AttribEntry64 : AttribEntryBase<ulong>
         return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
     }
 
-    public override void ReadPointerData(VaultReadContext<ulong> context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<Key64> context, BinaryReader br)
     {
         throw new NotImplementedException();
     }
 
-    public override void WritePointerData(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
         throw new NotImplementedException();
     }
 
-    public override void AddPointers(VaultWriteContext<ulong> context)
+    public override void AddPointers(VaultWriteContext<Key64> context)
     {
         throw new NotImplementedException();
     }

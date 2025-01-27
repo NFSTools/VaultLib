@@ -1,10 +1,11 @@
 using System.IO;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Exports;
 
-public abstract class BaseClassLoad<TKey> : BaseExport<TKey>, IPointerObject<TKey>
+public abstract class BaseClassLoad<TKey> : BaseExport<TKey>, IPointerObject<TKey> where TKey : IKey<TKey>
 {
     public VltClass<TKey> Class { get; set; }
 

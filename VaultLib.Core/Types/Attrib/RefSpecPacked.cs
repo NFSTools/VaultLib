@@ -3,13 +3,14 @@
 // Created: 09/26/2019 @ 4:15 PM.
 
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Core.Types.Attrib;
 
-public class RefSpecPacked<TKey> : BaseRefSpec<TKey>
+public class RefSpecPacked<TKey> : BaseRefSpec<TKey> where TKey : IKey<TKey>
 {
     public override string ClassKey { get; set; }
 
@@ -24,7 +25,9 @@ public class RefSpecPacked<TKey> : BaseRefSpec<TKey>
 
             return _collectionHash32 != 0
                 ? HashManager.ResolveVlt(_collectionHash32)
-                : _collectionHash64 != 0 ? HashManager.ResolveVlt(_collectionHash64) : string.Empty;
+                : _collectionHash64 != 0
+                    ? HashManager.ResolveVlt(_collectionHash64)
+                    : string.Empty;
         }
         set => _collectionKey = value;
     }

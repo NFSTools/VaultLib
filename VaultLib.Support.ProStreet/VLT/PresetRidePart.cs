@@ -8,14 +8,14 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo(nameof(PresetRidePart))]
-public class PresetRidePart: VltBaseType<uint>
+public class PresetRidePart: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public CAR_SLOT_ID SlotID { get; set; }
-    public RefSpec<uint> Part { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Part { get; set; } = new();
     public uint PartArrayIndex { get; set; }
     public uint KitNumber { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         SlotID = br.ReadEnum<CAR_SLOT_ID>();
         Part.Read(context, fieldContext, br);
@@ -23,7 +23,7 @@ public class PresetRidePart: VltBaseType<uint>
         KitNumber = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(SlotID);
         Part.Write(context, fieldContext, bw);

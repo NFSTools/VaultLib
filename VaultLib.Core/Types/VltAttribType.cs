@@ -6,11 +6,12 @@ using System;
 using CoreLibraries.IO;
 using System.Diagnostics;
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltAttribType<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey>
+public class VltAttribType<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : IKey<TKey>
 {
     private long _offsetDst;
 

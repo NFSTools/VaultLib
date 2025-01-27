@@ -7,7 +7,7 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Structures;
 
-public class AttribPtrRef<TKey> : IPtrRef<TKey>
+public class AttribPtrRef<TKey> : IPtrRef<TKey> where TKey : IKey<TKey>
 {
     public void Read(VaultReadContext<TKey> context, BinaryReader br)
     {

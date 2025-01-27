@@ -9,7 +9,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::PursuitMusicTuning")]
-public class PursuitMusicTuning: VltBaseType<uint>
+public class PursuitMusicTuning: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public float PlayerSpeedUR { get; set; }
     public float PursuitUR { get; set; }
@@ -30,7 +30,7 @@ public class PursuitMusicTuning: VltBaseType<uint>
     public float MaxPursuitDist { get; set; }
     public float MinCopCohesion { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         PlayerSpeedUR = br.ReadSingle();
         PursuitUR = br.ReadSingle();
@@ -81,7 +81,7 @@ public class PursuitMusicTuning: VltBaseType<uint>
         MinCopCohesion = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(PlayerSpeedUR);
         bw.Write(PursuitUR);

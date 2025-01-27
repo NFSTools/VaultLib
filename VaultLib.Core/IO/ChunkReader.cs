@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core.Chunks;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Structures;
 
 namespace VaultLib.Core.IO;
@@ -11,7 +12,7 @@ namespace VaultLib.Core.IO;
 /// <summary>
 ///     Reads chunks from a data stream
 /// </summary>
-public class ChunkReader<TKey>
+public class ChunkReader<TKey> where TKey : IKey<TKey>
 {
     public ChunkReader(BinaryReader reader)
     {

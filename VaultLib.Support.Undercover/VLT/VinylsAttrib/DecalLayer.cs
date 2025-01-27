@@ -6,19 +6,19 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT.VinylsAttrib;
 
 [VltTypeInfo("VinylsAttrib::DecalLayer")]
-public class DecalLayer: VltBaseType<uint>
+public class DecalLayer: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public DecalLayer()
     {
         throw new NotImplementedException("VinylsAttrib::DecalLayer is not implemented");
     }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         //
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         //
     }

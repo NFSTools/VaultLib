@@ -11,7 +11,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::SirenSequence")]
-public class SirenSequence: VltBaseType<uint>
+public class SirenSequence: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public enum SirenMode
     {
@@ -28,13 +28,13 @@ public class SirenSequence: VltBaseType<uint>
     public SirenMode mMode { get; set; }
     public float mDuration { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         mMode = br.ReadEnum<SirenMode>();
         mDuration = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(mMode);
         bw.Write(mDuration);

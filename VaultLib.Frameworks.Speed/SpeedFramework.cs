@@ -1,4 +1,5 @@
 ﻿using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Frameworks.Speed;
 
@@ -11,7 +12,7 @@ public static class SpeedFramework
     /// Registers the framework types.
     /// </summary>
     /// <param name="registry">The type registry to register the types with</param>
-    public static void Register<TKey>(TypeRegistry<TKey> registry)
+    public static void Register<TKey>(TypeRegistry<TKey> registry) where TKey : IKey<TKey>
     {
         registry.RegisterAssemblyTypes(typeof(SpeedFramework).Assembly);
     }

@@ -14,17 +14,17 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(EffectLinkageRecord))]
-public class EffectLinkageRecord: VltBaseType<uint>, IReferencesCollections<uint>
+public class EffectLinkageRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesCollections<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<uint> Surface { get; set; } = new();
-    public RefSpec<uint> Effect { get; set; } = new();
-    public RefSpec<uint> Audio { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Surface { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Effect { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Audio { get; set; } = new();
     public float MinSpeed { get; set; }
     public float MaxSpeed { get; set; }
     public float SFXMinSpeed { get; set; }
     public float SFXMaxSpeed { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         Surface.Read(context, fieldContext, br);
         Effect.Read(context, fieldContext, br);
@@ -36,7 +36,7 @@ public class EffectLinkageRecord: VltBaseType<uint>, IReferencesCollections<uint
         SFXMaxSpeed = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         Surface.Write(context, fieldContext, bw);
         Effect.Write(context, fieldContext, bw);
@@ -47,7 +47,7 @@ public class EffectLinkageRecord: VltBaseType<uint>, IReferencesCollections<uint
         bw.Write(SFXMaxSpeed);
     }
 
-    public IEnumerable<CollectionReferenceInfo<uint>> GetReferencedCollections(Database<uint> database, Vault<uint> vault)
+    public IEnumerable<CollectionReferenceInfo<VaultLib.Core.DataInterfaces.Key32>> GetReferencedCollections(Database<VaultLib.Core.DataInterfaces.Key32> database, Vault<VaultLib.Core.DataInterfaces.Key32> vault)
     {
         return Surface.GetReferencedCollections(database, vault)
             .Concat(Effect.GetReferencedCollections(database, vault))

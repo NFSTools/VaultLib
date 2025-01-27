@@ -5,13 +5,14 @@ using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports;
 
-public class ClassLoad32 : BaseClassLoad<uint>
+public class ClassLoad32 : BaseClassLoad<Key32>
 {
     private uint ClassHash { get; set; }
     private int NumDefinitions { get; set; }
@@ -20,7 +21,7 @@ public class ClassLoad32 : BaseClassLoad<uint>
     private long _srcDefinitionsPtr;
     private long _dstDefinitionsPtr;
 
-    public override void Read(VaultReadContext<uint> context, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, BinaryReader br)
     {
         ClassHash = br.ReadUInt32();
         uint cr = br.ReadUInt32(); // collection reserve
@@ -39,13 +40,13 @@ public class ClassLoad32 : BaseClassLoad<uint>
         ushort requiredCount = br.ReadUInt16();
         Debug.Assert(requiredCount <= NumDefinitions);
         br.ReadInt16();
-        Class = new VltClass<uint>(HashManager.ResolveVlt(ClassHash), ClassHash)
+        Class = new VltClass<Key32>(HashManager.ResolveVlt(ClassHash), new Key32(ClassHash))
         {
             LayoutSize = layoutSize,
         };
     }
 
-    public override void Write(VaultWriteContext<uint> context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
         bw.Write(Vlt32Hasher.Hash(Class.Name));
 
@@ -67,7 +68,7 @@ public class ClassLoad32 : BaseClassLoad<uint>
         bw.Write((ushort)0);
     }
 
-    public override void ReadPointerData(VaultReadContext<uint> context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<Key32> context, BinaryReader br)
     {
         br.BaseStream.Position = _definitionsPtr;
 
@@ -81,10 +82,10 @@ public class ClassLoad32 : BaseClassLoad<uint>
                 throw new Exception("Legacy format does not support static fields");
             }
 
-            var field = new VltClassField<uint>(
+            var field = new VltClassField<Key32>(
                 definition.Key,
-                HashManager.ResolveVlt(definition.Key),
-                HashManager.ResolveVlt(definition.Type),
+                HashManager.ResolveVlt(definition.Key.Hash),
+                HashManager.ResolveVlt(definition.Type.Hash),
                 definition.Flags,
                 definition.Alignment,
                 definition.Size,
@@ -97,7 +98,7 @@ public class ClassLoad32 : BaseClassLoad<uint>
         context.Database.AddClass(Class);
     }
 
-    public override void WritePointerData(VaultWriteContext<uint> context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
         bw.AlignWriter(0x8);
         _dstDefinitionsPtr = bw.BaseStream.Position;
@@ -105,8 +106,8 @@ public class ClassLoad32 : BaseClassLoad<uint>
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
             AttribDefinition32 definition = new AttribDefinition32();
-            definition.Key = Vlt32Hasher.Hash(field.Name);
-            definition.Type = Vlt32Hasher.Hash(field.TypeName);
+            definition.Key = new Key32(Vlt32Hasher.Hash(field.Name));
+            definition.Type = new Key32(Vlt32Hasher.Hash(field.TypeName));
             definition.Flags = field.Flags;
             definition.Size = field.Size;
             definition.MaxCount = field.MaxCount;
@@ -117,13 +118,13 @@ public class ClassLoad32 : BaseClassLoad<uint>
         }
     }
 
-    public override void AddPointers(VaultWriteContext<uint> context)
+    public override void AddPointers(VaultWriteContext<Key32> context)
     {
         context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
     }
 
-    public override uint GetExportId()
+    public override Key32 GetExportId()
     {
-        return Vlt32Hasher.Hash(Class.Name);
+        return Key32.FromString(Class.Name);
     }
 }

@@ -5,14 +5,14 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT;
 
-public class RoadblockElement: VltBaseType<uint>
+public class RoadblockElement: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public RBElementType ElementType { get; set; }
     public float OffsetX { get; set; }
     public float OffsetY { get; set; }
     public float Angle { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         ElementType = br.ReadEnum<RBElementType>();
         OffsetX = br.ReadSingle();
@@ -20,7 +20,7 @@ public class RoadblockElement: VltBaseType<uint>
         Angle = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(ElementType);
         bw.Write(OffsetX);

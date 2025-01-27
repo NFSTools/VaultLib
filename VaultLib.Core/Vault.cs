@@ -6,6 +6,7 @@ using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Exports;
 
@@ -14,7 +15,7 @@ namespace VaultLib.Core;
 /// <summary>
 ///     A vault is the main holder of data. Classes, collections, and collection data are all stored in vaults.
 /// </summary>
-public class Vault<TKey>
+public class Vault<TKey> where TKey : IKey<TKey>
 {
     public Vault(string name)
     {

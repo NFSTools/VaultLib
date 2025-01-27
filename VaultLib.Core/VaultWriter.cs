@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using VaultLib.Core.Chunks;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
 using VaultLib.Core.Writer;
@@ -13,7 +14,7 @@ namespace VaultLib.Core;
 /// <summary>
 /// Generates BIN and VLT data streams for a <see cref="VaultLib.Core.Vault"/> instance.
 /// </summary>
-public class VaultWriter<TKey>
+public class VaultWriter<TKey> where TKey : IKey<TKey>
 {
     private readonly VaultWriteContext<TKey> _writeContext;
 

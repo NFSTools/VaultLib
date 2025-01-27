@@ -3,10 +3,11 @@
 // Created: 09/29/2019 @ 11:12 PM.
 
 using System.Collections.Generic;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Utils;
 
-public interface IReferencesStrings<TKey> : IVltPointerObject<TKey>
+public interface IReferencesStrings<TKey> : IVltPointerObject<TKey> where TKey : IKey<TKey>
 {
     IEnumerable<string> GetStrings();
 }

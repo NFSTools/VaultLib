@@ -13,14 +13,14 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(TrafficPatternRecord))]
-public class TrafficPatternRecord: VltBaseType<uint>, IReferencesCollections<uint>
+public class TrafficPatternRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesCollections<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<uint> Vehicle { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Vehicle { get; set; } = new();
     public float Rate { get; set; }
     public uint MaxInstances { get; set; }
     public uint Percent { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         Vehicle.Read(context, fieldContext, br);
         Rate = br.ReadSingle();
@@ -28,7 +28,7 @@ public class TrafficPatternRecord: VltBaseType<uint>, IReferencesCollections<uin
         Percent = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         Vehicle.Write(context, fieldContext, bw);
         bw.Write(Rate);
@@ -41,7 +41,7 @@ public class TrafficPatternRecord: VltBaseType<uint>, IReferencesCollections<uin
         return $"Vehicle: {Vehicle} | Spawn rate: {Rate} | Instances: {MaxInstances} | {Percent}%";
     }
 
-    public IEnumerable<CollectionReferenceInfo<uint>> GetReferencedCollections(Database<uint> database, Vault<uint> vault)
+    public IEnumerable<CollectionReferenceInfo<VaultLib.Core.DataInterfaces.Key32>> GetReferencedCollections(Database<VaultLib.Core.DataInterfaces.Key32> database, Vault<VaultLib.Core.DataInterfaces.Key32> vault)
     {
         return Vehicle.GetReferencedCollections(database, vault);
     }

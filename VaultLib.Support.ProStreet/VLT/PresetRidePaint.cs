@@ -8,15 +8,15 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo(nameof(PresetRidePaint))]
-public class PresetRidePaint: VltBaseType<uint>
+public class PresetRidePaint: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public ePaintSlot SlotID { get; set; }
-    public RefSpec<uint> Group { get; set; } = new();
-    public RefSpec<uint> Swatch { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Group { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Swatch { get; set; } = new();
     public uint KitNumber { get; set; }
     public float Saturation { get; set; }
     public float Variance { get; set; }
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         SlotID = br.ReadEnum<ePaintSlot>();
         Group.Read(context, fieldContext, br);
@@ -26,7 +26,7 @@ public class PresetRidePaint: VltBaseType<uint>
         Variance = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(SlotID);
         Group.Write(context, fieldContext, bw);

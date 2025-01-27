@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Core.Data;
@@ -12,7 +13,7 @@ namespace VaultLib.Core.Data;
 ///     A collection in VLT is like a row in a SQL database.
 ///     A collection specifies values for the fields of its class.
 /// </summary>
-public class VltCollection<TKey>
+public class VltCollection<TKey> where TKey : IKey<TKey>
 {
     /// <summary>
     /// Gets the <see cref="VltClass"/> that this collection is part of.

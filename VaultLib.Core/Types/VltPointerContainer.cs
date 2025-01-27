@@ -3,6 +3,7 @@
 // Created: 10/19/2019 @ 4:56 PM.
 
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
@@ -11,7 +12,7 @@ namespace VaultLib.Core.Types;
 ///     Helper class for reading data types through a pointer
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public class VltPointerContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey>
+public class VltPointerContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : IKey<TKey>
 {
     private uint _pointer;
     private long _ptrDst;

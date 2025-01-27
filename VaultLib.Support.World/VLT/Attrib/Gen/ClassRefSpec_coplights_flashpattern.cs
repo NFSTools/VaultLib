@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Attrib.Gen;
 namespace VaultLib.Support.World.VLT.Attrib.Gen;
 
 [VltTypeInfo("Attrib::Gen::ClassRefSpec_coplights_flashpattern")]
-public class ClassRefSpec_coplights_flashpattern : ClassRefSpec_template<uint>
+public class ClassRefSpec_coplights_flashpattern : ClassRefSpec_template<VaultLib.Core.DataInterfaces.Key32>
 {
     public ClassRefSpec_coplights_flashpattern() :
         base("coplights_flashpattern")

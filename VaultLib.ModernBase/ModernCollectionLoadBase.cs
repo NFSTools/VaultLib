@@ -6,6 +6,7 @@ using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
@@ -14,7 +15,7 @@ using VaultLib.ModernBase.Exports;
 namespace VaultLib.ModernBase;
 
 public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollectionLoad<TKey>
-    where TAttribEntry : AttribEntryBase<TKey>
+    where TAttribEntry : AttribEntryBase<TKey> where TKey : IKey<TKey>
 {
     protected uint LayoutPointer { get; set; }
 

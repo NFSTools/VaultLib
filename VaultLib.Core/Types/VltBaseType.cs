@@ -4,11 +4,12 @@
 
 using System.IO;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public abstract class VltBaseType<TKey>
+public abstract class VltBaseType<TKey> where TKey : IKey<TKey>
 {
     public abstract void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
         BinaryReader br);

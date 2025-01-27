@@ -2,16 +2,17 @@
 // 
 // Created: 09/24/2019 @ 6:03 PM.
 
-using CoreLibraries.IO;
 using System.IO;
 using System.Linq;
+using CoreLibraries.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Exports.Implementations;
 
-public class DatabaseLoad64 : BaseDatabaseLoad<ulong>, IPointerObject<ulong>
+public class DatabaseLoad64 : BaseDatabaseLoad<Key64>, IPointerObject<Key64>
 {
     private uint _numTypes;
     private long _typeNames;
@@ -19,7 +20,7 @@ public class DatabaseLoad64 : BaseDatabaseLoad<ulong>, IPointerObject<ulong>
 
     private long _typeNamesSrc;
 
-    public void ReadPointerData(VaultReadContext<ulong> context, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Key64> context, BinaryReader br)
     {
         br.BaseStream.Position = _typeNames;
 
@@ -30,7 +31,7 @@ public class DatabaseLoad64 : BaseDatabaseLoad<ulong>, IPointerObject<ulong>
         }
     }
 
-    public void WritePointerData(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
         _typeNamesDst = bw.BaseStream.Position;
 
@@ -39,12 +40,12 @@ public class DatabaseLoad64 : BaseDatabaseLoad<ulong>, IPointerObject<ulong>
         bw.AlignWriter(8);
     }
 
-    public void AddPointers(VaultWriteContext<ulong> context)
+    public void AddPointers(VaultWriteContext<Key64> context)
     {
         context.AddPointer(_typeNamesSrc, _typeNamesDst, true);
     }
 
-    public override void Read(VaultReadContext<ulong> context, BinaryReader br)
+    public override void Read(VaultReadContext<Key64> context, BinaryReader br)
     {
         br.ReadUInt32(); // mNumClasses
         br.ReadUInt32(); // padding
@@ -66,7 +67,7 @@ public class DatabaseLoad64 : BaseDatabaseLoad<ulong>, IPointerObject<ulong>
         }
     }
 
-    public override void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
         bw.Write(context.Database.Classes.Count);
         // DefaultDataSize is the size, in bytes, of the largest defined type.

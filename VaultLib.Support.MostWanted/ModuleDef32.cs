@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
 using VaultLib.Frameworks.Speed;
@@ -9,18 +10,18 @@ using VaultLib.LegacyBase.Structures;
 
 namespace VaultLib.Support.MostWanted;
 
-public class ModuleDef32 : BaseGameModule<uint>
+public class ModuleDef32 : BaseGameModule<Key32>
 {
-    public override void RegisterTypes(TypeRegistry<uint> typeRegistry)
+    public override void RegisterTypes(TypeRegistry<Key32> typeRegistry)
     {
         typeRegistry.Register<StringKey64>("Attrib::StringKey");
         SpeedFramework.Register(typeRegistry);
         typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef32)));
     }
 
-    public override ExportFactory<uint> CreateExportFactory()
+    public override ExportFactory<Key32> CreateExportFactory()
     {
-        return new ExportFactory<uint>(() => new DatabaseLoad(), () => new ClassLoad32(), () => new CollectionLoad32(),
+        return new ExportFactory<Key32>(() => new DatabaseLoad(), () => new ClassLoad32(), () => new CollectionLoad32(),
             () => new ExportEntry32());
     }
 }

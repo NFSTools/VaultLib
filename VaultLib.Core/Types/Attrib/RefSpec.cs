@@ -3,6 +3,7 @@
 // Created: 09/26/2019 @ 4:15 PM.
 
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
@@ -10,7 +11,7 @@ using VaultLib.Core.Types.Abstractions;
 namespace VaultLib.Core.Types.Attrib;
 
 [VltTypeInfo("Attrib::RefSpec")]
-public class RefSpec<TKey> : BaseRefSpec<TKey>
+public class RefSpec<TKey> : BaseRefSpec<TKey> where TKey : IKey<TKey>
 {
     public override string ClassKey { get; set; }
 
@@ -72,5 +73,5 @@ public class RefSpec<TKey> : BaseRefSpec<TKey>
     private string _collectionKey;
 }
 
-public class RefSpec32 : RefSpec<uint> {}
-public class RefSpec64 : RefSpec<ulong> {}
+public class RefSpec32 : RefSpec<Key32> {}
+public class RefSpec64 : RefSpec<Key64> {}

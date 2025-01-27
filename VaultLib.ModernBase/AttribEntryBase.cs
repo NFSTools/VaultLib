@@ -1,12 +1,13 @@
 ﻿using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 using VaultLib.ModernBase.Exports;
 
 namespace VaultLib.ModernBase;
 
-public abstract class AttribEntryBase<TKey> : IVaultFileAccess<TKey>, IPointerObject<TKey>
+public abstract class AttribEntryBase<TKey> : IVaultFileAccess<TKey>, IPointerObject<TKey> where TKey : IKey<TKey>
 {
     public TKey Key { get; set; }
     public ushort TypeIndex { get; set; }

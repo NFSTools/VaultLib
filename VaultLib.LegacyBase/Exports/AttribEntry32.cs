@@ -1,35 +1,36 @@
-﻿using CoreLibraries.IO;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports;
 
-public class AttribEntry32 : IVaultFileAccess<uint>, IPointerObject<uint>
+public class AttribEntry32 : IVaultFileAccess<Key32>, IPointerObject<Key32>
 {
-    public uint Key { get; set; }
+    public Key32 Key { get; set; }
     public ushort TypeIndex { get; set; }
     public NodeFlagsEnum NodeFlags { get; set; }
     public long InlineDataPointer { get; set; }
     public object InlineData { get; set; }
-    public VltCollection<uint> Collection { get; }
+    public VltCollection<Key32> Collection { get; }
 
-    public AttribEntry32(VltCollection<uint> collection)
+    public AttribEntry32(VltCollection<Key32> collection)
     {
         Collection = collection;
     }
 
-    public void Read(VaultReadContext<uint> context, BinaryReader br)
+    public void Read(VaultReadContext<Key32> context, BinaryReader br)
     {
-        Key = br.ReadUInt32();
+        Key = new Key32(br.ReadUInt32());
 
         InlineDataPointer = br.BaseStream.Position;
 
-        var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, Collection.Class[Key], Collection);
+        var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, Collection.Class[Key], Collection);
 
         if (IsInline())
         {
@@ -37,7 +38,7 @@ public class AttribEntry32 : IVaultFileAccess<uint>, IPointerObject<uint>
         }
         else
         {
-            var attrib = new VltAttribType<uint>();
+            var attrib = new VltAttribType<Key32>();
             attrib.Read(context, fieldContext, br);
             InlineData = attrib;
         }
@@ -48,12 +49,12 @@ public class AttribEntry32 : IVaultFileAccess<uint>, IPointerObject<uint>
         Debug.Assert((ushort)NodeFlags <= 0x20);
     }
 
-    public void Write(VaultWriteContext<uint> context, BinaryWriter bw)
+    public void Write(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
-        bw.Write(Key);
+        bw.Write(Key.Hash);
 
-        var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, Collection.Class[Key], Collection);
-        if (InlineData is VltAttribType<uint> attribType)
+        var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, Collection.Class[Key], Collection);
+        if (InlineData is VltAttribType<Key32> attribType)
         {
             attribType.Write(context, fieldContext, bw);
         }
@@ -73,17 +74,17 @@ public class AttribEntry32 : IVaultFileAccess<uint>, IPointerObject<uint>
         return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
     }
 
-    public void ReadPointerData(VaultReadContext<uint> context, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Key32> context, BinaryReader br)
     {
         throw new NotImplementedException();
     }
 
-    public void WritePointerData(VaultWriteContext<uint> context, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
         throw new NotImplementedException();
     }
 
-    public void AddPointers(VaultWriteContext<uint> context)
+    public void AddPointers(VaultWriteContext<Key32> context)
     {
         throw new NotImplementedException();
     }

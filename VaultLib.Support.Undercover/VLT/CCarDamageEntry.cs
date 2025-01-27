@@ -14,15 +14,15 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(CCarDamageEntry))]
-public class CCarDamageEntry: VltBaseType<uint>, IReferencesStrings<uint>
+public class CCarDamageEntry: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
 {
     public int PartID { get; set; }
     public string AttachPart { get; set; } = string.Empty;
-    public RefSpec<uint> Material { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Material { get; set; } = new();
     public string SmackableCollisionName { get; set; } = string.Empty;
-    public RefSpec<uint> SmackableCollisionAttribute { get; set; } = new();
+    public RefSpec<VaultLib.Core.DataInterfaces.Key32> SmackableCollisionAttribute { get; set; } = new();
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         PartID = br.ReadInt32();
         AttachPart = context.ReadString(br);
@@ -31,7 +31,7 @@ public class CCarDamageEntry: VltBaseType<uint>, IReferencesStrings<uint>
         SmackableCollisionAttribute.Read(context, fieldContext, br);
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(PartID);
         context.WriteString(AttachPart, fieldContext, bw);
@@ -40,15 +40,15 @@ public class CCarDamageEntry: VltBaseType<uint>, IReferencesStrings<uint>
         SmackableCollisionAttribute.Write(context, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
+    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
     {
     }
 

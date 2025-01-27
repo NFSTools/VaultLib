@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Utils;
@@ -12,36 +13,36 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo("CCarSlotEntry")]
-public class CCarSlotEntry : VltBaseType<uint>, IReferencesStrings<uint>
+public class CCarSlotEntry : VltBaseType<Key32>, IReferencesStrings<Key32>
 {
-    public DynamicSizeArray<uint, RefSpec<uint>> Parts { get; set; } = new();
+    public DynamicSizeArray<Key32, RefSpec<Key32>> Parts { get; set; } = new();
     public string SlotName { get; set; } = string.Empty;
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         Parts.Read(context, fieldContext, br);
         SlotName = context.ReadString(br);
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryWriter bw)
     {
         Parts.Write(context, fieldContext, bw);
         context.WriteString(SlotName, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         Parts.ReadPointerData(context, fieldContext, br);
     }
 
-    public void WritePointerData(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext,
+    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryWriter bw)
     {
         Parts.WritePointerData(context, fieldContext, bw);
     }
 
-    public void AddPointers(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext)
+    public void AddPointers(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext)
     {
         Parts.AddPointers(context, fieldContext);
     }

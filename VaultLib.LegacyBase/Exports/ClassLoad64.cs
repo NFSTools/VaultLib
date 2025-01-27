@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.LegacyBase.Exports;
 
-public class ClassLoad64 : BaseClassLoad<ulong>
+public class ClassLoad64 : BaseClassLoad<Key64>
 {
     private ulong ClassHash { get; set; }
     private int NumDefinitions { get; set; }
@@ -19,7 +20,7 @@ public class ClassLoad64 : BaseClassLoad<ulong>
     private long _srcDefinitionsPtr;
     private long _dstDefinitionsPtr;
 
-    public override void Read(VaultReadContext<ulong> context, BinaryReader br)
+    public override void Read(VaultReadContext<Key64> context, BinaryReader br)
     {
         ClassHash = br.ReadUInt64();
         uint cr = br.ReadUInt32(); // collection reserve
@@ -38,10 +39,10 @@ public class ClassLoad64 : BaseClassLoad<ulong>
         ushort requiredCount = br.ReadUInt16();
         Debug.Assert(requiredCount <= NumDefinitions);
         br.ReadInt16();
-        Class = new VltClass<ulong>(HashManager.ResolveVlt(ClassHash), ClassHash);
+        Class = new VltClass<Key64>(HashManager.ResolveVlt(ClassHash), new Key64(ClassHash));
     }
 
-    public override void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
         bw.Write(Vlt64Hasher.Hash(Class.Name));
 
@@ -63,7 +64,7 @@ public class ClassLoad64 : BaseClassLoad<ulong>
         bw.Write((ushort)0);
     }
 
-    public override void ReadPointerData(VaultReadContext<ulong> context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<Key64> context, BinaryReader br)
     {
         br.BaseStream.Position = _definitionsPtr;
 
@@ -77,10 +78,10 @@ public class ClassLoad64 : BaseClassLoad<ulong>
                 throw new Exception("Legacy format does not support static fields");
             }
 
-            var field = new VltClassField<ulong>(
+            var field = new VltClassField<Key64>(
                 definition.Key,
-                HashManager.ResolveVlt(definition.Key),
-                HashManager.ResolveVlt(definition.Type),
+                HashManager.ResolveVlt(definition.Key.Hash),
+                HashManager.ResolveVlt(definition.Type.Hash),
                 definition.Flags,
                 definition.Alignment,
                 definition.Size,
@@ -93,15 +94,15 @@ public class ClassLoad64 : BaseClassLoad<ulong>
         context.Database.AddClass(Class);
     }
 
-    public override void WritePointerData(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
         _dstDefinitionsPtr = bw.BaseStream.Position;
 
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
             AttribDefinition64 definition = new AttribDefinition64();
-            definition.Key = Vlt64Hasher.Hash(field.Name);
-            definition.Type = Vlt64Hasher.Hash(field.TypeName);
+            definition.Key = Key64.FromString(field.Name);
+            definition.Type = Key64.FromString(field.TypeName);
             definition.Flags = field.Flags;
             definition.Size = field.Size;
             definition.MaxCount = field.MaxCount;
@@ -112,14 +113,14 @@ public class ClassLoad64 : BaseClassLoad<ulong>
         }
     }
 
-    public override void AddPointers(VaultWriteContext<ulong> context)
+    public override void AddPointers(VaultWriteContext<Key64> context)
     {
         context.AddPointer(_srcDefinitionsPtr, _dstDefinitionsPtr, true);
     }
 
-    public override ulong GetExportId()
+    public override Key64 GetExportId()
     {
-        return Vlt64Hasher.Hash(Class.Name);
+        return Key64.FromString(Class.Name);
     }
 
     private int ComputeBaseSize()

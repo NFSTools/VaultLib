@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
@@ -8,7 +8,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo("AtttributeRefSpec")]
-public abstract class AttributeRefSpec<TKey> : VltBaseType<TKey>
+public abstract class AttributeRefSpec<TKey> : VltBaseType<TKey> where TKey : IKey<TKey>
 {
     public string ClassKey { get; set; }
     public string DefinitionKey { get; set; }
@@ -42,5 +42,5 @@ public abstract class AttributeRefSpec<TKey> : VltBaseType<TKey>
     }
 }
 
-public class AttributeRefSpec32 : AttributeRefSpec<uint> {}
-public class AttributeRefSpec64 : AttributeRefSpec<ulong> {}
+public class AttributeRefSpec32 : AttributeRefSpec<Key32> {}
+public class AttributeRefSpec64 : AttributeRefSpec<Key64> {}

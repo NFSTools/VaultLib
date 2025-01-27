@@ -5,7 +5,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo(nameof(DriverAssistLevelValues))]
-public class DriverAssistLevelValues: VltBaseType<uint>
+public class DriverAssistLevelValues: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public int TractionControlLevel { get; set; }
     public int AntilockBrakeLevel { get; set; }
@@ -14,7 +14,7 @@ public class DriverAssistLevelValues: VltBaseType<uint>
     public int BrakingAssist { get; set; }
     public int DriftAssist { get; set; }
 
-    public override void Read(VaultReadContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         TractionControlLevel = br.ReadInt32();
         AntilockBrakeLevel = br.ReadInt32();
@@ -24,7 +24,7 @@ public class DriverAssistLevelValues: VltBaseType<uint>
         DriftAssist = br.ReadInt32();
     }
 
-    public override void Write(VaultWriteContext<uint> context, FieldReadWriteContext<uint> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(TractionControlLevel);
         bw.Write(AntilockBrakeLevel);

@@ -3,10 +3,11 @@
 // Created: 09/28/2019 @ 10:51 AM.
 
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Utils;
 
-public interface IVltPointerObject<TKey>
+public interface IVltPointerObject<TKey> where TKey : IKey<TKey>
 {
     /// <summary>
     ///     Read data stored through pointers to the BIN stream

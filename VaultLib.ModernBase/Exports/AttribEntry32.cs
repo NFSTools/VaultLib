@@ -1,21 +1,22 @@
-using CoreLibraries.IO;
 using System;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 
 namespace VaultLib.ModernBase.Exports;
 
-public class AttribEntry32 : AttribEntryBase<uint>
+public class AttribEntry32 : AttribEntryBase<Key32>
 {
-    public AttribEntry32(VltCollection<uint> collection) : base(collection)
+    public AttribEntry32(VltCollection<Key32> collection) : base(collection)
     {
     }
 
-    public override void Read(VaultReadContext<uint> context, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, BinaryReader br)
     {
-        Key = br.ReadUInt32();
+        Key = new Key32(br.ReadUInt32());
         InlineDataPointer = br.BaseStream.Position;
         br.ReadUInt32(); // skip data for now
         TypeIndex = br.ReadUInt16();
@@ -23,13 +24,13 @@ public class AttribEntry32 : AttribEntryBase<uint>
         EntryFlags = br.ReadByte();
     }
 
-    public virtual bool ReadData(VaultReadContext<uint> context, BinaryReader br)
+    public virtual bool ReadData(VaultReadContext<Key32> context, BinaryReader br)
     {
         if (Collection.Class.TryGetField(Key, out var field))
         {
             br.BaseStream.Position = InlineDataPointer;
 
-            var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, field, Collection);
+            var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, field, Collection);
 
             if (HasInlineFlag())
             {
@@ -39,7 +40,7 @@ public class AttribEntry32 : AttribEntryBase<uint>
             }
             else
             {
-                var attrib = new VltAttribType<uint>();
+                var attrib = new VltAttribType<Key32>();
                 attrib.Read(context, fieldContext, br);
                 InlineData = attrib;
             }
@@ -50,12 +51,12 @@ public class AttribEntry32 : AttribEntryBase<uint>
         return false;
     }
 
-    public override void Write(VaultWriteContext<uint> context, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
-        bw.Write((uint)Key);
+        bw.Write(Key.Hash);
 
-        var fieldContext = new FieldReadWriteContext<uint>(Collection.Class, Collection.Class[Key], Collection);
-        if (InlineData is VltAttribType<uint> attrib)
+        var fieldContext = new FieldReadWriteContext<Key32>(Collection.Class, Collection.Class[Key], Collection);
+        if (InlineData is VltAttribType<Key32> attrib)
         {
             attrib.Write(context, fieldContext, bw);
         }
@@ -85,17 +86,17 @@ public class AttribEntry32 : AttribEntryBase<uint>
         return Collection.Class[Key].Size <= 4 && (Collection.Class[Key].Flags & DefinitionFlags.Array) == 0;
     }
 
-    public override void ReadPointerData(VaultReadContext<uint> context, BinaryReader br)
+    public override void ReadPointerData(VaultReadContext<Key32> context, BinaryReader br)
     {
         throw new NotImplementedException();
     }
 
-    public override void WritePointerData(VaultWriteContext<uint> context, BinaryWriter bw)
+    public override void WritePointerData(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
         throw new NotImplementedException();
     }
 
-    public override void AddPointers(VaultWriteContext<uint> context)
+    public override void AddPointers(VaultWriteContext<Key32> context)
     {
         throw new NotImplementedException();
     }

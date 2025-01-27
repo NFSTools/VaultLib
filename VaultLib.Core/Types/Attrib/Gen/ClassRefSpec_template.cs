@@ -3,13 +3,14 @@
 // Created: 09/27/2019 @ 4:43 PM.
 
 using System.IO;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Core.Types.Attrib.Gen;
 
-public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey>
+public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey> where TKey : IKey<TKey>
 {
     protected ClassRefSpec_template(string classKey)
     {

@@ -10,12 +10,12 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.LegacyBase;
 
-public class AttribDefinition64 : IAttribDefinition<ulong>
+public class AttribDefinition64 : IAttribDefinition<Key64>
 {
-    public void Read(VaultReadContext<ulong> context, BinaryReader br)
+    public void Read(VaultReadContext<Key64> context, BinaryReader br)
     {
-        Key = br.ReadUInt64();
-        Type = br.ReadUInt64();
+        Key = new Key64(br.ReadUInt64());
+        Type = new Key64(br.ReadUInt64());
         Offset = br.ReadUInt16();
         Size = br.ReadUInt16();
         MaxCount = br.ReadUInt16();
@@ -28,10 +28,10 @@ public class AttribDefinition64 : IAttribDefinition<ulong>
         }
     }
 
-    public void Write(VaultWriteContext<ulong> context, BinaryWriter bw)
+    public void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
-        bw.Write(Key);
-        bw.Write(Type);
+        bw.Write(Key.Hash);
+        bw.Write(Type.Hash);
         bw.Write(Offset);
         bw.Write(Size);
         bw.Write(MaxCount);
@@ -39,8 +39,8 @@ public class AttribDefinition64 : IAttribDefinition<ulong>
         bw.Write((byte)Math.Log(Alignment, 2));
     }
 
-    public ulong Key { get; set; }
-    public ulong Type { get; set; }
+    public Key64 Key { get; set; }
+    public Key64 Type { get; set; }
     public ushort Offset { get; set; }
     public ushort Size { get; set; }
     public ushort MaxCount { get; set; }

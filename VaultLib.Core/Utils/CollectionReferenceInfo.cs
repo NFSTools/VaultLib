@@ -3,11 +3,12 @@
 // Created: 10/13/2019 @ 10:24 AM.
 
 using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Core.Utils;
 
-public class CollectionReferenceInfo<TKey>
+public class CollectionReferenceInfo<TKey> where TKey : IKey<TKey>
 {
     public CollectionReferenceInfo(VltBaseType<TKey> source, VltCollection<TKey> destination)
     {
