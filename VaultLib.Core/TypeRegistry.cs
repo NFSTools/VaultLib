@@ -330,7 +330,7 @@ Any user-defined struct type that contains fields of unmanaged types only.
         BinaryReader binaryReader)
     {
         var vltClassField = fieldContext.Field;
-        var type = ResolveType(vltClassField.TypeName);
+        var type = ResolveType(vltClassField.TypeKey);
         if (vltClassField.IsArray)
         {
             var array = new VltArrayType<TKey>(vltClassField, type);
@@ -345,7 +345,7 @@ Any user-defined struct type that contains fields of unmanaged types only.
         BinaryReader binaryReader)
     {
         var vltClassField = fieldContext.Field;
-        var type = ResolveType(vltClassField.TypeName);
+        var type = ResolveType(vltClassField.TypeKey);
         return ReadTypeInstance(readContext, fieldContext, binaryReader, type);
     }
 
@@ -375,7 +375,7 @@ Any user-defined struct type that contains fields of unmanaged types only.
         object instance,
         VaultWriteContext<TKey> writeContext, FieldReadWriteContext<TKey> fieldContext, BinaryWriter binaryWriter)
     {
-        var type = ResolveType(vltClassField.TypeName);
+        var type = ResolveType(vltClassField.TypeKey);
 
         WriteTypeInstance(instance, writeContext, fieldContext, binaryWriter, type);
     }
@@ -393,5 +393,13 @@ Any user-defined struct type that contains fields of unmanaged types only.
             return type;
 
         throw new KeyNotFoundException($"Type '{typeId}' is not registered");
+    }
+
+    public Type ResolveType(TKey key)
+    {
+        if (_typeDictionary.TryGetValue(key, out var type))
+            return type;
+
+        throw new KeyNotFoundException($"Type {key} is not registered");
     }
 }

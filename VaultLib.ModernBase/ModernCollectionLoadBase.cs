@@ -19,7 +19,7 @@ public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollect
 {
     protected uint LayoutPointer { get; set; }
 
-    protected uint[] Types { get; set; }
+    protected TKey[] Types { get; set; }
 
     protected List<TAttribEntry> Entries { get; set; }
 

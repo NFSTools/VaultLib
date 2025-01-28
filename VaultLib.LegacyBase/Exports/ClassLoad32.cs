@@ -84,7 +84,7 @@ public class ClassLoad32 : BaseClassLoad<Key32>
 
             var field = new VltClassField<Key32>(
                 definition.Key,
-                HashManager.ResolveVlt(definition.Type.Hash),
+                definition.Type,
                 definition.Flags,
                 definition.Alignment,
                 definition.Size,
@@ -104,14 +104,16 @@ public class ClassLoad32 : BaseClassLoad<Key32>
 
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
-            AttribDefinition32 definition = new AttribDefinition32();
-            definition.Key = field.Key;
-            definition.Type = new Key32(Vlt32Hasher.Hash(field.TypeName));
-            definition.Flags = field.Flags;
-            definition.Size = field.Size;
-            definition.MaxCount = field.MaxCount;
-            definition.Offset = field.Offset;
-            definition.Alignment = field.Alignment;
+            var definition = new AttribDefinition32
+            {
+                Key = field.Key,
+                Type = field.TypeKey,
+                Flags = field.Flags,
+                Size = field.Size,
+                MaxCount = field.MaxCount,
+                Offset = field.Offset,
+                Alignment = field.Alignment
+            };
 
             definition.Write(context, bw);
         }

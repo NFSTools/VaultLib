@@ -87,7 +87,7 @@ public class ClassLoad64 : BaseClassLoad<Key64>
 
             var field = new VltClassField<Key64>(
                 definition.Key,
-                HashManager.ResolveVlt(definition.Type.Hash),
+                definition.Type,
                 definition.Flags,
                 definition.Alignment,
                 definition.Size,
@@ -148,7 +148,7 @@ public class ClassLoad64 : BaseClassLoad<Key64>
             definition.MaxCount = field.MaxCount;
             definition.Offset = field.Offset;
             definition.Size = field.Size;
-            definition.Type = Key64.FromString(field.TypeName);
+            definition.Type = field.TypeKey;
             definition.Write(context, bw);
         }
 

@@ -35,10 +35,10 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
 
         Debug.Assert(mTypesLen >= mNumTypes);
 
-        Types = new uint[mNumTypes];
+        Types = new Key32[mNumTypes];
         for (var i = 0; i < mNumTypes; i++)
         {
-            Types[i] = (br.ReadUInt32());
+            Types[i] = Key32.Read(br);
         }
 
         for (var i = 0; i < mTypesLen - mNumTypes; i++)
@@ -79,9 +79,9 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
             select new KeyValuePair<Key32, object>(pair.Key, pair.Value)).ToList();
 
         Entries = new List<AttribEntry32>();
-        Types = Collection.Class.BaseFields.Select(f => f.TypeName)
-            .Concat(optionalDataColumns.Select(c => Collection.Class[c.Key].TypeName))
-            .Select(s => Vlt32Hasher.Hash(s)).Distinct().ToArray();
+        Types = Collection.Class.BaseFields.Select(f => f.TypeKey)
+            .Concat(optionalDataColumns.Select(c => Collection.Class[c.Key].TypeKey))
+            .Distinct().ToArray();
 
         for (var index = 0; index < optionalDataColumns.Count; index++)
         {
@@ -91,7 +91,7 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
 
             entry.Key = optionalDataColumn.Key;
             entry.TypeIndex = (ushort)Array.IndexOf(Types,
-                Vlt32Hasher.Hash(vltClassField.TypeName));
+                vltClassField.TypeKey);
             entry.EntryFlags = 0;
             entry.NodeFlags = NodeFlagsEnum.Default;
 
@@ -140,7 +140,7 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
 
         foreach (var type in Types)
         {
-            bw.Write(type);
+            type.Write(bw);
         }
 
         if (typesLen != numTypes)

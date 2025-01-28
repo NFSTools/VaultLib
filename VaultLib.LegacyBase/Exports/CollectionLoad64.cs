@@ -22,7 +22,7 @@ namespace VaultLib.LegacyBase.Exports;
 public class CollectionLoad64 : BaseCollectionLoad<Key64>
 {
     private uint _layoutPointer;
-    private ulong[] _types;
+    private Key64[] _types;
     private AttribEntry64[] _entries;
 
     private long _srcLayoutPtr;
@@ -47,10 +47,10 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
         Collection = new VltCollection<Key64>(context.Vault, context.Database.FindClass(new Key64(mClass)),
             new Key64(mKey));
 
-        _types = new ulong[mNumTypes];
+        _types = new Key64[mNumTypes];
         for (var i = 0; i < mNumTypes; i++)
         {
-            _types[i] = (br.ReadUInt64());
+            _types[i] = Key64.Read(br);
         }
 
         _entries = new AttribEntry64[mNumEntries];
@@ -73,9 +73,9 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
             select pair).ToList();
 
         _entries = new AttribEntry64[optionalDataColumns.Count];
-        _types = Collection.Class.BaseFields.Select(f => f.TypeName)
-            .Concat(optionalDataColumns.Select(c => Collection.Class[c.Key].TypeName))
-            .Select(s => Vlt64Hasher.Hash(s)).Distinct().ToArray();
+        _types = Collection.Class.BaseFields.Select(f => f.TypeKey)
+            .Concat(optionalDataColumns.Select(c => Collection.Class[c.Key].TypeKey))
+            .Distinct().ToArray();
 
         for (var index = 0; index < optionalDataColumns.Count; index++)
         {
@@ -85,7 +85,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
             entry.Key = optionalDataColumn.Key;
             var vltClassField = Collection.Class[optionalDataColumn.Key];
             entry.TypeIndex = (ushort)Array.IndexOf(_types,
-                Vlt64Hasher.Hash(vltClassField.TypeName));
+                vltClassField.TypeKey);
             entry.NodeFlags = NodeFlagsEnum.Default;
 
             if (entry.IsInline())
@@ -124,7 +124,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
 
         foreach (var type in _types)
         {
-            bw.Write(type);
+            type.Write(bw);
         }
 
         foreach (var entry in _entries)
