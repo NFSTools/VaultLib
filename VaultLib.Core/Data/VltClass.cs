@@ -18,18 +18,11 @@ public class VltClass<TKey> where TKey: IKey<TKey>
     /// <summary>
     /// Initializes a new instance of the <see cref="VltClass{TKey}"/> class.
     /// </summary>
-    /// <param name="name">The name of the class.</param>
-    public VltClass(string name, TKey key)
+    public VltClass(TKey key)
     {
-        Name = name;
         Fields = new Dictionary<TKey, VltClassField<TKey>>();
         Key = key;
     }
-
-    /// <summary>
-    /// Gets the name of the class.
-    /// </summary>
-    public string Name { get; }
     
     public TKey Key { get; set; }
 
@@ -59,15 +52,15 @@ public class VltClass<TKey> where TKey: IKey<TKey>
     /// Finds the field with the given name in the class.
     /// </summary>
     /// <param name="name">The name of the field to find.</param>
-    /// <returns>The <see cref="VltClassField"/> instance for the field.</returns>
-    public VltClassField<TKey> FindField(string name) => Fields.Values.First(f => f.Name == name);
+    /// <returns>The field.</returns>
+    public VltClassField<TKey> FindField(string name) => FindField(TKey.FromString(name));
 
     /// <summary>
     /// Gets a value indicating if there is a field with the given name within the class.
     /// </summary>
     /// <param name="name">The name of the field to search for.</param>
     /// <returns><c>true</c> if the field exists; otherwise, <c>false</c></returns>
-    public bool HasField(string name) => Fields.Values.Any(f => f.Name == name);
+    public bool HasField(string name) => HasField(TKey.FromString(name));
 
     /// <summary>
     /// Finds the field with the given key in the class.
@@ -99,21 +92,14 @@ public class VltClass<TKey> where TKey: IKey<TKey>
     public bool TryGetField(TKey key, out VltClassField<TKey> field) => Fields.TryGetValue(key, out field);
 
     /// <summary>
-    /// Returns the field with the given key, if it exists.
+    /// Returns the field with the given name, if it exists.
     /// </summary>
-    /// <param name="key">The key to search for</param>
-    /// <param name="field">A reference to a <see cref="VltClassField"/> that will be populated.</param>
+    /// <param name="name">The name to search for</param>
+    /// <param name="field">A reference to a <see cref="VltClassField{TKey}"/> that will be populated.</param>
     /// <returns><c>true</c> if a field was found; otherwise, <c>false</c></returns>
-    public bool TryGetField(string key, out VltClassField<TKey> field)
+    public bool TryGetField(string name, out VltClassField<TKey> field)
     {
-        if (HasField(key))
-        {
-            field = this[key];
-            return true;
-        }
-
-        field = null;
-        return false;
+        return TryGetField(TKey.FromString(name), out field);
     }
 
     #region Helpers

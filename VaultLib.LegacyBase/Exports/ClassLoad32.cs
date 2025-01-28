@@ -40,7 +40,7 @@ public class ClassLoad32 : BaseClassLoad<Key32>
         ushort requiredCount = br.ReadUInt16();
         Debug.Assert(requiredCount <= NumDefinitions);
         br.ReadInt16();
-        Class = new VltClass<Key32>(HashManager.ResolveVlt(ClassHash), new Key32(ClassHash))
+        Class = new VltClass<Key32>(new Key32(ClassHash))
         {
             LayoutSize = layoutSize,
         };
@@ -48,9 +48,9 @@ public class ClassLoad32 : BaseClassLoad<Key32>
 
     public override void Write(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
-        bw.Write(Vlt32Hasher.Hash(Class.Name));
+        bw.Write(Class.Key.Hash);
 
-        int collReserve = (from collection in context.Database.RowManager.GetCollections(Class.Name)
+        int collReserve = (from collection in context.Database.RowManager.GetCollections(Class.Key)
             select collection).Count();
 
         if (collReserve == 0)
@@ -84,7 +84,6 @@ public class ClassLoad32 : BaseClassLoad<Key32>
 
             var field = new VltClassField<Key32>(
                 definition.Key,
-                HashManager.ResolveVlt(definition.Key.Hash),
                 HashManager.ResolveVlt(definition.Type.Hash),
                 definition.Flags,
                 definition.Alignment,
@@ -106,7 +105,7 @@ public class ClassLoad32 : BaseClassLoad<Key32>
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
             AttribDefinition32 definition = new AttribDefinition32();
-            definition.Key = new Key32(Vlt32Hasher.Hash(field.Name));
+            definition.Key = field.Key;
             definition.Type = new Key32(Vlt32Hasher.Hash(field.TypeName));
             definition.Flags = field.Flags;
             definition.Size = field.Size;
@@ -125,6 +124,6 @@ public class ClassLoad32 : BaseClassLoad<Key32>
 
     public override Key32 GetExportId()
     {
-        return Key32.FromString(Class.Name);
+        return Class.Key;
     }
 }

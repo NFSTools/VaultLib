@@ -17,7 +17,7 @@ public abstract class BaseRefSpec<TKey> : VltBaseType<TKey>, IReferencesCollecti
     public IEnumerable<CollectionReferenceInfo<TKey>> GetReferencedCollections(Database<TKey> database, Vault<TKey> vault)
     {
         yield return new CollectionReferenceInfo<TKey>(this,
-            database.RowManager.FindCollectionByName(ClassKey, CollectionKey));
+             database.RowManager.FindCollection(ClassKey, CollectionKey));
     }
 
     public bool ReferencesCollection(string classKey, string collectionKey)

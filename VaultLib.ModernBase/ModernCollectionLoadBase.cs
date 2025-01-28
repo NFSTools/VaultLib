@@ -44,7 +44,7 @@ public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollect
                 if (br.BaseStream.Position - LayoutPointer != baseField.Offset)
                 {
                     throw new Exception(
-                        $"trying to read field {baseField.Name} at offset {br.BaseStream.Position - LayoutPointer:X}, need to be at {baseField.Offset:X}");
+                        $"trying to read field {baseField.Key} at offset 0x{br.BaseStream.Position - LayoutPointer:X}, need to be at 0x{baseField.Offset:X}");
                 }
 
                 var valueStartPos = br.BaseStream.Position;
@@ -58,7 +58,7 @@ public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollect
                 Debug.Assert(valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos),
                     "valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos)");
 
-                Collection.SetRawValue(baseField.Name, rawValue);
+                Collection.SetRawValue(baseField.Key, rawValue);
             }
 
             var layoutBytesRead = br.BaseStream.Position - LayoutPointer;
@@ -103,13 +103,13 @@ public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollect
             {
                 Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) == 0);
                 attribType.ReadPointerData(context, fieldContext, br);
-                Collection.SetRawValue(optionalField.Name, attribType.Data);
+                Collection.SetRawValue(optionalField.Key, attribType.Data);
             }
             else
             {
                 Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) ==
                              NodeFlagsEnum.IsInline);
-                Collection.SetRawValue(optionalField.Name, entry.InlineData);
+                Collection.SetRawValue(optionalField.Key, entry.InlineData);
             }
         }
 
@@ -140,7 +140,7 @@ public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollect
 
                 bw.BaseStream.Position = DestinationLayoutPointer + baseField.Offset;
 
-                var rawValue = Collection.GetRawValue(baseField.Name);
+                var rawValue = Collection.GetRawValue(baseField.Key);
                 var valueStartPos = bw.BaseStream.Position;
                 context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
                 var valueEndPos = bw.BaseStream.Position;
@@ -187,7 +187,7 @@ public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollect
         foreach (var baseField in Collection.Class.BaseFields)
         {
             var fieldContext = new FieldReadWriteContext<TKey>(Collection.Class, baseField, Collection);
-            var rawValue = Collection.GetRawValue(baseField.Name);
+            var rawValue = Collection.GetRawValue(baseField.Key);
 
             if (rawValue is IVltPointerObject<TKey> vltPointerObject)
             {

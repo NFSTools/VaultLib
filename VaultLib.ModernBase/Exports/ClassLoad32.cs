@@ -43,7 +43,7 @@ public class ClassLoad32 : BaseClassLoad<Key32>
         }
 
         NumDefinitions = mNumDefinitions;
-        Class = new VltClass<Key32>(HashManager.ResolveVlt(ClassHash), new Key32(ClassHash))
+        Class = new VltClass<Key32>(new Key32(ClassHash))
         {
             LayoutSize = layoutSize,
             StaticSize = staticSize,
@@ -55,10 +55,10 @@ public class ClassLoad32 : BaseClassLoad<Key32>
     public override void Write(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
         int collectionReserve = (from collection in context.Collections
-            where collection.Class.Name == Class.Name
+            where collection.Class.Key == Class.Key
             select collection).Count();
 
-        bw.Write(Vlt32Hasher.Hash(Class.Name));
+        bw.Write(Class.Key.Hash);
         bw.Write(collectionReserve);
         bw.Write(Class.Fields.Count);
         _srcDefinitionsPtr = bw.BaseStream.Position;
@@ -88,7 +88,6 @@ public class ClassLoad32 : BaseClassLoad<Key32>
 
             var field = new VltClassField<Key32>(
                 definition.Key,
-                HashManager.ResolveVlt(definition.Key.Hash),
                 HashManager.ResolveVlt(definition.Type.Hash),
                 definition.Flags,
                 definition.Alignment,
@@ -142,7 +141,7 @@ public class ClassLoad32 : BaseClassLoad<Key32>
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
             AttribDefinition32 definition = new AttribDefinition32();
-            definition.Key = Key32.FromString(field.Name);
+            definition.Key = field.Key;
             definition.Alignment = field.Alignment;
             definition.Flags = field.Flags;
             definition.MaxCount = field.MaxCount;
@@ -211,7 +210,7 @@ public class ClassLoad32 : BaseClassLoad<Key32>
 
     public override Key32 GetExportId()
     {
-        return Key32.FromString(Class.Name);
+        return Class.Key;
     }
 
     private int ComputeLayoutSize()

@@ -41,7 +41,7 @@ public class GameplayEffectAndTarget: VltBaseType<VaultLib.Core.DataInterfaces.K
     public IEnumerable<CollectionReferenceInfo<VaultLib.Core.DataInterfaces.Key32>> GetReferencedCollections(Database<VaultLib.Core.DataInterfaces.Key32> database, Vault<VaultLib.Core.DataInterfaces.Key32> vault)
     {
         yield return new CollectionReferenceInfo<VaultLib.Core.DataInterfaces.Key32>(this,
-            database.RowManager.FindCollectionByName("powerup_gamegroup", GroupKey));
+            database.RowManager.FindCollection("powerup_gamegroup", GroupKey));
     }
 
     public bool ReferencesCollection(string classKey, string collectionKey)

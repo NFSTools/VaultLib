@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -43,8 +44,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
 
         Debug.Assert(mTableReserve == mNumEntries);
 
-        Collection = new VltCollection<Key64>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
-            HashManager.ResolveVlt(mKey), new Key64(mKey));
+        Collection = new VltCollection<Key64>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)), new Key64(mKey));
 
         _types = new ulong[mNumTypes];
         for (var i = 0; i < mNumTypes; i++)
@@ -67,7 +67,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
 
     public override void Prepare(Vault<Key64> vault)
     {
-        List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetData()
+        List<KeyValuePair<Key64, object>> optionalDataColumns = (from pair in Collection.GetData()
             where !Collection.Class[pair.Key].IsInLayout
             select pair).ToList();
 
@@ -81,7 +81,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
             var optionalDataColumn = optionalDataColumns[index];
             var entry = new AttribEntry64(Collection);
 
-            entry.Key = new Key64(Vlt64Hasher.Hash(optionalDataColumn.Key));
+            entry.Key = optionalDataColumn.Key;
             var vltClassField = Collection.Class[optionalDataColumn.Key];
             entry.TypeIndex = (ushort)Array.IndexOf(_types,
                 Vlt64Hasher.Hash(vltClassField.TypeName));
@@ -111,10 +111,9 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
 
     public override void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
-        bw.Write(Vlt64Hasher.Hash(Collection.Name));
-        bw.Write(Vlt64Hasher.Hash(Collection.Class.Name));
-        //bw.Write((uint) (Collection.Parent?.Key ?? 0));
-        bw.Write(Collection.Parent != null ? Vlt64Hasher.Hash(Collection.Parent.Name) : 0u);
+        bw.Write(Collection.Key.Hash);
+        bw.Write(Collection.Class.Key.Hash);
+        bw.Write(Collection.Parent?.Key.Hash ?? 0);
         bw.Write((uint)_entries.Length);
         bw.Write(0);
         bw.Write((uint)_entries.Length);
@@ -135,7 +134,9 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
 
     public override Key64 GetExportId()
     {
-        return Key64.FromString($"{Collection.Class.Name}/{Collection.Name}");
+        // TODO: the collection should probably have an ID separate from key.
+        return new Key64((Collection.Class.Key.Hash | Collection.Key.Hash));
+        // return Key64.FromString($"{Collection.Class.Name}/{Collection.Name}");
     }
 
     public override void ReadPointerData(VaultReadContext<Key64> context, BinaryReader br)
@@ -161,7 +162,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
                 }
 
                 //Collection.Data[baseField.Name] = data;
-                Collection.SetRawValue(baseField.Name, data);
+                Collection.SetRawValue(baseField.Key, data);
             }
         }
 
@@ -179,12 +180,12 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
             if (entry.InlineData is VltAttribType<Key64> attribType)
             {
                 attribType.ReadPointerData(context, fieldContext, br);
-                Collection.SetRawValue(optionalField.Name, attribType.Data);
+                Collection.SetRawValue(optionalField.Key, attribType.Data);
                 //Collection.Data[optionalField.Name] = attribType.Data;
             }
             else
             {
-                Collection.SetRawValue(optionalField.Name, entry.InlineData);
+                Collection.SetRawValue(optionalField.Key, entry.InlineData);
                 //Collection.Data[optionalField.Name] = entry.InlineData;
             }
         }
@@ -216,7 +217,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
                 throw new Exception("incorrect offset");
             }
 
-            var rawValue = Collection.GetRawValue(baseField.Name);
+            var rawValue = Collection.GetRawValue(baseField.Key);
             context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
         }
 
@@ -255,7 +256,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
         foreach (var baseField in Collection.Class.BaseFields)
         {
             var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, baseField, Collection);
-            var rawValue = Collection.GetRawValue(baseField.Name);
+            var rawValue = Collection.GetRawValue(baseField.Key);
 
             if (rawValue is IVltPointerObject<Key64> vltPointerObject)
             {

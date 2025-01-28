@@ -39,14 +39,14 @@ public class ClassLoad64 : BaseClassLoad<Key64>
         ushort requiredCount = br.ReadUInt16();
         Debug.Assert(requiredCount <= NumDefinitions);
         br.ReadInt16();
-        Class = new VltClass<Key64>(HashManager.ResolveVlt(ClassHash), new Key64(ClassHash));
+        Class = new VltClass<Key64>(new Key64(ClassHash));
     }
 
     public override void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
-        bw.Write(Vlt64Hasher.Hash(Class.Name));
+        bw.Write(Class.Key.Hash);
 
-        int collReserve = (from collection in context.Database.RowManager.GetCollections(Class.Name)
+        int collReserve = (from collection in context.Database.RowManager.GetCollections(Class.Key)
             select collection).Count();
 
         if (collReserve == 0)
@@ -80,7 +80,6 @@ public class ClassLoad64 : BaseClassLoad<Key64>
 
             var field = new VltClassField<Key64>(
                 definition.Key,
-                HashManager.ResolveVlt(definition.Key.Hash),
                 HashManager.ResolveVlt(definition.Type.Hash),
                 definition.Flags,
                 definition.Alignment,
@@ -101,7 +100,7 @@ public class ClassLoad64 : BaseClassLoad<Key64>
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
             AttribDefinition64 definition = new AttribDefinition64();
-            definition.Key = Key64.FromString(field.Name);
+            definition.Key = field.Key;
             definition.Type = Key64.FromString(field.TypeName);
             definition.Flags = field.Flags;
             definition.Size = field.Size;
@@ -120,7 +119,7 @@ public class ClassLoad64 : BaseClassLoad<Key64>
 
     public override Key64 GetExportId()
     {
-        return Key64.FromString(Class.Name);
+        return Class.Key;
     }
 
     private int ComputeBaseSize()

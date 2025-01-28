@@ -18,12 +18,6 @@ public class VltClassField<TKey>
     public TKey Key { get; }
 
     /// <summary>
-    /// Gets the name of the field.
-    /// </summary>
-    /// <example>MODEL</example>
-    public string Name { get; }
-
-    /// <summary>
     /// Gets the type ID of the field.
     /// </summary>
     /// <example>Attrib::StringKey</example>
@@ -65,17 +59,15 @@ public class VltClassField<TKey>
     /// Initializes a new instance of the <see cref="VltClassField"/> class.
     /// </summary>
     /// <param name="key">The field's hashed key.</param>
-    /// <param name="name">The name of the field.</param>
     /// <param name="typeName">The type ID of the field.</param>
     /// <param name="flags">The field's flags.</param>
     /// <param name="alignment">The field's alignment.</param>
     /// <param name="size">The field's data size.</param>
     /// <param name="maxCount">The maximum number of instances of the field.</param>
     /// <param name="offset">The field's data offset.</param>
-    public VltClassField(TKey key, string name, string typeName, DefinitionFlags flags, int alignment, ushort size,
+    public VltClassField(TKey key, string typeName, DefinitionFlags flags, int alignment, ushort size,
         ushort maxCount, ushort offset)
     {
-        Name = name;
         TypeName = typeName;
         Flags = flags;
         Alignment = alignment;

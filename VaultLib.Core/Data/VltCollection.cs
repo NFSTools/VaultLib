@@ -25,11 +25,6 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
     /// </summary>
     public Vault<TKey> Vault { get; private set; }
 
-    /// <summary>
-    /// Gets the name of this collection.
-    /// </summary>
-    public string Name { get; private set; }
-
     public TKey Key { get; private set; }
 
     /// <summary>
@@ -38,43 +33,26 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
     public VltCollection<TKey> Parent { get; private set; }
 
     /// <summary>
-    /// Gets the short path of the collection.
-    /// </summary>
-    /// <example>gameplay/baseelement</example>
-    public string ShortPath => $"{Class.Name}/{Name}";
-
-    /// <summary>
     /// Gets the collection's data.
     /// </summary>
     /// <remarks> This is a mapping between a <see cref="VltClassField"/>'s name and a <see cref="VltBaseType"/> instance.</remarks>
-    private VltDataTable Data { get; }
+    private VltDataTable<TKey> Data { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VltCollection"/> class.
     /// </summary>
     /// <param name="vault">The vault that contains the collection.</param>
     /// <param name="vltClass">The <see cref="VltClass"/> that the collection is part of.</param>
-    /// <param name="name">The name of the collection.</param>
-    public VltCollection(Vault<TKey> vault, VltClass<TKey> vltClass, string name, TKey key)
+    /// <param name="key">The collection key</param>
+    public VltCollection(Vault<TKey> vault, VltClass<TKey> vltClass, TKey key)
     {
         Vault = vault;
         Class = vltClass;
-        Name = name;
         Key = key;
-        Data = new VltDataTable();
+        Data = new VltDataTable<TKey>();
     }
 
     #region API Members
-
-    /// <summary>
-    /// Updates the name of the collection.
-    /// </summary>
-    /// <param name="name"></param>
-    /// <remarks>This method does not perform any validation. It is assumed that you know what you're doing!</remarks>
-    public void SetName(string name)
-    {
-        Name = name;
-    }
 
     /// <summary>
     /// Makes the current collection the parent of another collection.
@@ -113,12 +91,12 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
     /// </summary>
     /// <remarks>This method does not perform any conversions. It returns the underlying objects for everything.</remarks>
     /// <returns>The read-only data dictionary.</returns>
-    public IReadOnlyDictionary<string, object> GetData()
+    public IReadOnlyDictionary<TKey, object> GetData()
     {
         return Data.GetDictionary();
     }
 
-    public IReadOnlyList<VltDataTable.Entry> GetOrderedData()
+    public IReadOnlyList<VltDataTable<TKey>.Entry> GetOrderedData()
     {
         return Data.GetEntries();
     }
@@ -128,7 +106,14 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
     /// </summary>
     /// <param name="key"></param>
     /// <returns><c>true</c> if an entry exists; otherwise, <c>false</c>.</returns>
-    public bool HasEntry(string key) => Data.HasValue(key);
+    public bool HasEntry(TKey key) => Data.HasValue(key);
+
+    /// <summary>
+    /// Determines if the collection has a data entry with the given key.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns><c>true</c> if an entry exists; otherwise, <c>false</c>.</returns>
+    public bool HasEntry(string name) => HasEntry(TKey.FromString(name));
 
     /// <summary>
     /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
@@ -136,7 +121,7 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
     /// <param name="key">The name of the field to obtain the value of.</param>
     /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
     /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
-    public object GetRawValue(string key)
+    public object GetRawValue(TKey key)
     {
         return GetRawValue<object>(key);
     }
@@ -147,11 +132,50 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
     /// <param name="key">The name of the field to obtain the value of.</param>
     /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
     /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
-    public T GetRawValue<T>(string key)
+    public object GetRawValue(string key)
+    {
+        return GetRawValue<object>(TKey.FromString(key));
+    }
+
+    /// <summary>
+    /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
+    /// </summary>
+    /// <param name="key">The name of the field to obtain the value of.</param>
+    /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
+    /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
+    public T GetRawValue<T>(TKey key)
     {
         if (!Data.TryGetValue(key, out T data))
-            throw new KeyNotFoundException($"Collection {ShortPath} does not have a value for field {key}");
+            throw new KeyNotFoundException($"Collection does not have a value for field {key}");
         return data;
+    }
+
+    /// <summary>
+    /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
+    /// </summary>
+    /// <param name="key">The name of the field to obtain the value of.</param>
+    /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
+    /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
+    public T GetRawValue<T>(string key)
+    {
+        return GetRawValue<T>(TKey.FromString(key));
+    }
+
+    /// <summary>
+    /// Gets the value of type <typeparamref name="T"/> mapped to <paramref name="key"/> in the collection's data dictionary.
+    /// </summary>
+    /// <typeparam name="T">The data type to be obtained.</typeparam>
+    /// <param name="key">The mapping key.</param>
+    /// <param name="index">The array index to retrieve the value from.</param>
+    /// <returns>The mapping value.</returns>
+    public T GetRawValue<T>(TKey key, int index)
+    {
+        var data = GetRawValue(key, index);
+
+        if (data is not T value)
+            throw new InvalidCastException($"Field {key} is not compatible with type {typeof(T)}");
+
+        return value;
     }
 
     /// <summary>
@@ -163,15 +187,10 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
     /// <returns>The mapping value.</returns>
     public T GetRawValue<T>(string key, int index)
     {
-        var data = GetRawValue(key, index);
-
-        if (data is not T value)
-            throw new InvalidCastException($"Field {key} is not compatible with type {typeof(T)}");
-
-        return value;
+        return GetRawValue<T>(TKey.FromString(key), index);
     }
 
-    public object GetRawValue(string key, int index)
+    public object GetRawValue(TKey key, int index)
     {
         var array = GetRawValue<VltArrayType<TKey>>(key);
 
@@ -183,10 +202,27 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
         return array.Items[index];
     }
 
-    // public T GetDataValue<T>(string key, int index)
-    // {
-    //     return (T)BaseTypeToData(GetRawValue(key, index));
-    // }
+    public object GetRawValue(string key, int index)
+    {
+        return GetRawValue(TKey.FromString(key), index);
+    }
+
+    /// <summary>
+    /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
+    /// </summary>
+    /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
+    /// <param name="data">The mapping value.</param>
+    public void SetRawValue(TKey key, object data)
+    {
+        if (Class.HasField(key))
+        {
+            Data.SetValue(key, data);
+        }
+        else
+        {
+            throw new KeyNotFoundException($"Field '{key}' not found in class");
+        }
+    }
 
     /// <summary>
     /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
@@ -195,41 +231,8 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
     /// <param name="data">The mapping value.</param>
     public void SetRawValue(string key, object data)
     {
-        if (Class.HasField(key))
-        {
-            Data.SetValue(key, data);
-        }
-        else
-        {
-            throw new KeyNotFoundException($"Class '{Class.Name}' does not have field '{key}'");
-        }
+        SetRawValue(TKey.FromString(key), data);
     }
-
-    // /// <summary>
-    // /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
-    // /// </summary>
-    // /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
-    // /// <param name="data">The mapping value.</param>
-    // public void SetDataValue<T>(string key, T data)
-    // {
-    //     if (Class.HasField(key))
-    //     {
-    //         if (HasEntry(key))
-    //         {
-    //             SetRawValue(key, DataToBaseType(Class[key], GetRawValue(key), data));
-    //         }
-    //         else
-    //         {
-    //             var rawValue =
-    //                 Vault.Database.TypeRegistry.CreateInstance(Class, Class[key], this);
-    //             SetRawValue(key, DataToBaseType(Class[key], rawValue, data));
-    //         }
-    //     }
-    //     else
-    //     {
-    //         throw new KeyNotFoundException($"Class '{Class.Name}' does not have field '{key}'");
-    //     }
-    // }
 
     /// <summary>
     /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
@@ -237,7 +240,7 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
     /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
     /// <param name="index"></param>
     /// <param name="data">The mapping value.</param>
-    public void SetRawValue<T>(string key, int index, T data)
+    public void SetRawValue<T>(TKey key, int index, T data)
     {
         var array = GetRawValue<VltArrayType<TKey>>(key);
 
@@ -254,42 +257,23 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
         array.Items[index] = data;
     }
 
-    // /// <summary>
-    // /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
-    // /// </summary>
-    // /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
-    // /// <param name="index"></param>
-    // /// <param name="data">The mapping value.</param>
-    // public void SetDataValue<T>(string key, int index, T data)
-    // {
-    //     if (Class.HasField(key))
-    //     {
-    //         if (HasEntry(key))
-    //         {
-    //             SetRawValue(key, index, DataToBaseType(Class[key], GetRawValue(key, index), data));
-    //         }
-    //         else
-    //         {
-    //             var databaseTypeRegistry = Vault.Database.TypeRegistry;
-    //             var rawValue =
-    //                 databaseTypeRegistry.ConstructInstance(
-    //                     databaseTypeRegistry.ResolveType(Class[key].TypeName), Class,
-    //                     Class[key], this);
-    //             SetRawValue(key, index, DataToBaseType(Class[key], rawValue, data));
-    //         }
-    //     }
-    //     else
-    //     {
-    //         throw new KeyNotFoundException($"Class '{Class.Name}' does not have field '{key}'");
-    //     }
-    // }
+    /// <summary>
+    /// Updates or creates a mapping in the data dictionary between <paramref name="key"/> and <paramref name="data"/>.
+    /// </summary>
+    /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
+    /// <param name="index"></param>
+    /// <param name="data">The mapping value.</param>
+    public void SetRawValue<T>(string key, int index, T data)
+    {
+        SetRawValue(TKey.FromString(key), index, data);
+    }
 
     /// <summary>
     /// Removes an entry from the data dictionary.
     /// This is only valid for optional fields.
     /// </summary>
     /// <param name="key">The mapping key.</param>
-    public void RemoveValue(string key)
+    public void RemoveValue(TKey key)
     {
         if (Class.HasField(key))
         {
@@ -306,13 +290,23 @@ public class VltCollection<TKey> where TKey : IKey<TKey>
             }
             else
             {
-                throw new KeyNotFoundException($"Collection '{ShortPath}' does not have an entry for '{key}'");
+                throw new KeyNotFoundException($"Collection does not have an entry for '{key}'");
             }
         }
         else
         {
-            throw new KeyNotFoundException($"Class '{Class.Name}' does not have field '{key}'");
+            throw new KeyNotFoundException($"Class does not have field '{key}'");
         }
+    }
+
+    /// <summary>
+    /// Removes an entry from the data dictionary.
+    /// This is only valid for optional fields.
+    /// </summary>
+    /// <param name="name">The mapping key.</param>
+    public void RemoveValue(string name)
+    {
+        RemoveValue(TKey.FromString(name));
     }
 
     #endregion

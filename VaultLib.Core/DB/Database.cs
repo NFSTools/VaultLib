@@ -21,7 +21,7 @@ namespace VaultLib.Core.DB;
 /// <summary>
 ///     The <see cref="Database" /> is the powerhouse of the library. It keeps track of all data that is loaded.
 /// </summary>
-public class Database<TKey> where TKey: IKey<TKey>
+public class Database<TKey> where TKey : IKey<TKey>
 {
     private Dictionary<VltCollection<TKey>, TKey> _parentKeyDictionary = new();
 
@@ -65,6 +65,17 @@ public class Database<TKey> where TKey: IKey<TKey>
     }
 
     /// <summary>
+    /// Locates and returns the <see cref="VltClass"/> with the given key.
+    /// </summary>
+    /// <param name="key">The key to search for.</param>
+    /// <returns>The <see cref="VltClass"/> with the given key.</returns>
+    /// <exception cref="InvalidOperationException">if no class can be found</exception>
+    public VltClass<TKey> FindClass(TKey key)
+    {
+        return Classes.First(c => c.Key == key);
+    }
+
+    /// <summary>
     /// Locates and returns the <see cref="VltClass"/> with the given name.
     /// </summary>
     /// <param name="name">The name of the class to search for.</param>
@@ -72,7 +83,7 @@ public class Database<TKey> where TKey: IKey<TKey>
     /// <exception cref="InvalidOperationException">if no class can be found</exception>
     public VltClass<TKey> FindClass(string name)
     {
-        return Classes.First(c => c.Name == name);
+        return FindClass(TKey.FromString(name));
     }
 
     public Vault<TKey> FindVault(string name)
@@ -147,9 +158,9 @@ public class Database<TKey> where TKey: IKey<TKey>
             // var hash = Hash(vltCollection.Name);
             if (!collections.TryAdd(vltCollection.Key, vltCollection))
             {
-                Debug.WriteLine("WARN: duplicate key detected in class {2}: {0} (0x{1:X})", vltCollection.Name,
+                Debug.WriteLine("WARN: duplicate key detected in class {2}: {0} (0x{1:X})", vltCollection.Key,
                     vltCollection.Key,
-                    vltCollection.Class.Name);
+                    vltCollection.Class.Key);
             }
         }
 
@@ -161,8 +172,8 @@ public class Database<TKey> where TKey: IKey<TKey>
 
             if (!collections.TryGetValue(parentKey, out var parentCollection))
             {
-                throw new KeyNotFoundException(
-                    $"could not find parent collection for {vltCollection.Name}: 0x{parentKey:X}");
+                throw new Exception(
+                    $"could not find parent collection for {vltCollection.Key}: {parentKey}");
             }
 
             parentCollection.AddChild(vltCollection);
@@ -183,6 +194,9 @@ public class Database<TKey> where TKey: IKey<TKey>
                 // TODO: We should really have some kind of post-processing abstraction for static data.
                 if (staticField.StaticValue is Static_Inorder_N_to_1 staticTree)
                 {
+                    var realRowManager = (RowManager<Key32>)(object)RowManager;
+                    var classKey = (Key32)(object)vltClass.Key;
+                    
                     Static_Inorder_N_to_1.TreeNodeType? nodeType = null;
                     for (var i = 0; i < staticTree.Keys.Count; i++)
                     {
@@ -194,7 +208,7 @@ public class Database<TKey> where TKey: IKey<TKey>
 
                         if (key != 0)
                         {
-                            var collection = RowManager.FindCollectionByName(vltClass.Name, keyToName);
+                            var collection = realRowManager.FindCollection(classKey, new Key32(key));
 
                             if (collection == null)
                             {
@@ -205,8 +219,7 @@ public class Database<TKey> where TKey: IKey<TKey>
                             if (values.Count == 1)
                             {
                                 var linkedKey = values[0];
-                                var linkedKeyToName = HashManager.ResolveVlt(linkedKey);
-                                var linkedCollection = RowManager.FindCollectionByName(vltClass.Name, linkedKeyToName);
+                                var linkedCollection = realRowManager.FindCollection(classKey, new Key32(linkedKey));
 
                                 if (ReferenceEquals(collection.Parent, linkedCollection))
                                 {
@@ -261,11 +274,10 @@ public class Database<TKey> where TKey: IKey<TKey>
 
             if (vaultExport is BaseCollectionLoad<TKey> bcl)
             {
-                // TODO: parent key
-                // if (bcl.ParentKey != 0)
-                // {
-                //     _parentKeyDictionary[bcl.Collection] = bcl.ParentKey;
-                // }
+                if (bcl.ParentKey != TKey.Zero)
+                {
+                    _parentKeyDictionary[bcl.Collection] = bcl.ParentKey;
+                }
             }
         }
 

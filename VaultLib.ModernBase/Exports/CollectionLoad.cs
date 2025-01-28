@@ -30,8 +30,7 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
 
         Debug.Assert(mTableReserve == mNumEntries);
 
-        Collection = new VltCollection<Key32>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
-            HashManager.ResolveVlt(mKey), new Key32(mKey));
+        Collection = new VltCollection<Key32>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)), new Key32(mKey));
 
         Debug.Assert(mTypesLen >= mNumTypes);
 
@@ -73,10 +72,10 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
 
     public override void Prepare(Vault<Key32> vault)
     {
-        List<KeyValuePair<string, object>> optionalDataColumns = (from pair in Collection.GetOrderedData()
+        List<KeyValuePair<Key32, object>> optionalDataColumns = (from pair in Collection.GetOrderedData()
             let field = Collection.Class[pair.Key]
             where !field.IsInLayout
-            select new KeyValuePair<string, object>(pair.Key, pair.Value)).ToList();
+            select new KeyValuePair<Key32, object>(pair.Key, pair.Value)).ToList();
 
         Entries = new List<AttribEntry32>();
         Types = Collection.Class.BaseFields.Select(f => f.TypeName)
@@ -89,7 +88,7 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
             var entry = new AttribEntry32(Collection);
             var vltClassField = Collection.Class[optionalDataColumn.Key];
 
-            entry.Key = Key32.FromString(optionalDataColumn.Key);
+            entry.Key = optionalDataColumn.Key;
             entry.TypeIndex = (ushort)Array.IndexOf(Types,
                 Vlt32Hasher.Hash(vltClassField.TypeName));
             entry.EntryFlags = 0;
@@ -123,9 +122,9 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
 
     public override void Write(VaultWriteContext<Key32> context, BinaryWriter bw)
     {
-        bw.Write(Vlt32Hasher.Hash(Collection.Name));
-        bw.Write(Vlt32Hasher.Hash(Collection.Class.Name));
-        bw.Write(Collection.Parent != null ? Vlt32Hasher.Hash(Collection.Parent.Name) : 0u);
+        bw.Write(Collection.Key.Hash);
+        bw.Write(Collection.Class.Key.Hash);
+        bw.Write(Collection.Parent?.Key.Hash ?? 0);
         bw.Write(Entries.Count);
         bw.Write(0);
         bw.Write(Entries.Count);
@@ -154,6 +153,7 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
 
     public override Key32 GetExportId()
     {
-        return Key32.FromString($"{Collection.Class.Name}/{Collection.Name}");
+        // TODO: the collection should probably have an ID separate from key.
+        return new Key32((uint)HashCode.Combine(Collection.Class.Key, Collection.Key));
     }
 }

@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Data;
 
-public class VltDataTable
+public class VltDataTable<TKey> where TKey : IKey<TKey>
 {
     [DebuggerDisplay("{Key} = {Value}")]
     public class Entry
     {
-        public Entry(string key, object value)
+        public Entry(TKey key, object value)
         {
             Key = key;
             Value = value;
         }
 
-        public string Key { get; }
+        public TKey Key { get; }
         public object Value { get; set; }
     }
 
-    private readonly Dictionary<string, object> _entryLookup = new();
+    private readonly Dictionary<TKey, object> _entryLookup = new();
 
     private readonly List<Entry> _entries = new();
 
@@ -28,18 +29,18 @@ public class VltDataTable
         return _entries;
     }
 
-    public IReadOnlyDictionary<string, object> GetDictionary() => _entryLookup;
+    public IReadOnlyDictionary<TKey, object> GetDictionary() => _entryLookup;
 
-    public bool HasValue(string key) => _entryLookup.ContainsKey(key);
+    public bool HasValue(TKey key) => _entryLookup.ContainsKey(key);
 
-    public object GetValue(string key)
+    public object GetValue(TKey key)
     {
         return _entryLookup[key];
     }
 
-    public bool TryGetValue(string key, out object value) => _entryLookup.TryGetValue(key, out value);
+    public bool TryGetValue(TKey key, out object value) => _entryLookup.TryGetValue(key, out value);
 
-    public T GetValue<T>(string key)
+    public T GetValue<T>(TKey key)
     {
         var val = _entryLookup[key];
         return val is T value
@@ -48,7 +49,7 @@ public class VltDataTable
                 $"Type mismatch for key {key}: actual type is {val.GetType()}, requested type is {typeof(T)}");
     }
 
-    public bool TryGetValue<T>(string key, out T value)
+    public bool TryGetValue<T>(TKey key, out T value)
     {
         if (!_entryLookup.TryGetValue(key, out var val))
         {
@@ -66,7 +67,7 @@ public class VltDataTable
         return true;
     }
 
-    public void SetValue(string key, object value)
+    public void SetValue(TKey key, object value)
     {
         if (_entryLookup.TryGetValue(key, out var previousValue))
         {
@@ -89,7 +90,7 @@ public class VltDataTable
         }
     }
 
-    public void RemoveValue(string key)
+    public void RemoveValue(TKey key)
     {
         _entryLookup.Remove(key);
         _entries.RemoveAll(e => e.Key == key);

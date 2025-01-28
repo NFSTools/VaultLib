@@ -43,7 +43,7 @@ public class EmitterEffectAndTarget: VltBaseType<Key32>, IReferencesCollections<
     public IEnumerable<CollectionReferenceInfo<Key32>> GetReferencedCollections(Database<Key32> database, Vault<Key32> vault)
     {
         yield return new CollectionReferenceInfo<Key32>(this,
-            database.RowManager.FindCollectionByName("emittergroup", EmitterKey));
+            database.RowManager.FindCollection("emittergroup", EmitterKey));
     }
 
     public bool ReferencesCollection(string classKey, string collectionKey)

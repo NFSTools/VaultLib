@@ -42,7 +42,7 @@ public class VaultExportManager<TKey> where TKey : IKey<TKey>
             {
                 Exports.Add(exportFactory.BuildClassLoad(vltClass));
                 Exports.AddRange(from collection in WriteContext.Collections
-                    where collection.Class.Name == vltClass.Name
+                    where collection.Class.Key == vltClass.Key
                     select exportFactory.BuildCollectionLoad(collection));
             }
         }
