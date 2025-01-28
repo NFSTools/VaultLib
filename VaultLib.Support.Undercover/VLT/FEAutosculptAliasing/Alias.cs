@@ -2,17 +2,19 @@
 // 
 // Created: 10/20/2019 @ 11:58 AM.
 
-using CoreLibraries.IO;
 using System.Collections.Generic;
 using System.IO;
+using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.FEAutosculptAliasing;
 
 [VltTypeInfo("FEAutosculptAliasing::Alias")]
-public class Alias: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IVltPointerObject<VaultLib.Core.DataInterfaces.Key32>
+public class Alias : VltBaseType<Key32>,
+    IVltPointerObject<Key32>
 {
     public byte Kit { get; set; }
     public uint Region { get; set; }
@@ -23,7 +25,8 @@ public class Alias: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IVltPointer
     private long _srcSlidersPtr;
     private long _dstSlidersPtr;
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context,
+        FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         Kit = br.ReadByte();
         br.SafeAlignReader(4);
@@ -33,7 +36,8 @@ public class Alias: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IVltPointer
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context,
+        FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(Kit);
         bw.AlignWriter(4);
@@ -44,7 +48,8 @@ public class Alias: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IVltPointer
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Key32> context,
+        FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         br.BaseStream.Position = _slidersPointer;
 
@@ -56,12 +61,19 @@ public class Alias: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IVltPointer
         }
     }
 
-    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Key32> context,
+        FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
     {
         _dstSlidersPtr = bw.BaseStream.Position;
+
+        foreach (var slider in Sliders)
+        {
+            slider.Write(context, fieldContext, bw);
+        }
     }
 
-    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Key32> context,
+        FieldReadWriteContext<Key32> fieldContext)
     {
         context.AddPointer(_srcSlidersPtr, _dstSlidersPtr, false);
     }
