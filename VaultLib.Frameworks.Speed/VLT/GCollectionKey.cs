@@ -16,13 +16,13 @@ public abstract class GCollectionKey<TKey> : BaseRefSpec<TKey> where TKey : IKey
 {
     public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
-        CollectionKey = ReadKey(context, fieldContext, br);
+        CollectionKey = TKey.Read(br);
     }
 
     public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
         BinaryWriter bw)
     {
-        WriteKey(context, fieldContext, bw, CollectionKey);
+        CollectionKey.Write(bw);
     }
 
     public override TKey ClassKey

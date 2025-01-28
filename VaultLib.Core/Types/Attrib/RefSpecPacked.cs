@@ -12,54 +12,26 @@ public abstract class RefSpecPacked<TKey> : BaseRefSpec<TKey> where TKey : IKey<
 {
     public override TKey ClassKey { get; set; }
 
-    public override TKey CollectionKey
-    {
-        get;
-        set;
-    }
+    public override TKey CollectionKey { get; set; }
 
     public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
-        ClassKey = ReadKey(context, fieldContext, br);
-        CollectionKey = ReadKey(context, fieldContext, br);
+        ClassKey = TKey.Read(br);
+        CollectionKey = TKey.Read(br);
     }
 
     public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
         BinaryWriter bw)
     {
-        WriteKey(context, fieldContext, bw, ClassKey);
-        WriteKey(context, fieldContext, bw, CollectionKey);
+        ClassKey.Write(bw);
+        CollectionKey.Write(bw);
     }
 }
 
-
-
 public class RefSpecPacked32 : RefSpecPacked<Key32>
 {
-    protected override Key32 ReadKey(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryReader br)
-    {
-        return new Key32(br.ReadUInt32());
-    }
-
-    protected override void WriteKey(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryWriter bw, Key32 key)
-    {
-        bw.Write(key.Hash);
-    }
 }
 
 public class RefSpecPacked64 : RefSpecPacked<Key64>
 {
-    protected override Key64 ReadKey(VaultReadContext<Key64> context, FieldReadWriteContext<Key64> fieldContext,
-        BinaryReader br)
-    {
-        return new Key64(br.ReadUInt64());
-    }
-
-    protected override void WriteKey(VaultWriteContext<Key64> context, FieldReadWriteContext<Key64> fieldContext,
-        BinaryWriter bw, Key64 key)
-    {
-        bw.Write(key.Hash);
-    }
 }

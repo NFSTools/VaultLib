@@ -30,7 +30,7 @@ public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey> where TKey
 
     public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
-        CollectionKey = ReadKey(context, fieldContext, br);
+        CollectionKey = TKey.Read(br);
 
         br.ReadUInt32();
     }
@@ -38,7 +38,7 @@ public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey> where TKey
     public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
         BinaryWriter bw)
     {
-        WriteKey(context, fieldContext, bw, CollectionKey);
+        CollectionKey.Write(bw);
         bw.Write(0);
     }
 
@@ -57,18 +57,6 @@ public abstract class ClassRefSpec_template32 : ClassRefSpec_template<Key32>
     protected ClassRefSpec_template32(Key32 classKey) : base(classKey)
     {
     }
-
-    protected override Key32 ReadKey(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryReader br)
-    {
-        return new Key32(br.ReadUInt32());
-    }
-
-    protected override void WriteKey(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryWriter bw, Key32 key)
-    {
-        bw.Write(key.Hash);
-    }
 }
 
 public abstract class ClassRefSpec_template64 : ClassRefSpec_template<Key64>
@@ -79,17 +67,5 @@ public abstract class ClassRefSpec_template64 : ClassRefSpec_template<Key64>
 
     protected ClassRefSpec_template64(Key64 classKey) : base(classKey)
     {
-    }
-
-    protected override Key64 ReadKey(VaultReadContext<Key64> context, FieldReadWriteContext<Key64> fieldContext,
-        BinaryReader br)
-    {
-        return new Key64(br.ReadUInt64());
-    }
-
-    protected override void WriteKey(VaultWriteContext<Key64> context, FieldReadWriteContext<Key64> fieldContext,
-        BinaryWriter bw, Key64 key)
-    {
-        bw.Write(key.Hash);
     }
 }
