@@ -79,4 +79,9 @@ public class DatabaseLoad64 : BaseDatabaseLoad<Key64>, IPointerObject<Key64>
 
         foreach (var databaseType in context.Database.Types) bw.Write(databaseType.Size);
     }
+
+    public override Key64 GetExportId()
+    {
+        throw new System.NotImplementedException();
+    }
 }

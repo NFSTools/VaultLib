@@ -74,4 +74,9 @@ public class DatabaseLoad : BaseDatabaseLoad<Key32>, IPointerObject<Key32>
 
         foreach (var databaseType in context.Database.Types) bw.Write(databaseType.Size);
     }
+
+    public override Key32 GetExportId()
+    {
+        return new Key32(0xF1DFAC8D);
+    }
 }

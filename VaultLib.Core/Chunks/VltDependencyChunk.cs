@@ -33,16 +33,12 @@ public class VltDependencyChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
     {
         bw.Write(DependencyNames.Count);
 
-        if (context.HashMode == VaultHashMode.Hash64)
+        if (TKey.Size == 8)
             bw.Write(0);
 
         foreach (var dependencyName in DependencyNames)
         {
-            var hash = context.StringHash(dependencyName);
-            if (context.HashMode==VaultHashMode.Hash64)
-                bw.Write(hash);
-            else
-                bw.Write((uint)hash);
+            context.StringToKey(dependencyName).Write(bw);
         }
 
         var nameOffsets = new Dictionary<string, int>();

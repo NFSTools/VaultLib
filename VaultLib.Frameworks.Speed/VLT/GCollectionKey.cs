@@ -42,3 +42,6 @@ public abstract class GCollectionKey<TKey> : BaseRefSpec<TKey> where TKey : IKey
         return $"gameplay -> {CollectionKey}";
     }
 }
+
+public class GCollectionKey32 : GCollectionKey<Key32> {}
+public class GCollectionKey64 : GCollectionKey<Key64> {}

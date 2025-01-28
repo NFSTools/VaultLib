@@ -1,12 +1,15 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Numerics;
 using VaultLib.Core.Hashing;
 
 namespace VaultLib.Core.DataInterfaces;
 
-public interface IKey<TSelf> : IEqualityOperators<TSelf, TSelf, bool> where TSelf : IKey<TSelf>
+public interface IKey<TSelf> : IEqualityOperators<TSelf, TSelf, bool>, IComparable<TSelf> where TSelf : IKey<TSelf>
 {
     static abstract TSelf Zero { get; }
+    
+    static abstract uint Size { get; }
 
     static abstract TSelf FromString(string value);
 
@@ -18,6 +21,8 @@ public interface IKey<TSelf> : IEqualityOperators<TSelf, TSelf, bool> where TSel
 public readonly record struct Key32(uint Hash) : IKey<Key32>
 {
     public static Key32 Zero => default;
+
+    public static uint Size => sizeof(uint);
 
     public static Key32 FromString(string value)
     {
@@ -38,11 +43,17 @@ public readonly record struct Key32(uint Hash) : IKey<Key32>
     {
         return $"0x{Hash:X8}";
     }
+
+    public int CompareTo(Key32 other)
+    {
+        return Hash.CompareTo(other.Hash);
+    }
 }
 
 public readonly record struct Key64(ulong Hash) : IKey<Key64>
 {
     public static Key64 Zero => default;
+    public static uint Size => sizeof(ulong);
 
     public static Key64 FromString(string value)
     {
@@ -62,5 +73,10 @@ public readonly record struct Key64(ulong Hash) : IKey<Key64>
     public override string ToString()
     {
         return $"0x{Hash:X16}";
+    }
+
+    public int CompareTo(Key64 other)
+    {
+        return Hash.CompareTo(other.Hash);
     }
 }

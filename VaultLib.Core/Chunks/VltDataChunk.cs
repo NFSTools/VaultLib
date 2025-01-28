@@ -45,14 +45,14 @@ public class VltDataChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
             var exportEntry = context.Database.ExportFactory.BuildExportEntry();
             exportEntry.Id = t.GetExportId();
             exportEntry.Offset = (uint)offset;
-            exportEntry.Type = (TKey)(object)context.StringHash(t.GetTypeId());
+            exportEntry.Type = context.StringToKey(t.GetTypeId());
             exportEntry.Size = (uint)(endOffset - offset);
 
             ExportEntries.Add(exportEntry);
 
             bw.AlignWriter(8);
         }
-        
+
         bw.AlignWriter(0x10);
     }
 }

@@ -17,7 +17,7 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides utilities for the saving process
 /// </summary>
-public class VaultWriteContext<TKey> where TKey: IKey<TKey>
+public class VaultWriteContext<TKey> where TKey : IKey<TKey>
 {
     public VaultWriteOptions Options { get; }
 
@@ -85,33 +85,19 @@ public class VaultWriteContext<TKey> where TKey: IKey<TKey>
     /// </summary>
     /// <param name="text">The text to be hashed.</param>
     /// <returns>The string hash value.</returns>
-    /// <remarks>Strings beginning with "0x" will be converted to numeric values.</remarks>
-    public ulong StringHash(string text)
+    /// <remarks>As of VaultLib 3.0, strings beginning with "0x" will NOT be interpreted as hexadecimal numbers.</remarks>
+    public TKey StringToKey(string text)
     {
-        if (text.StartsWith("0x") && ulong.TryParse(text.Substring(2),
-                System.Globalization.NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out ulong l))
-        {
-            return l;
-        }
-
-        switch (Options.HashMode)
-        {
-            case VaultHashMode.Hash32:
-                return Vlt32Hasher.Hash(text);
-            case VaultHashMode.Hash64:
-                return Vlt64Hasher.Hash(text);
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        return TKey.FromString(text);
     }
 
     public void WriteString(string str, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
     {
         if (!StringOffsets.TryGetValue(str, out var strPtr))
             throw new KeyNotFoundException($"String offset table does not have an entry for: {str}");
-            
+
         var ptrPos = bw.BaseStream.Position;
-            
+
         bw.Write(0u);
 
         AddPointer(ptrPos, strPtr, fieldContext.IsInVlt);
