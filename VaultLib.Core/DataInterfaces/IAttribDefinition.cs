@@ -3,7 +3,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.DataInterfaces;
 
-public interface IAttribDefinition<TKey> : IVaultFileAccess<TKey> where TKey : IKey<TKey>
+public interface IAttribDefinition<TKey> : IVaultFileAccess<TKey> where TKey : struct, IKey<TKey>
 {
     TKey Key { get; set; }
     TKey Type { get; set; }

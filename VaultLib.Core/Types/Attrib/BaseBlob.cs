@@ -4,7 +4,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib;
 
-public abstract class BaseBlob<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : IKey<TKey>
+public abstract class BaseBlob<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : struct, IKey<TKey>
 {
     public byte[] Data { get; set; }
 

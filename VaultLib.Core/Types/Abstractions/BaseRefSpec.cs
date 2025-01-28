@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Abstractions;
 
-public abstract class BaseRefSpec<TKey> : VltBaseType<TKey>, IReferencesCollections<TKey> where TKey : IKey<TKey>
+public abstract class BaseRefSpec<TKey> : VltBaseType<TKey>, IReferencesCollections<TKey> where TKey : struct, IKey<TKey>
 {
     public abstract TKey ClassKey { get; set; }
     public abstract TKey CollectionKey { get; set; }

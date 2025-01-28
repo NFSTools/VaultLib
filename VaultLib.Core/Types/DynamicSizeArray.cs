@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Core.Types;
 
 public class DynamicSizeArray<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey>
-    where TItem : VltBaseType<TKey> where TKey : IKey<TKey>
+    where TItem : VltBaseType<TKey> where TKey : struct, IKey<TKey>
 {
     private long _dstPtr;
 

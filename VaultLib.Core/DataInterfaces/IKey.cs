@@ -5,10 +5,11 @@ using VaultLib.Core.Hashing;
 
 namespace VaultLib.Core.DataInterfaces;
 
-public interface IKey<TSelf> : IEqualityOperators<TSelf, TSelf, bool>, IComparable<TSelf> where TSelf : IKey<TSelf>
+public interface IKey<TSelf> : IEqualityOperators<TSelf, TSelf, bool>, IComparable<TSelf>
+    where TSelf : struct, IKey<TSelf>
 {
     static abstract TSelf Zero { get; }
-    
+
     static abstract uint Size { get; }
 
     static abstract TSelf FromString(string value);

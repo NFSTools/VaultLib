@@ -21,7 +21,7 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides a facility for mapping type names to actual types.
 /// </summary>
-public class TypeRegistry<TKey> where TKey : IKey<TKey>
+public class TypeRegistry<TKey> where TKey : struct, IKey<TKey>
 {
     private readonly Dictionary<TKey, Type> _typeDictionary = new();
 

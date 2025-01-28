@@ -12,7 +12,7 @@ using VaultLib.Core.Exports;
 
 namespace VaultLib.Core.Chunks;
 
-public class VltExportChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
+public class VltExportChunk<TKey> : ChunkBase<TKey> where TKey : struct, IKey<TKey>
 {
     private readonly List<IExportEntry<TKey>> _exports;
 

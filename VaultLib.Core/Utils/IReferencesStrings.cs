@@ -7,7 +7,7 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Utils;
 
-public interface IReferencesStrings<TKey> : IVltPointerObject<TKey> where TKey : IKey<TKey>
+public interface IReferencesStrings<TKey> : IVltPointerObject<TKey> where TKey : struct, IKey<TKey>
 {
     IEnumerable<string> GetStrings();
 }

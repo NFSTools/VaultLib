@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo("AtttributeRefSpec")]
-public abstract class AttributeRefSpec<TKey> : VltBaseType<TKey> where TKey : IKey<TKey>
+public abstract class AttributeRefSpec<TKey> : VltBaseType<TKey> where TKey : struct, IKey<TKey>
 {
     public TKey ClassKey { get; set; }
     public TKey DefinitionKey { get; set; }

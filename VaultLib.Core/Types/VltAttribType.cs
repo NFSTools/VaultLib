@@ -11,7 +11,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltAttribType<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : IKey<TKey>
+public class VltAttribType<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : struct, IKey<TKey>
 {
     private long _offsetDst;
 

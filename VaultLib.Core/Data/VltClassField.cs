@@ -2,6 +2,8 @@
 // 
 // Created: 09/25/2019 @ 7:18 PM.
 
+using VaultLib.Core.DataInterfaces;
+
 namespace VaultLib.Core.Data;
 
 /// <summary>
@@ -10,7 +12,7 @@ namespace VaultLib.Core.Data;
 ///     Fields can be BASE fields (required) or ATTRIBUTE fields (optional).
 /// </summary>
 /// <remarks>In the version of AttribSys used from 2006 onwards, fields can have "static" values - a static field cannot occur in a collection. It has one value.</remarks>
-public class VltClassField<TKey>
+public class VltClassField<TKey> where TKey : struct, IKey<TKey>
 {
     /// <summary>
     /// Gets the field's key.

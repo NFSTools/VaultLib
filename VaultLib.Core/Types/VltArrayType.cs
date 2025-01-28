@@ -15,7 +15,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, IReferencesCollections<TKey> where TKey : IKey<TKey>
+public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, IReferencesCollections<TKey> where TKey : struct, IKey<TKey>
 {
     public VltArrayType(VltClassField<TKey> field, Type itemType)
     {

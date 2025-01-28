@@ -5,7 +5,7 @@ using VaultLib.Core.Structures;
 
 namespace VaultLib.Core.Exports;
 
-public class ExportFactory<TKey> where TKey : IKey<TKey>
+public class ExportFactory<TKey> where TKey : struct, IKey<TKey>
 {
     // private static readonly Dictionary<string, Func<IExportEntry>> ExportEntryCreatorDictionary =
     //     new Dictionary<string, Func<IExportEntry>>();

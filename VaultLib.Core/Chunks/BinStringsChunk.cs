@@ -10,7 +10,7 @@ using VaultLib.Core.Hashing;
 
 namespace VaultLib.Core.Chunks;
 
-public class BinStringsChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
+public class BinStringsChunk<TKey> : ChunkBase<TKey> where TKey : struct, IKey<TKey>
 {
     public List<string> Strings { get; set; }
 

@@ -14,7 +14,7 @@ namespace VaultLib.Core;
 /// <summary>
 /// Generates BIN and VLT data streams for a <see cref="VaultLib.Core.Vault"/> instance.
 /// </summary>
-public class VaultWriter<TKey> where TKey : IKey<TKey>
+public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
 {
     private readonly VaultWriteContext<TKey> _writeContext;
 
@@ -133,7 +133,7 @@ public class VaultWriter<TKey> where TKey : IKey<TKey>
 
         var exportChunk = new VltExportChunk<TKey>(dataChunk.ExportEntries);
         cw.WriteChunk(exportChunk);
-        var binWriter = new BinaryWriter(BinStream);
+        var binWriter = new SpyingBinaryWriter(BinStream);
 
         foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject<TKey>>())
             pointerObject.WritePointerData(_writeContext, binWriter);

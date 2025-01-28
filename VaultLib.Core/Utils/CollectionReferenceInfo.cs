@@ -8,7 +8,7 @@ using VaultLib.Core.Types;
 
 namespace VaultLib.Core.Utils;
 
-public class CollectionReferenceInfo<TKey> where TKey : IKey<TKey>
+public class CollectionReferenceInfo<TKey> where TKey : struct, IKey<TKey>
 {
     public CollectionReferenceInfo(VltBaseType<TKey> source, VltCollection<TKey> destination)
     {

@@ -8,7 +8,7 @@ using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Core.Types.Attrib.Gen;
 
-public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey> where TKey : IKey<TKey>
+public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey> where TKey : struct, IKey<TKey>
 {
     protected ClassRefSpec_template(string className)
     {

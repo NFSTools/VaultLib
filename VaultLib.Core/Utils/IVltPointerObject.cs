@@ -7,7 +7,7 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Utils;
 
-public interface IVltPointerObject<TKey> where TKey : IKey<TKey>
+public interface IVltPointerObject<TKey> where TKey : struct, IKey<TKey>
 {
     /// <summary>
     ///     Read data stored through pointers to the BIN stream

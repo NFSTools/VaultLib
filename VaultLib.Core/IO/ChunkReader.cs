@@ -12,7 +12,7 @@ namespace VaultLib.Core.IO;
 /// <summary>
 ///     Reads chunks from a data stream
 /// </summary>
-public class ChunkReader<TKey> where TKey : IKey<TKey>
+public class ChunkReader<TKey> where TKey : struct, IKey<TKey>
 {
     public ChunkReader(BinaryReader reader)
     {

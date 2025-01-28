@@ -9,7 +9,7 @@ namespace VaultLib.Frameworks.Speed.VLT.Attrib;
 /// Need for Speed games by EA Black Box have compressed data stored in Attrib::Blob instances.
 /// </summary>
 [VltTypeInfo("Attrib::Blob")]
-public abstract class Blob<TKey> : BaseBlob<TKey> where TKey : IKey<TKey>
+public abstract class Blob<TKey> : BaseBlob<TKey> where TKey : struct, IKey<TKey>
 {
     private CompressedBlob _blob;
 

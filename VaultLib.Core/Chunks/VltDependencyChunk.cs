@@ -6,7 +6,7 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Chunks;
 
-public class VltDependencyChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
+public class VltDependencyChunk<TKey> : ChunkBase<TKey> where TKey : struct, IKey<TKey>
 {
     public VltDependencyChunk(List<string> dependencyNames)
     {

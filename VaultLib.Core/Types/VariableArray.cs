@@ -10,7 +10,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VariableArray<TKey> : IPointerObject<TKey> where TKey : IKey<TKey>
+public class VariableArray<TKey> : IPointerObject<TKey> where TKey : struct, IKey<TKey>
 {
     private uint _mArray;
     private long _ptrDst;

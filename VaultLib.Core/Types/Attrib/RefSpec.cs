@@ -9,7 +9,7 @@ using VaultLib.Core.Types.Abstractions;
 namespace VaultLib.Core.Types.Attrib;
 
 [VltTypeInfo("Attrib::RefSpec")]
-public abstract class RefSpec<TKey> : BaseRefSpec<TKey> where TKey : IKey<TKey>
+public abstract class RefSpec<TKey> : BaseRefSpec<TKey> where TKey : struct, IKey<TKey>
 {
     public override TKey ClassKey { get; set; }
 

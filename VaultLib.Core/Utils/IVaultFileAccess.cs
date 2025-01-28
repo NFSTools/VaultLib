@@ -10,7 +10,7 @@ namespace VaultLib.Core.Utils;
 /// <summary>
 ///     Generic interface for reading and writing binary structures, with access to the containing <see cref="Vault"/>.
 /// </summary>
-public interface IVaultFileAccess<TKey> where TKey : IKey<TKey>
+public interface IVaultFileAccess<TKey> where TKey : struct, IKey<TKey>
 {
     void Read(VaultReadContext<TKey> context, BinaryReader br);
     void Write(VaultWriteContext<TKey> context, BinaryWriter bw);

@@ -12,7 +12,7 @@ using VaultLib.Core.Types.Abstractions;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo("GCollectionKey")]
-public abstract class GCollectionKey<TKey> : BaseRefSpec<TKey> where TKey : IKey<TKey>
+public abstract class GCollectionKey<TKey> : BaseRefSpec<TKey> where TKey : struct, IKey<TKey>
 {
     public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {

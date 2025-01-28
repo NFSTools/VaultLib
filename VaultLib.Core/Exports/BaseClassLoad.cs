@@ -5,7 +5,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Exports;
 
-public abstract class BaseClassLoad<TKey> : BaseExport<TKey>, IPointerObject<TKey> where TKey : IKey<TKey>
+public abstract class BaseClassLoad<TKey> : BaseExport<TKey>, IPointerObject<TKey> where TKey : struct, IKey<TKey>
 {
     public VltClass<TKey> Class { get; set; }
 

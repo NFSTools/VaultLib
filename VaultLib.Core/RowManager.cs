@@ -15,7 +15,7 @@ namespace VaultLib.Core;
 ///     Manager class for collections ("rows")
 ///     Provides methods to access and manage row data
 /// </summary>
-public class RowManager<TKey> where TKey : IKey<TKey>
+public class RowManager<TKey> where TKey : struct, IKey<TKey>
 {
     private readonly Database<TKey> _database;
 
@@ -164,8 +164,9 @@ public class RowManager<TKey> where TKey : IKey<TKey>
     /// <param name="collection">The collection to add</param>
     public void AddCollection(VltCollection<TKey> collection)
     {
-        if (Rows.Any(r => r.Class.Key == collection.Class.Key && r.Key == collection.Key))
-            throw new DuplicateNameException("The specified key is already in use by another collection");
+        // TODO: bring this check back, maybe behind an option?
+        // if (Rows.Any(r => r.Class.Key == collection.Class.Key && r.Key == collection.Key))
+        //     throw new DuplicateNameException("The specified key is already in use by another collection");
 
         Rows.Add(collection);
     }

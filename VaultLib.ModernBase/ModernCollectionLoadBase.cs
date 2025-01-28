@@ -15,7 +15,7 @@ using VaultLib.ModernBase.Exports;
 namespace VaultLib.ModernBase;
 
 public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollectionLoad<TKey>
-    where TAttribEntry : AttribEntryBase<TKey> where TKey : IKey<TKey>
+    where TAttribEntry : AttribEntryBase<TKey> where TKey : struct, IKey<TKey>
 {
     protected uint LayoutPointer { get; set; }
 

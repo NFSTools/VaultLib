@@ -17,7 +17,7 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides utilities for the saving process
 /// </summary>
-public class VaultWriteContext<TKey> where TKey : IKey<TKey>
+public class VaultWriteContext<TKey> where TKey : struct, IKey<TKey>
 {
     public VaultWriteOptions Options { get; }
 

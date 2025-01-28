@@ -21,7 +21,7 @@ namespace VaultLib.Core.DB;
 /// <summary>
 ///     The <see cref="Database" /> is the powerhouse of the library. It keeps track of all data that is loaded.
 /// </summary>
-public class Database<TKey> where TKey : IKey<TKey>
+public class Database<TKey> where TKey : struct, IKey<TKey>
 {
     private Dictionary<VltCollection<TKey>, TKey> _parentKeyDictionary = new();
 

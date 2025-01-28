@@ -5,7 +5,7 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Data;
 
-public class VltDataTable<TKey> where TKey : IKey<TKey>
+public class VltDataTable<TKey> where TKey : struct, IKey<TKey>
 {
     [DebuggerDisplay("{Key} = {Value}")]
     public class Entry

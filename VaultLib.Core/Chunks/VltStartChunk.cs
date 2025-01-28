@@ -7,7 +7,7 @@ using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Chunks;
 
-public class VltStartChunk<TKey> : ChunkBase<TKey> where TKey : IKey<TKey>
+public class VltStartChunk<TKey> : ChunkBase<TKey> where TKey : struct, IKey<TKey>
 {
     public override uint Id => 0x5374724E;
     public override uint Size { get; set; }

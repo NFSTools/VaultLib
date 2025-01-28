@@ -13,7 +13,7 @@ namespace VaultLib.Core.Data;
 ///     A collection in VLT is like a row in a SQL database.
 ///     A collection specifies values for the fields of its class.
 /// </summary>
-public class VltCollection<TKey> where TKey : IKey<TKey>
+public class VltCollection<TKey> where TKey : struct, IKey<TKey>
 {
     /// <summary>
     /// Gets the <see cref="VltClass"/> that this collection is part of.

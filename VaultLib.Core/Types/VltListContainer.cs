@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltListContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : IKey<TKey>
+public class VltListContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : struct, IKey<TKey>
 {
     private long _dstPtr;
 

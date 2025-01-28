@@ -7,7 +7,7 @@ using VaultLib.ModernBase.Exports;
 
 namespace VaultLib.ModernBase;
 
-public abstract class AttribEntryBase<TKey> : IVaultFileAccess<TKey>, IPointerObject<TKey> where TKey : IKey<TKey>
+public abstract class AttribEntryBase<TKey> : IVaultFileAccess<TKey>, IPointerObject<TKey> where TKey : struct, IKey<TKey>
 {
     public TKey Key { get; set; }
     public ushort TypeIndex { get; set; }

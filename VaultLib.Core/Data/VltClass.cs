@@ -13,7 +13,7 @@ namespace VaultLib.Core.Data;
 ///     A class has fields, which can each have different properties.
 ///     A class also has collections, which are like rows in a table.
 /// </summary>
-public class VltClass<TKey> where TKey: IKey<TKey>
+public class VltClass<TKey> where TKey : struct, IKey<TKey>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VltClass{TKey}"/> class.
@@ -23,7 +23,7 @@ public class VltClass<TKey> where TKey: IKey<TKey>
         Fields = new Dictionary<TKey, VltClassField<TKey>>();
         Key = key;
     }
-    
+
     public TKey Key { get; set; }
 
     /// <summary>

@@ -15,7 +15,7 @@ namespace VaultLib.Core;
 /// <summary>
 ///     A vault is the main holder of data. Classes, collections, and collection data are all stored in vaults.
 /// </summary>
-public class Vault<TKey> where TKey : IKey<TKey>
+public class Vault<TKey> where TKey : struct, IKey<TKey>
 {
     public Vault(string name)
     {

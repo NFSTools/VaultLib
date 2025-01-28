@@ -13,7 +13,7 @@ namespace VaultLib.Core;
 /// <summary>
 ///     Provides utilities for the saving process
 /// </summary>
-public class VaultReadContext<TKey> where TKey : IKey<TKey>
+public class VaultReadContext<TKey> where TKey : struct, IKey<TKey>
 {
     public Database<TKey> Database { get; }
 
