@@ -10,7 +10,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo(nameof(PhysicsTuningPreset))]
 public class PhysicsTuningPreset: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> PhysicsTuningSlider { get; set; } = new();
+    public RefSpec32 PhysicsTuningSlider { get; set; } = new();
     public bool CenteredAroundPreset { get; set; }
     public float Position { get; set; }
 

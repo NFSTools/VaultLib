@@ -2,68 +2,43 @@
 // 
 // Created: 10/04/2019 @ 7:28 PM.
 
+using System;
 using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
-using VaultLib.Core.DB;
-using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
-[VltTypeInfo(nameof(GCollectionKey))]
-public class GCollectionKey : BaseRefSpec<Key32>
+[VltTypeInfo("GCollectionKey")]
+public abstract class GCollectionKey<TKey> : BaseRefSpec<TKey> where TKey : IKey<TKey>
 {
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
-        if (context.Database.Options.Type == DatabaseType.X86Database)
-        {
-            _hash32 = br.ReadUInt32();
-        }
-        else
-        {
-            _hash64 = br.ReadUInt64();
-        }
+        CollectionKey = ReadKey(context, fieldContext, br);
     }
 
-    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
-        if (context.Database.Options.Type == DatabaseType.X86Database)
-            bw.Write(Vlt32Hasher.Hash(CollectionKey));
-        else
-            bw.Write(Vlt64Hasher.Hash(CollectionKey));
+        WriteKey(context, fieldContext, bw, CollectionKey);
     }
 
-    public override string ClassKey
+    public override TKey ClassKey
     {
-        get => "gameplay";
-        set { }
+        get => TKey.FromString("gameplay");
+        set => throw new NotImplementedException("Setting ClassKey on a GCollectionKey is not allowed.");
     }
 
-    public override string CollectionKey
+    public override TKey CollectionKey
     {
-        get
-        {
-            if (!string.IsNullOrEmpty(_key))
-            {
-                return _key;
-            }
-
-            return _hash32 != 0
-                ? HashManager.ResolveVlt(_hash32)
-                : _hash64 != 0 ? HashManager.ResolveVlt(_hash64) : string.Empty;
-        }
-        set => _key = value;
+        get;
+        set;
     }
 
     public override string ToString()
     {
         return $"gameplay -> {CollectionKey}";
     }
-
-    // https://github.com/NFSTools/VaultLib/issues/13
-    private uint _hash32;
-    private ulong _hash64;
-    private string _key;
 }

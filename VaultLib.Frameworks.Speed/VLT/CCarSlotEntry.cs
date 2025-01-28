@@ -15,7 +15,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo("CCarSlotEntry")]
 public class CCarSlotEntry : VltBaseType<Key32>, IReferencesStrings<Key32>
 {
-    public DynamicSizeArray<Key32, RefSpec<Key32>> Parts { get; set; } = new();
+    public DynamicSizeArray<Key32, RefSpec32> Parts { get; set; } = new();
     public string SlotName { get; set; } = string.Empty;
 
     public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)

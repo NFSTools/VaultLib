@@ -8,7 +8,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo(nameof(UpgradeSpecs))]
 public class UpgradeSpecs: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> ReferencedRow { get; set; } = new();
+    public RefSpec32 ReferencedRow { get; set; } = new();
 
     public uint UpgradeLevel { get; set; }
 

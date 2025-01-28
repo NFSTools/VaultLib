@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -13,14 +14,14 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(TrafficPatternRecord))]
-public class TrafficPatternRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesCollections<VaultLib.Core.DataInterfaces.Key32>
+public class TrafficPatternRecord: VltBaseType<Key32>, IReferencesCollections<Key32>
 {
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Vehicle { get; set; } = new();
+    public RefSpec32 Vehicle { get; set; } = new();
     public float Rate { get; set; }
     public uint MaxInstances { get; set; }
     public uint Percent { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         Vehicle.Read(context, fieldContext, br);
         Rate = br.ReadSingle();
@@ -28,7 +29,7 @@ public class TrafficPatternRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key3
         Percent = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
     {
         Vehicle.Write(context, fieldContext, bw);
         bw.Write(Rate);
@@ -41,12 +42,12 @@ public class TrafficPatternRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key3
         return $"Vehicle: {Vehicle} | Spawn rate: {Rate} | Instances: {MaxInstances} | {Percent}%";
     }
 
-    public IEnumerable<CollectionReferenceInfo<VaultLib.Core.DataInterfaces.Key32>> GetReferencedCollections(Database<VaultLib.Core.DataInterfaces.Key32> database, Vault<VaultLib.Core.DataInterfaces.Key32> vault)
+    public IEnumerable<CollectionReferenceInfo<Key32>> GetReferencedCollections(Database<Key32> database, Vault<Key32> vault)
     {
         return Vehicle.GetReferencedCollections(database, vault);
     }
 
-    public bool ReferencesCollection(string classKey, string collectionKey)
+    public bool ReferencesCollection(Key32 classKey, Key32 collectionKey)
     {
         return Vehicle.ClassKey == classKey && Vehicle.CollectionKey == collectionKey;
     }

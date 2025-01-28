@@ -12,7 +12,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo(nameof(ModifyScalarValue))]
 public class ModifyScalarValue: VltBaseType<Key32>
 {
-    public RefSpecPacked<Key32> ReferencedRow { get; set; } = new();
+    public RefSpecPacked32 ReferencedRow { get; set; } = new();
     public bool IsMember { get; set; }
     public uint MemberIndex { get; set; }
     public bool IsElement { get; set; }

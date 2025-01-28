@@ -8,7 +8,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo(nameof(PhysicsTuningSliderUnlock))]
 public class PhysicsTuningSliderUnlock: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> PhysicsTuningSlider { get; set; } = new();
+    public RefSpec32 PhysicsTuningSlider { get; set; } = new();
     public float Range { get; set; }
 
     public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)

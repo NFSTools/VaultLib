@@ -8,7 +8,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo(nameof(UpgradeDescription))]
 public class UpgradeDescription: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> mPhysicsUpgradeSet { get; set; } = new();
+    public RefSpec32 mPhysicsUpgradeSet { get; set; } = new();
     public float mBlendingPower { get; set; }
 
     public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)

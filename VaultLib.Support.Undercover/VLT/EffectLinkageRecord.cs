@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
@@ -16,9 +17,9 @@ namespace VaultLib.Support.Undercover.VLT;
 [VltTypeInfo(nameof(EffectLinkageRecord))]
 public class EffectLinkageRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesCollections<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Surface { get; set; } = new();
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Effect { get; set; } = new();
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Audio { get; set; } = new();
+    public RefSpec32 Surface { get; set; } = new();
+    public RefSpec32 Effect { get; set; } = new();
+    public RefSpec32 Audio { get; set; } = new();
     public float MinSpeed { get; set; }
     public float MaxSpeed { get; set; }
     public float SFXMinSpeed { get; set; }
@@ -54,7 +55,7 @@ public class EffectLinkageRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32
             .Concat(Audio.GetReferencedCollections(database, vault));
     }
 
-    public bool ReferencesCollection(string classKey, string collectionKey)
+    public bool ReferencesCollection(Key32 classKey, Key32 collectionKey)
     {
         return Surface.ReferencesCollection(classKey, collectionKey)
                || Effect.ReferencesCollection(classKey, collectionKey)

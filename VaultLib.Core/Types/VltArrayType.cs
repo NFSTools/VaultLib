@@ -38,7 +38,7 @@ public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, I
             .SelectMany(rc => rc.GetReferencedCollections(database, vault));
     }
 
-    public bool ReferencesCollection(string classKey, string collectionKey)
+    public bool ReferencesCollection(TKey classKey, TKey collectionKey)
     {
         return Items.OfType<IReferencesCollections<TKey>>().Any(rc => rc.ReferencesCollection(classKey, collectionKey));
     }

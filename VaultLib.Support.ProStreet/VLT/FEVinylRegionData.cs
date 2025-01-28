@@ -9,7 +9,7 @@ namespace VaultLib.Support.ProStreet.VLT;
 public class FEVinylRegionData: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public uint HAL_ID { get; set; }
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Camera { get; set; } = new();
+    public RefSpec32 Camera { get; set; } = new();
 
     public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {

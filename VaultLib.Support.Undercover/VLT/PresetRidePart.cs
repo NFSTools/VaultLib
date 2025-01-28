@@ -11,7 +11,7 @@ namespace VaultLib.Support.Undercover.VLT;
 public class PresetRidePart: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public CAR_SLOT_ID SlotID { get; set; }
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Part { get; set; } = new();
+    public RefSpec32 Part { get; set; } = new();
     public uint KitNumber { get; set; }
 
     public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)

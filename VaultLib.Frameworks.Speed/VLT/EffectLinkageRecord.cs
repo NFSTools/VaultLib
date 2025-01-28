@@ -17,8 +17,8 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo(nameof(EffectLinkageRecord))]
 public class EffectLinkageRecord: VltBaseType<Key32>, IReferencesCollections<Key32>
 {
-    public RefSpec<Key32> Surface { get; set; } = new();
-    public RefSpec<Key32> Effect { get; set; } = new();
+    public RefSpec32 Surface { get; set; } = new();
+    public RefSpec32 Effect { get; set; } = new();
     public float MinSpeed { get; set; }
     public float MaxSpeed { get; set; }
 
@@ -45,7 +45,7 @@ public class EffectLinkageRecord: VltBaseType<Key32>, IReferencesCollections<Key
             .Concat(Effect.GetReferencedCollections(database, vault));
     }
 
-    public bool ReferencesCollection(string classKey, string collectionKey)
+    public bool ReferencesCollection(Key32 classKey, Key32 collectionKey)
     {
         return Surface.ReferencesCollection(classKey, collectionKey)
                || Effect.ReferencesCollection(classKey, collectionKey);

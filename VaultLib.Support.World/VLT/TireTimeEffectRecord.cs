@@ -11,8 +11,8 @@ namespace VaultLib.Support.World.VLT;
 public class TireTimeEffectRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public TireCondition mTireCondition { get; set; }
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> mEmitter { get; set; } = new();
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> mEmitterLowLod { get; set; } = new();
+    public RefSpec32 mEmitter { get; set; } = new();
+    public RefSpec32 mEmitterLowLod { get; set; } = new();
     public float mMinTime { get; set; }
     public float mMaxTime { get; set; }
 

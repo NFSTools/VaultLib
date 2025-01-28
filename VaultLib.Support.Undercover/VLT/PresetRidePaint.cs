@@ -12,7 +12,7 @@ namespace VaultLib.Support.Undercover.VLT;
 public class PresetRidePaint: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public ePaintSlot SlotID { get; set; }
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Group { get; set; } = new();
+    public RefSpec32 Group { get; set; } = new();
     public byte Swatch { get; set; }
     public float Saturation { get; set; }
     public float Variance { get; set; }

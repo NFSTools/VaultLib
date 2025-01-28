@@ -30,7 +30,8 @@ public class CollectionLoad : ModernCollectionLoadBase<Key32, AttribEntry32>
 
         Debug.Assert(mTableReserve == mNumEntries);
 
-        Collection = new VltCollection<Key32>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)), new Key32(mKey));
+        Collection = new VltCollection<Key32>(context.Vault, context.Database.FindClass(new Key32(mClass)),
+            new Key32(mKey));
 
         Debug.Assert(mTypesLen >= mNumTypes);
 

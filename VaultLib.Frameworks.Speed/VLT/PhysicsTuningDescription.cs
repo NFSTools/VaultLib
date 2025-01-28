@@ -10,7 +10,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo(nameof(PhysicsTuningDescription))]
 public class PhysicsTuningDescription: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> PhysicsTuning { get; set; } = new();
+    public RefSpec32 PhysicsTuning { get; set; } = new();
     public bool Increase { get; set; }
 
     public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)

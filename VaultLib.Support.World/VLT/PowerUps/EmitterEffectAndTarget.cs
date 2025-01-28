@@ -16,13 +16,13 @@ namespace VaultLib.Support.World.VLT.PowerUps;
 [VltTypeInfo("PowerUps::EmitterEffectAndTarget")]
 public class EmitterEffectAndTarget: VltBaseType<Key32>, IReferencesCollections<Key32>
 {
-    public string EmitterKey { get; set; }
+    public Key32 EmitterKey { get; set; }
     public uint Type { get; set; }
     public float Intensity { get; set; }
 
     public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
-        var rs = new RefSpec<Key32>();
+        var rs = new RefSpec32();
         rs.Read(context, fieldContext, br);
 
         EmitterKey = rs.CollectionKey;
@@ -32,8 +32,8 @@ public class EmitterEffectAndTarget: VltBaseType<Key32>, IReferencesCollections<
 
     public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
     {
-        var rs = new RefSpec<Key32>();
-        rs.ClassKey = "emittergroup";
+        var rs = new RefSpec32();
+        rs.ClassKey = Key32.FromString("emittergroup");
         rs.CollectionKey = EmitterKey;
         rs.Write(context, fieldContext, bw);
         bw.Write(Type);
@@ -43,11 +43,11 @@ public class EmitterEffectAndTarget: VltBaseType<Key32>, IReferencesCollections<
     public IEnumerable<CollectionReferenceInfo<Key32>> GetReferencedCollections(Database<Key32> database, Vault<Key32> vault)
     {
         yield return new CollectionReferenceInfo<Key32>(this,
-            database.RowManager.FindCollection("emittergroup", EmitterKey));
+            database.RowManager.FindCollection(Key32.FromString("emittergroup"), EmitterKey));
     }
 
-    public bool ReferencesCollection(string classKey, string collectionKey)
+    public bool ReferencesCollection(Key32 classKey, Key32 collectionKey)
     {
-        return classKey == "emittergroup" && collectionKey == EmitterKey;
+        return classKey == Key32.FromString("emittergroup") && collectionKey == EmitterKey;
     }
 }

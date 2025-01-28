@@ -12,5 +12,5 @@ public interface IReferencesCollections<TKey> where TKey : IKey<TKey>
 {
     IEnumerable<CollectionReferenceInfo<TKey>> GetReferencedCollections(Database<TKey> database, Vault<TKey> vault);
 
-    bool ReferencesCollection(string classKey, string collectionKey);
+    bool ReferencesCollection(TKey classKey, TKey collectionKey);
 }

@@ -11,7 +11,7 @@ public class HighwayPatternCarData: VltBaseType<VaultLib.Core.DataInterfaces.Key
 {
     public int Row { get; set; }
     public int Lane { get; set; }
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Vehicle { get; set; } = new();
+    public RefSpec32 Vehicle { get; set; } = new();
     public EAILaneChangeType Change { get; set; }
 
     public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)

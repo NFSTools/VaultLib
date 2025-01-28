@@ -3,6 +3,7 @@
 // Created: 10/12/2019 @ 10:31 AM.
 
 using System.Collections.Generic;
+using System.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Utils;
@@ -11,8 +12,8 @@ namespace VaultLib.Core.Types.Abstractions;
 
 public abstract class BaseRefSpec<TKey> : VltBaseType<TKey>, IReferencesCollections<TKey> where TKey : IKey<TKey>
 {
-    public abstract string ClassKey { get; set; }
-    public abstract string CollectionKey { get; set; }
+    public abstract TKey ClassKey { get; set; }
+    public abstract TKey CollectionKey { get; set; }
 
     public IEnumerable<CollectionReferenceInfo<TKey>> GetReferencedCollections(Database<TKey> database, Vault<TKey> vault)
     {
@@ -20,7 +21,7 @@ public abstract class BaseRefSpec<TKey> : VltBaseType<TKey>, IReferencesCollecti
              database.RowManager.FindCollection(ClassKey, CollectionKey));
     }
 
-    public bool ReferencesCollection(string classKey, string collectionKey)
+    public bool ReferencesCollection(TKey classKey, TKey collectionKey)
     {
         return ClassKey == classKey && CollectionKey == collectionKey;
     }
@@ -29,4 +30,10 @@ public abstract class BaseRefSpec<TKey> : VltBaseType<TKey>, IReferencesCollecti
     {
         return $"{ClassKey} -> {CollectionKey}";
     }
+
+    protected abstract TKey ReadKey(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryReader br);
+
+    protected abstract void WriteKey(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw, TKey key);
 }

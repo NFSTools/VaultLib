@@ -16,8 +16,8 @@ namespace VaultLib.Support.Undercover.VLT;
 public class FEPartCamera: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
 {
     public string SlotName { get; set; } = string.Empty;
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Camera { get; set; } = new();
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Camera_4_3 { get; set; } = new();
+    public RefSpec32 Camera { get; set; } = new();
+    public RefSpec32 Camera_4_3 { get; set; } = new();
 
     public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {

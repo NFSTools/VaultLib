@@ -15,7 +15,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo("CCarKitSlotEntry")]
 public abstract class CCarKitSlotEntry : VltBaseType<Key32>, IReferencesStrings<Key32>
 {
-    public RefSpec<Key32> Part { get; set; } = new();
+    public RefSpec32 Part { get; set; } = new();
     public string SlotName { get; set; } = string.Empty;
 
     public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)

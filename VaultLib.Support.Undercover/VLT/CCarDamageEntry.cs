@@ -18,9 +18,9 @@ public class CCarDamageEntry: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, I
 {
     public int PartID { get; set; }
     public string AttachPart { get; set; } = string.Empty;
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Material { get; set; } = new();
+    public RefSpec32 Material { get; set; } = new();
     public string SmackableCollisionName { get; set; } = string.Empty;
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> SmackableCollisionAttribute { get; set; } = new();
+    public RefSpec32 SmackableCollisionAttribute { get; set; } = new();
 
     public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {

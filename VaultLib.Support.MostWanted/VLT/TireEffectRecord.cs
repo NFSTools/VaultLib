@@ -12,7 +12,7 @@ namespace VaultLib.Support.MostWanted.VLT;
 public class TireEffectRecord: VltBaseType<Key32>
 {
     public TireCondition mTireCondition { get; set; }
-    public RefSpecPacked<Key32> mEmitter { get; set; } = new();
+    public RefSpecPacked32 mEmitter { get; set; } = new();
     public float mMinSpeed { get; set; }
     public float mMaxSpeed { get; set; }
 

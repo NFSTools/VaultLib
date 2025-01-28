@@ -4,66 +4,62 @@
 
 using System.IO;
 using VaultLib.Core.DataInterfaces;
-using VaultLib.Core.DB;
-using VaultLib.Core.Hashing;
 using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Core.Types.Attrib;
 
-public class RefSpecPacked<TKey> : BaseRefSpec<TKey> where TKey : IKey<TKey>
+public abstract class RefSpecPacked<TKey> : BaseRefSpec<TKey> where TKey : IKey<TKey>
 {
-    public override string ClassKey { get; set; }
+    public override TKey ClassKey { get; set; }
 
-    public override string CollectionKey
+    public override TKey CollectionKey
     {
-        get
-        {
-            if (!string.IsNullOrEmpty(_collectionKey))
-            {
-                return _collectionKey;
-            }
-
-            return _collectionHash32 != 0
-                ? HashManager.ResolveVlt(_collectionHash32)
-                : _collectionHash64 != 0
-                    ? HashManager.ResolveVlt(_collectionHash64)
-                    : string.Empty;
-        }
-        set => _collectionKey = value;
+        get;
+        set;
     }
 
     public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
-        if (context.Database.Options.Type == DatabaseType.X64Database)
-        {
-            // 64-bit RefSpec is 16 bytes instead of 8
-            ClassKey = HashManager.ResolveVlt(br.ReadUInt64());
-            _collectionHash64 = br.ReadUInt64();
-        }
-        else
-        {
-            ClassKey = HashManager.ResolveVlt(br.ReadUInt32());
-            _collectionHash32 = br.ReadUInt32();
-        }
+        ClassKey = ReadKey(context, fieldContext, br);
+        CollectionKey = ReadKey(context, fieldContext, br);
     }
 
     public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
         BinaryWriter bw)
     {
-        if (context.Database.Options.Type == DatabaseType.X64Database)
-        {
-            bw.Write(Vlt64Hasher.Hash(ClassKey));
-            bw.Write(Vlt64Hasher.Hash(CollectionKey));
-        }
-        else
-        {
-            bw.Write(Vlt32Hasher.Hash(ClassKey));
-            bw.Write(Vlt32Hasher.Hash(CollectionKey));
-        }
+        WriteKey(context, fieldContext, bw, ClassKey);
+        WriteKey(context, fieldContext, bw, CollectionKey);
+    }
+}
+
+
+
+public class RefSpecPacked32 : RefSpecPacked<Key32>
+{
+    protected override Key32 ReadKey(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
+    {
+        return new Key32(br.ReadUInt32());
     }
 
-    // https://github.com/NFSTools/VaultLib/issues/13
-    private uint _collectionHash32;
-    private ulong _collectionHash64;
-    private string _collectionKey;
+    protected override void WriteKey(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw, Key32 key)
+    {
+        bw.Write(key.Hash);
+    }
+}
+
+public class RefSpecPacked64 : RefSpecPacked<Key64>
+{
+    protected override Key64 ReadKey(VaultReadContext<Key64> context, FieldReadWriteContext<Key64> fieldContext,
+        BinaryReader br)
+    {
+        return new Key64(br.ReadUInt64());
+    }
+
+    protected override void WriteKey(VaultWriteContext<Key64> context, FieldReadWriteContext<Key64> fieldContext,
+        BinaryWriter bw, Key64 key)
+    {
+        bw.Write(key.Hash);
+    }
 }

@@ -44,7 +44,8 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
 
         Debug.Assert(mTableReserve == mNumEntries);
 
-        Collection = new VltCollection<Key64>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)), new Key64(mKey));
+        Collection = new VltCollection<Key64>(context.Vault, context.Database.FindClass(new Key64(mClass)),
+            new Key64(mKey));
 
         _types = new ulong[mNumTypes];
         for (var i = 0; i < mNumTypes; i++)

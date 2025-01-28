@@ -9,7 +9,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo(nameof(FETuningSlider))]
 public class FETuningSlider: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Ref { get; set; } = new();
+    public RefSpec32 Ref { get; set; } = new();
     public uint TitleHash { get; set; }
     public uint LeftHash { get; set; }
     public uint RightHash { get; set; }

@@ -19,7 +19,7 @@ public class AICollisionReactionRecord : VltBaseType<Key32>, IReferencesCollecti
 {
     public uint Goal { get; set; }
 
-    public RefSpec<Key32> Reaction { get; set; } = new();
+    public RefSpec32 Reaction { get; set; } = new();
 
     public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
@@ -39,7 +39,7 @@ public class AICollisionReactionRecord : VltBaseType<Key32>, IReferencesCollecti
         throw new NotImplementedException();
     }
 
-    public bool ReferencesCollection(string classKey, string collectionKey)
+    public bool ReferencesCollection(Key32 classKey, Key32 collectionKey)
     {
         throw new NotImplementedException();
     }

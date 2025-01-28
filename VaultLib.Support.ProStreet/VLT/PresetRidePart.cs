@@ -11,7 +11,7 @@ namespace VaultLib.Support.ProStreet.VLT;
 public class PresetRidePart: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
 {
     public CAR_SLOT_ID SlotID { get; set; }
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> Part { get; set; } = new();
+    public RefSpec32 Part { get; set; } = new();
     public uint PartArrayIndex { get; set; }
     public uint KitNumber { get; set; }
 

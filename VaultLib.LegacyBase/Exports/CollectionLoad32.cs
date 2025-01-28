@@ -40,7 +40,7 @@ public class CollectionLoad32 : BaseCollectionLoad<Key32>
 
         Debug.Assert(mTableReserve == mNumEntries);
 
-        Collection = new VltCollection<Key32>(context.Vault, context.Database.FindClass(HashManager.ResolveVlt(mClass)),
+        Collection = new VltCollection<Key32>(context.Vault, context.Database.FindClass(new Key32(mClass)),
             new Key32(mKey));
 
         _types = new uint[mNumTypes];

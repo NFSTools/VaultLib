@@ -16,7 +16,7 @@ namespace VaultLib.Support.Undercover.VLT.NIS;
 [VltTypeInfo("NIS::NISCar")]
 public class NISCar: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
 {
-    public RefSpec<VaultLib.Core.DataInterfaces.Key32> PresetRide { get; set; } = new();
+    public RefSpec32 PresetRide { get; set; } = new();
     public string PresetSkinName { get; set; } = string.Empty;
     public uint VehicleCategory { get; set; }
     public string ChannelName { get; set; } = string.Empty;
