@@ -8,8 +8,6 @@ public static class Vlt32Hasher
     {
         if (string.IsNullOrEmpty(k) && (k == null || returnZeroForEmpty))
             return 0;
-        if (k.StartsWith("0x") && uint.TryParse(k.Substring(2), NumberStyles.AllowHexSpecifier, CultureInfo.CurrentCulture, out uint u))
-            return u;
 
         int koffs = 0;
         int len = k.Length;

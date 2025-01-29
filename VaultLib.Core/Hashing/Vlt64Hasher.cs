@@ -13,8 +13,6 @@ public static class Vlt64Hasher
     {
         if (string.IsNullOrEmpty(str) && (str == null || returnZeroForEmpty))
             return 0;
-        if (str.StartsWith("0x") && ulong.TryParse(str.Substring(2), NumberStyles.AllowHexSpecifier, CultureInfo.CurrentCulture, out ulong u))
-            return u;
         byte[] data = Encoding.ASCII.GetBytes(str);
         var bytesProcessed = (uint)str.Length;
         var mixVar1 = (ulong)bytesProcessed;
