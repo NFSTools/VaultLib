@@ -26,16 +26,16 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
     public uint BrandHALId { get; set; }
     public uint LogoTextureId { get; set; }
 
-    public List<VltCollectionKey> AutoSculptCamera1 { get; set; }
-    public List<VltCollectionKey> AutoSculptCamera2 { get; set; }
-    public List<VltCollectionKey> AutoSculptCamera3 { get; set; }
+    public List<Key32> AutoSculptCamera1 { get; set; }
+    public List<Key32> AutoSculptCamera2 { get; set; }
+    public List<Key32> AutoSculptCamera3 { get; set; }
     public VltPointerContainer<Key32, FEPartDetail> PartDetails { get; set; }
     public uint DetailHash { get; set; }
     public string OfferID { get; set; } = string.Empty;
 
-    private VltListContainer<Key32, VltCollectionKey> _autoSculptCamera1;
-    private VltListContainer<Key32, VltCollectionKey> _autoSculptCamera2;
-    private VltListContainer<Key32, VltCollectionKey> _autoSculptCamera3;
+    private VltListContainer<Key32, Key32> _autoSculptCamera1;
+    private VltListContainer<Key32, Key32> _autoSculptCamera2;
+    private VltListContainer<Key32, Key32> _autoSculptCamera3;
 
     public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
@@ -50,9 +50,9 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
         BrandHALId = br.ReadUInt32();
         LogoTextureId = br.ReadUInt32();
 
-        _autoSculptCamera1 = new VltListContainer<Key32, VltCollectionKey>(br.ReadByte());
-        _autoSculptCamera2 = new VltListContainer<Key32, VltCollectionKey>(br.ReadByte());
-        _autoSculptCamera3 = new VltListContainer<Key32, VltCollectionKey>(br.ReadByte());
+        _autoSculptCamera1 = new VltListContainer<Key32, Key32>(br.ReadByte());
+        _autoSculptCamera2 = new VltListContainer<Key32, Key32>(br.ReadByte());
+        _autoSculptCamera3 = new VltListContainer<Key32, Key32>(br.ReadByte());
         byte b = br.ReadByte();
 
         if (b != 0)
@@ -92,9 +92,9 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
         bw.Write((byte)AutoSculptCamera3.Count);
         bw.Write((byte)0);
 
-        _autoSculptCamera1 = new VltListContainer<Key32, VltCollectionKey>(AutoSculptCamera1);
-        _autoSculptCamera2 = new VltListContainer<Key32, VltCollectionKey>(AutoSculptCamera2);
-        _autoSculptCamera3 = new VltListContainer<Key32, VltCollectionKey>(AutoSculptCamera3);
+        _autoSculptCamera1 = new VltListContainer<Key32, Key32>(AutoSculptCamera1);
+        _autoSculptCamera2 = new VltListContainer<Key32, Key32>(AutoSculptCamera2);
+        _autoSculptCamera3 = new VltListContainer<Key32, Key32>(AutoSculptCamera3);
         _autoSculptCamera1.Write(context, fieldContext, bw);
         _autoSculptCamera2.Write(context, fieldContext, bw);
         _autoSculptCamera3.Write(context, fieldContext, bw);

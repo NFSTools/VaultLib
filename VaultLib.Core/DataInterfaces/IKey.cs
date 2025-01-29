@@ -2,6 +2,7 @@
 using System.IO;
 using System.Numerics;
 using VaultLib.Core.Hashing;
+using VaultLib.Core.Types;
 
 namespace VaultLib.Core.DataInterfaces;
 
@@ -19,6 +20,7 @@ public interface IKey<TSelf> : IEqualityOperators<TSelf, TSelf, bool>, IComparab
     void Write(BinaryWriter writer);
 }
 
+[VltTypeInfo("DUMMY_VltKey32")]
 public readonly record struct Key32(uint Hash) : IKey<Key32>
 {
     public static Key32 Zero => default;
@@ -51,6 +53,7 @@ public readonly record struct Key32(uint Hash) : IKey<Key32>
     }
 }
 
+[VltTypeInfo("DUMMY_VltKey64")]
 public readonly record struct Key64(ulong Hash) : IKey<Key64>
 {
     public static Key64 Zero => default;
