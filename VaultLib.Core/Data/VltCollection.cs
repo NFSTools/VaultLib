@@ -86,6 +86,19 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
         Vault = vault;
     }
 
+    public void SetKey(TKey newKey)
+    {
+        if (Key == newKey)
+            return;
+
+        if (Vault.Database.RowManager.FindCollection(Class.Key, newKey) != null)
+        {
+            throw new ArgumentException($"A collection with the same key ({newKey}) already exists", nameof(newKey));
+        }
+        
+        Key = newKey;
+    }
+
     /// <summary>
     /// Gets a read-only copy of the collection's data dictionary.
     /// </summary>
