@@ -2,31 +2,26 @@
 // 
 // Created: 09/27/2019 @ 4:43 PM.
 
+using System;
 using System.IO;
 using VaultLib.Core.DataInterfaces;
-using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Core.Types.Attrib.Gen;
 
 public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey> where TKey : struct, IKey<TKey>
 {
-    protected ClassRefSpec_template(string className)
+    protected ClassRefSpec_template(string className) : this(TKey.FromString(className))
     {
-        ClassKey = TKey.FromString(className);
     }
-    
+
     protected ClassRefSpec_template(TKey classKey)
     {
         ClassKey = classKey;
     }
 
-    public sealed override TKey ClassKey { get; set; }
+    public TKey ClassKey { get; }
 
-    public sealed override TKey CollectionKey
-    {
-        get;
-        set;
-    }
+    public TKey CollectionKey { get; set; }
 
     public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
@@ -40,6 +35,26 @@ public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey> where TKey
     {
         CollectionKey.Write(bw);
         bw.Write(0);
+    }
+
+    public override TKey GetClassKey()
+    {
+        return ClassKey;
+    }
+
+    public override TKey GetCollectionKey()
+    {
+        return CollectionKey;
+    }
+
+    public override void SetClassKey(TKey classKey)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void SetCollectionKey(TKey collectionKey)
+    {
+        CollectionKey = collectionKey;
     }
 
     public override string ToString()

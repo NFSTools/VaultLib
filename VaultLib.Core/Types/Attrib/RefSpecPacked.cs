@@ -4,15 +4,14 @@
 
 using System.IO;
 using VaultLib.Core.DataInterfaces;
-using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Core.Types.Attrib;
 
 public abstract class RefSpecPacked<TKey> : BaseRefSpec<TKey> where TKey : struct, IKey<TKey>
 {
-    public override TKey ClassKey { get; set; }
+    public TKey ClassKey { get; set; }
 
-    public override TKey CollectionKey { get; set; }
+    public TKey CollectionKey { get; set; }
 
     public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
@@ -25,6 +24,26 @@ public abstract class RefSpecPacked<TKey> : BaseRefSpec<TKey> where TKey : struc
     {
         ClassKey.Write(bw);
         CollectionKey.Write(bw);
+    }
+
+    public override TKey GetClassKey()
+    {
+        return ClassKey;
+    }
+
+    public override TKey GetCollectionKey()
+    {
+        return CollectionKey;
+    }
+
+    public override void SetClassKey(TKey classKey)
+    {
+        ClassKey = classKey;
+    }
+
+    public override void SetCollectionKey(TKey collectionKey)
+    {
+        CollectionKey = collectionKey;
     }
 }
 

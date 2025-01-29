@@ -7,13 +7,14 @@ using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.Abstractions;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo("GCollectionKey")]
 public abstract class GCollectionKey<TKey> : BaseRefSpec<TKey> where TKey : struct, IKey<TKey>
 {
+    public TKey CollectionKey { get; set; }
+
     public override void Read(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
     {
         CollectionKey = TKey.Read(br);
@@ -25,16 +26,24 @@ public abstract class GCollectionKey<TKey> : BaseRefSpec<TKey> where TKey : stru
         CollectionKey.Write(bw);
     }
 
-    public override TKey ClassKey
+    public override TKey GetClassKey()
     {
-        get => TKey.FromString("gameplay");
-        set => throw new NotImplementedException("Setting ClassKey on a GCollectionKey is not allowed.");
+        return TKey.FromString("gameplay");
     }
 
-    public override TKey CollectionKey
+    public override TKey GetCollectionKey()
     {
-        get;
-        set;
+        return CollectionKey;
+    }
+
+    public override void SetClassKey(TKey classKey)
+    {
+        throw new NotImplementedException("Setting ClassKey on a GCollectionKey is not allowed.");
+    }
+
+    public override void SetCollectionKey(TKey collectionKey)
+    {
+        CollectionKey = collectionKey;
     }
 
     public override string ToString()
@@ -43,5 +52,10 @@ public abstract class GCollectionKey<TKey> : BaseRefSpec<TKey> where TKey : stru
     }
 }
 
-public class GCollectionKey32 : GCollectionKey<Key32> {}
-public class GCollectionKey64 : GCollectionKey<Key64> {}
+public class GCollectionKey32 : GCollectionKey<Key32>
+{
+}
+
+public class GCollectionKey64 : GCollectionKey<Key64>
+{
+}
