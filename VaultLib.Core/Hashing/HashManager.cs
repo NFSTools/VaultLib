@@ -7,6 +7,7 @@ using System.IO;
 
 namespace VaultLib.Core.Hashing;
 
+#nullable enable
 public static class HashManager
 {
     private static readonly Dictionary<uint, string> VltHashDictionary = new Dictionary<uint, string>();
@@ -23,13 +24,13 @@ public static class HashManager
         Vlt64HashDictionary[Vlt64Hasher.Hash(str)] = str;
     }
 
-    public static string ResolveVlt(uint hash)
+    public static string? ResolveVlt(uint hash)
     {
-        return VltHashDictionary.TryGetValue(hash, out var s) ? s : $"0x{hash:X8}";
+        return VltHashDictionary.GetValueOrDefault(hash);
     }
 
-    public static string ResolveVlt(ulong hash)
+    public static string? ResolveVlt(ulong hash)
     {
-        return Vlt64HashDictionary.TryGetValue(hash, out var s) ? s : $"0x{hash:X16}";
+        return Vlt64HashDictionary.GetValueOrDefault(hash);
     }
 }
