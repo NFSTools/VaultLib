@@ -13,8 +13,12 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib.Query;
 
-public class Static_Inorder_N_to_1 : VltBaseType<Key32>, IVltPointerObject<Key32>
+public abstract class BaseManyToOneIndex<TIndexKey, TIndexValue> : VltBaseType<Key32>, IVltPointerObject<Key32>
+    where TIndexKey : unmanaged, IComparable<TIndexKey>
+    where TIndexValue : unmanaged
 {
+    protected record IndexEntry(TIndexKey Key, List<TIndexValue> Values);
+
     public enum TreeNodeType
     {
         ChildKeys,
@@ -25,7 +29,7 @@ public class Static_Inorder_N_to_1 : VltBaseType<Key32>, IVltPointerObject<Key32
     private long _valsPointer;
     private long _indicesDst;
     private long _indicesPointer;
-    private uint _count;
+    private int _count;
 
     private long _countDst;
     private long _keysDst;
@@ -36,14 +40,14 @@ public class Static_Inorder_N_to_1 : VltBaseType<Key32>, IVltPointerObject<Key32
     /// </summary>
     public TreeNodeType NodeType { get; set; }
 
-    internal List<uint> Keys { get; private set; }
-    internal List<uint> Values { get; private set; }
-    internal List<(int Index, int Count)> Indices { get; private set; }
+    // internal List<uint> Keys { get; private set; }
+    // internal List<uint> Values { get; private set; }
+    // internal List<(int Index, int Count)> Indices { get; private set; }
 
     public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryReader br)
     {
-        _count = br.ReadUInt32();
+        _count = br.ReadInt32();
         _keysPointer = br.ReadPointer();
         _indicesPointer = br.ReadPointer();
         _valsPointer = br.ReadPointer();
@@ -65,48 +69,58 @@ public class Static_Inorder_N_to_1 : VltBaseType<Key32>, IVltPointerObject<Key32
         BinaryReader br)
     {
         br.BaseStream.Position = _keysPointer;
-        Keys = new List<uint>();
-        for (var i = 0; i < _count; i++)
-        {
-            Keys.Add(br.ReadUInt32());
-        }
 
-        var sortedKeys = Keys.OrderBy(x => x);
-        Debug.Assert(Keys.SequenceEqual(sortedKeys));
+
+        // Keys = new List<uint>();
+        // for (var i = 0; i < _count; i++)
+        // {
+        //     Keys.Add(br.ReadUInt32());
+        // }
+        var keys = ReadKeys(context, fieldContext, br, _count);
+
+        var sortedKeys = keys.OrderBy(x => x);
+        Debug.Assert(keys.SequenceEqual(sortedKeys));
 
         br.BaseStream.Position = _indicesPointer;
-        Indices = new List<(int Index, int Count)>();
+        var indices = new List<(int Index, int Count)>();
         for (var i = 0; i < _count; i++)
         {
             var index = br.ReadInt32();
             var count = br.ReadInt32();
-            Indices.Add((index, count));
+            indices.Add((index, count));
         }
 
         br.BaseStream.Position = _valsPointer;
-        Values = new List<uint>();
-        foreach (var (_, count) in Indices)
+        var values = new List<TIndexValue>();
+        foreach (var (_, count) in indices)
         {
-            var blockValues = new List<uint>();
-            for (var i = 0; i < count; i++)
-            {
-                blockValues.Add(br.ReadUInt32());
-            }
+            var blockValues = ReadValues(context, fieldContext, br, count);
 
-            Values.AddRange(blockValues);
+            values.AddRange(blockValues);
+        }
+
+        Debug.WriteLine("{0} - class {1} has {2} keys, {3} values", GetType().Name, fieldContext.Class.Key, keys.Count,
+            values.Count);
+
+        for (var i = 0; i < indices.Count; i++)
+        {
+            var (index, count) = indices[i];
+            var subValues = values.GetRange(index, count);
+            Debug.WriteLine("key {0} - values ({2}): {1}", keys[i], string.Join(", ", subValues), count);
         }
     }
 
     public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryWriter bw)
     {
-        var entries = NodeType switch
-        {
-            TreeNodeType.ChildKeys => GetChildKeyEntries(context, fieldContext),
-            TreeNodeType.ParentKey => GetParentKeyEntries(context, fieldContext),
-            _ => throw new Exception("Unknown TreeNodeType")
-        };
+        // var entries = NodeType switch
+        // {
+        //     TreeNodeType.ChildKeys => GetChildKeyEntries(context, fieldContext),
+        //     TreeNodeType.ParentKey => GetParentKeyEntries(context, fieldContext),
+        //     _ => throw new Exception("Unknown TreeNodeType")
+        // };
 
+        var entries = GenerateIndex(context, fieldContext);
         var sortedEntries = entries.OrderBy(x => x.Key).ToList();
 
         var curPos = bw.BaseStream.Position;
@@ -115,26 +129,23 @@ public class Static_Inorder_N_to_1 : VltBaseType<Key32>, IVltPointerObject<Key32
         bw.BaseStream.Position = curPos;
 
         _keysDst = bw.BaseStream.Position;
-        foreach (var group in sortedEntries)
-        {
-            bw.Write(group.Key.Hash);
-        }
+
+        var sortedKeys = sortedEntries.Select(e => e.Key);
+        WriteKeys(context, fieldContext, bw, sortedKeys);
 
         _indicesDst = bw.BaseStream.Position;
-        var leafStartIndex = 0;
+        var valuesStartIndex = 0;
         foreach (var group in sortedEntries)
         {
-            bw.Write(leafStartIndex);
-            var numChildren = group.Values.Count;
-            bw.Write(numChildren);
-            leafStartIndex += numChildren;
+            bw.Write(valuesStartIndex);
+            var numValues = group.Values.Count;
+            bw.Write(numValues);
+            valuesStartIndex += numValues;
         }
 
         _valsDst = bw.BaseStream.Position;
-        foreach (var value in sortedEntries.SelectMany(e => e.Values))
-        {
-            bw.Write(value.Hash);
-        }
+        var values = sortedEntries.SelectMany(e => e.Values);
+        WriteValues(context, fieldContext, bw, values);
     }
 
     private static List<(Key32 Key, List<Key32> Values)> GetParentKeyEntries(VaultWriteContext<Key32> context,
@@ -163,4 +174,19 @@ public class Static_Inorder_N_to_1 : VltBaseType<Key32>, IVltPointerObject<Key32
         context.AddPointer(_indicesPointer, _indicesDst, false);
         context.AddPointer(_valsPointer, _valsDst, false);
     }
+
+    protected abstract List<TIndexKey> ReadKeys(VaultReadContext<Key32> context,
+        FieldReadWriteContext<Key32> fieldContext, BinaryReader br, int count);
+
+    protected abstract List<TIndexValue> ReadValues(VaultReadContext<Key32> context,
+        FieldReadWriteContext<Key32> fieldContext, BinaryReader br, int count);
+
+    protected abstract List<IndexEntry> GenerateIndex(VaultWriteContext<Key32> context,
+        FieldReadWriteContext<Key32> fieldContext);
+
+    protected abstract void WriteKeys(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw, IEnumerable<TIndexKey> keys);
+
+    protected abstract void WriteValues(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw, IEnumerable<TIndexValue> values);
 }

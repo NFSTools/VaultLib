@@ -12,6 +12,7 @@ using VaultLib.Frameworks.Speed;
 using VaultLib.ModernBase;
 using VaultLib.ModernBase.Exports;
 using VaultLib.ModernBase.Structures;
+using VaultLib.Support.World.VLT.Attrib.Query;
 
 namespace VaultLib.Support.World;
 
@@ -19,10 +20,16 @@ public class ModuleDef : BaseGameModule<Key32>
 {
     public override void RegisterTypes(TypeRegistry<Key32> typeRegistry)
     {
-        typeRegistry.Register<StringKey32>("Attrib::StringKey");
-        typeRegistry.Register<Static_Inorder_N_to_1>("Attrib::Query::Static_Inorder_N_to_1<Attrib::Query::Typespace<Attrib::Key,Attrib::Key,EA::Reflection::UInt32> >");
         SpeedFramework.Register(typeRegistry);
         typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
+
+        typeRegistry.Register<StringKey32>("Attrib::StringKey");
+        typeRegistry.AddFieldOverride<CollectionNameToChildrenIndex>(
+            "aud_moment", "IndexTable_CollectionName");
+        typeRegistry.AddFieldOverride<CollectionNameToChildrenIndex>(
+            "traffic_engine", "IndexTable_CollectionName");
+        typeRegistry.AddFieldOverride<CollectionNameToChildrenIndex>(
+            "traffic_horn", "IndexTable_CollectionName");
     }
 
     public override ExportFactory<Key32> CreateExportFactory()

@@ -187,71 +187,71 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
 
     private void FixupStaticData()
     {
-        foreach (var vltClass in Classes)
-        {
-            foreach (var staticField in vltClass.StaticFields)
-            {
-                // TODO: We should really have some kind of post-processing abstraction for static data.
-                if (staticField.StaticValue is Static_Inorder_N_to_1 staticTree)
-                {
-                    var realRowManager = (RowManager<Key32>)(object)RowManager;
-                    var classKey = (Key32)(object)vltClass.Key;
-                    
-                    Static_Inorder_N_to_1.TreeNodeType? nodeType = null;
-                    for (var i = 0; i < staticTree.Keys.Count; i++)
-                    {
-                        var key = staticTree.Keys[i];
-                        var indexTableEntry = staticTree.Indices[i];
-                        var values = staticTree.Values.GetRange(indexTableEntry.Index, indexTableEntry.Count);
-
-                        var keyToName = HashManager.ResolveVlt(key);
-
-                        if (key != 0)
-                        {
-                            var collection = realRowManager.FindCollection(classKey, new Key32(key));
-
-                            if (collection == null)
-                            {
-                                throw new InvalidDataException(
-                                    $"static index references nonexistent collection: {keyToName}");
-                            }
-
-                            if (values.Count == 1)
-                            {
-                                var linkedKey = values[0];
-                                var linkedCollection = realRowManager.FindCollection(classKey, new Key32(linkedKey));
-
-                                if (ReferenceEquals(collection.Parent, linkedCollection))
-                                {
-                                    if (nodeType == null)
-                                    {
-                                        nodeType = Static_Inorder_N_to_1.TreeNodeType.ParentKey;
-                                    }
-                                    else if (nodeType != Static_Inorder_N_to_1.TreeNodeType.ParentKey)
-                                    {
-                                        throw new Exception("strange mixture of nodes in static index");
-                                    }
-                                }
-                                else
-                                {
-                                    nodeType = Static_Inorder_N_to_1.TreeNodeType.ChildKeys;
-                                }
-                            }
-                            else if (nodeType == Static_Inorder_N_to_1.TreeNodeType.ParentKey)
-                            {
-                                throw new Exception("each node in a ParentKey index must have exactly 1 value");
-                            }
-                            else
-                            {
-                                nodeType = Static_Inorder_N_to_1.TreeNodeType.ChildKeys;
-                            }
-                        }
-                    }
-
-                    staticTree.NodeType = nodeType ?? Static_Inorder_N_to_1.TreeNodeType.ChildKeys;
-                }
-            }
-        }
+        // foreach (var vltClass in Classes)
+        // {
+        //     foreach (var staticField in vltClass.StaticFields)
+        //     {
+        //         // TODO: We should really have some kind of post-processing abstraction for static data.
+        //         if (staticField.StaticValue is BaseManyToOneIndex staticTree)
+        //         {
+        //             var realRowManager = (RowManager<Key32>)(object)RowManager;
+        //             var classKey = (Key32)(object)vltClass.Key;
+        //             
+        //             BaseManyToOneIndex.TreeNodeType? nodeType = null;
+        //             for (var i = 0; i < staticTree.Keys.Count; i++)
+        //             {
+        //                 var key = staticTree.Keys[i];
+        //                 var indexTableEntry = staticTree.Indices[i];
+        //                 var values = staticTree.Values.GetRange(indexTableEntry.Index, indexTableEntry.Count);
+        //
+        //                 var keyToName = HashManager.ResolveVlt(key);
+        //
+        //                 if (key != 0)
+        //                 {
+        //                     var collection = realRowManager.FindCollection(classKey, new Key32(key));
+        //
+        //                     if (collection == null)
+        //                     {
+        //                         throw new InvalidDataException(
+        //                             $"static index references nonexistent collection: {keyToName}");
+        //                     }
+        //
+        //                     if (values.Count == 1)
+        //                     {
+        //                         var linkedKey = values[0];
+        //                         var linkedCollection = realRowManager.FindCollection(classKey, new Key32(linkedKey));
+        //
+        //                         if (ReferenceEquals(collection.Parent, linkedCollection))
+        //                         {
+        //                             if (nodeType == null)
+        //                             {
+        //                                 nodeType = BaseManyToOneIndex.TreeNodeType.ParentKey;
+        //                             }
+        //                             else if (nodeType != BaseManyToOneIndex.TreeNodeType.ParentKey)
+        //                             {
+        //                                 throw new Exception("strange mixture of nodes in static index");
+        //                             }
+        //                         }
+        //                         else
+        //                         {
+        //                             nodeType = BaseManyToOneIndex.TreeNodeType.ChildKeys;
+        //                         }
+        //                     }
+        //                     else if (nodeType == BaseManyToOneIndex.TreeNodeType.ParentKey)
+        //                     {
+        //                         throw new Exception("each node in a ParentKey index must have exactly 1 value");
+        //                     }
+        //                     else
+        //                     {
+        //                         nodeType = BaseManyToOneIndex.TreeNodeType.ChildKeys;
+        //                     }
+        //                 }
+        //             }
+        //
+        //             staticTree.NodeType = nodeType ?? BaseManyToOneIndex.TreeNodeType.ChildKeys;
+        //         }
+        //     }
+        // }
     }
 
     #region Internal Data Reading

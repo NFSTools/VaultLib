@@ -23,8 +23,4 @@
     <ProjectReference Include="..\VaultLib.ModernBase\VaultLib.ModernBase.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="VLT\Attrib\Query\" />
-  </ItemGroup>
-
 </Project>
