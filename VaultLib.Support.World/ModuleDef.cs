@@ -34,7 +34,11 @@ public class ModuleDef : BaseGameModule<Key32>
 
     public override ExportFactory<Key32> CreateExportFactory()
     {
-        return new ExportFactory<Key32>(() => new DatabaseLoad(), () => new ClassLoad32(), () => new CollectionLoad(),
+        var exportFactory = new ExportFactory<Key32>(() => new DatabaseLoad(), () => new ClassLoad32(),
+            () => new CollectionLoad(),
             () => new ExportEntry32());
+        exportFactory.RegisterExportType<VaultSlotExport<Key32>>(Key32.FromString("VaultDataType"));
+
+        return exportFactory;
     }
 }
