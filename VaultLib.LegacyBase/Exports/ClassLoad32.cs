@@ -83,6 +83,7 @@ public class ClassLoad32 : BaseClassLoad<Key32>
             }
 
             var field = new VltClassField<Key32>(
+                Class,
                 definition.Key,
                 definition.Type,
                 definition.Flags,

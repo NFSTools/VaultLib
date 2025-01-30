@@ -86,6 +86,7 @@ public class ClassLoad64 : BaseClassLoad<Key64>
             definition.Read(context, br);
 
             var field = new VltClassField<Key64>(
+                Class,
                 definition.Key,
                 definition.Type,
                 definition.Flags,

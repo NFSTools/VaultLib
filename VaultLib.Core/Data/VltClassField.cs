@@ -14,6 +14,8 @@ namespace VaultLib.Core.Data;
 /// <remarks>In the version of AttribSys used from 2006 onwards, fields can have "static" values - a static field cannot occur in a collection. It has one value.</remarks>
 public class VltClassField<TKey> where TKey : struct, IKey<TKey>
 {
+    public VltClass<TKey> Class { get; }
+
     /// <summary>
     /// Gets the field's key.
     /// </summary>
@@ -60,6 +62,7 @@ public class VltClassField<TKey> where TKey : struct, IKey<TKey>
     /// <summary>
     /// Initializes a new instance of the <see cref="VltClassField"/> class.
     /// </summary>
+    /// <param name="class">The class that the field belongs to.</param>
     /// <param name="key">The field's hashed key.</param>
     /// <param name="typeKey">The type ID of the field.</param>
     /// <param name="flags">The field's flags.</param>
@@ -67,9 +70,10 @@ public class VltClassField<TKey> where TKey : struct, IKey<TKey>
     /// <param name="size">The field's data size.</param>
     /// <param name="maxCount">The maximum number of instances of the field.</param>
     /// <param name="offset">The field's data offset.</param>
-    public VltClassField(TKey key, TKey typeKey, DefinitionFlags flags, int alignment, ushort size,
+    public VltClassField(VltClass<TKey> @class, TKey key, TKey typeKey, DefinitionFlags flags, int alignment, ushort size,
         ushort maxCount, ushort offset)
     {
+        Class = @class;
         Key = key;
         TypeKey = typeKey;
         Flags = flags;
