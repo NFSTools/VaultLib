@@ -38,7 +38,7 @@ public class VltExportChunk<TKey> : ChunkBase<TKey> where TKey : struct, IKey<TK
 
             exportEntry.Read(context, br);
 
-            var export = CreateExport(context, exportEntry.Type);
+            var export = context.Database.ExportFactory.CreateExport(exportEntry.Type);
 
             Debug.Assert(export != null);
 
@@ -59,40 +59,5 @@ public class VltExportChunk<TKey> : ChunkBase<TKey> where TKey : struct, IKey<TK
         foreach (var exportEntry in _exports) exportEntry.Write(context, bw);
 
         bw.AlignWriter(0x10);
-    }
-
-    private BaseExport<TKey> CreateExport(VaultReadContext<TKey> context, TKey type)
-    {
-        // TODO: these shouldn't be hardcoded
-
-        switch (type)
-        {
-            case Key64 k64:
-                switch (k64.Hash)
-                {
-                    case 0x2A7895AC4A876152u: // Attrib::ClassLoadData
-                        return context.Database.ExportFactory.BuildClassLoad(null);
-                    case 0xB38846845E9C175u: // Attrib::DatabaseLoadData
-                        return context.Database.ExportFactory.BuildDatabaseLoad();
-                    case 0xAD303B8F42B3307Eu:
-                        return context.Database.ExportFactory.BuildCollectionLoad(null);
-                }
-
-                break;
-            case Key32 k32:
-                switch (k32.Hash)
-                {
-                    case 0x5E970CBCu: // Attrib::ClassLoadData
-                        return context.Database.ExportFactory.BuildClassLoad(null);
-                    case 0xCBBC628Fu: // Attrib::DatabaseLoadData
-                        return context.Database.ExportFactory.BuildDatabaseLoad();
-                    case 0x8E112EB7u:
-                        return context.Database.ExportFactory.BuildCollectionLoad(null);
-                }
-
-                break;
-        }
-
-        return null;
     }
 }
