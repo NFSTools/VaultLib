@@ -23,14 +23,17 @@ namespace VaultLib.Core;
 /// </summary>
 public class TypeRegistry<TKey> where TKey : struct, IKey<TKey>
 {
+    private readonly Dictionary<(TKey, TKey), Type> _fieldOverrides = new();
     private readonly Dictionary<TKey, Type> _typeDictionary = new();
 
     private readonly Dictionary<Type, ObjectActivator<object>> _activators = new();
 
-    private delegate object TypeReader(object init, VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+    private delegate object TypeReader(object init, VaultReadContext<TKey> context,
+        FieldReadWriteContext<TKey> fieldContext,
         BinaryReader br);
 
-    private delegate void TypeWriter(object value, VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+    private delegate void TypeWriter(object value, VaultWriteContext<TKey> context,
+        FieldReadWriteContext<TKey> fieldContext,
         BinaryWriter bw);
 
     private readonly Dictionary<Type, TypeReader>
@@ -74,6 +77,11 @@ public class TypeRegistry<TKey> where TKey : struct, IKey<TKey>
         _typeDictionary[TKey.FromString(typeName)] = type;
     }
 
+    private void AddFieldOverride(TKey classKey, TKey fieldKey, Type type)
+    {
+        _fieldOverrides[(classKey, fieldKey)] = type;
+    }
+
     public void Map<TDest>(string typeId)
     {
         var destType = typeof(TDest);
@@ -94,9 +102,19 @@ public class TypeRegistry<TKey> where TKey : struct, IKey<TKey>
     /// </summary>
     /// <typeparam name="T">The actual type as defined in code.</typeparam>
     /// <param name="typeId">The text identifier for the type.</param>
-    public void Register<T>(string typeId) where T : VltBaseType<TKey>
+    public void Register<T>(string typeId) where T : VltBaseType<TKey>, new()
     {
         RegisterVltBaseType(typeId, typeof(T));
+    }
+
+    public void AddFieldOverride<T>(string className, string fieldName) where T : new()
+    {
+        AddFieldOverride<T>(TKey.FromString(className), TKey.FromString(fieldName));
+    }
+
+    public void AddFieldOverride<T>(TKey classKey, TKey fieldKey) where T : new()
+    {
+        AddFieldOverride(classKey, fieldKey, typeof(T));
     }
 
     private void RegisterVltBaseType(string typeId, Type type)
@@ -330,7 +348,7 @@ Any user-defined struct type that contains fields of unmanaged types only.
         BinaryReader binaryReader)
     {
         var vltClassField = fieldContext.Field;
-        var type = ResolveType(vltClassField.TypeKey);
+        var type = ResolveFieldType(vltClassField);
         if (vltClassField.IsArray)
         {
             var array = new VltArrayType<TKey>(vltClassField, type);
@@ -345,7 +363,7 @@ Any user-defined struct type that contains fields of unmanaged types only.
         BinaryReader binaryReader)
     {
         var vltClassField = fieldContext.Field;
-        var type = ResolveType(vltClassField.TypeKey);
+        var type = ResolveFieldType(vltClassField);
         return ReadTypeInstance(readContext, fieldContext, binaryReader, type);
     }
 
@@ -375,12 +393,13 @@ Any user-defined struct type that contains fields of unmanaged types only.
         object instance,
         VaultWriteContext<TKey> writeContext, FieldReadWriteContext<TKey> fieldContext, BinaryWriter binaryWriter)
     {
-        var type = ResolveType(vltClassField.TypeKey);
+        var type = ResolveFieldType(vltClassField);
 
         WriteTypeInstance(instance, writeContext, fieldContext, binaryWriter, type);
     }
 
-    public void WriteTypeInstance(object instance, VaultWriteContext<TKey> writeContext, FieldReadWriteContext<TKey> fieldContext,
+    public void WriteTypeInstance(object instance, VaultWriteContext<TKey> writeContext,
+        FieldReadWriteContext<TKey> fieldContext,
         BinaryWriter binaryWriter, Type type)
     {
         Debug.Assert(instance.GetType() == type, "instance.GetType() == type");
@@ -395,7 +414,14 @@ Any user-defined struct type that contains fields of unmanaged types only.
         throw new KeyNotFoundException($"Type '{typeId}' is not registered");
     }
 
-    public Type ResolveType(TKey key)
+    public Type ResolveFieldType(VltClassField<TKey> field)
+    {
+        return _fieldOverrides.TryGetValue((field.Class.Key, field.Key), out var type)
+            ? type
+            : ResolveType(field.TypeKey);
+    }
+
+    private Type ResolveType(TKey key)
     {
         if (_typeDictionary.TryGetValue(key, out var type))
             return type;
