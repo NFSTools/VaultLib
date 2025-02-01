@@ -5,12 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
-using VaultLib.Core.Hashing;
 
 namespace VaultLib.Core;
 

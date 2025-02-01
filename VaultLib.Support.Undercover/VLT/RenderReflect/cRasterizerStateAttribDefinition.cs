@@ -7,13 +7,12 @@ using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cRasterizerStateAttribDefinition")]
-public class cRasterizerStateAttribDefinition: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
+public class cRasterizerStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public string DebugName { get; set; } = string.Empty;
     public State_RasterizerCullMode CullMode { get; set; }
@@ -31,7 +30,7 @@ public class cRasterizerStateAttribDefinition: VltBaseType<VaultLib.Core.DataInt
     public State_RasterizerShadeMode ShadeMode { get; set; }
     public State_RasterizerFrontFace FrontFace { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         DebugName = context.ReadString(br);
         CullMode = br.ReadEnum<State_RasterizerCullMode>();
@@ -53,7 +52,7 @@ public class cRasterizerStateAttribDefinition: VltBaseType<VaultLib.Core.DataInt
         FrontFace = br.ReadEnum<State_RasterizerFrontFace>();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         context.WriteString(DebugName, fieldContext, bw);
         bw.WriteEnum(CullMode);
@@ -75,15 +74,15 @@ public class cRasterizerStateAttribDefinition: VltBaseType<VaultLib.Core.DataInt
         bw.WriteEnum(FrontFace);
     }
 
-    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
     }
 

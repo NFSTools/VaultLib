@@ -12,7 +12,7 @@ using VaultLib.LegacyBase;
 namespace VaultLib.Support.MostWanted.VLT;
 
 [VltTypeInfo(nameof(CopCountRecord))]
-public class CopCountRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
+public class CopCountRecord: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public string CopType { get; set; } = string.Empty;
     public uint Count { get; set; }
@@ -20,14 +20,14 @@ public class CopCountRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IR
 
     private StringKey64 _copType = new();
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         _copType.Read(context, fieldContext, br);
         Count = br.ReadUInt32();
         Chance = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         _copType.Value = CopType;
         _copType.Write(context, fieldContext, bw);
@@ -35,18 +35,18 @@ public class CopCountRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IR
         bw.Write(Chance);
     }
 
-    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         _copType.ReadPointerData(context, fieldContext, br);
         CopType = _copType.Value;
     }
 
-    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         _copType.WritePointerData(context, fieldContext, bw);
     }
 
-    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
         _copType.AddPointers(context, fieldContext);
     }

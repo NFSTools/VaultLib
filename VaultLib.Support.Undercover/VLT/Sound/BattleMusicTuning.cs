@@ -4,20 +4,19 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::BattleMusicTuning")]
-public class BattleMusicTuning: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class BattleMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
 {
     public float TimeAhead_HiToMed { get; set; }
     public float TimeAhead_MedToLo { get; set; }
     public float TimeBehind_HiToFail { get; set; }
     public float TimeAhead_FailToHi { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         TimeAhead_HiToMed = br.ReadSingle();
         TimeAhead_MedToLo = br.ReadSingle();
@@ -25,7 +24,7 @@ public class BattleMusicTuning: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
         TimeAhead_FailToHi = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(TimeAhead_HiToMed);
         bw.Write(TimeAhead_MedToLo);

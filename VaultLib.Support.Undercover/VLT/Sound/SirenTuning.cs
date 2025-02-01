@@ -5,7 +5,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::SirenTuning")]
-public class SirenTuning: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class SirenTuning: VltBaseType<Core.DataInterfaces.Key32>
 {
     public float[] OpRadiusLimit { get; set; } = new float[2];
     public float SpeedThresh { get; set; }
@@ -20,7 +20,7 @@ public class SirenTuning: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
     public int Unknown3 { get; set; }
     public float Unknown4 { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         // TODO: investigate structure
         for (int i = 0; i < OpRadiusLimit.Length; i++)
@@ -61,7 +61,7 @@ public class SirenTuning: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
         Unknown4 = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         for (int i = 0; i < OpRadiusLimit.Length; i++)
         {

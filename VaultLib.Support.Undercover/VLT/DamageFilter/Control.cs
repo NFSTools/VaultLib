@@ -5,20 +5,20 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT.DamageFilter;
 
 [VltTypeInfo("DamageFilter::Control")]
-public class Control: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class Control: VltBaseType<Core.DataInterfaces.Key32>
 {
     public uint Allow { get; set; }
     public uint Reject { get; set; }
     public float MaxCausalityTime { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         Allow = br.ReadUInt32();
         Reject = br.ReadUInt32();
         MaxCausalityTime = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(Allow);
         bw.Write(Reject);

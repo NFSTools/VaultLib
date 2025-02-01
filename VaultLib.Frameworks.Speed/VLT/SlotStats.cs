@@ -7,13 +7,12 @@ using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(SlotStats))]
-public class SlotStats: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
+public class SlotStats: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public enum StatsModeFlag
     {
@@ -71,7 +70,7 @@ public class SlotStats: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IRefere
     public uint TuningSliderListString { get; set; }
     public FEPhysicsStatType[] Stats { get; set; } = new FEPhysicsStatType[2];
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         SlotName = context.ReadString(br);
         ModeFlags = br.ReadEnum<StatsModeFlag>();
@@ -80,7 +79,7 @@ public class SlotStats: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IRefere
         Stats = br.ReadArray(br.ReadEnum<FEPhysicsStatType>, 2);
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         context.WriteString(SlotName, fieldContext, bw);
         bw.WriteEnum(ModeFlags);
@@ -89,15 +88,15 @@ public class SlotStats: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IRefere
         bw.WriteArray(Stats, bw.WriteEnum);
     }
 
-    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
     }
 

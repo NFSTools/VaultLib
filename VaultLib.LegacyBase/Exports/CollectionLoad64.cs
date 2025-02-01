@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -13,7 +12,6 @@ using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
-using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 

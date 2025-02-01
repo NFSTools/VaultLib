@@ -6,7 +6,7 @@ namespace VaultLib.LegacyBase.Structures;
 
 public class ExportEntry64 : IExportEntry<Key64>
 {
-    public void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key64> context, BinaryReader br)
+    public void Read(VaultReadContext<Key64> context, BinaryReader br)
     {
         Id = new Key64(br.ReadUInt64());
         Type = new Key64(br.ReadUInt64());
@@ -18,7 +18,7 @@ public class ExportEntry64 : IExportEntry<Key64>
             throw new InvalidDataException();
     }
 
-    public void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key64> context, BinaryWriter bw)
+    public void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
         bw.Write(Id.Hash);
         bw.Write(Type.Hash);

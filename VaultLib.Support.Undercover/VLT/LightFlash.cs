@@ -1,7 +1,4 @@
-﻿using System.IO;
-using VaultLib.Core;
-using VaultLib.Core.Data;
-using VaultLib.Core.Types;
+﻿using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT;
 

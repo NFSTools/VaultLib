@@ -1,6 +1,4 @@
-﻿using VaultLib.Core.Chunks;
-
-namespace VaultLib.Core;
+﻿namespace VaultLib.Core;
 
 /// <summary>
 /// An enumeration of the available stringhash implementations.

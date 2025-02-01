@@ -5,7 +5,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::ChasedownMusicTuning")]
-public class ChasedownMusicTuning: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class ChasedownMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
 {
     public float[] StartTimeLimit { get; set; } = new float[2];
     public float[] LowTimeLimit { get; set; } = new float[2];
@@ -14,7 +14,7 @@ public class ChasedownMusicTuning: VltBaseType<VaultLib.Core.DataInterfaces.Key3
     public float[] HighTimeLimit { get; set; } = new float[2];
     public float[] OpponentDamageThreshold { get; set; } = new float[2];
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         for (int i = 0; i < StartTimeLimit.Length; i++)
         {
@@ -47,7 +47,7 @@ public class ChasedownMusicTuning: VltBaseType<VaultLib.Core.DataInterfaces.Key3
         }
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         for (int i = 0; i < StartTimeLimit.Length; i++)
         {

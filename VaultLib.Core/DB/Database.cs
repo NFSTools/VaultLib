@@ -13,7 +13,6 @@ using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.IO;
-using VaultLib.Core.Types.Attrib.Query;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.DB;
@@ -258,7 +257,7 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
 
     private void ReadExports(VaultReadContext<TKey> context, BinaryReader vltStreamReader, BinaryReader binStreamReader)
     {
-        foreach (Exports.BaseExport<TKey> vaultExport in context.Vault.Exports)
+        foreach (BaseExport<TKey> vaultExport in context.Vault.Exports)
         {
             vltStreamReader.BaseStream.Position = vaultExport.Offset;
             vaultExport.Read(context, vltStreamReader);

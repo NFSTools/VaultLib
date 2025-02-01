@@ -4,24 +4,23 @@
 
 using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(RwacSampleBankAsset))]
-public class RwacSampleBankAsset: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class RwacSampleBankAsset: VltBaseType<Core.DataInterfaces.Key32>
 {
     public uint Bank { get; set; }
     public uint Asset { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         Bank = br.ReadUInt32();
         Asset = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(Bank);
         bw.Write(Asset);

@@ -4,17 +4,15 @@
 
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.NIS;
 
 [VltTypeInfo("NIS::NISActor")]
-public class NISActor: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
+public class NISActor: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public string ActorName { get; set; } = string.Empty;
     public string CarChannelName { get; set; } = string.Empty;
@@ -22,7 +20,7 @@ public class NISActor: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferen
     public float ExitAnimSec { get; set; }
     public bool IsFacePixelation { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         ActorName = context.ReadString(br);
         CarChannelName = context.ReadString(br);
@@ -33,7 +31,7 @@ public class NISActor: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferen
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         context.WriteString(ActorName, fieldContext, bw);
         context.WriteString(CarChannelName, fieldContext, bw);
@@ -44,15 +42,15 @@ public class NISActor: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferen
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
     }
 

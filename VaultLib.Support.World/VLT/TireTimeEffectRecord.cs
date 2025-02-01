@@ -8,7 +8,7 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.World.VLT;
 
 [VltTypeInfo(nameof(TireTimeEffectRecord))]
-public class TireTimeEffectRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class TireTimeEffectRecord: VltBaseType<Core.DataInterfaces.Key32>
 {
     public TireCondition mTireCondition { get; set; }
     public RefSpec32 mEmitter { get; set; } = new();
@@ -16,7 +16,7 @@ public class TireTimeEffectRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key3
     public float mMinTime { get; set; }
     public float mMaxTime { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         mTireCondition = br.ReadEnum<TireCondition>();
         mEmitter.Read(context, fieldContext, br);
@@ -25,7 +25,7 @@ public class TireTimeEffectRecord: VltBaseType<VaultLib.Core.DataInterfaces.Key3
         mMaxTime = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(mTireCondition);
         mEmitter.Write(context, fieldContext, bw);

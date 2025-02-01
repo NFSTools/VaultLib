@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace VaultLib.Core.Hashing;
 
 public static class Vlt32Hasher

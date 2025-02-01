@@ -1,13 +1,13 @@
 ﻿using System.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(FETuningSlider))]
-public class FETuningSlider: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class FETuningSlider: VltBaseType<Key32>
 {
     public RefSpec32 Ref { get; set; } = new();
     public uint TitleHash { get; set; }
@@ -15,7 +15,7 @@ public class FETuningSlider: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
     public uint RightHash { get; set; }
     public uint HelpHash { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         Ref.Read(context, fieldContext, br);
         TitleHash = br.ReadUInt32();
@@ -24,7 +24,7 @@ public class FETuningSlider: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
         HelpHash = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
     {
         Ref.Write(context, fieldContext, bw);
         bw.Write(TitleHash);

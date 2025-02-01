@@ -4,13 +4,12 @@ using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(FEQuickUpgrade))]
-public class FEQuickUpgrade: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
+public class FEQuickUpgrade: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public float Cost { get; set; }
     public float Tier1_Cost { get; set; }
@@ -25,7 +24,7 @@ public class FEQuickUpgrade: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IR
     private long _ptrPackagesSrc;
     private long _ptrPackagesDst;
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         _ptrPackages = br.ReadUInt32();
         Cost = br.ReadSingle();
@@ -38,7 +37,7 @@ public class FEQuickUpgrade: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IR
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         _ptrPackagesSrc = bw.BaseStream.Position;
         bw.Write(0);
@@ -52,7 +51,7 @@ public class FEQuickUpgrade: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IR
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         br.BaseStream.Position = _ptrPackages;
 
@@ -67,7 +66,7 @@ public class FEQuickUpgrade: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IR
         }
     }
 
-    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         _ptrPackagesDst = bw.BaseStream.Position;
 
@@ -77,7 +76,7 @@ public class FEQuickUpgrade: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IR
         }
     }
 
-    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
         Debug.Assert(_ptrPackagesSrc != 0 && _ptrPackagesDst != 0);
         context.AddPointer(_ptrPackagesSrc, _ptrPackagesDst, false);

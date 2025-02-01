@@ -1,5 +1,4 @@
 ﻿using CoreLibraries.IO;
-using VaultLib.Core.Chunks;
 
 namespace VaultLib.Core;
 

@@ -4,17 +4,15 @@
 
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using VaultLib.Core;
 using VaultLib.Core.Types;
 using VaultLib.Core.Types.Attrib;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(CCarDamageEntry))]
-public class CCarDamageEntry: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
+public class CCarDamageEntry: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public int PartID { get; set; }
     public string AttachPart { get; set; } = string.Empty;
@@ -22,7 +20,7 @@ public class CCarDamageEntry: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, I
     public string SmackableCollisionName { get; set; } = string.Empty;
     public RefSpec32 SmackableCollisionAttribute { get; set; } = new();
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         PartID = br.ReadInt32();
         AttachPart = context.ReadString(br);
@@ -31,7 +29,7 @@ public class CCarDamageEntry: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, I
         SmackableCollisionAttribute.Read(context, fieldContext, br);
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(PartID);
         context.WriteString(AttachPart, fieldContext, bw);
@@ -40,15 +38,15 @@ public class CCarDamageEntry: VltBaseType<VaultLib.Core.DataInterfaces.Key32>, I
         SmackableCollisionAttribute.Write(context, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
     }
 

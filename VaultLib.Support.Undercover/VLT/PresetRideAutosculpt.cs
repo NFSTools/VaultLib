@@ -1,13 +1,12 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
-using VaultLib.Core.Data;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(PresetRideAutosculpt))]
-public class PresetRideAutosculpt: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class PresetRideAutosculpt: VltBaseType<Core.DataInterfaces.Key32>
 {
     public PresetRideAutosculptRegion RegionID { get; set; }
     public float SculptZone0 { get; set; }
@@ -22,7 +21,7 @@ public class PresetRideAutosculpt: VltBaseType<VaultLib.Core.DataInterfaces.Key3
     public float SculptZone9 { get; set; }
     public float SculptZone10 { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         RegionID = br.ReadEnum<PresetRideAutosculptRegion>();
         SculptZone0 = br.ReadSingle();
@@ -38,7 +37,7 @@ public class PresetRideAutosculpt: VltBaseType<VaultLib.Core.DataInterfaces.Key3
         SculptZone10 = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(RegionID);
         bw.Write(SculptZone0);

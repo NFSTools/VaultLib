@@ -10,7 +10,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.World.VLT.GameCore;
 
 [VltTypeInfo("GameCore::BlackBoardSlot")]
-public class BlackBoardSlot : VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class BlackBoardSlot : VltBaseType<Core.DataInterfaces.Key32>
 {
     public enum BlackBoardFlag
     {
@@ -23,14 +23,14 @@ public class BlackBoardSlot : VltBaseType<VaultLib.Core.DataInterfaces.Key32>
     public uint mBlackBoardKey { get; set; }
     public BlackBoardFlag mFlag { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         mChannel = br.ReadEnum<BlackBoardChannel>();
         mBlackBoardKey = br.ReadUInt32();
         mFlag = br.ReadEnum<BlackBoardFlag>();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(mChannel);
         bw.Write(mBlackBoardKey);

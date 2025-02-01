@@ -6,7 +6,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(CarPaintSwatch))]
-public class CarPaintSwatch: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
+public class CarPaintSwatch: VltBaseType<Core.DataInterfaces.Key32>
 {
     public uint RGB { get; set; }
     public ePaintMaterialIndex MaterialA { get; set; }
@@ -14,7 +14,7 @@ public class CarPaintSwatch: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
     public float Blend { get; set; }
     public ePaintSpeechColour SpeechColour { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         RGB = br.ReadUInt32();
         MaterialA = br.ReadEnum<ePaintMaterialIndex>();
@@ -23,7 +23,7 @@ public class CarPaintSwatch: VltBaseType<VaultLib.Core.DataInterfaces.Key32>
         SpeechColour = br.ReadEnum<ePaintSpeechColour>();
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(RGB);
         bw.WriteEnum(MaterialA);

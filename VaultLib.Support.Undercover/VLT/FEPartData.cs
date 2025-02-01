@@ -8,14 +8,13 @@ using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
-using VaultLib.Core.Types.EA.Reflection;
 using VaultLib.Core.Utils;
 using VaultLib.Frameworks.Speed.VLT;
 
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(FEPartData))]
-public class FEPartData : VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IReferencesStrings<VaultLib.Core.DataInterfaces.Key32>
+public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
 {
     public uint HAL_ID { get; set; }
     public uint CF_HAL_ID { get; set; }
@@ -37,7 +36,7 @@ public class FEPartData : VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IRefe
     public string OfferID { get; set; } = string.Empty;
     public bool IsOnlineLockable { get; set; }
 
-    public override void Read(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
     {
         HAL_ID = br.ReadUInt32();
         CF_HAL_ID = br.ReadUInt32();
@@ -63,7 +62,7 @@ public class FEPartData : VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IRefe
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext,
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryWriter bw)
     {
         bw.Write(HAL_ID);
@@ -89,19 +88,19 @@ public class FEPartData : VltBaseType<VaultLib.Core.DataInterfaces.Key32>, IRefe
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext,
+    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryReader br)
     {
         PartDetails.ReadPointerData(context, fieldContext, br);
     }
 
-    public void WritePointerData(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext,
+    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryWriter bw)
     {
         PartDetails.WritePointerData(context, fieldContext, bw);
     }
 
-    public void AddPointers(VaultWriteContext<VaultLib.Core.DataInterfaces.Key32> context, FieldReadWriteContext<VaultLib.Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext)
     {
         PartDetails.AddPointers(context, fieldContext);
     }
