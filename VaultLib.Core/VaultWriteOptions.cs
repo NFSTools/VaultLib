@@ -1,4 +1,6 @@
-﻿namespace VaultLib.Core;
+﻿using VaultLib.Core.Chunks;
+
+namespace VaultLib.Core;
 
 /// <summary>
 /// An enumeration of the available stringhash implementations.
@@ -15,16 +17,16 @@ public enum VaultHashMode
 public class VaultWriteQuirks
 {
     /// <summary>
-    /// When set to true, the <see cref="VltStartChunk"/> will be written before the <see cref="VltDependencyChunk"/>.
+    /// When set to true, the <see cref="VltStartChunk{TKey}"/> will be written before the <see cref="VltDependencyChunk{TKey}"/>.
     /// </summary>
     /// <remarks>
     /// This is mainly useful for ensuring compatibility with NFS-VltEd. It "should" be set for Undercover and World
     /// vaults, but the chunk order doesn't seem to matter to any of the games.
     /// </remarks>
     public bool StartChunkBeforeDepChunk { get; set; }
-    
+
     /// <summary>
-    /// When set to true, the <see cref="EndChunk"/> will be written to the BIN stream.
+    /// When set to true, the <see cref="EndChunk{TKey}"/> will be written to the BIN stream.
     /// </summary>
     public bool EnableBinEndChunk { get; set; }
 }

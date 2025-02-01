@@ -125,8 +125,8 @@ public class RowManager<TKey> where TKey : struct, IKey<TKey>
     ///     the child of the given parent collection.
     /// </summary>
     /// <param name="vault">The vault to add the collection to.</param>
-    /// <param name="className">The name of the class to add the collection to.</param>
-    /// <param name="newName">The name of the collection.</param>
+    /// <param name="classKey">The key of the class to add the collection to.</param>
+    /// <param name="key">The collection's key.</param>
     /// <param name="parentCollection">The parent collection, if one is necessary.</param>
     /// <returns>The new collection</returns>
     public VltCollection<TKey> AddCollection(Vault<TKey> vault, TKey classKey, TKey key,
@@ -149,7 +149,7 @@ public class RowManager<TKey> where TKey : struct, IKey<TKey>
     /// </summary>
     /// <param name="vault">The vault to add the collection to.</param>
     /// <param name="className">The name of the class to add the collection to.</param>
-    /// <param name="newName">The name of the collection.</param>
+    /// <param name="name">The name of the collection.</param>
     /// <param name="parentCollection">The parent collection, if one is necessary.</param>
     /// <returns>The new collection</returns>
     public VltCollection<TKey> AddCollection(Vault<TKey> vault, string className, string name,

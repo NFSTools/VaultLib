@@ -16,12 +16,12 @@ namespace VaultLib.Core.Data;
 public class VltCollection<TKey> where TKey : struct, IKey<TKey>
 {
     /// <summary>
-    /// Gets the <see cref="VltClass"/> that this collection is part of.
+    /// Gets the class that the collection belongs to.
     /// </summary>
     public VltClass<TKey> Class { get; }
 
     /// <summary>
-    /// Gets or sets the <see cref="Core.Vault"/> that this collection is part of.
+    /// Gets or sets the vault that the collection belongs to.
     /// </summary>
     public Vault<TKey> Vault { get; private set; }
 
@@ -33,17 +33,16 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
     public VltCollection<TKey> Parent { get; private set; }
 
     /// <summary>
-    /// Gets the collection's data.
+    /// Gets the collection's data table.
     /// </summary>
-    /// <remarks> This is a mapping between a <see cref="VltClassField"/>'s name and a <see cref="VltBaseType"/> instance.</remarks>
     private VltDataTable<TKey> Data { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VltCollection"/> class.
+    /// Initializes a new instance of the <see cref="VltCollection{TKey}"/> class.
     /// </summary>
     /// <param name="vault">The vault that contains the collection.</param>
-    /// <param name="vltClass">The <see cref="VltClass"/> that the collection is part of.</param>
-    /// <param name="key">The collection key</param>
+    /// <param name="vltClass">The class that the collection is part of.</param>
+    /// <param name="key">The collection's unique key.</param>
     public VltCollection(Vault<TKey> vault, VltClass<TKey> vltClass, TKey key)
     {
         Vault = vault;
@@ -95,7 +94,7 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
         {
             throw new ArgumentException($"A collection with the same key ({newKey}) already exists", nameof(newKey));
         }
-        
+
         Key = newKey;
     }
 
@@ -122,40 +121,41 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
     public bool HasEntry(TKey key) => Data.HasValue(key);
 
     /// <summary>
-    /// Determines if the collection has a data entry with the given key.
+    /// Determines if the collection's data table has a value associated
+    /// with a particular field.
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="name">The field's name.</param>
     /// <returns><c>true</c> if an entry exists; otherwise, <c>false</c>.</returns>
     public bool HasEntry(string name) => HasEntry(TKey.FromString(name));
 
     /// <summary>
-    /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
+    /// Gets the value for a particular field from the collection's data table.
     /// </summary>
-    /// <param name="key">The name of the field to obtain the value of.</param>
-    /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
-    /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
+    /// <param name="key">The field's key.</param>
+    /// <returns>The data mapped to the given key.</returns>
+    /// <exception cref="KeyNotFoundException">If there is no value mapped to the given key.</exception>
     public object GetRawValue(TKey key)
     {
         return GetRawValue<object>(key);
     }
 
     /// <summary>
-    /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
+    /// Gets the value for a particular field from the collection's data table.
     /// </summary>
-    /// <param name="key">The name of the field to obtain the value of.</param>
-    /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
-    /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
-    public object GetRawValue(string key)
+    /// <param name="name">The name of the field to obtain the value of.</param>
+    /// <returns>The data mapped to the given key.</returns>
+    /// <exception cref="KeyNotFoundException">If there is no value mapped to the given key.</exception>
+    public object GetRawValue(string name)
     {
-        return GetRawValue<object>(TKey.FromString(key));
+        return GetRawValue<object>(TKey.FromString(name));
     }
 
     /// <summary>
-    /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
+    /// Gets the value for a particular field from the collection's data table.
     /// </summary>
-    /// <param name="key">The name of the field to obtain the value of.</param>
-    /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
-    /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
+    /// <param name="key">The field's key.</param>
+    /// <returns>The data mapped to the given key.</returns>
+    /// <exception cref="KeyNotFoundException">If there is no value mapped to the given key.</exception>
     public T GetRawValue<T>(TKey key)
     {
         if (!Data.TryGetValue(key, out T data))
@@ -164,14 +164,14 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
     }
 
     /// <summary>
-    /// Obtains the value mapped to <paramref name="key"/> from the collection's data dictionary.
+    /// Gets the value for a particular field from the collection's data table.
     /// </summary>
-    /// <param name="key">The name of the field to obtain the value of.</param>
-    /// <returns>The <see cref="VltBaseType"/> instance mapped to <paramref name="key"/>.</returns>
-    /// <exception cref="KeyNotFoundException">If there is no value mapped to <paramref name="key"/>.</exception>
-    public T GetRawValue<T>(string key)
+    /// <param name="name">The name of the field to obtain the value of.</param>
+    /// <returns>The data mapped to the given key.</returns>
+    /// <exception cref="KeyNotFoundException">If there is no value mapped to the given key.</exception>
+    public T GetRawValue<T>(string name)
     {
-        return GetRawValue<T>(TKey.FromString(key));
+        return GetRawValue<T>(TKey.FromString(name));
     }
 
     /// <summary>
@@ -192,15 +192,15 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
     }
 
     /// <summary>
-    /// Gets the value of type <typeparamref name="T"/> mapped to <paramref name="key"/> in the collection's data dictionary.
+    /// Gets the value of type <typeparamref name="T"/> mapped to <paramref name="name"/> in the collection's data dictionary.
     /// </summary>
     /// <typeparam name="T">The data type to be obtained.</typeparam>
-    /// <param name="key">The mapping key.</param>
+    /// <param name="name">The mapping key.</param>
     /// <param name="index">The array index to retrieve the value from.</param>
     /// <returns>The mapping value.</returns>
-    public T GetRawValue<T>(string key, int index)
+    public T GetRawValue<T>(string name, int index)
     {
-        return GetRawValue<T>(TKey.FromString(key), index);
+        return GetRawValue<T>(TKey.FromString(name), index);
     }
 
     public object GetRawValue(TKey key, int index)
@@ -215,9 +215,9 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
         return array.Items[index];
     }
 
-    public object GetRawValue(string key, int index)
+    public object GetRawValue(string name, int index)
     {
-        return GetRawValue(TKey.FromString(key), index);
+        return GetRawValue(TKey.FromString(name), index);
     }
 
     /// <summary>

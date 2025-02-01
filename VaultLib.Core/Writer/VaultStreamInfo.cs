@@ -3,7 +3,7 @@
 namespace VaultLib.Core.Writer;
 
 /// <summary>
-/// Simple wrapper for the streams returned by <see cref="VaultWriter"/>.
+/// Simple wrapper for the streams returned by <see cref="VaultWriter{TKey}"/>.
 /// </summary>
 public class VaultStreamInfo
 {

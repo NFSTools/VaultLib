@@ -60,7 +60,7 @@ public class VltClassField<TKey> where TKey : struct, IKey<TKey>
     public object StaticValue { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VltClassField"/> class.
+    /// Initializes a new instance of the <see cref="VltClassField{TKey}"/> class.
     /// </summary>
     /// <param name="class">The class that the field belongs to.</param>
     /// <param name="key">The field's hashed key.</param>

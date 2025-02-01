@@ -37,7 +37,7 @@ public class VaultReadContext<TKey> where TKey : struct, IKey<TKey>
     public Stream VltStream { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VaultReadContext"/> class.
+    /// Initializes a new instance of the <see cref="VaultReadContext{TKey}"/> class.
     /// </summary>
     /// <param name="vault"></param>
     /// <param name="binStream"></param>

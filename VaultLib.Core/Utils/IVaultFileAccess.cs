@@ -8,7 +8,7 @@ using VaultLib.Core.DataInterfaces;
 namespace VaultLib.Core.Utils;
 
 /// <summary>
-///     Generic interface for reading and writing binary structures, with access to the containing <see cref="Vault"/>.
+///     Generic interface for reading and writing binary structures, with access to the containing <see cref="Vault{TKey}"/>.
 /// </summary>
 public interface IVaultFileAccess<TKey> where TKey : struct, IKey<TKey>
 {

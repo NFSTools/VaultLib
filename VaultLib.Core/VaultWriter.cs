@@ -12,16 +12,16 @@ using VaultLib.Core.Writer;
 namespace VaultLib.Core;
 
 /// <summary>
-/// Generates BIN and VLT data streams for a <see cref="VaultLib.Core.Vault"/> instance.
+/// Generates BIN and VLT data streams for a <see cref="Vault{TKey}"/> instance.
 /// </summary>
 public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
 {
     private readonly VaultWriteContext<TKey> _writeContext;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VaultWriter"/> class.
+    /// Initializes a new instance of the <see cref="VaultWriter{TKey}"/> class.
     /// </summary>
-    /// <param name="vault">The <see cref="VaultLib.Core.Vault"/> instance to generate data for.</param>
+    /// <param name="vault">The <see cref="Vault{TKey}"/> instance to generate data for.</param>
     /// <param name="options">The options for the saving process.</param>
     public VaultWriter(Vault<TKey> vault, VaultWriteOptions options)
     {

@@ -11,14 +11,13 @@ using System.Linq;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
-using VaultLib.Core.Hashing;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.DB;
 
 /// <summary>
-///     The <see cref="Database" /> is the powerhouse of the library. It keeps track of all data that is loaded.
+///     The <see cref="Database{TKey}" /> is the powerhouse of the library. It keeps track of all data that is loaded.
 /// </summary>
 public class Database<TKey> where TKey : struct, IKey<TKey>
 {
@@ -55,19 +54,19 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
     public List<Vault<TKey>> Vaults { get; }
 
     /// <summary>
-    /// Adds a new <see cref="VltClass"/> to the list of classes.
+    /// Adds a new class to the database.
     /// </summary>
-    /// <param name="vltClass">The <see cref="VltClass"/> to add to the database.</param>
+    /// <param name="vltClass">The class to add.</param>
     public void AddClass(VltClass<TKey> vltClass)
     {
         Classes.Add(vltClass);
     }
 
     /// <summary>
-    /// Locates and returns the <see cref="VltClass"/> with the given key.
+    /// Locates the class with a particular key.
     /// </summary>
     /// <param name="key">The key to search for.</param>
-    /// <returns>The <see cref="VltClass"/> with the given key.</returns>
+    /// <returns>The class with the given key.</returns>
     /// <exception cref="InvalidOperationException">if no class can be found</exception>
     public VltClass<TKey> FindClass(TKey key)
     {
@@ -75,10 +74,10 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
     }
 
     /// <summary>
-    /// Locates and returns the <see cref="VltClass"/> with the given name.
+    /// Locates the class with a particular name.
     /// </summary>
     /// <param name="name">The name of the class to search for.</param>
-    /// <returns>The <see cref="VltClass"/> with the given name.</returns>
+    /// <returns>The class with the given name.</returns>
     /// <exception cref="InvalidOperationException">if no class can be found</exception>
     public VltClass<TKey> FindClass(string name)
     {
@@ -137,11 +136,6 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
     /// </summary>
     public void CompleteLoad()
     {
-        ulong Hash(string s)
-        {
-            return Options.Type == DatabaseType.X64Database ? Vlt64Hasher.Hash(s) : Vlt32Hasher.Hash(s);
-        }
-
         var stopwatch = Stopwatch.StartNew();
 
         var classToCollections = new Dictionary<VltClass<TKey>, Dictionary<TKey, VltCollection<TKey>>>();

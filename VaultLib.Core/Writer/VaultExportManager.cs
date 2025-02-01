@@ -15,7 +15,7 @@ public class VaultExportManager<TKey> where TKey : struct, IKey<TKey>
     private List<BaseExport<TKey>> Exports { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VaultExportManager"/> class.
+    /// Initializes a new instance of the <see cref="VaultExportManager{TKey}"/> class.
     /// </summary>
     /// <param name="writeContext">The vault to build exports for.</param>
     public VaultExportManager(VaultWriteContext<TKey> writeContext)

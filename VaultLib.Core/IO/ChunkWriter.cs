@@ -15,10 +15,10 @@ namespace VaultLib.Core.IO;
 public class ChunkWriter<TKey> where TKey : struct, IKey<TKey>
 {
     /// <summary>
-    ///     Initializes the chunk writer with a backing <see cref="BinaryWriter" /> and <see cref="VaultLib.Core.Vault" />
+    ///     Initializes the chunk writer with a backing <see cref="BinaryWriter" /> and <see cref="Vault{TKey}" />
     /// </summary>
     /// <param name="writer">The <see cref="BinaryWriter" /> instance that will write to the stream</param>
-    /// <param name="writeContext">The <see cref="VaultWriteContext" /> instance to provide to chunk instances</param>
+    /// <param name="writeContext">The <see cref="VaultWriteContext{TKey}" /> instance to provide to chunk instances</param>
     public ChunkWriter(BinaryWriter writer, VaultWriteContext<TKey> writeContext)
     {
         Writer = writer ?? throw new ArgumentNullException(nameof(writer));

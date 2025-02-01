@@ -29,12 +29,12 @@ public class VaultWriteContext<TKey> where TKey : struct, IKey<TKey>
     public HashSet<string> Strings { get; set; }
 
     /// <summary>
-    /// A list of <see cref="VltCollection"/> instances in the vault.
+    /// A list of collections in the vault.
     /// </summary>
     public IList<VltCollection<TKey>> Collections { get; set; }
 
     /// <summary>
-    /// A set of <see cref="VltPointer"/> instances for vault data.
+    /// A set of pointers for vault data.
     /// </summary>
     public HashSet<VltPointer> Pointers { get; set; }
 
@@ -46,7 +46,7 @@ public class VaultWriteContext<TKey> where TKey : struct, IKey<TKey>
     public VaultHashMode HashMode => Options.HashMode;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VaultWriteContext"/> class.
+    /// Initializes a new instance of the <see cref="VaultWriteContext{TKey}"/> class.
     /// </summary>
     /// <param name="vault"></param>
     /// <param name="options">The options to use in the saving process.</param>

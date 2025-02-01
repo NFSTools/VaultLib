@@ -42,17 +42,17 @@ public class VltClass<TKey> where TKey : struct, IKey<TKey>
     public uint StaticSize { get; set; }
 
     /// <summary>
-    /// Finds the field with the given name in the class.
+    /// Finds the field with a particular name.
     /// </summary>
-    /// <param name="name">The name of the field to find.</param>
-    /// <returns>The <see cref="VltClassField"/> instance for the field.</returns>
+    /// <param name="name">The name of the field to search for.</param>
+    /// <returns>The field with the given name.</returns>
     public VltClassField<TKey> this[string name] => FindField(name);
 
     /// <summary>
-    /// Finds the field with the given name in the class.
+    /// Finds the field with a particular name.
     /// </summary>
-    /// <param name="name">The name of the field to find.</param>
-    /// <returns>The field.</returns>
+    /// <param name="name">The name of the field to search for.</param>
+    /// <returns>The field with the given name.</returns>
     public VltClassField<TKey> FindField(string name) => FindField(TKey.FromString(name));
 
     /// <summary>
@@ -63,17 +63,17 @@ public class VltClass<TKey> where TKey : struct, IKey<TKey>
     public bool HasField(string name) => HasField(TKey.FromString(name));
 
     /// <summary>
-    /// Finds the field with the given key in the class.
+    /// Finds the field with a particular key.
     /// </summary>
     /// <param name="key">The key of the field to find.</param>
-    /// <returns>The <see cref="VltClassField"/> instance for the field.</returns>
+    /// <returns>The field with the given key.</returns>
     public VltClassField<TKey> this[TKey key] => FindField(key);
 
     /// <summary>
-    /// Finds the field with the given key in the class.
+    /// Finds the field with a particular key.
     /// </summary>
     /// <param name="key">The key of the field to find.</param>
-    /// <returns>The <see cref="VltClassField"/> instance for the field.</returns>
+    /// <returns>The field with the given key.</returns>
     public VltClassField<TKey> FindField(TKey key) => Fields[key];
 
     /// <summary>
@@ -87,7 +87,7 @@ public class VltClass<TKey> where TKey : struct, IKey<TKey>
     /// Returns the field with the given key, if it exists.
     /// </summary>
     /// <param name="key">The key to search for</param>
-    /// <param name="field">A reference to a <see cref="VltClassField"/> that will be populated.</param>
+    /// <param name="field">A reference to a <see cref="VltClassField{TKey}"/> that will be populated.</param>
     /// <returns><c>true</c> if a field was found; otherwise, <c>false</c></returns>
     public bool TryGetField(TKey key, out VltClassField<TKey> field) => Fields.TryGetValue(key, out field);
 

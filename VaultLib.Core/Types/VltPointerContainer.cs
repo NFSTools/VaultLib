@@ -11,6 +11,7 @@ namespace VaultLib.Core.Types;
 /// <summary>
 ///     Helper class for reading data types through a pointer
 /// </summary>
+/// <typeparam name="TKey"></typeparam>
 /// <typeparam name="TItem"></typeparam>
 public class VltPointerContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : struct, IKey<TKey>
 {
