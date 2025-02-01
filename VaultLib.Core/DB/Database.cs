@@ -91,9 +91,8 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
 
     public Vault<TKey> LoadVault(VaultReadWrapper readWrapper)
     {
-        var vault = new Vault<TKey>(readWrapper.VaultName)
+        var vault = new Vault<TKey>(this, readWrapper.VaultName)
         {
-            Database = this,
             ByteOrder = readWrapper.ByteOrder
         };
 

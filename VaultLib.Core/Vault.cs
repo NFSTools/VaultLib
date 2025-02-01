@@ -15,8 +15,9 @@ namespace VaultLib.Core;
 /// </summary>
 public class Vault<TKey> where TKey : struct, IKey<TKey>
 {
-    public Vault(string name)
+    public Vault(Database<TKey> database, string name)
     {
+        Database = database;
         Name = name;
         Exports = new List<BaseExport<TKey>>();
     }
@@ -25,7 +26,7 @@ public class Vault<TKey> where TKey : struct, IKey<TKey>
     ///     The name of the vault.
     /// </summary>
     public string Name { get; }
-        
+
     public ulong Version { get; set; }
 
     /// <summary>
@@ -36,7 +37,7 @@ public class Vault<TKey> where TKey : struct, IKey<TKey>
     /// <summary>
     ///     The database that has this vault
     /// </summary>
-    public Database<TKey> Database { get; set; }
+    public Database<TKey> Database { get; }
 
     /// <summary>
     /// This is set to <c>true</c> if this vault is the "primary" vault - the one with class definitions
