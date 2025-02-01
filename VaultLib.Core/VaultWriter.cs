@@ -133,7 +133,7 @@ public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
 
         var exportChunk = new VltExportChunk<TKey>(dataChunk.ExportEntries);
         cw.WriteChunk(exportChunk);
-        var binWriter = new SpyingBinaryWriter(BinStream);
+        var binWriter = new BinaryWriter(BinStream);
 
         foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject<TKey>>())
             pointerObject.WritePointerData(_writeContext, binWriter);
