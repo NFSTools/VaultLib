@@ -19,12 +19,6 @@ public abstract class BaseManyToOneIndex<TIndexKey, TIndexValue> : VltBaseType<K
 {
     protected record IndexEntry(TIndexKey Key, List<TIndexValue> Values);
 
-    public enum TreeNodeType
-    {
-        ChildKeys,
-        ParentKey
-    }
-
     private long _valsDst;
     private long _valsPointer;
     private long _indicesDst;
@@ -34,15 +28,6 @@ public abstract class BaseManyToOneIndex<TIndexKey, TIndexValue> : VltBaseType<K
     private long _countDst;
     private long _keysDst;
     private long _keysPointer;
-
-    /// <summary>
-    /// Gets or sets a value indicating the type of data stored in the tree.
-    /// </summary>
-    public TreeNodeType NodeType { get; set; }
-
-    // internal List<uint> Keys { get; private set; }
-    // internal List<uint> Values { get; private set; }
-    // internal List<(int Index, int Count)> Indices { get; private set; }
 
     public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryReader br)
@@ -70,12 +55,6 @@ public abstract class BaseManyToOneIndex<TIndexKey, TIndexValue> : VltBaseType<K
     {
         br.BaseStream.Position = _keysPointer;
 
-
-        // Keys = new List<uint>();
-        // for (var i = 0; i < _count; i++)
-        // {
-        //     Keys.Add(br.ReadUInt32());
-        // }
         var keys = ReadKeys(context, fieldContext, br, _count);
 
         var sortedKeys = keys.OrderBy(x => x);
@@ -113,13 +92,6 @@ public abstract class BaseManyToOneIndex<TIndexKey, TIndexValue> : VltBaseType<K
     public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryWriter bw)
     {
-        // var entries = NodeType switch
-        // {
-        //     TreeNodeType.ChildKeys => GetChildKeyEntries(context, fieldContext),
-        //     TreeNodeType.ParentKey => GetParentKeyEntries(context, fieldContext),
-        //     _ => throw new Exception("Unknown TreeNodeType")
-        // };
-
         var entries = GenerateIndex(context, fieldContext);
         var sortedEntries = entries.OrderBy(x => x.Key).ToList();
 
@@ -146,26 +118,6 @@ public abstract class BaseManyToOneIndex<TIndexKey, TIndexValue> : VltBaseType<K
         _valsDst = bw.BaseStream.Position;
         var values = sortedEntries.SelectMany(e => e.Values);
         WriteValues(context, fieldContext, bw, values);
-    }
-
-    private static List<(Key32 Key, List<Key32> Values)> GetParentKeyEntries(VaultWriteContext<Key32> context,
-        FieldReadWriteContext<Key32> fieldContext)
-    {
-        return context.Database.RowManager.EnumerateCollections(fieldContext.Class.Key)
-            .Select(c => (c.Key, c.Parent?.Key ?? Key32.Zero))
-            .Select(c => (c.Item1, new List<Key32> { c.Item2 }))
-            .ToList();
-    }
-
-    private static List<(Key32 Key, List<Key32> Values)> GetChildKeyEntries(VaultWriteContext<Key32> context,
-        FieldReadWriteContext<Key32> fieldContext)
-    {
-        var collectionsGroupedByParent = context.Database.RowManager.EnumerateCollections(fieldContext.Class.Key)
-            .GroupBy(c => c.Parent?.Key ?? Key32.Zero);
-
-        return collectionsGroupedByParent
-            .Select(g => (g.Key, g.Select(c => c.Key).ToList()))
-            .ToList();
     }
 
     public void AddPointers(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext)
