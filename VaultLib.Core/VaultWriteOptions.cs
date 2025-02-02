@@ -29,6 +29,12 @@ public class VaultWriteQuirks
     /// When set to true, the <see cref="EndChunk{TKey}"/> will be written to the BIN stream.
     /// </summary>
     public bool EnableBinEndChunk { get; set; }
+
+    /// <summary>
+    /// When set to <c>true</c>, the <see cref="EndChunk{TKey}"/> will be written to the VLT stream.
+    /// </summary>
+    /// <remarks>Set to <c>true</c> by default.</remarks>
+    public bool EnableVltEndChunk { get; set; } = true;
 }
 
 /// <summary>

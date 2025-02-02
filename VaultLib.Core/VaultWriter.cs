@@ -134,8 +134,12 @@ public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
 
         var pointersChunk = new VltPointersChunk<TKey>();
         cw.WriteChunk(pointersChunk);
-        var endChunk = new EndChunk<TKey>();
-        cw.WriteChunk(endChunk);
+
+        if (_writeContext.Options.Quirks.EnableVltEndChunk)
+        {
+            var endChunk = new EndChunk<TKey>();
+            cw.WriteChunk(endChunk);
+        }
 
         return ms;
     }
