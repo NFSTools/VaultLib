@@ -30,7 +30,7 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
     /// <summary>
     /// Gets the collection's parent.
     /// </summary>
-    public VltCollection<TKey> Parent { get; private set; }
+    public VltCollection<TKey>? Parent { get; private set; }
 
     /// <summary>
     /// Gets the collection's data table.
@@ -158,7 +158,7 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
     /// <exception cref="KeyNotFoundException">If there is no value mapped to the given key.</exception>
     public T GetRawValue<T>(TKey key)
     {
-        if (!Data.TryGetValue(key, out T data))
+        if (!Data.TryGetValue<T>(key, out var data))
             throw new KeyNotFoundException($"Collection does not have a value for field {key}");
         return data;
     }
@@ -253,7 +253,7 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
     /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
     /// <param name="index"></param>
     /// <param name="data">The mapping value.</param>
-    public void SetRawValue<T>(TKey key, int index, T data)
+    public void SetRawValue<T>(TKey key, int index, T data) where T : notnull
     {
         var array = GetRawValue<VltArrayType<TKey>>(key);
 
@@ -276,7 +276,7 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
     /// <param name="key">The mapping key. (Typically the VLT field name.)</param>
     /// <param name="index"></param>
     /// <param name="data">The mapping value.</param>
-    public void SetRawValue<T>(string key, int index, T data)
+    public void SetRawValue<T>(string key, int index, T data) where T : notnull
     {
         SetRawValue(TKey.FromString(key), index, data);
     }

@@ -308,13 +308,7 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
     {
         while (chunkReader.Reader.BaseStream.Position < chunkReader.Reader.BaseStream.Length)
         {
-            Chunks.ChunkBase<TKey> chunk = chunkReader.NextChunk();
-
-            if (chunk == null)
-            {
-                break;
-            }
-
+            var chunk = chunkReader.NextChunk();
             chunk.Read(context, chunkReader.Reader);
             chunk.GoToEnd(chunkReader.Reader.BaseStream);
         }

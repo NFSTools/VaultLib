@@ -3,6 +3,7 @@
 // Created: 09/25/2019 @ 7:21 AM.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using VaultLib.Core.DataInterfaces;
 
@@ -89,7 +90,8 @@ public class VltClass<TKey> where TKey : struct, IKey<TKey>
     /// <param name="key">The key to search for</param>
     /// <param name="field">A reference to a <see cref="VltClassField{TKey}"/> that will be populated.</param>
     /// <returns><c>true</c> if a field was found; otherwise, <c>false</c></returns>
-    public bool TryGetField(TKey key, out VltClassField<TKey> field) => Fields.TryGetValue(key, out field);
+    public bool TryGetField(TKey key, [NotNullWhen(true)] out VltClassField<TKey>? field) =>
+        Fields.TryGetValue(key, out field);
 
     /// <summary>
     /// Returns the field with the given name, if it exists.
@@ -97,7 +99,7 @@ public class VltClass<TKey> where TKey : struct, IKey<TKey>
     /// <param name="name">The name to search for</param>
     /// <param name="field">A reference to a <see cref="VltClassField{TKey}"/> that will be populated.</param>
     /// <returns><c>true</c> if a field was found; otherwise, <c>false</c></returns>
-    public bool TryGetField(string name, out VltClassField<TKey> field)
+    public bool TryGetField(string name, [NotNullWhen(true)] out VltClassField<TKey>? field)
     {
         return TryGetField(TKey.FromString(name), out field);
     }

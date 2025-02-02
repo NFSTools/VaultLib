@@ -18,7 +18,7 @@ public class GameplayVaultPack : IVaultPack
         _name = name;
     }
 
-    public void Save<TKey>(BinaryWriter bw, IList<Vault<TKey>> vaults, PackSavingOptions savingOptions = null)
+    public void Save<TKey>(BinaryWriter bw, IList<Vault<TKey>> vaults, PackSavingOptions? savingOptions = null)
         where TKey : struct, IKey<TKey>
     {
         if (vaults.Count != 1) throw new InvalidDataException("Can only save exactly 1 vault");
@@ -64,7 +64,7 @@ public class GameplayVaultPack : IVaultPack
     }
 
     public IList<Vault<TKey>> Load<TKey>(BinaryReader br, Database<TKey> database,
-        PackLoadingOptions loadingOptions) where TKey : struct, IKey<TKey>
+        PackLoadingOptions? loadingOptions) where TKey : struct, IKey<TKey>
     {
         var name = new string(br.ReadChars(0x2C)).Trim('\0');
 

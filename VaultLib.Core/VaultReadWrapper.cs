@@ -29,7 +29,7 @@ public class VaultReadWrapper : IDisposable
 
     public void Dispose()
     {
-        BinStream?.Dispose();
-        VltStream?.Dispose();
+        BinStream.Dispose();
+        VltStream.Dispose();
     }
 }

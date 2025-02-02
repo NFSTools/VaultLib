@@ -2,7 +2,6 @@
 // 
 // Created: 10/31/2019 @ 10:01 PM.
 
-using System.Reflection;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
@@ -20,7 +19,7 @@ public class ModuleDef : BaseGameModule<Key32>
     public override void RegisterTypes(TypeRegistry<Key32> typeRegistry)
     {
         SpeedFramework.Register(typeRegistry);
-        typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
+        typeRegistry.RegisterAssemblyTypes(typeof(ModuleDef).Assembly);
         typeRegistry.Register<StringKey32>("Attrib::StringKey");
         typeRegistry.AddFieldOverride<CollectionNameToChildrenIndex>("aud_moment", "IndexTable_CollectionName");
         typeRegistry.AddFieldOverride<CollectionNameToParentIndex>("speech", "IndexTable_CollectionName");

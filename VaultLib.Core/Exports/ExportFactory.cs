@@ -22,7 +22,7 @@ public class ExportFactory<TKey> where TKey : struct, IKey<TKey>
 
     public ExportFactory(Func<BaseDatabaseLoad<TKey>> databaseLoadFactory,
         Func<BaseClassLoad<TKey>> classLoadFactory, Func<BaseCollectionLoad<TKey>> collectionLoadFactory,
-        Func<IExportEntry<TKey>> exportEntryFactory, Func<IPtrRef<TKey>> ptrRefFactory = null)
+        Func<IExportEntry<TKey>> exportEntryFactory, Func<IPtrRef<TKey>>? ptrRefFactory = null)
     {
         _databaseLoadFactory = databaseLoadFactory;
         _classLoadFactory = classLoadFactory;

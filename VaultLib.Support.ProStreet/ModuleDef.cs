@@ -2,7 +2,6 @@
 // 
 // Created: 10/31/2019 @ 9:54 PM.
 
-using System.Reflection;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
@@ -20,7 +19,7 @@ public class ModuleDef : BaseGameModule<Key32>
     {
         typeRegistry.Register<StringKey32>("Attrib::StringKey");
         SpeedFramework.Register(typeRegistry);
-        typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef)));
+        typeRegistry.RegisterAssemblyTypes(typeof(ModuleDef).Assembly);
     }
 
     public override ExportFactory<Key32> CreateExportFactory()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using VaultLib.Core.DataInterfaces;
 
 namespace VaultLib.Core.Data;
@@ -38,8 +39,6 @@ public class VltDataTable<TKey> where TKey : struct, IKey<TKey>
         return _entryLookup[key];
     }
 
-    public bool TryGetValue(TKey key, out object value) => _entryLookup.TryGetValue(key, out value);
-
     public T GetValue<T>(TKey key)
     {
         var val = _entryLookup[key];
@@ -49,7 +48,7 @@ public class VltDataTable<TKey> where TKey : struct, IKey<TKey>
                 $"Type mismatch for key {key}: actual type is {val.GetType()}, requested type is {typeof(T)}");
     }
 
-    public bool TryGetValue<T>(TKey key, out T value)
+    public bool TryGetValue<T>(TKey key, [NotNullWhen(true)] out T? value)
     {
         if (!_entryLookup.TryGetValue(key, out var val))
         {

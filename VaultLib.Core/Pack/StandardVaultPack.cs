@@ -19,7 +19,7 @@ namespace VaultLib.Core.Pack;
 /// </summary>
 public class StandardVaultPack : IVaultPack
 {
-    public IList<Vault<TKey>> Load<TKey>(BinaryReader br, Database<TKey> database, PackLoadingOptions loadingOptions)
+    public IList<Vault<TKey>> Load<TKey>(BinaryReader br, Database<TKey> database, PackLoadingOptions? loadingOptions)
         where TKey : struct, IKey<TKey>
     {
         ByteOrder byteOrder = loadingOptions?.ByteOrder ?? ByteOrder.Little;
@@ -66,7 +66,7 @@ public class StandardVaultPack : IVaultPack
         return vaults;
     }
 
-    public void Save<TKey>(BinaryWriter bw, IList<Vault<TKey>> vaults, PackSavingOptions savingOptions = null)
+    public void Save<TKey>(BinaryWriter bw, IList<Vault<TKey>> vaults, PackSavingOptions? savingOptions = null)
         where TKey : struct, IKey<TKey>
     {
         var filteredAndSortedVaults =

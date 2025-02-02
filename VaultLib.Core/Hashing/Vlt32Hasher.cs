@@ -2,7 +2,7 @@ namespace VaultLib.Core.Hashing;
 
 public static class Vlt32Hasher
 {
-    public static uint Hash(string k, uint init = 0xABCDEF00, bool returnZeroForEmpty = true)
+    public static uint Hash(string? k, uint init = 0xABCDEF00, bool returnZeroForEmpty = true)
     {
         if (string.IsNullOrEmpty(k) && (k == null || returnZeroForEmpty))
             return 0;

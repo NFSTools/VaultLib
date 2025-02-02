@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using VaultLib.Core;
+﻿using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
@@ -16,7 +15,7 @@ public class ModuleDef32 : BaseGameModule<Key32>
     {
         typeRegistry.Register<StringKey32>("Attrib::StringKey");
         SpeedFramework.Register(typeRegistry);
-        typeRegistry.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(ModuleDef32)));
+        typeRegistry.RegisterAssemblyTypes(typeof(ModuleDef32).Assembly);
     }
 
     public override ExportFactory<Key32> CreateExportFactory()

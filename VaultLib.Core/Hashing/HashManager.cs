@@ -7,7 +7,6 @@ using System.IO;
 
 namespace VaultLib.Core.Hashing;
 
-#nullable enable
 public static class HashManager
 {
     private static readonly Dictionary<uint, string> VltHashDictionary = new Dictionary<uint, string>();

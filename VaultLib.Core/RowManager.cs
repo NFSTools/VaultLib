@@ -104,7 +104,7 @@ public class RowManager<TKey> where TKey : struct, IKey<TKey>
     /// <param name="classKey">The class name to search in</param>
     /// <param name="collectionKey">The collection name to search for</param>
     /// <returns>The collection, if one is found, or null</returns>
-    public VltCollection<TKey> FindCollection(TKey classKey, TKey collectionKey)
+    public VltCollection<TKey>? FindCollection(TKey classKey, TKey collectionKey)
     {
         return EnumerateCollections(classKey).FirstOrDefault(collection => collection.Key == collectionKey);
     }
@@ -115,7 +115,7 @@ public class RowManager<TKey> where TKey : struct, IKey<TKey>
     /// <param name="className">The class name to search in</param>
     /// <param name="collectionName">The collection name to search for</param>
     /// <returns>The collection, if one is found, or null</returns>
-    public VltCollection<TKey> FindCollection(string className, string collectionName)
+    public VltCollection<TKey>? FindCollection(string className, string collectionName)
     {
         return FindCollection(TKey.FromString(className), TKey.FromString(collectionName));
     }
@@ -130,7 +130,7 @@ public class RowManager<TKey> where TKey : struct, IKey<TKey>
     /// <param name="parentCollection">The parent collection, if one is necessary.</param>
     /// <returns>The new collection</returns>
     public VltCollection<TKey> AddCollection(Vault<TKey> vault, TKey classKey, TKey key,
-        VltCollection<TKey> parentCollection = null)
+        VltCollection<TKey>? parentCollection = null)
     {
         if (FindCollection(classKey, key) != null)
             throw new DuplicateNameException("The specified key is already in use by another collection");
@@ -153,7 +153,7 @@ public class RowManager<TKey> where TKey : struct, IKey<TKey>
     /// <param name="parentCollection">The parent collection, if one is necessary.</param>
     /// <returns>The new collection</returns>
     public VltCollection<TKey> AddCollection(Vault<TKey> vault, string className, string name,
-        VltCollection<TKey> parentCollection = null)
+        VltCollection<TKey>? parentCollection = null)
     {
         return AddCollection(vault, TKey.FromString(className), TKey.FromString(name), parentCollection);
     }

@@ -57,7 +57,7 @@ public class VltClassField<TKey> where TKey : struct, IKey<TKey>
     /// <summary>
     /// Gets or sets the static value of the field.
     /// </summary>
-    public object StaticValue { get; set; }
+    public object? StaticValue { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VltClassField{TKey}"/> class.

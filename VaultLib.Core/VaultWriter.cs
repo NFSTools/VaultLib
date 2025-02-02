@@ -28,13 +28,7 @@ public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
         Vault = vault;
         Options = options;
 
-        _writeContext = new VaultWriteContext<TKey>(vault, options)
-        {
-            Collections = vault.Database.RowManager.GetCollectionsInVault(vault).ToList(),
-            Pointers = new HashSet<VltPointer>(VltPointer.FixUpOffsetDestinationTypeComparer),
-            Strings = new HashSet<string>(),
-            StringOffsets = new Dictionary<string, long>()
-        };
+        _writeContext = new VaultWriteContext<TKey>(vault, options);
 
         ExportManager = new VaultExportManager<TKey>(_writeContext);
         ExportManager.BuildVaultExports();
@@ -63,21 +57,18 @@ public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
     {
         ExportManager.PrepareExports();
 
-        BinStream = BuildBinStream();
-        VltStream = BuildVltStream();
+        var binStream = BuildBinStream();
+        var vltStream = BuildVltStream(binStream);
 
-        BinStream.Position = VltStream.Position = 0;
-        
-        Debug.WriteLine("[OUT] vault {0}: bin size 0x{1:X} vlt size 0x{2:X}", Vault.Name, BinStream.Length,
-            VltStream.Length);
+        binStream.Position = vltStream.Position = 0;
 
-        return new VaultStreamInfo(BinStream, VltStream);
+        Debug.WriteLine("[OUT] vault {0}: bin size 0x{1:X} vlt size 0x{2:X}", Vault.Name, binStream.Length,
+            vltStream.Length);
+
+        return new VaultStreamInfo(binStream, vltStream);
     }
 
     #region Internal Implementation
-
-    private Stream BinStream { get; set; }
-    private Stream VltStream { get; set; }
 
     private Stream BuildBinStream()
     {
@@ -101,7 +92,7 @@ public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
         return ms;
     }
 
-    private Stream BuildVltStream()
+    private Stream BuildVltStream(Stream binStream)
     {
         MemoryStream ms = new MemoryStream(8192);
         BinaryWriter bw = new BinaryWriter(ms);
@@ -133,7 +124,7 @@ public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
 
         var exportChunk = new VltExportChunk<TKey>(dataChunk.ExportEntries);
         cw.WriteChunk(exportChunk);
-        var binWriter = new BinaryWriter(BinStream);
+        var binWriter = new BinaryWriter(binStream);
 
         foreach (var pointerObject in ExportManager.GetExports().OfType<IPointerObject<TKey>>())
             pointerObject.WritePointerData(_writeContext, binWriter);

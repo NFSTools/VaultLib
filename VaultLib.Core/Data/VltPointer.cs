@@ -30,7 +30,7 @@ public class VltPointer
 
     private sealed class FixUpOffsetDestinationTypeEqualityComparer : IEqualityComparer<VltPointer>
     {
-        public bool Equals(VltPointer x, VltPointer y)
+        public bool Equals(VltPointer? x, VltPointer? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;

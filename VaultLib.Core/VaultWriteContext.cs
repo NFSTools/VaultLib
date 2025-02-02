@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
@@ -55,6 +56,10 @@ public class VaultWriteContext<TKey> where TKey : struct, IKey<TKey>
         Database = vault.Database;
         Vault = vault;
         Options = options;
+        Collections = vault.Database.RowManager.GetCollectionsInVault(vault).ToList();
+        Pointers = new HashSet<VltPointer>(VltPointer.FixUpOffsetDestinationTypeComparer);
+        Strings = new HashSet<string>();
+        StringOffsets = new Dictionary<string, long>();
     }
 
     /// <summary>
