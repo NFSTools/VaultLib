@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using CoreLibraries.IO;
@@ -33,9 +35,9 @@ public class ClassLoad64 : BaseClassLoad<Key64>
         br.ReadInt32();
         NumDefinitions = br.ReadInt32();
         _definitionsPtr = br.ReadPointer();
-        br.ReadUInt32(); // static size
+        var staticSize = br.ReadUInt32(); // static size
         _staticDataPtr = br.ReadPointer();
-        uint layoutSize = br.ReadUInt32(); // Total size of required fields
+        var layoutSize = br.ReadUInt32(); // Total size of required fields
         br.ReadUInt16(); // can be 0
         br.ReadUInt16(); // Number of required fields
         br.ReadUInt32(); // align
@@ -45,7 +47,11 @@ public class ClassLoad64 : BaseClassLoad<Key64>
             throw new InvalidDataException("Definitions pointer is NULL, this is not good!");
         }
 
-        Class = new VltClass<Key64>(new Key64(ClassHash));
+        Class = new VltClass<Key64>(new Key64(ClassHash))
+        {
+            LayoutSize = layoutSize,
+            StaticSize = staticSize,
+        };
     }
 
     public override void Write(VaultWriteContext<Key64> context, BinaryWriter bw)
@@ -59,17 +65,16 @@ public class ClassLoad64 : BaseClassLoad<Key64>
         bw.Write(Class.Fields.Count);
         _srcDefinitionsPtr = bw.BaseStream.Position;
         bw.Write(0);
-        int staticSize = ComputeStaticSize();
-        bw.Write(staticSize);
+        bw.Write(Class.StaticSize);
 
-        if (staticSize > 0)
+        if (Class.StaticSize > 0)
         {
             _srcStaticPtr = bw.BaseStream.Position;
         }
 
         bw.Write(0);
 
-        bw.Write(ComputeBaseSize());
+        bw.Write(Class.LayoutSize);
         bw.Write((ushort)0);
         bw.Write((ushort)Class.BaseFields.Count());
         bw.Write(0); // align
@@ -95,17 +100,6 @@ public class ClassLoad64 : BaseClassLoad<Key64>
                 definition.Offset);
 
             Class.Fields.Add(definition.Key, field);
-            //VltClassField field = new VltClassField();
-            //field.Key = definition.Key;
-            //field.Name = HashManager.ResolveVLT(definition.Key);
-            //field.TypeName = HashManager.ResolveVLT(definition.Type);
-            //field.Flags = definition.Flags;
-            //field.Size = definition.Size;
-            //field.MaxCount = definition.MaxCount;
-            //field.Offset = definition.Offset;
-            //field.Alignment = definition.Alignment;
-
-            //Class.Fields.Add(definition.Key, field);
         }
 
         if (_staticDataPtr != 0)
@@ -115,11 +109,19 @@ public class ClassLoad64 : BaseClassLoad<Key64>
             foreach (var staticField in Class.StaticFields)
             {
                 br.SafeAlignReader(staticField.Alignment);
+
                 var fieldContext = new FieldReadWriteContext<Key64>(Class, staticField, null);
                 var staticData =
                     context.Database.TypeRegistry.ReadFieldValue(context, fieldContext,
                         br);
                 staticField.StaticValue = staticData;
+            }
+
+            var staticEndPos = br.BaseStream.Position;
+
+            if (staticEndPos - _staticDataPtr > Class.StaticSize)
+            {
+                throw new Exception("read too much static data, something went wrong!");
             }
         }
 
@@ -137,25 +139,26 @@ public class ClassLoad64 : BaseClassLoad<Key64>
 
     public override void WritePointerData(VaultWriteContext<Key64> context, BinaryWriter bw)
     {
+        bw.AlignWriter(8);
         _dstDefinitionsPtr = bw.BaseStream.Position;
 
         foreach (var (_, field) in Class.Fields.OrderBy(f => f.Key))
         {
-            AttribDefinition64 definition = new AttribDefinition64();
-            definition.Key = field.Key;
-            definition.Alignment = field.Alignment;
-            definition.Flags = field.Flags;
-            definition.MaxCount = field.MaxCount;
-            definition.Offset = field.Offset;
-            definition.Size = field.Size;
-            definition.Type = field.TypeKey;
+            var definition = new AttribDefinition64
+            {
+                Key = field.Key,
+                Alignment = field.Alignment,
+                Flags = field.Flags,
+                MaxCount = field.MaxCount,
+                Offset = field.Offset,
+                Size = field.Size,
+                Type = field.TypeKey
+            };
             definition.Write(context, bw);
         }
 
         if (_srcStaticPtr != 0)
         {
-            bw.AlignWriter(0x10);
-
             _dstStaticPtr = bw.BaseStream.Position;
 
             foreach (var staticField in Class.StaticFields)
@@ -164,6 +167,21 @@ public class ClassLoad64 : BaseClassLoad<Key64>
                 var fieldContext = new FieldReadWriteContext<Key64>(Class, staticField, null);
                 context.Database.TypeRegistry.WriteFieldValue(staticField.StaticValue, context,
                     fieldContext, bw);
+            }
+
+            var staticEndPos = bw.BaseStream.Position;
+            var actualStaticSize = (int)(staticEndPos - _dstStaticPtr);
+            var configuredStaticSize = (int)Class.StaticSize;
+
+            if (actualStaticSize > configuredStaticSize)
+            {
+                throw new Exception("wrote too much static data");
+            }
+
+            if (actualStaticSize < configuredStaticSize)
+            {
+                var remaining = configuredStaticSize - actualStaticSize;
+                bw.Write(new byte[remaining]);
             }
 
             foreach (var staticField in Class.StaticFields)
@@ -194,46 +212,5 @@ public class ClassLoad64 : BaseClassLoad<Key64>
                 }
             }
         }
-    }
-
-    private int ComputeStaticSize()
-    {
-        int staticSize = 0;
-
-        foreach (var vltClassField in Class.StaticFields)
-        {
-            if (staticSize % vltClassField.Alignment != 0)
-            {
-                staticSize += vltClassField.Alignment - staticSize % vltClassField.Alignment;
-            }
-
-            staticSize += vltClassField.Size;
-        }
-
-        return staticSize;
-    }
-
-    private int ComputeBaseSize()
-    {
-        int rfs = 0;
-        foreach (var baseField in Class.BaseFields)
-        {
-            if (rfs % baseField.Alignment != 0)
-            {
-                rfs += baseField.Alignment - rfs % baseField.Alignment;
-            }
-
-            if ((baseField.Flags & DefinitionFlags.Array) != 0)
-            {
-                rfs += 8;
-                rfs += baseField.Size * baseField.MaxCount;
-            }
-            else
-            {
-                rfs += baseField.Size;
-            }
-        }
-
-        return rfs;
     }
 }
