@@ -35,7 +35,7 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
         Types = new List<DatabaseTypeInfo>();
         Vaults = new List<Vault<TKey>>();
         RowManager = new RowManager<TKey>(this);
-        TypeRegistry = new TypeRegistry<TKey>();
+        TypeRegistry = new TypeRegistry<TKey>(this);
         ExportFactory = exportFactory;
     }
 

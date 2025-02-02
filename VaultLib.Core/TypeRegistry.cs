@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
+using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -23,6 +24,7 @@ namespace VaultLib.Core;
 /// </summary>
 public class TypeRegistry<TKey> where TKey : struct, IKey<TKey>
 {
+    private readonly Database<TKey> _database;
     private readonly Dictionary<(TKey, TKey), Type> _fieldOverrides = new();
     private readonly Dictionary<TKey, Type> _typeDictionary = new();
 
@@ -45,9 +47,11 @@ public class TypeRegistry<TKey> where TKey : struct, IKey<TKey>
     /// <summary>
     ///     Initializes the type registry. Registers some default types.
     /// </summary>
-    public TypeRegistry()
+    public TypeRegistry(Database<TKey> database)
     {
-        RegisterAssemblyTypes(Assembly.GetAssembly(typeof(TypeRegistry<>)));
+        _database = database;
+
+        RegisterAssemblyTypes(typeof(TypeRegistry<>).Assembly);
 
         RegisterPrimitive<bool>("EA::Reflection::Bool", r => r.ReadByte() != 0,
             (v, w) => w.Write(v ? (byte)1 : (byte)0));
@@ -425,6 +429,11 @@ Any user-defined struct type that contains fields of unmanaged types only.
     {
         if (_typeDictionary.TryGetValue(key, out var type))
             return type;
+
+        var dbType = _database.Types.Find(t => TKey.FromString(t.Name) == key);
+
+        if (dbType != null)
+            throw new KeyNotFoundException($"Type {dbType.Name} (key: {key}) is not registered");
 
         throw new KeyNotFoundException($"Type {key} is not registered");
     }
