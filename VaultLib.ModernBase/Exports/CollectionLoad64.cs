@@ -3,25 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
-using VaultLib.Core.Exports;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.ModernBase.Exports;
 
-public class CollectionLoad64 : BaseCollectionLoad<Key64>
+public class CollectionLoad64 : ModernCollectionLoadBase<Key64, AttribEntry64>
 {
-    private uint _layoutPointer;
-    private Key64[] _types;
-    private List<AttribEntry64> _entries;
-
-    private long _srcLayoutPtr;
-    private long _dstLayoutPtr;
-
     public override void Read(VaultReadContext<Key64> context, BinaryReader br)
     {
         var mKey = br.ReadUInt64();
@@ -32,7 +23,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
         var mNumEntries = br.ReadUInt32();
         var mNumTypes = br.ReadUInt16();
         var mTypesLen = br.ReadUInt16();
-        _layoutPointer = br.ReadPointer();
+        LayoutPointer = br.ReadPointer();
         br.ReadUInt32();
 
         Debug.Assert(mTableReserve == mNumEntries);
@@ -42,10 +33,10 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
 
         Debug.Assert(mTypesLen >= mNumTypes);
 
-        _types = new Key64[mNumTypes];
+        Types = new Key64[mNumTypes];
         for (var i = 0; i < mNumTypes; i++)
         {
-            _types[i] = Key64.Read(br);
+            Types[i] = Key64.Read(br);
         }
 
         for (var i = 0; i < mTypesLen - mNumTypes; i++)
@@ -53,7 +44,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
             br.ReadUInt64();
         }
 
-        _entries = new List<AttribEntry64>();
+        Entries = new List<AttribEntry64>();
 
         for (var i = 0; i < mNumEntries; i++)
         {
@@ -71,11 +62,10 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
                 continue;
             }
 
-            _entries.Add(attribEntry);
+            Entries.Add(attribEntry);
         }
 
-        // TODO: ParentKey
-        //Collection.ParentKey = mParent;
+        ParentKey = new Key64(mParent);
         context.Database.RowManager.AddCollection(Collection);
     }
 
@@ -86,8 +76,8 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
             where !field.IsInLayout
             select pair).ToList();
 
-        _entries = new List<AttribEntry64>();
-        _types = Collection.Class.BaseFields.Select(f => f.TypeKey)
+        Entries = new List<AttribEntry64>();
+        Types = Collection.Class.BaseFields.Select(f => f.TypeKey)
             .Concat(optionalDataColumns.Select(c => Collection.Class[c.Key].TypeKey))
             .Distinct().ToArray();
 
@@ -98,7 +88,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
             var vltClassField = Collection.Class[optionalDataColumn.Key];
 
             entry.Key = optionalDataColumn.Key;
-            entry.TypeIndex = (ushort)Array.IndexOf(_types,
+            entry.TypeIndex = (ushort)Array.IndexOf(Types,
                 vltClassField.TypeKey);
             entry.EntryFlags = 0;
             entry.NodeFlags = NodeFlagsEnum.Default;
@@ -125,7 +115,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
                 entry.NodeFlags |= NodeFlagsEnum.HasHandler;
             }
 
-            _entries.Add(entry);
+            Entries.Add(entry);
         }
     }
 
@@ -134,20 +124,20 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
         bw.Write(Collection.Key.Hash);
         bw.Write(Collection.Class.Key.Hash);
         bw.Write(Collection.Parent?.Key.Hash ?? 0);
-        bw.Write(_entries.Count);
+        bw.Write(Entries.Count);
         bw.Write(0);
-        bw.Write(_entries.Count);
+        bw.Write(Entries.Count);
 
-        ushort numTypes = (ushort)_types.Length;
+        ushort numTypes = (ushort)Types.Length;
         ushort typesLen = (ushort)(numTypes % 2 == 0 ? numTypes : numTypes + 1);
 
         bw.Write(numTypes);
         bw.Write(typesLen);
-        _srcLayoutPtr = bw.BaseStream.Position;
+        SourceLayoutPointer = bw.BaseStream.Position;
         bw.Write(0);
         bw.Write(0); // align
 
-        foreach (var type in _types)
+        foreach (var type in Types)
         {
             type.Write(bw);
         }
@@ -155,7 +145,7 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
         if (typesLen != numTypes)
             bw.Write(0L);
 
-        foreach (var attribEntry in _entries)
+        foreach (var attribEntry in Entries)
         {
             attribEntry.Write(context, bw);
         }
@@ -166,178 +156,5 @@ public class CollectionLoad64 : BaseCollectionLoad<Key64>
         // TODO: the collection should probably have an ID separate from key.
         return new Key64((Collection.Class.Key.Hash | Collection.Key.Hash));
         // return Key64.FromString($"{Collection.Class.Name}/{Collection.Name}");
-    }
-
-    public override void ReadPointerData(VaultReadContext<Key64> context, BinaryReader br)
-    {
-        if (_layoutPointer != 0)
-        {
-            br.BaseStream.Position = _layoutPointer;
-
-            foreach (var baseField in Collection.Class.BaseFields)
-            {
-                br.SafeAlignReader(baseField.Alignment);
-
-                if (br.BaseStream.Position - _layoutPointer != baseField.Offset)
-                {
-                    throw new Exception(
-                        $"trying to read field {baseField.Key} at offset 0x{br.BaseStream.Position - _layoutPointer:X}, need to be at 0x{baseField.Offset:X}");
-                }
-
-                long startPos = br.BaseStream.Position;
-                var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, baseField, Collection);
-                var data = context.Database.TypeRegistry.ReadFieldValue(context, fieldContext, br);
-                long endPos = br.BaseStream.Position;
-
-                if (!baseField.IsArray && endPos - startPos != baseField.Size)
-                {
-                    throw new Exception($"read {endPos - startPos} bytes, needed to read {baseField.Size}");
-                }
-
-                Collection.SetRawValue(baseField.Key, data);
-                //Collection.Data[baseField.Name] = data;
-            }
-        }
-
-        foreach (var entry in _entries)
-        {
-            var optionalField = Collection.Class[entry.Key];
-            var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, optionalField, Collection);
-
-            if ((optionalField.Flags & DefinitionFlags.IsStatic) != 0)
-            {
-                throw new Exception("Encountered static field as an entry. Processing will not continue.");
-            }
-
-            if ((optionalField.Flags & DefinitionFlags.HasHandler) != 0)
-            {
-                Debug.Assert((entry.NodeFlags & NodeFlagsEnum.HasHandler) ==
-                             NodeFlagsEnum.HasHandler);
-            }
-            else
-            {
-                Debug.Assert((entry.NodeFlags & NodeFlagsEnum.HasHandler) == 0);
-            }
-
-            if ((optionalField.Flags & DefinitionFlags.Array) != 0)
-            {
-                Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsArray) ==
-                             NodeFlagsEnum.IsArray);
-            }
-            else
-            {
-                Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsArray) == 0);
-            }
-
-            if (entry.InlineData is VltAttribType<Key64> attribType)
-            {
-                Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) == 0);
-                attribType.ReadPointerData(context, fieldContext, br);
-                Collection.SetRawValue(optionalField.Key, attribType.Data);
-                //Collection.Data[optionalField.Name] = attribType.Data;
-            }
-            else
-            {
-                Debug.Assert((entry.NodeFlags & NodeFlagsEnum.IsInline) ==
-                             NodeFlagsEnum.IsInline);
-                Collection.SetRawValue(optionalField.Key, entry.InlineData);
-                //Collection.Data[optionalField.Name] = entry.InlineData;
-            }
-        }
-
-        foreach (var dataEntry in Collection.GetData())
-        {
-            var fieldContext =
-                new FieldReadWriteContext<Key64>(Collection.Class, Collection.Class[dataEntry.Key], Collection);
-            if (dataEntry.Value is IVltPointerObject<Key64> vltPointerObject)
-            {
-                vltPointerObject.ReadPointerData(context, fieldContext, br);
-            }
-        }
-    }
-
-    public override void WritePointerData(VaultWriteContext<Key64> context, BinaryWriter bw)
-    {
-        foreach (var baseField in Collection.Class.BaseFields)
-        {
-            var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, baseField, Collection);
-
-            bw.AlignWriter(baseField.Alignment);
-            if (_dstLayoutPtr == 0)
-            {
-                _dstLayoutPtr = bw.BaseStream.Position;
-            }
-
-            if (bw.BaseStream.Position - _dstLayoutPtr != baseField.Offset)
-            {
-                throw new Exception("incorrect offset");
-            }
-
-            var rawValue = Collection.GetRawValue(baseField.Key);
-            context.Database.TypeRegistry.WriteFieldValue(rawValue, context, fieldContext, bw);
-        }
-
-        foreach (var dataPair in Collection.GetData())
-        {
-            var field = Collection.Class[dataPair.Key];
-            var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, field, Collection);
-
-            if (!field.IsInLayout)
-            {
-                var entry = _entries.First(e => e.Key == field.Key);
-
-                if (entry.InlineData is IVltPointerObject<Key64> vltPointerObject)
-                {
-                    bw.AlignWriter(field.Alignment);
-                    vltPointerObject.WritePointerData(context, fieldContext, bw);
-                }
-            }
-            else
-            {
-                if (dataPair.Value is IVltPointerObject<Key64> vltPointerObject)
-                {
-                    bw.AlignWriter(field.Alignment);
-                    vltPointerObject.WritePointerData(context, fieldContext, bw);
-                }
-            }
-        }
-
-        if (Collection.Class.HasBaseFields)
-        {
-            // align to 4 bytes for layout data
-            bw.AlignWriter(4);
-        }
-        else
-        {
-            // there is no layout data but we might still be
-            // in a bad position, so align to 2 bytes
-            bw.AlignWriter(2);
-        }
-    }
-
-    public override void AddPointers(VaultWriteContext<Key64> context)
-    {
-        context.AddPointer(_srcLayoutPtr, _dstLayoutPtr, true);
-
-        foreach (var baseField in Collection.Class.BaseFields)
-        {
-            var fieldContext = new FieldReadWriteContext<Key64>(Collection.Class, baseField, Collection);
-            var rawValue = Collection.GetRawValue(baseField.Key);
-
-            if (rawValue is IVltPointerObject<Key64> vltPointerObject)
-            {
-                vltPointerObject.AddPointers(context, fieldContext);
-            }
-        }
-
-        foreach (var entry in _entries)
-        {
-            var fieldContext =
-                new FieldReadWriteContext<Key64>(Collection.Class, Collection.Class[entry.Key], Collection);
-            if (entry.InlineData is IVltPointerObject<Key64> vltPointerObject)
-            {
-                vltPointerObject.AddPointers(context, fieldContext);
-            }
-        }
     }
 }
