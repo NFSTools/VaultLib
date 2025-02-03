@@ -66,7 +66,7 @@ public class TypeRegistry<TKey> where TKey : struct, IKey<TKey>
         RegisterPrimitive<float>("EA::Reflection::Float", r => r.ReadSingle(), (v, w) => w.Write(v));
 
         AddType("EA::Reflection::Text", typeof(string));
-        _activators[typeof(string)] = _ => null;
+        _activators[typeof(string)] = _ => string.Empty;
         _readers[typeof(string)] = (_, ctx, _, br) => ctx.ReadString(br);
         _writers[typeof(string)] = (s, ctx, fieldCtx, bw) => ctx.WriteString((string)s, fieldCtx, bw);
 
