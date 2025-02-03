@@ -420,9 +420,14 @@ Any user-defined struct type that contains fields of unmanaged types only.
 
     public Type ResolveFieldType(VltClassField<TKey> field)
     {
-        return _fieldOverrides.TryGetValue((field.Class.Key, field.Key), out var type)
+        return ResolveFieldType(field.Class.Key, field.Key, field.TypeKey);
+    }
+    
+    public Type ResolveFieldType(TKey classKey, TKey fieldKey, TKey fieldTypeKey)
+    {
+        return _fieldOverrides.TryGetValue((classKey, fieldKey), out var type)
             ? type
-            : ResolveType(field.TypeKey);
+            : ResolveType(fieldTypeKey);
     }
 
     private Type ResolveType(TKey key)
