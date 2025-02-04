@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Numerics;
+using System.Text;
 using VaultLib.Core.Hashing;
 using VaultLib.Core.Types;
 
@@ -80,6 +82,73 @@ public readonly record struct Key64(ulong Hash) : IKey<Key64>
     }
 
     public int CompareTo(Key64 other)
+    {
+        return Hash.CompareTo(other.Hash);
+    }
+}
+
+[VltTypeInfo("DUMMY_BinKey32")]
+public readonly record struct BinKey32(uint Hash) : IKey<BinKey32>
+{
+    public static BinKey32 Zero => default;
+
+    public static uint Size => sizeof(uint);
+
+    public static BinKey32 FromString(string value)
+    {
+        var bytes = Encoding.UTF8.GetBytes(value);
+        return new BinKey32(bytes.Aggregate(uint.MaxValue, (hash, b) => hash * 33 + b));
+    }
+
+    public static BinKey32 Read(BinaryReader reader)
+    {
+        return new BinKey32(reader.ReadUInt32());
+    }
+
+    public void Write(BinaryWriter writer)
+    {
+        writer.Write(Hash);
+    }
+
+    public override string ToString()
+    {
+        return $"0x{Hash:X8}";
+    }
+
+    public int CompareTo(BinKey32 other)
+    {
+        return Hash.CompareTo(other.Hash);
+    }
+}
+
+[VltTypeInfo("DUMMY_BinKey64")]
+public readonly record struct BinKey64(ulong Hash) : IKey<BinKey64>
+{
+    public static BinKey64 Zero => default;
+    public static uint Size => sizeof(ulong);
+
+    public static BinKey64 FromString(string value)
+    {
+        var bytes = Encoding.UTF8.GetBytes(value);
+        return new BinKey64(bytes.Aggregate(ulong.MaxValue, (hash, b) => hash * 33 + b));
+    }
+
+    public static BinKey64 Read(BinaryReader reader)
+    {
+        return new BinKey64(reader.ReadUInt64());
+    }
+
+    public void Write(BinaryWriter writer)
+    {
+        writer.Write(Hash);
+    }
+
+    public override string ToString()
+    {
+        return $"0x{Hash:X16}";
+    }
+
+    public int CompareTo(BinKey64 other)
     {
         return Hash.CompareTo(other.Hash);
     }
