@@ -30,7 +30,7 @@ public class VltExportChunk<TKey> : ChunkBase<TKey> where TKey : struct, IKey<TK
 
     public override void Read(VaultReadContext<TKey> context, BinaryReader br)
     {
-        var numExports = context.Database.Options.Type == DatabaseType.X64Database ? br.ReadUInt64() : br.ReadUInt32();
+        var numExports = TKey.Size == 8 ? br.ReadUInt64() : br.ReadUInt32();
         for (ulong i = 0; i < numExports; i++)
         {
             var exportEntry = context.Database.ExportFactory.BuildExportEntry();
@@ -50,7 +50,7 @@ public class VltExportChunk<TKey> : ChunkBase<TKey> where TKey : struct, IKey<TK
     public override void Write(VaultWriteContext<TKey> context, BinaryWriter bw)
     {
         //bw.Write(_exports.Count);
-        if (context.Database.Options.Type == DatabaseType.X64Database)
+        if (TKey.Size == 8)
             bw.Write((ulong)_exports.Count);
         else
             bw.Write(_exports.Count);

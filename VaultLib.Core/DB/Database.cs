@@ -26,11 +26,9 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
     /// <summary>
     /// Initializes the database. Sets up data collections.
     /// </summary>
-    /// <param name="options"></param>
     /// <param name="exportFactory"></param>
-    public Database(DatabaseOptions options, ExportFactory<TKey> exportFactory)
+    public Database(ExportFactory<TKey> exportFactory)
     {
-        Options = options;
         Classes = new List<VltClass<TKey>>();
         Types = new List<DatabaseTypeInfo>();
         Vaults = new List<Vault<TKey>>();
@@ -38,8 +36,6 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
         TypeRegistry = new TypeRegistry<TKey>(this);
         ExportFactory = exportFactory;
     }
-
-    public DatabaseOptions Options { get; }
 
     public RowManager<TKey> RowManager { get; }
 
