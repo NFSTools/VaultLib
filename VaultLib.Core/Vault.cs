@@ -37,6 +37,4 @@ public class Vault<TKey> where TKey : struct, IKey<TKey>
     public bool IsPrimaryVault { get; set; }
 
     // public VaultSaveContext SaveContext { get; set; }
-
-    public ByteOrder ByteOrder { get; set; }
 }

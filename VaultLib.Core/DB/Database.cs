@@ -87,11 +87,7 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
 
     public Vault<TKey> LoadVault(VaultReadWrapper readWrapper)
     {
-        var vault = new Vault<TKey>(this, readWrapper.VaultName)
-        {
-            ByteOrder = readWrapper.ByteOrder
-        };
-
+        var vault = new Vault<TKey>(this, readWrapper.VaultName);
         var binStreamReader = CreateStreamReader(readWrapper.BinStream, readWrapper.ByteOrder);
         var vltStreamReader = CreateStreamReader(readWrapper.VltStream, readWrapper.ByteOrder);
 
@@ -101,7 +97,8 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
         var binChunkReader = new ChunkReader<TKey>(binStreamReader);
         var vltChunkReader = new ChunkReader<TKey>(vltStreamReader);
 
-        var vaultLoadContext = new VaultReadContext<TKey>(vault, readWrapper.BinStream, readWrapper.VltStream);
+        var vaultLoadContext =
+            new VaultReadContext<TKey>(vault, readWrapper.BinStream, readWrapper.VltStream, readWrapper.ByteOrder);
 
         //Debug.WriteLine("Processing BIN chunks");
         processBinChunks(vaultLoadContext, binChunkReader);
@@ -277,7 +274,7 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
         IEnumerable<VltPointer> pointers =
             from pointer in context.Pointers where pointer.Type == pointerType select pointer;
 
-        ByteOrder byteOrder = context.Vault.ByteOrder;
+        ByteOrder byteOrder = context.ByteOrder;
         bool isBigEndian = byteOrder == ByteOrder.Big;
 
         foreach (VltPointer pointer in pointers)
