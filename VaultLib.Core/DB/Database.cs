@@ -246,7 +246,7 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
 
     private void ReadExports(VaultReadContext<TKey> context, BinaryReader vltStreamReader, BinaryReader binStreamReader)
     {
-        foreach (BaseExport<TKey> vaultExport in context.Vault.Exports)
+        foreach (BaseExport<TKey> vaultExport in context.Exports)
         {
             vltStreamReader.BaseStream.Position = vaultExport.Offset;
             vaultExport.Read(context, vltStreamReader);
@@ -269,7 +269,7 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
             }
         }
 
-        context.Vault.IsPrimaryVault = context.Vault.Exports.OfType<BaseClassLoad<TKey>>().Any();
+        context.Vault.IsPrimaryVault = context.Exports.OfType<BaseClassLoad<TKey>>().Any();
     }
 
     private void fixPointers(VaultReadContext<TKey> context, VltPointerType pointerType, Stream stream)

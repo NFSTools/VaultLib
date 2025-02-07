@@ -3,10 +3,8 @@
 // Created: 09/23/2019 @ 4:00 PM.
 
 using CoreLibraries.IO;
-using System.Collections.Generic;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
-using VaultLib.Core.Exports;
 
 namespace VaultLib.Core;
 
@@ -19,7 +17,6 @@ public class Vault<TKey> where TKey : struct, IKey<TKey>
     {
         Database = database;
         Name = name;
-        Exports = new List<BaseExport<TKey>>();
     }
 
     /// <summary>
@@ -28,11 +25,6 @@ public class Vault<TKey> where TKey : struct, IKey<TKey>
     public string Name { get; }
 
     public ulong Version { get; set; }
-
-    /// <summary>
-    ///     The exported data items.
-    /// </summary>
-    public List<BaseExport<TKey>> Exports { get; }
 
     /// <summary>
     ///     The database that has this vault

@@ -7,6 +7,7 @@ using System.IO;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
+using VaultLib.Core.Exports;
 
 namespace VaultLib.Core;
 
@@ -37,6 +38,11 @@ public class VaultReadContext<TKey> where TKey : struct, IKey<TKey>
     public Stream VltStream { get; }
 
     /// <summary>
+    ///     The exported data items.
+    /// </summary>
+    public List<BaseExport<TKey>> Exports { get; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="VaultReadContext{TKey}"/> class.
     /// </summary>
     /// <param name="vault"></param>
@@ -50,6 +56,7 @@ public class VaultReadContext<TKey> where TKey : struct, IKey<TKey>
         VltStream = vltStream;
         Strings = new Dictionary<long, string>();
         Pointers = new List<VltPointer>();
+        Exports = new List<BaseExport<TKey>>();
     }
 
     public string ReadString(BinaryReader binaryReader)
