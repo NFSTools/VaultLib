@@ -3,15 +3,6 @@
 namespace VaultLib.Core;
 
 /// <summary>
-/// An enumeration of the available stringhash implementations.
-/// </summary>
-public enum VaultHashMode
-{
-    Hash32,
-    Hash64
-}
-
-/// <summary>
 /// Options for handling various "quirks" of different versions of the VLT format
 /// </summary>
 public class VaultWriteQuirks
@@ -42,11 +33,6 @@ public class VaultWriteQuirks
 /// </summary>
 public class VaultWriteOptions
 {
-    /// <summary>
-    /// The string hash implementation to use.
-    /// </summary>
-    public VaultHashMode HashMode { get; init; } = VaultHashMode.Hash32;
-
     /// <summary>
     /// The quirks to apply.
     /// </summary>

@@ -44,8 +44,6 @@ public class VaultWriteContext<TKey> where TKey : struct, IKey<TKey>
     /// </summary>
     public Dictionary<string, long> StringOffsets { get; set; }
 
-    public VaultHashMode HashMode => Options.HashMode;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="VaultWriteContext{TKey}"/> class.
     /// </summary>
