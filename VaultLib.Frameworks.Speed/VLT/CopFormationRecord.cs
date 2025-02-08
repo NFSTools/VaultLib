@@ -1,9 +1,11 @@
+using System.Buffers.Binary;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(CopFormationRecord))]
-public struct CopFormationRecord
+public struct CopFormationRecord : IComplexType
 {
     public enum FormationTypeEnum
     {
@@ -27,4 +29,11 @@ public struct CopFormationRecord
     public FormationTypeEnum FormationType;
     public float Duration;
     public float Frequency;
+
+    public void EndianSwap()
+    {
+        FormationType = (FormationTypeEnum)BinaryPrimitives.ReverseEndianness((uint)FormationType);
+        Duration = Duration.EndianSwap();
+        Frequency = Frequency.EndianSwap();
+    }
 }

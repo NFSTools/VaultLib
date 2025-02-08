@@ -2,6 +2,8 @@
 // 
 // Created: 10/14/2019 @ 2:22 PM.
 
+using System;
+using System.Buffers.Binary;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -46,5 +48,33 @@ public static class BinaryExtensions
 #else
         br.BaseStream.Position += numBytes;
 #endif
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float EndianSwap(this float f)
+    {
+        var valueBits = BitConverter.SingleToUInt32Bits(f);
+        var endianSwappedValueBits = BinaryPrimitives.ReverseEndianness(valueBits);
+        return BitConverter.UInt32BitsToSingle(endianSwappedValueBits);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double EndianSwap(this double f)
+    {
+        var valueBits = BitConverter.DoubleToUInt64Bits(f);
+        var endianSwappedValueBits = BinaryPrimitives.ReverseEndianness(valueBits);
+        return BitConverter.UInt64BitsToDouble(endianSwappedValueBits);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void EndianSwap(ref float f)
+    {
+        f = EndianSwap(f);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void EndianSwap(ref double f)
+    {
+        f = EndianSwap(f);
     }
 }

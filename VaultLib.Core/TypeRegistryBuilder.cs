@@ -8,10 +8,12 @@ using System.Linq.Expressions;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using CoreLibraries.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
+using BinaryExtensions = VaultLib.Core.Utils.BinaryExtensions;
 
 namespace VaultLib.Core;
 
@@ -28,8 +30,12 @@ public class TypeRegistryBuilder<TKey> where TKey : struct, IKey<TKey>
     private readonly Dictionary<Type, TypeWriter<TKey>>
         _writers = new();
 
-    public TypeRegistryBuilder()
+    public ByteOrder ByteOrder { get; }
+
+    public TypeRegistryBuilder(ByteOrder byteOrder)
     {
+        ByteOrder = byteOrder;
+
         RegisterAssemblyTypes(typeof(TypeRegistry<>).Assembly);
 
         RegisterPrimitive<bool>("EA::Reflection::Bool", r =>
@@ -54,10 +60,105 @@ public class TypeRegistryBuilder<TKey> where TKey : struct, IKey<TKey>
         _readers[typeof(string)] = (_, ctx, _, br) => ctx.ReadString(br);
         _writers[typeof(string)] = (s, ctx, fieldCtx, bw) => ctx.WriteString((string)s, fieldCtx, bw);
 
+        RegisterPrimitive("DUMMY_VltKey32", Key32.Read, (v, w) => v.Write(w));
+        RegisterPrimitive("DUMMY_VltKey64", Key64.Read, (v, w) => v.Write(w));
+        RegisterPrimitive("DUMMY_BinKey32", BinKey32.Read, (v, w) => v.Write(w));
+        RegisterPrimitive("DUMMY_BinKey64", BinKey64.Read, (v, w) => v.Write(w));
+
+        switch (byteOrder)
+        {
+            case ByteOrder.Little:
+                RegisterVectorsLittleEndian();
+                break;
+            case ByteOrder.Big:
+                RegisterVectorsBigEndian();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(byteOrder));
+        }
+    }
+
+    private void RegisterVectorsLittleEndian()
+    {
         RegisterStruct<Vector2>("Attrib::Types::Vector2");
         RegisterStruct<Vector3>("Attrib::Types::Vector3");
         RegisterStruct<Vector4>("Attrib::Types::Vector4");
         RegisterStruct<Matrix4x4>("Attrib::Types::Matrix");
+    }
+
+    private void RegisterVectorsBigEndian()
+    {
+        RegisterPrimitive("Attrib::Types::Vector2", r =>
+        {
+            var v = StructReader<Vector2>(r);
+            BinaryExtensions.EndianSwap(ref v.X);
+            BinaryExtensions.EndianSwap(ref v.Y);
+            return v;
+        }, (v, w) =>
+        {
+            Span<float> items = stackalloc float[2];
+            items[0] = v.X.EndianSwap();
+            items[1] = v.Y.EndianSwap();
+            w.Write(MemoryMarshal.AsBytes(items));
+        });
+
+        RegisterPrimitive("Attrib::Types::Vector3", r =>
+        {
+            var v = StructReader<Vector3>(r);
+            BinaryExtensions.EndianSwap(ref v.X);
+            BinaryExtensions.EndianSwap(ref v.Y);
+            BinaryExtensions.EndianSwap(ref v.Z);
+            return v;
+        }, (v, w) =>
+        {
+            Span<float> items = stackalloc float[3];
+            items[0] = v.X.EndianSwap();
+            items[1] = v.Y.EndianSwap();
+            items[2] = v.Z.EndianSwap();
+            w.Write(MemoryMarshal.AsBytes(items));
+        });
+        RegisterPrimitive("Attrib::Types::Vector4", r =>
+        {
+            var v = StructReader<Vector4>(r);
+            BinaryExtensions.EndianSwap(ref v.X);
+            BinaryExtensions.EndianSwap(ref v.Y);
+            BinaryExtensions.EndianSwap(ref v.Z);
+            BinaryExtensions.EndianSwap(ref v.W);
+            return v;
+        }, (v, w) =>
+        {
+            Span<float> items = stackalloc float[4];
+            items[0] = v.X.EndianSwap();
+            items[1] = v.Y.EndianSwap();
+            items[2] = v.Z.EndianSwap();
+            items[3] = v.W.EndianSwap();
+            w.Write(MemoryMarshal.AsBytes(items));
+        });
+        RegisterPrimitive("Attrib::Types::Matrix", r =>
+        {
+            var v = StructReader<Matrix4x4>(r);
+            for (var i = 0; i < 4; i++)
+            {
+                for (var j = 0; j < 4; j++)
+                {
+                    v[i, j] = v[i, j].EndianSwap();
+                }
+            }
+
+            return v;
+        }, (v, w) =>
+        {
+            Span<float> items = stackalloc float[16];
+            for (var i = 0; i < 4; i++)
+            {
+                for (var j = 0; j < 4; j++)
+                {
+                    items[i * 4 + j] = v[i, j].EndianSwap();
+                }
+            }
+
+            w.Write(MemoryMarshal.AsBytes(items));
+        });
     }
 
     public void Map<TDest>(string typeId)
@@ -93,9 +194,9 @@ public class TypeRegistryBuilder<TKey> where TKey : struct, IKey<TKey>
         RegisterStruct(typeId, typeof(T));
     }
 
-    public void RegisterPrimitive<T>(string typeId, Func<BinaryReader, T> reader,
+    private void RegisterPrimitive<T>(string typeId, Func<BinaryReader, T> reader,
         Action<T, BinaryWriter> writer)
-        where T : struct, IConvertible
+        where T : unmanaged
     {
         var type = typeof(T);
         RegisterPrimitive(typeId, reader, writer, type);
@@ -203,11 +304,45 @@ public class TypeRegistryBuilder<TKey> where TKey : struct, IKey<TKey>
 
     private void RegisterStruct(string typeId, Type type)
     {
+        if (ByteOrder == ByteOrder.Big)
+        {
+            if (!typeof(IComplexType).IsAssignableFrom(type))
+            {
+                throw new Exception(
+                    $"Struct type {type} doesn't implement IComplexType, which is necessary for big-endian operations");
+            }
+        }
+
         if (!_typeDictionary.ContainsValue(type))
         {
             _activators[type] = _ => Activator.CreateInstance(type)!;
-            _readers[type] = CreateStructReaderProxy(type);
-            _writers[type] = CreateStructWriterProxy(type);
+            var readerProxy = CreateStructReaderProxy(type);
+            var writerProxy = CreateStructWriterProxy(type);
+
+            if (ByteOrder == ByteOrder.Big)
+            {
+                _readers[type] = (init, context, fieldContext, br) =>
+                {
+                    var value = readerProxy(init, context, fieldContext, br);
+                    ((IComplexType)value).EndianSwap();
+                    return value;
+                };
+
+                _writers[type] = (value, context, fieldContext, writer) =>
+                {
+                    // StructWriter writes raw bytes, so we need to do an in-place change
+                    ((IComplexType)value).EndianSwap();
+                    writerProxy(value, context, fieldContext, writer);
+                    // Client might want to use the data after writing it, so we need to be nice
+                    // and undo the previous endian swap
+                    ((IComplexType)value).EndianSwap();
+                };
+            }
+            else
+            {
+                _readers[type] = readerProxy;
+                _writers[type] = writerProxy;
+            }
         }
 
         AddType(typeId, type);
@@ -268,7 +403,7 @@ public class TypeRegistryBuilder<TKey> where TKey : struct, IKey<TKey>
     }
 
     private void RegisterPrimitive<T>(string typeId, Func<BinaryReader, T> reader, Action<T, BinaryWriter> writer,
-        Type type) where T : struct, IConvertible
+        Type type) where T : unmanaged
     {
         AddType(typeId, type);
         _activators[type] = _ => default(T);

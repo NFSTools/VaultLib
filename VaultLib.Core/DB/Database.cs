@@ -23,6 +23,8 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
 {
     private Dictionary<VltCollection<TKey>, TKey> _parentKeyDictionary = new();
 
+    private ByteOrder _expectedByteOrder;
+
     /// <summary>
     /// Initializes the database. Sets up data collections.
     /// </summary>
@@ -36,6 +38,7 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
         RowManager = new RowManager<TKey>(this);
         TypeRegistry = typeRegistryBuilder.Build(this);
         ExportFactory = exportFactory;
+        _expectedByteOrder = typeRegistryBuilder.ByteOrder;
     }
 
     public RowManager<TKey> RowManager { get; }
@@ -88,6 +91,12 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
 
     public Vault<TKey> LoadVault(VaultReadWrapper readWrapper)
     {
+        if (_expectedByteOrder != readWrapper.ByteOrder)
+        {
+            throw new Exception(
+                $"Cannot load vault because its byte order ({readWrapper.ByteOrder}) does not match the database's byte order ({_expectedByteOrder}).");
+        }
+
         var vault = new Vault<TKey>(this, readWrapper.VaultName);
         var binStreamReader = CreateStreamReader(readWrapper.BinStream, readWrapper.ByteOrder);
         var vltStreamReader = CreateStreamReader(readWrapper.VltStream, readWrapper.ByteOrder);

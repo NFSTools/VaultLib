@@ -2,6 +2,7 @@
 // 
 // Created: 09/29/2019 @ 11:54 AM.
 
+using System.Buffers.Binary;
 using System.Runtime.InteropServices;
 using VaultLib.Core.Types;
 
@@ -9,7 +10,7 @@ namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(ParticleAnimationInfo))]
 [StructLayout(LayoutKind.Explicit, Pack = 1, Size = 8)]
-public struct ParticleAnimationInfo
+public struct ParticleAnimationInfo : IComplexType
 {
     public enum EffectParticleAnimation
     {
@@ -22,5 +23,12 @@ public struct ParticleAnimationInfo
 
     [FieldOffset(0)] public EffectParticleAnimation AnimType;
     [FieldOffset(4)] public byte FPS;
-    [FieldOffset(5)] [MarshalAs(UnmanagedType.U1)] public bool RandomStartFrame;
+
+    [FieldOffset(5)] [MarshalAs(UnmanagedType.U1)]
+    public bool RandomStartFrame;
+
+    public void EndianSwap()
+    {
+        AnimType = (EffectParticleAnimation)BinaryPrimitives.ReverseEndianness((uint)AnimType);
+    }
 }

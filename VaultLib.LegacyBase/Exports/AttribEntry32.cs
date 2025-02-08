@@ -45,7 +45,11 @@ public class AttribEntry32 : IVaultFileAccess<Key32>, IPointerObject<Key32>
 
         br.SafeAlignReader(4);
         TypeIndex = br.ReadUInt16();
-        NodeFlags = (NodeFlagsEnum)br.ReadUInt16();
+
+        var nodeFlags = (ushort)(br.ReadByte() | (ushort)(br.ReadByte() << 8));
+
+        NodeFlags = (NodeFlagsEnum)nodeFlags;
+        // NodeFlags = (NodeFlagsEnum)br.ReadUInt16();
         Debug.Assert((ushort)NodeFlags <= 0x20);
     }
 

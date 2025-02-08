@@ -22,7 +22,6 @@ public interface IKey<TSelf> : IEqualityOperators<TSelf, TSelf, bool>, IComparab
     void Write(BinaryWriter writer);
 }
 
-[VltTypeInfo("DUMMY_VltKey32")]
 public readonly record struct Key32(uint Hash) : IKey<Key32>
 {
     public static Key32 Zero => default;
@@ -55,7 +54,6 @@ public readonly record struct Key32(uint Hash) : IKey<Key32>
     }
 }
 
-[VltTypeInfo("DUMMY_VltKey64")]
 public readonly record struct Key64(ulong Hash) : IKey<Key64>
 {
     public static Key64 Zero => default;
@@ -87,7 +85,6 @@ public readonly record struct Key64(ulong Hash) : IKey<Key64>
     }
 }
 
-[VltTypeInfo("DUMMY_BinKey32")]
 public readonly record struct BinKey32(uint Hash) : IKey<BinKey32>
 {
     public static BinKey32 Zero => default;
@@ -121,7 +118,6 @@ public readonly record struct BinKey32(uint Hash) : IKey<BinKey32>
     }
 }
 
-[VltTypeInfo("DUMMY_BinKey64")]
 public readonly record struct BinKey64(ulong Hash) : IKey<BinKey64>
 {
     public static BinKey64 Zero => default;

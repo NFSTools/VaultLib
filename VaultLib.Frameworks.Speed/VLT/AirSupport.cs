@@ -2,12 +2,14 @@
 // 
 // Created: 10/07/2019 @ 7:09 PM.
 
+using System.Buffers.Binary;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(AirSupport))]
-public struct AirSupport
+public struct AirSupport : IComplexType
 {
     public enum AirSupportStrategy
     {
@@ -20,4 +22,11 @@ public struct AirSupport
     public AirSupportStrategy HeliStrategy;
     public uint Chance;
     public float Duration;
+
+    public void EndianSwap()
+    {
+        HeliStrategy = (AirSupportStrategy)BinaryPrimitives.ReverseEndianness((uint)HeliStrategy);
+        Chance = BinaryPrimitives.ReverseEndianness(Chance);
+        Duration = Duration.EndianSwap();
+    }
 }

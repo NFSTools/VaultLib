@@ -2,10 +2,12 @@
 // 
 // Created: 09/27/2019 @ 4:52 PM.
 
+using VaultLib.Core.Utils;
+
 namespace VaultLib.Core.Types.Attrib.Types;
 
 [VltTypeInfo("Attrib::Types::FloatColour")]
-public struct FloatColour
+public struct FloatColour : IComplexType
 {
     public float R;
     public float G;
@@ -15,5 +17,13 @@ public struct FloatColour
     public override string ToString()
     {
         return $"R: {R} G: {G} B: {B} A: {A}";
+    }
+
+    public void EndianSwap()
+    {
+        BinaryExtensions.EndianSwap(ref R);
+        BinaryExtensions.EndianSwap(ref G);
+        BinaryExtensions.EndianSwap(ref B);
+        BinaryExtensions.EndianSwap(ref A);
     }
 }

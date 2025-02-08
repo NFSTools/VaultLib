@@ -2,12 +2,14 @@
 // 
 // Created: 10/07/2019 @ 8:07 PM.
 
+using System.Buffers.Binary;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(HeavySupport))]
-public struct HeavySupport
+public struct HeavySupport : IComplexType
 {
     public enum HeavySupportStrategy
     {
@@ -21,4 +23,12 @@ public struct HeavySupport
     public uint Chance;
     public float Duration;
     public uint ChanceBigSUV;
+
+    public void EndianSwap()
+    {
+        HeavyStrategy = (HeavySupportStrategy)BinaryPrimitives.ReverseEndianness((uint)HeavyStrategy);
+        Chance = BinaryPrimitives.ReverseEndianness(Chance);
+        Duration = Duration.EndianSwap();
+        ChanceBigSUV = BinaryPrimitives.ReverseEndianness(ChanceBigSUV);
+    }
 }
