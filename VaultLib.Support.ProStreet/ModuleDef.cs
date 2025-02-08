@@ -15,7 +15,7 @@ namespace VaultLib.Support.ProStreet;
 
 public class ModuleDef : BaseGameModule<Key32>
 {
-    public override void RegisterTypes(TypeRegistry<Key32> typeRegistry)
+    public override void RegisterTypes(TypeRegistryBuilder<Key32> typeRegistry)
     {
         typeRegistry.Register<StringKey32>("Attrib::StringKey");
         SpeedFramework.Register(typeRegistry);

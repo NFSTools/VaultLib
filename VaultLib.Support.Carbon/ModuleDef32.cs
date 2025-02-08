@@ -11,7 +11,7 @@ namespace VaultLib.Support.Carbon;
 
 public class ModuleDef32 : BaseGameModule<Key32>
 {
-    public override void RegisterTypes(TypeRegistry<Key32> typeRegistry)
+    public override void RegisterTypes(TypeRegistryBuilder<Key32> typeRegistry)
     {
         typeRegistry.Register<StringKey32>("Attrib::StringKey");
         SpeedFramework.Register(typeRegistry);

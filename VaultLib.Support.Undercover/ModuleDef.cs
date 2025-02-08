@@ -16,7 +16,7 @@ namespace VaultLib.Support.Undercover;
 
 public class ModuleDef : BaseGameModule<Key32>
 {
-    public override void RegisterTypes(TypeRegistry<Key32> typeRegistry)
+    public override void RegisterTypes(TypeRegistryBuilder<Key32> typeRegistry)
     {
         SpeedFramework.Register(typeRegistry);
         typeRegistry.RegisterAssemblyTypes(typeof(ModuleDef).Assembly);

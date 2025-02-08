@@ -27,13 +27,14 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
     /// Initializes the database. Sets up data collections.
     /// </summary>
     /// <param name="exportFactory"></param>
-    public Database(ExportFactory<TKey> exportFactory)
+    /// <param name="typeRegistryBuilder"></param>
+    public Database(ExportFactory<TKey> exportFactory, TypeRegistryBuilder<TKey> typeRegistryBuilder)
     {
         Classes = new List<VltClass<TKey>>();
         Types = new List<DatabaseTypeInfo>();
         Vaults = new List<Vault<TKey>>();
         RowManager = new RowManager<TKey>(this);
-        TypeRegistry = new TypeRegistry<TKey>(this);
+        TypeRegistry = typeRegistryBuilder.Build(this);
         ExportFactory = exportFactory;
     }
 

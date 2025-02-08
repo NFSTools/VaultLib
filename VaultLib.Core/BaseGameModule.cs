@@ -5,7 +5,7 @@ namespace VaultLib.Core;
 
 public abstract class BaseGameModule<TKey> where TKey : struct, IKey<TKey>
 {
-    public abstract void RegisterTypes(TypeRegistry<TKey> typeRegistry);
+    public abstract void RegisterTypes(TypeRegistryBuilder<TKey> typeRegistry);
     
     public abstract ExportFactory<TKey> CreateExportFactory();
 }

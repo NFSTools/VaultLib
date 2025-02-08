@@ -11,7 +11,7 @@ namespace VaultLib.Support.MostWanted;
 
 public class ModuleDef32 : BaseGameModule<Key32>
 {
-    public override void RegisterTypes(TypeRegistry<Key32> typeRegistry)
+    public override void RegisterTypes(TypeRegistryBuilder<Key32> typeRegistry)
     {
         typeRegistry.Register<StringKey64>("Attrib::StringKey");
         SpeedFramework.Register(typeRegistry);
