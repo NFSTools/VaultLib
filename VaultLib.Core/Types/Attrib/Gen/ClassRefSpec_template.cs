@@ -61,6 +61,11 @@ public abstract class ClassRefSpec_template<TKey> : BaseRefSpec<TKey> where TKey
     {
         return $"{ClassKey} -> {CollectionKey}";
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }
 
 public abstract class ClassRefSpec_template32 : ClassRefSpec_template<Key32>

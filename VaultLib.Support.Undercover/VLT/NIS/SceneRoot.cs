@@ -62,4 +62,9 @@ public class SceneRoot: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrin
     {
         return new[] { MarkerName };
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

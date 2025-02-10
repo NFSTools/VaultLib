@@ -34,4 +34,15 @@ public class JunkmanMod : VltBaseType<Key32>
         bw.Write(ScaleF);
         bw.Write(ScaleR);
     }
+
+    public override object Clone()
+    {
+        return new JunkmanMod
+        {
+            ClassKey = this.ClassKey,
+            DefinitionKey = this.DefinitionKey,
+            ScaleF = this.ScaleF,
+            ScaleR = this.ScaleR,
+        };
+    }
 }

@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(SlotStats))]
-public class SlotStats: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class SlotStats : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public enum StatsModeFlag
     {
@@ -70,7 +70,8 @@ public class SlotStats: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrin
     public uint TuningSliderListString { get; set; }
     public FEPhysicsStatType[] Stats { get; set; } = new FEPhysicsStatType[2];
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         SlotName = context.ReadString(br);
         ModeFlags = br.ReadEnum<StatsModeFlag>();
@@ -79,7 +80,8 @@ public class SlotStats: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrin
         Stats = br.ReadArray(br.ReadEnum<FEPhysicsStatType>, 2);
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         context.WriteString(SlotName, fieldContext, bw);
         bw.WriteEnum(ModeFlags);
@@ -88,20 +90,35 @@ public class SlotStats: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrin
         bw.WriteArray(Stats, bw.WriteEnum);
     }
 
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
     }
 
     public IEnumerable<string> GetStrings()
     {
         return new[] { SlotName };
+    }
+
+    public override object Clone()
+    {
+        return new SlotStats
+        {
+            SlotName = this.SlotName,
+            ModeFlags = this.ModeFlags,
+            SlotDesc = this.SlotDesc,
+            Stats = (FEPhysicsStatType[])this.Stats.Clone(),
+            TuningSliderListString = this.TuningSliderListString,
+        };
     }
 }

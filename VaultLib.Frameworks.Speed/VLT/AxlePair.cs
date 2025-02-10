@@ -23,4 +23,9 @@ public struct AxlePair : IComplexType
         Front = Front.EndianSwap();
         Rear = Rear.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

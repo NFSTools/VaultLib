@@ -32,4 +32,9 @@ public struct LeaderSupport : IComplexType
         PriorityChance = BinaryPrimitives.ReverseEndianness(PriorityChance);
         PriorityTime = PriorityTime.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

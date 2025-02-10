@@ -14,7 +14,8 @@ using VaultLib.ModernBase;
 namespace VaultLib.Support.World.VLT;
 
 [VltTypeInfo(nameof(ControllerDataRecord))]
-public class ControllerDataRecord: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class ControllerDataRecord : VltBaseType<Core.DataInterfaces.Key32>,
+    IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public string DeviceId { get; set; } = string.Empty;
     public InputUpdateType UpdateType { get; set; }
@@ -24,7 +25,8 @@ public class ControllerDataRecord: VltBaseType<Core.DataInterfaces.Key32>, IRefe
     private StringKey32 InternalDeviceId { get; set; } = new();
 
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         InternalDeviceId.Read(context, fieldContext, br);
         UpdateType = br.ReadEnum<InputUpdateType>();
@@ -32,7 +34,8 @@ public class ControllerDataRecord: VltBaseType<Core.DataInterfaces.Key32>, IRefe
         UpperDeadZone = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         InternalDeviceId.Value = DeviceId;
         InternalDeviceId.Write(context, fieldContext, bw);
@@ -46,19 +49,33 @@ public class ControllerDataRecord: VltBaseType<Core.DataInterfaces.Key32>, IRefe
         return new[] { DeviceId };
     }
 
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         InternalDeviceId.ReadPointerData(context, fieldContext, br);
         DeviceId = InternalDeviceId.Value;
     }
 
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         InternalDeviceId.WritePointerData(context, fieldContext, bw);
     }
 
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
         InternalDeviceId.AddPointers(context, fieldContext);
+    }
+
+    public override object Clone()
+    {
+        return new ControllerDataRecord
+        {
+            DeviceId = DeviceId,
+            UpdateType = UpdateType,
+            LowerDeadZone = LowerDeadZone,
+            UpperDeadZone = UpperDeadZone,
+        };
     }
 }

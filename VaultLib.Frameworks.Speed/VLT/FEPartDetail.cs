@@ -18,4 +18,9 @@ public struct FEPartDetail : IComplexType
         Logo = BinaryPrimitives.ReverseEndianness(Logo);
         Name = BinaryPrimitives.ReverseEndianness(Name);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -22,4 +22,9 @@ public struct RoadNoiseRecord : IComplexType
         MinSpeed = MinSpeed.EndianSwap();
         MaxSpeed = MaxSpeed.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

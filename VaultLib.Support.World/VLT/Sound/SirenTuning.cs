@@ -5,7 +5,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.World.VLT.Sound;
 
 [VltTypeInfo("Sound::SirenTuning")]
-public class SirenTuning: VltBaseType<Core.DataInterfaces.Key32>
+public class SirenTuning : VltBaseType<Core.DataInterfaces.Key32>
 {
     public float[] OpRadiusLimit { get; set; } = new float[2];
     public float SpeedThresh { get; set; }
@@ -20,7 +20,8 @@ public class SirenTuning: VltBaseType<Core.DataInterfaces.Key32>
     public int Unknown3 { get; set; }
     public float Unknown4 { get; set; }
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         // TODO: investigate structure
 
@@ -62,7 +63,8 @@ public class SirenTuning: VltBaseType<Core.DataInterfaces.Key32>
         Unknown4 = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         for (int i = 0; i < OpRadiusLimit.Length; i++)
         {
@@ -100,5 +102,23 @@ public class SirenTuning: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(Unknown2);
         bw.Write(Unknown3);
         bw.Write(Unknown4);
+    }
+
+    public override object Clone()
+    {
+        return new SirenTuning
+        {
+            OpRadiusLimit = (float[])OpRadiusLimit.Clone(),
+            SpeedThresh = SpeedThresh,
+            HornLimit = (float[])HornLimit.Clone(),
+            PriorityLimit = (float[])PriorityLimit.Clone(),
+            WailLimit = (float[])WailLimit.Clone(),
+            YelpLimit = (float[])YelpLimit.Clone(),
+            LoopXFadeRange = (float[])LoopXFadeRange.Clone(),
+            Unknown1 = Unknown1,
+            Unknown2 = Unknown2,
+            Unknown3 = Unknown3,
+            Unknown4 = Unknown4,
+        };
     }
 }

@@ -12,7 +12,8 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(CCarDamageMarkerEntry))]
-public class CCarDamageMarkerEntry: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class CCarDamageMarkerEntry : VltBaseType<Core.DataInterfaces.Key32>,
+    IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public string MarkerName { get; set; } = string.Empty;
     public int PartID { get; set; }
@@ -21,7 +22,8 @@ public class CCarDamageMarkerEntry: VltBaseType<Core.DataInterfaces.Key32>, IRef
     public string SmackableCollisionName { get; set; } = string.Empty;
     public RefSpec32 SmackableCollisionAttribute { get; set; } = new();
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         MarkerName = context.ReadString(br);
         PartID = br.ReadInt32();
@@ -31,7 +33,8 @@ public class CCarDamageMarkerEntry: VltBaseType<Core.DataInterfaces.Key32>, IRef
         SmackableCollisionAttribute.Read(context, fieldContext, br);
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         context.WriteString(MarkerName, fieldContext, bw);
         bw.Write(PartID);
@@ -41,20 +44,36 @@ public class CCarDamageMarkerEntry: VltBaseType<Core.DataInterfaces.Key32>, IRef
         SmackableCollisionAttribute.Write(context, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
     }
 
     public IEnumerable<string> GetStrings()
     {
         return new[] { MarkerName, AttachPart, SmackableCollisionName };
+    }
+
+    public override object Clone()
+    {
+        return new CCarDamageMarkerEntry
+        {
+            MarkerName = MarkerName,
+            PartID = PartID,
+            SlotID = SlotID,
+            AttachPart = AttachPart,
+            SmackableCollisionName = SmackableCollisionName,
+            SmackableCollisionAttribute = (RefSpec32)SmackableCollisionAttribute.Clone()
+        };
     }
 }

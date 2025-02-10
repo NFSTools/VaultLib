@@ -30,4 +30,9 @@ public struct AUDENGRPMRANGEst : IComplexType
         LD_HI_RPM = BinaryPrimitives.ReverseEndianness(LD_HI_RPM);
         REVLMT_RPM = BinaryPrimitives.ReverseEndianness(REVLMT_RPM);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

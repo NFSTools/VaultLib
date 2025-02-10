@@ -26,4 +26,9 @@ public struct CCarDamageThreshold : IComplexType
         DeltaThreshold2 = DeltaThreshold2.EndianSwap();
         DeltaThreshold3 = DeltaThreshold3.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

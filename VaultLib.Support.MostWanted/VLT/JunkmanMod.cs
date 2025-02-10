@@ -9,23 +9,35 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.MostWanted.VLT;
 
 [VltTypeInfo(nameof(JunkmanMod))]
-public class JunkmanMod: VltBaseType<Core.DataInterfaces.Key32>
+public class JunkmanMod : VltBaseType<Core.DataInterfaces.Key32>
 {
     public uint ClassKey { get; set; }
     public uint DefinitionKey { get; set; }
     public float ScaleF { get; set; }
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         ClassKey = br.ReadUInt32();
         DefinitionKey = br.ReadUInt32();
         ScaleF = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(ClassKey);
         bw.Write(DefinitionKey);
         bw.Write(ScaleF);
+    }
+
+    public override object Clone()
+    {
+        return new JunkmanMod
+        {
+            ClassKey = ClassKey,
+            DefinitionKey = DefinitionKey,
+            ScaleF = ScaleF
+        };
     }
 }

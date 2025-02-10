@@ -27,4 +27,9 @@ public struct SteeringSensitivityParameter : IComplexType
         OuterDeadZone = OuterDeadZone.EndianSwap();
         NumberOfSteps = BinaryPrimitives.ReverseEndianness(NumberOfSteps);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

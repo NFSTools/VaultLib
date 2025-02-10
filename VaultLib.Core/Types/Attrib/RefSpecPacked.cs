@@ -49,8 +49,24 @@ public abstract class RefSpecPacked<TKey> : BaseRefSpec<TKey> where TKey : struc
 
 public class RefSpecPacked32 : RefSpecPacked<Key32>
 {
+    public override object Clone()
+    {
+        return new RefSpecPacked32
+        {
+            ClassKey = this.ClassKey,
+            CollectionKey = this.CollectionKey,
+        };
+    }
 }
 
 public class RefSpecPacked64 : RefSpecPacked<Key64>
 {
+    public override object Clone()
+    {
+        return new RefSpecPacked64
+        {
+            ClassKey = this.ClassKey,
+            CollectionKey = this.CollectionKey,
+        };
+    }
 }

@@ -14,7 +14,8 @@ public class CollisionStream : VltBaseType<Key32>
     public RefSpec32 StreamMoment { get; set; } = new();
     public byte Threshold { get; set; }
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         StreamMoment.Read(context, fieldContext, br);
         Threshold = br.ReadByte();
@@ -27,5 +28,14 @@ public class CollisionStream : VltBaseType<Key32>
         StreamMoment.Write(context, fieldContext, bw);
         bw.Write(Threshold);
         bw.AlignWriter(4);
+    }
+
+    public override object Clone()
+    {
+        return new CollisionStream
+        {
+            StreamMoment = (RefSpec32)StreamMoment.Clone(),
+            Threshold = Threshold
+        };
     }
 }

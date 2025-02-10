@@ -9,4 +9,9 @@ public struct Colour : IComplexType
     {
         (A, B, G, R) = (R, G, B, A);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

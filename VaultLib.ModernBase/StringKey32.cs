@@ -64,4 +64,12 @@ public class StringKey32 : VltBaseType<Key32>, IReferencesStrings<Key32>, IStrin
     {
         Value = str;
     }
+
+    public override object Clone()
+    {
+        return new StringKey32
+        {
+            Value = Value,
+        };
+    }
 }

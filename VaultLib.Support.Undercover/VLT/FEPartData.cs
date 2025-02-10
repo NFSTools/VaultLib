@@ -109,4 +109,33 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
     {
         return new[] { OfferID };
     }
+
+    public override object Clone()
+    {
+        return new FEPartData
+        {
+            HAL_ID = HAL_ID,
+            CF_HAL_ID = CF_HAL_ID,
+            Price = Price,
+            ShowroomUnlock = ShowroomUnlock,
+            Tier1Price = Tier1Price,
+            Tier2Price = Tier2Price,
+            Tier3Price = Tier3Price,
+            Tier4Price = Tier4Price,
+            Tier = Tier,
+            Tier1ShowroomUnlock = Tier1ShowroomUnlock,
+            Tier2ShowroomUnlock = Tier2ShowroomUnlock,
+            Tier3ShowroomUnlock = Tier3ShowroomUnlock,
+            Tier4ShowroomUnlock = Tier4ShowroomUnlock,
+            BrandHALId = BrandHALId,
+            LogoTextureId = LogoTextureId,
+            DetailHash = DetailHash,
+            PartDetails = new VltPointerContainer<Key32, FEPartDetail>
+            {
+                Value = (FEPartDetail)PartDetails.Value.Clone()
+            },
+            OfferID = OfferID,
+            IsOnlineLockable = IsOnlineLockable
+        };
+    }
 }

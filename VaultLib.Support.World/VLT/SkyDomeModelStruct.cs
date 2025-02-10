@@ -23,4 +23,9 @@ public class SkyDomeModelStruct: VltBaseType<Key32>
     {
         bw.Write(Hash);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -3,6 +3,7 @@
 // Created: 10/19/2019 @ 5:40 PM.
 
 using System.IO;
+using System.Linq;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
 
@@ -55,5 +56,13 @@ public class DynamicSizeArray<TKey, TItem> : VltBaseType<TKey>, IVltPointerObjec
         _srcPtr = bw.BaseStream.Position;
         bw.Write(0);
         bw.Write(Items.Length);
+    }
+
+    public override object Clone()
+    {
+        return new DynamicSizeArray<TKey, TItem>
+        {
+            Items = this.Items.Select(i => (TItem)i.Clone()).ToArray(),
+        };
     }
 }

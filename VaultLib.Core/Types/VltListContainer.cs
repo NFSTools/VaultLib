@@ -2,6 +2,7 @@
 // 
 // Created: 10/19/2019 @ 4:49 PM.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core.DataInterfaces;
@@ -70,5 +71,10 @@ public class VltListContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObjec
     {
         _srcPtr = bw.BaseStream.Position;
         bw.Write(0);
+    }
+
+    public override object Clone()
+    {
+        throw new NotImplementedException();
     }
 }

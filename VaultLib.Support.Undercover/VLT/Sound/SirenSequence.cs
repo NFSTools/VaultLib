@@ -38,4 +38,9 @@ public class SirenSequence: VltBaseType<Core.DataInterfaces.Key32>
         bw.WriteEnum(mMode);
         bw.Write(mDuration);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

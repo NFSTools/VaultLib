@@ -82,4 +82,9 @@ public class cSamplerStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key3
     {
         return new[] { Name };
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

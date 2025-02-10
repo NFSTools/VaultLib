@@ -48,4 +48,9 @@ public struct RPMLOOPPOINTSst : IComplexType
         RPM_CRZ_HI_PEAK = BinaryPrimitives.ReverseEndianness(RPM_CRZ_HI_PEAK);
         RPM_CRZ_HI_OUT = BinaryPrimitives.ReverseEndianness(RPM_CRZ_HI_OUT);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

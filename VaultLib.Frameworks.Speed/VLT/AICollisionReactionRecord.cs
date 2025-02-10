@@ -21,7 +21,8 @@ public class AICollisionReactionRecord : VltBaseType<Key32>, IReferencesCollecti
 
     public RefSpec32 Reaction { get; set; } = new();
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         Goal = br.ReadUInt32();
         Reaction.Read(context, fieldContext, br);
@@ -34,7 +35,8 @@ public class AICollisionReactionRecord : VltBaseType<Key32>, IReferencesCollecti
         Reaction.Write(context, fieldContext, bw);
     }
 
-    public IEnumerable<CollectionReferenceInfo<Key32>> GetReferencedCollections(Database<Key32> database, Vault<Key32> vault)
+    public IEnumerable<CollectionReferenceInfo<Key32>> GetReferencedCollections(Database<Key32> database,
+        Vault<Key32> vault)
     {
         throw new NotImplementedException();
     }
@@ -42,5 +44,14 @@ public class AICollisionReactionRecord : VltBaseType<Key32>, IReferencesCollecti
     public bool ReferencesCollection(Key32 classKey, Key32 collectionKey)
     {
         throw new NotImplementedException();
+    }
+
+    public override object Clone()
+    {
+        return new AICollisionReactionRecord
+        {
+            Goal = Goal,
+            Reaction = (RefSpec32)Reaction.Clone(),
+        };
     }
 }

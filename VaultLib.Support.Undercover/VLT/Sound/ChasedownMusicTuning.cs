@@ -1,11 +1,12 @@
 using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::ChasedownMusicTuning")]
-public class ChasedownMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
+public class ChasedownMusicTuning : VltBaseType<Core.DataInterfaces.Key32>
 {
     public float[] StartTimeLimit { get; set; } = new float[2];
     public float[] LowTimeLimit { get; set; } = new float[2];
@@ -14,7 +15,8 @@ public class ChasedownMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
     public float[] HighTimeLimit { get; set; } = new float[2];
     public float[] OpponentDamageThreshold { get; set; } = new float[2];
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         for (int i = 0; i < StartTimeLimit.Length; i++)
         {
@@ -47,7 +49,8 @@ public class ChasedownMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
         }
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         for (int i = 0; i < StartTimeLimit.Length; i++)
         {
@@ -78,5 +81,18 @@ public class ChasedownMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
         {
             bw.Write(OpponentDamageThreshold[i]);
         }
+    }
+
+    public override object Clone()
+    {
+        return new ChasedownMusicTuning
+        {
+            StartTimeLimit = StartTimeLimit.CloneSimple(),
+            LowTimeLimit = LowTimeLimit.CloneSimple(),
+            FailureTimeLimit = FailureTimeLimit.CloneSimple(),
+            MediumTimeLimit = MediumTimeLimit.CloneSimple(),
+            HighTimeLimit = HighTimeLimit.CloneSimple(),
+            OpponentDamageThreshold = OpponentDamageThreshold.CloneSimple(),
+        };
     }
 }

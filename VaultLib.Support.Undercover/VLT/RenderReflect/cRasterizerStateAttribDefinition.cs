@@ -12,7 +12,8 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cRasterizerStateAttribDefinition")]
-public class cRasterizerStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class cRasterizerStateAttribDefinition : VltBaseType<Core.DataInterfaces.Key32>,
+    IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public string DebugName { get; set; } = string.Empty;
     public State_RasterizerCullMode CullMode { get; set; }
@@ -30,7 +31,8 @@ public class cRasterizerStateAttribDefinition: VltBaseType<Core.DataInterfaces.K
     public State_RasterizerShadeMode ShadeMode { get; set; }
     public State_RasterizerFrontFace FrontFace { get; set; }
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         DebugName = context.ReadString(br);
         CullMode = br.ReadEnum<State_RasterizerCullMode>();
@@ -52,7 +54,8 @@ public class cRasterizerStateAttribDefinition: VltBaseType<Core.DataInterfaces.K
         FrontFace = br.ReadEnum<State_RasterizerFrontFace>();
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         context.WriteString(DebugName, fieldContext, bw);
         bw.WriteEnum(CullMode);
@@ -74,20 +77,45 @@ public class cRasterizerStateAttribDefinition: VltBaseType<Core.DataInterfaces.K
         bw.WriteEnum(FrontFace);
     }
 
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
     }
 
     public IEnumerable<string> GetStrings()
     {
         return new[] { DebugName };
+    }
+
+    public override object Clone()
+    {
+        return new cRasterizerStateAttribDefinition
+        {
+            DebugName = DebugName,
+            CullMode = CullMode,
+            DepthBias = DepthBias,
+            ScaleDepthBias = ScaleDepthBias,
+            ScissorTestEnable = ScissorTestEnable,
+            PrimitiveResetEnable = PrimitiveResetEnable,
+            PrimitiveResetIndex = PrimitiveResetIndex,
+            ScissorData = (ScissorData)ScissorData.Clone(),
+            FillMode = FillMode,
+            MultiSampleAntialiasEnable = MultiSampleAntialiasEnable,
+            MultiSampleMask = MultiSampleMask,
+            ViewPortEnable = ViewPortEnable,
+            HalfPixelOffsetEnable = HalfPixelOffsetEnable,
+            ShadeMode = ShadeMode,
+            FrontFace = FrontFace
+        };
     }
 }

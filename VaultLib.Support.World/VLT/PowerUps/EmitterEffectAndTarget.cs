@@ -50,4 +50,9 @@ public class EmitterEffectAndTarget: VltBaseType<Key32>, IReferencesCollections<
     {
         return classKey == Key32.FromString("emittergroup") && collectionKey == EmitterKey;
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

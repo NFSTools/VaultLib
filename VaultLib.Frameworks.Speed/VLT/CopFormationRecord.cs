@@ -36,4 +36,9 @@ public struct CopFormationRecord : IComplexType
         Duration = Duration.EndianSwap();
         Frequency = Frequency.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

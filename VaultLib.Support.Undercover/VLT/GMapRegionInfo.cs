@@ -68,4 +68,9 @@ public class GMapRegionInfo: VltBaseType<Core.DataInterfaces.Key32>, IReferences
     {
         return new[] { Name };
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

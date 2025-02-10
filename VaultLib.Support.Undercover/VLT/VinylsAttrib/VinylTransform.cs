@@ -35,4 +35,9 @@ public class VinylTransform: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(ProportionalScale);
         bw.Write(Shear);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

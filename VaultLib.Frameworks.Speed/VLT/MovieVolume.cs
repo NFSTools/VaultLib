@@ -15,4 +15,9 @@ public struct MovieVolume : IComplexType
     {
         Hash = BinaryPrimitives.ReverseEndianness(Hash);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

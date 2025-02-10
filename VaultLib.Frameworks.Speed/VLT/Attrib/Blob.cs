@@ -38,5 +38,18 @@ public abstract class Blob<TKey> : BaseBlob<TKey> where TKey : struct, IKey<TKey
     }
 }
 
-public class Blob32 : Blob<Key32> {}
-public class Blob64 : Blob<Key64> {}
+public class Blob32 : Blob<Key32>
+{
+    public override object Clone()
+    {
+        return new Blob32 { Data = Data?.Clone() as byte[] };
+    }
+}
+
+public class Blob64 : Blob<Key64>
+{
+    public override object Clone()
+    {
+        return new Blob64 { Data = Data?.Clone() as byte[] };
+    }
+}

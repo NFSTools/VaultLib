@@ -18,4 +18,9 @@ public struct StitchCollisionVol : IComplexType
         Vol3 = BinaryPrimitives.ReverseEndianness(Vol3);
         Vol4 = BinaryPrimitives.ReverseEndianness(Vol4);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

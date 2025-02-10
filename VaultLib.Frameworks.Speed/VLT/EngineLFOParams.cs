@@ -24,4 +24,9 @@ public struct EngineLFOParams : IComplexType
         vol_amplitude = vol_amplitude.EndianSwap();
         lifespan = lifespan.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -31,4 +31,9 @@ public struct HeavySupport : IComplexType
         Duration = Duration.EndianSwap();
         ChanceBigSUV = BinaryPrimitives.ReverseEndianness(ChanceBigSUV);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

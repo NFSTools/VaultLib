@@ -20,4 +20,9 @@ public class CollectionNameToParentIndex : BaseCollectionNameIndex
             }))
             .ToList();
     }
+
+    public override object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
 }

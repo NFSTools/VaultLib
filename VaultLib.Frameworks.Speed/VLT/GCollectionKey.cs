@@ -54,8 +54,22 @@ public abstract class GCollectionKey<TKey> : BaseRefSpec<TKey> where TKey : stru
 
 public class GCollectionKey32 : GCollectionKey<Key32>
 {
+    public override object Clone()
+    {
+        return new GCollectionKey32
+        {
+            CollectionKey = this.CollectionKey,
+        };
+    }
 }
 
 public class GCollectionKey64 : GCollectionKey<Key64>
 {
+    public override object Clone()
+    {
+        return new GCollectionKey64
+        {
+            CollectionKey = this.CollectionKey,
+        };
+    }
 }

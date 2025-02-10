@@ -13,7 +13,8 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cBlendStateAttribDefinition")]
-public class cBlendStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class cBlendStateAttribDefinition : VltBaseType<Core.DataInterfaces.Key32>,
+    IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public string DebugName { get; set; } = string.Empty;
 
@@ -37,7 +38,8 @@ public class cBlendStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key32>
     public bool[] BlendEnable_PS3 { get; set; } = new bool[4];
     public bool BlendFactorF16_PS3 { get; set; }
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         DebugName = context.ReadString(br);
         BlendEnable = br.ReadBoolean();
@@ -64,7 +66,8 @@ public class cBlendStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key32>
         br.SafeAlignReader(4);
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         context.WriteString(DebugName, fieldContext, bw);
         bw.Write(BlendEnable);
@@ -94,20 +97,50 @@ public class cBlendStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key32>
         bw.AlignWriter(4);
     }
 
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
     }
 
     public IEnumerable<string> GetStrings()
     {
         return new[] { DebugName };
+    }
+
+    public override object Clone()
+    {
+        return new cBlendStateAttribDefinition
+        {
+            DebugName = DebugName,
+            BlendEnable = BlendEnable,
+            AlphaTestEnable = AlphaTestEnable,
+            AlphaTestRef = AlphaTestRef,
+            AlphaTestFunc = AlphaTestFunc,
+            SourceColor = (State_BlendInput[])SourceColor.Clone(),
+            DestColor = (State_BlendInput[])DestColor.Clone(),
+            OperationColor = (State_BlendOp[])OperationColor.Clone(),
+            SourceAlpha = (State_BlendInput[])SourceAlpha.Clone(),
+            DestAlpha = (State_BlendInput[])DestAlpha.Clone(),
+            OperationAlpha = (State_BlendOp[])OperationAlpha.Clone(),
+            BlendFactor = BlendFactor,
+            RGBAEnableRT0 = (bool[])RGBAEnableRT0.Clone(),
+            RGBAEnableRT1 = (bool[])RGBAEnableRT1.Clone(),
+            RGBAEnableRT2 = (bool[])RGBAEnableRT2.Clone(),
+            RGBAEnableRT3 = (bool[])RGBAEnableRT3.Clone(),
+            AlphaToMaskEnable_XENON = AlphaToMaskEnable_XENON,
+            HiPrecisionBlendEnable_XENON = (bool[])HiPrecisionBlendEnable_XENON.Clone(),
+            BlendEnable_PS3 = (bool[])BlendEnable_PS3.Clone(),
+            BlendFactorF16_PS3 = BlendFactorF16_PS3
+        };
     }
 }

@@ -67,4 +67,9 @@ public class VltAttribType<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> wh
         _offsetSrc = bw.BaseStream.Position;
         bw.Write(0);
     }
+
+    public override object Clone()
+    {
+        throw new NotImplementedException();
+    }
 }

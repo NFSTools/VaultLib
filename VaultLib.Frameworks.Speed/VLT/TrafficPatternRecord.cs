@@ -14,14 +14,15 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(TrafficPatternRecord))]
-public class TrafficPatternRecord: VltBaseType<Key32>, IReferencesCollections<Key32>
+public class TrafficPatternRecord : VltBaseType<Key32>, IReferencesCollections<Key32>
 {
     public RefSpec32 Vehicle { get; set; } = new();
     public float Rate { get; set; }
     public uint MaxInstances { get; set; }
     public uint Percent { get; set; }
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         Vehicle.Read(context, fieldContext, br);
         Rate = br.ReadSingle();
@@ -29,7 +30,8 @@ public class TrafficPatternRecord: VltBaseType<Key32>, IReferencesCollections<Ke
         Percent = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw)
     {
         Vehicle.Write(context, fieldContext, bw);
         bw.Write(Rate);
@@ -42,7 +44,8 @@ public class TrafficPatternRecord: VltBaseType<Key32>, IReferencesCollections<Ke
         return $"Vehicle: {Vehicle} | Spawn rate: {Rate} | Instances: {MaxInstances} | {Percent}%";
     }
 
-    public IEnumerable<CollectionReferenceInfo<Key32>> GetReferencedCollections(Database<Key32> database, Vault<Key32> vault)
+    public IEnumerable<CollectionReferenceInfo<Key32>> GetReferencedCollections(Database<Key32> database,
+        Vault<Key32> vault)
     {
         return Vehicle.GetReferencedCollections(database, vault);
     }
@@ -50,5 +53,16 @@ public class TrafficPatternRecord: VltBaseType<Key32>, IReferencesCollections<Ke
     public bool ReferencesCollection(Key32 classKey, Key32 collectionKey)
     {
         return Vehicle.ClassKey == classKey && Vehicle.CollectionKey == collectionKey;
+    }
+
+    public override object Clone()
+    {
+        return new TrafficPatternRecord
+        {
+            MaxInstances = MaxInstances,
+            Percent = Percent,
+            Rate = Rate,
+            Vehicle = (RefSpec32)Vehicle.Clone(),
+        };
     }
 }

@@ -14,4 +14,9 @@ public struct LightStreakSplineRecord : IComplexType
         mEnum = BinaryPrimitives.ReverseEndianness(mEnum);
         mIndex = BinaryPrimitives.ReverseEndianness(mIndex);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

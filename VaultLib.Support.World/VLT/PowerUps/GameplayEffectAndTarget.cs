@@ -48,4 +48,9 @@ public class GameplayEffectAndTarget: VltBaseType<Key32>, IReferencesCollections
     {
         return classKey == Key32.FromString("powerup_gamegroup") && collectionKey == GroupKey;
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

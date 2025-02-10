@@ -24,4 +24,9 @@ public class HelpBarButtonGroup: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(LanguageHash);
         bw.Write(TextSizeX);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

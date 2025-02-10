@@ -2,6 +2,7 @@
 // 
 // Created: 10/19/2019 @ 4:56 PM.
 
+using System;
 using System.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Utils;
@@ -13,7 +14,8 @@ namespace VaultLib.Core.Types;
 /// </summary>
 /// <typeparam name="TKey"></typeparam>
 /// <typeparam name="TItem"></typeparam>
-public class VltPointerContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey> where TKey : struct, IKey<TKey>
+public class VltPointerContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerObject<TKey>
+    where TKey : struct, IKey<TKey>
 {
     private uint _pointer;
     private long _ptrDst;
@@ -22,7 +24,8 @@ public class VltPointerContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerOb
 
     public TItem Value { get; set; }
 
-    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryReader br)
     {
         br.BaseStream.Position = _pointer;
         Value = (TItem)context.Database.TypeRegistry.ReadTypeInstance(context, fieldContext, br, typeof(TItem));
@@ -33,7 +36,8 @@ public class VltPointerContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerOb
         }
     }
 
-    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         _ptrDst = bw.BaseStream.Position;
         context.Database.TypeRegistry.WriteTypeInstance(Value, context, fieldContext, bw, typeof(TItem));
@@ -54,9 +58,15 @@ public class VltPointerContainer<TKey, TItem> : VltBaseType<TKey>, IVltPointerOb
         _pointer = br.ReadUInt32();
     }
 
-    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         _ptrSrc = bw.BaseStream.Position;
         bw.Write(0);
+    }
+
+    public override object Clone()
+    {
+        throw new NotImplementedException();
     }
 }

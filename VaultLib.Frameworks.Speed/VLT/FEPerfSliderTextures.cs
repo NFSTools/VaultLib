@@ -36,4 +36,9 @@ public struct FEPerfSliderTextures : IComplexType
         Logo8 = BinaryPrimitives.ReverseEndianness((uint)Logo8);
         Logo9 = BinaryPrimitives.ReverseEndianness((uint)Logo9);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

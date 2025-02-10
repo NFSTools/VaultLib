@@ -20,4 +20,9 @@ public struct CarBodyMotion : IComplexType
         MaxGs = MaxGs.EndianSwap();
         DegPerSec = DegPerSec.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

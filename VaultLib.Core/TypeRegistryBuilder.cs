@@ -5,13 +5,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using CoreLibraries.IO;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.DB;
 using VaultLib.Core.Types;
+using VaultLib.Core.Types.Attrib.Types;
 using VaultLib.Core.Utils;
 using BinaryExtensions = VaultLib.Core.Utils.BinaryExtensions;
 
@@ -65,100 +65,10 @@ public class TypeRegistryBuilder<TKey> where TKey : struct, IKey<TKey>
         RegisterPrimitive("DUMMY_BinKey32", BinKey32.Read, (v, w) => v.Write(w));
         RegisterPrimitive("DUMMY_BinKey64", BinKey64.Read, (v, w) => v.Write(w));
 
-        switch (byteOrder)
-        {
-            case ByteOrder.Little:
-                RegisterVectorsLittleEndian();
-                break;
-            case ByteOrder.Big:
-                RegisterVectorsBigEndian();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(byteOrder));
-        }
-    }
-
-    private void RegisterVectorsLittleEndian()
-    {
         RegisterStruct<Vector2>("Attrib::Types::Vector2");
         RegisterStruct<Vector3>("Attrib::Types::Vector3");
         RegisterStruct<Vector4>("Attrib::Types::Vector4");
-        RegisterStruct<Matrix4x4>("Attrib::Types::Matrix");
-    }
-
-    private void RegisterVectorsBigEndian()
-    {
-        RegisterPrimitive("Attrib::Types::Vector2", r =>
-        {
-            var v = StructReader<Vector2>(r);
-            BinaryExtensions.EndianSwap(ref v.X);
-            BinaryExtensions.EndianSwap(ref v.Y);
-            return v;
-        }, (v, w) =>
-        {
-            Span<float> items = stackalloc float[2];
-            items[0] = v.X.EndianSwap();
-            items[1] = v.Y.EndianSwap();
-            w.Write(MemoryMarshal.AsBytes(items));
-        });
-
-        RegisterPrimitive("Attrib::Types::Vector3", r =>
-        {
-            var v = StructReader<Vector3>(r);
-            BinaryExtensions.EndianSwap(ref v.X);
-            BinaryExtensions.EndianSwap(ref v.Y);
-            BinaryExtensions.EndianSwap(ref v.Z);
-            return v;
-        }, (v, w) =>
-        {
-            Span<float> items = stackalloc float[3];
-            items[0] = v.X.EndianSwap();
-            items[1] = v.Y.EndianSwap();
-            items[2] = v.Z.EndianSwap();
-            w.Write(MemoryMarshal.AsBytes(items));
-        });
-        RegisterPrimitive("Attrib::Types::Vector4", r =>
-        {
-            var v = StructReader<Vector4>(r);
-            BinaryExtensions.EndianSwap(ref v.X);
-            BinaryExtensions.EndianSwap(ref v.Y);
-            BinaryExtensions.EndianSwap(ref v.Z);
-            BinaryExtensions.EndianSwap(ref v.W);
-            return v;
-        }, (v, w) =>
-        {
-            Span<float> items = stackalloc float[4];
-            items[0] = v.X.EndianSwap();
-            items[1] = v.Y.EndianSwap();
-            items[2] = v.Z.EndianSwap();
-            items[3] = v.W.EndianSwap();
-            w.Write(MemoryMarshal.AsBytes(items));
-        });
-        RegisterPrimitive("Attrib::Types::Matrix", r =>
-        {
-            var v = StructReader<Matrix4x4>(r);
-            for (var i = 0; i < 4; i++)
-            {
-                for (var j = 0; j < 4; j++)
-                {
-                    v[i, j] = v[i, j].EndianSwap();
-                }
-            }
-
-            return v;
-        }, (v, w) =>
-        {
-            Span<float> items = stackalloc float[16];
-            for (var i = 0; i < 4; i++)
-            {
-                for (var j = 0; j < 4; j++)
-                {
-                    items[i * 4 + j] = v[i, j].EndianSwap();
-                }
-            }
-
-            w.Write(MemoryMarshal.AsBytes(items));
-        });
+        RegisterStruct<Matrix>("Attrib::Types::Matrix");
     }
 
     public void Map<TDest>(string typeId)

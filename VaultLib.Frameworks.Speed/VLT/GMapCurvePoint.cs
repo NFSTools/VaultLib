@@ -18,4 +18,9 @@ public struct GMapCurvePoint : IComplexType
         X = X.EndianSwap();
         Y = Y.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

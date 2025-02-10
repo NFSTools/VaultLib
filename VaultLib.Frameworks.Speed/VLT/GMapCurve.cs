@@ -18,4 +18,9 @@ public struct GMapCurve : IComplexType
         mPointStart = BinaryPrimitives.ReverseEndianness(mPointStart);
         mPointCount = BinaryPrimitives.ReverseEndianness(mPointCount);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

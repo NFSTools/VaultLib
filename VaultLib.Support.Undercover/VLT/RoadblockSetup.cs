@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(RoadblockSetup))]
-public class RoadblockSetup: VltBaseType<Core.DataInterfaces.Key32>
+public class RoadblockSetup : VltBaseType<Core.DataInterfaces.Key32>
 {
     public RoadblockSetup()
     {
@@ -20,7 +21,8 @@ public class RoadblockSetup: VltBaseType<Core.DataInterfaces.Key32>
     public float MaximumThreatLevel { get; set; }
     public RoadblockElement[] Contents { get; set; }
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         MinimumWidthRequired = br.ReadSingle();
         RequiredVehicles = br.ReadUInt32();
@@ -33,7 +35,8 @@ public class RoadblockSetup: VltBaseType<Core.DataInterfaces.Key32>
         }
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(MinimumWidthRequired);
         bw.Write(RequiredVehicles);
@@ -44,5 +47,17 @@ public class RoadblockSetup: VltBaseType<Core.DataInterfaces.Key32>
         {
             Contents[i].Write(context, fieldContext, bw);
         }
+    }
+
+    public override object Clone()
+    {
+        return new RoadblockSetup
+        {
+            MinimumWidthRequired = MinimumWidthRequired,
+            RequiredVehicles = RequiredVehicles,
+            MinimumThreatLevel = MinimumThreatLevel,
+            MaximumThreatLevel = MaximumThreatLevel,
+            Contents = Contents.CloneComplex()
+        };
     }
 }

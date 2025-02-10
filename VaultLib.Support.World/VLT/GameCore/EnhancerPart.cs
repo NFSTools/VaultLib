@@ -18,4 +18,9 @@ public class EnhancerPart: VltBaseType<Core.DataInterfaces.Key32>
     {
         bw.Write(Hash);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

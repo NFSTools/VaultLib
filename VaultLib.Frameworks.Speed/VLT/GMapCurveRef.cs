@@ -23,4 +23,9 @@ public struct GMapCurveRef : IComplexType
         mCurveIndex = BinaryPrimitives.ReverseEndianness(mCurveIndex);
         Flags = (GMapCurveRefFlags)BinaryPrimitives.ReverseEndianness((ushort)Flags);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

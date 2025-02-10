@@ -36,4 +36,9 @@ public class BlackBoardSlot : VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(mBlackBoardKey);
         bw.WriteEnum(mFlag);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

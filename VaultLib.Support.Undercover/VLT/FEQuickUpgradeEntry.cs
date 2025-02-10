@@ -22,4 +22,9 @@ public class FEQuickUpgradeEntry: VltBaseType<Core.DataInterfaces.Key32>
         bw.WriteEnum(Package);
         bw.WriteEnum(Level);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

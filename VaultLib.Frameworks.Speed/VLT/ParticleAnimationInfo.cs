@@ -31,4 +31,9 @@ public struct ParticleAnimationInfo : IComplexType
     {
         AnimType = (EffectParticleAnimation)BinaryPrimitives.ReverseEndianness((uint)AnimType);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

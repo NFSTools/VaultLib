@@ -26,4 +26,9 @@ public struct CCarDamageLevels : IComplexType
         WindowCrack = WindowCrack.EndianSwap();
         WindowShatter = WindowShatter.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

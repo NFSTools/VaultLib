@@ -37,7 +37,8 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
     private VltListContainer<Key32, Key32> _autoSculptCamera2;
     private VltListContainer<Key32, Key32> _autoSculptCamera3;
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         HAL_ID = br.ReadUInt32();
         CF_HAL_ID = br.ReadUInt32();
@@ -133,5 +134,28 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
     public IEnumerable<string> GetStrings()
     {
         return new[] { OfferID };
+    }
+
+    public override object Clone()
+    {
+        return new FEPartData
+        {
+            AutoSculptCamera1 = new List<Key32>(AutoSculptCamera1),
+            AutoSculptCamera2 = new List<Key32>(AutoSculptCamera2),
+            AutoSculptCamera3 = new List<Key32>(AutoSculptCamera3),
+            PartDetails = (VltPointerContainer<Key32, FEPartDetail>)PartDetails.Clone(),
+            DetailHash = DetailHash,
+            OfferID = OfferID,
+            HAL_ID = HAL_ID,
+            CF_HAL_ID = CF_HAL_ID,
+            Price = Price,
+            Unknown1 = Unknown1,
+            Unknown2 = Unknown2,
+            Unknown3 = Unknown3,
+            Unknown4 = Unknown4,
+            Unknown5 = Unknown5,
+            BrandHALId = BrandHALId,
+            LogoTextureId = LogoTextureId,
+        };
     }
 }

@@ -22,4 +22,9 @@ public class DecalLayer: VltBaseType<Core.DataInterfaces.Key32>
     {
         //
     }
+
+    public override object Clone()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -30,4 +30,9 @@ public class RwacSampleBankAsset: VltBaseType<Core.DataInterfaces.Key32>
     {
         return $"RWAC Bank {Bank:X8} -> Asset {Asset:X8}";
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

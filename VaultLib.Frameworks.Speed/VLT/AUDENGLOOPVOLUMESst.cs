@@ -30,4 +30,9 @@ public struct AUDENGLOOPVOLUMESst : IComplexType
         LD_HI_VOL = BinaryPrimitives.ReverseEndianness(LD_HI_VOL);
         REVLMT_VOL = BinaryPrimitives.ReverseEndianness(REVLMT_VOL);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -10,7 +10,7 @@ using VaultLib.Frameworks.Speed.VLT.Physics.Upgrades;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(ModifyScalarValue))]
-public class ModifyScalarValue: VltBaseType<Key32>
+public class ModifyScalarValue : VltBaseType<Key32>
 {
     public RefSpecPacked32 ReferencedRow { get; set; } = new();
     public bool IsMember { get; set; }
@@ -20,7 +20,8 @@ public class ModifyScalarValue: VltBaseType<Key32>
     public eModifyValueType ModificationType { get; set; }
     public float Value { get; set; }
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         ReferencedRow.Read(context, fieldContext, br);
         IsMember = br.ReadBoolean();
@@ -33,7 +34,8 @@ public class ModifyScalarValue: VltBaseType<Key32>
         Value = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw)
     {
         ReferencedRow.Write(context, fieldContext, bw);
         bw.Write(IsMember);
@@ -44,5 +46,19 @@ public class ModifyScalarValue: VltBaseType<Key32>
         bw.Write(ElementIndex);
         bw.WriteEnum(ModificationType);
         bw.Write(Value);
+    }
+
+    public override object Clone()
+    {
+        return new ModifyScalarValue
+        {
+            ElementIndex = this.ElementIndex,
+            IsElement = this.IsElement,
+            IsMember = this.IsMember,
+            MemberIndex = this.MemberIndex,
+            ModificationType = this.ModificationType,
+            ReferencedRow = (RefSpecPacked32)this.ReferencedRow.Clone(),
+            Value = this.Value,
+        };
     }
 }

@@ -31,4 +31,9 @@ public class BattleMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(TimeBehind_HiToFail);
         bw.Write(TimeAhead_FailToHi);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

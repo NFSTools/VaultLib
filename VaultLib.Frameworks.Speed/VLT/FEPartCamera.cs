@@ -13,28 +13,41 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(FEPartCamera))]
-public class FEPartCamera: VltBaseType<Key32>, IReferencesStrings<Key32>
+public class FEPartCamera : VltBaseType<Key32>, IReferencesStrings<Key32>
 {
     public string SlotName { get; set; } = string.Empty;
     public RefSpec32 Camera { get; set; } = new();
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         SlotName = context.ReadString(br);
         Camera.Read(context, fieldContext, br);
     }
 
-    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw)
     {
         context.WriteString(SlotName, fieldContext, bw);
         Camera.Write(context, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override object Clone()
+    {
+        return new FEPartCamera
+        {
+            SlotName = SlotName,
+            Camera = (RefSpec32)Camera.Clone(),
+        };
+    }
+
+    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw)
     {
     }
 

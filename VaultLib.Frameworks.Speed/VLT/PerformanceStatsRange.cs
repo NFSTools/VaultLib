@@ -18,4 +18,9 @@ public struct PerformanceStatsRange : IComplexType
         mMin = mMin.EndianSwap();
         mMax = mMax.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

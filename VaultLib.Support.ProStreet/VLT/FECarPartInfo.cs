@@ -23,4 +23,9 @@ public class FECarPartInfo: VltBaseType<Core.DataInterfaces.Key32>
         bw.WriteEnum(Level);
         bw.Write(Cost);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

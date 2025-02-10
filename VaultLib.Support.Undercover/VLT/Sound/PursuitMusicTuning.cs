@@ -5,11 +5,12 @@
 using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
+using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT.Sound;
 
 [VltTypeInfo("Sound::PursuitMusicTuning")]
-public class PursuitMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
+public class PursuitMusicTuning : VltBaseType<Core.DataInterfaces.Key32>
 {
     public float PlayerSpeedUR { get; set; }
     public float PursuitUR { get; set; }
@@ -30,7 +31,8 @@ public class PursuitMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
     public float MaxPursuitDist { get; set; }
     public float MinCopCohesion { get; set; }
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         PlayerSpeedUR = br.ReadSingle();
         PursuitUR = br.ReadSingle();
@@ -81,7 +83,8 @@ public class PursuitMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
         MinCopCohesion = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.Write(PlayerSpeedUR);
         bw.Write(PursuitUR);
@@ -130,5 +133,30 @@ public class PursuitMusicTuning: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(PctMaxVel_High);
         bw.Write(MaxPursuitDist);
         bw.Write(MinCopCohesion);
+    }
+
+    public override object Clone()
+    {
+        return new PursuitMusicTuning
+        {
+            PlayerSpeedUR = PlayerSpeedUR,
+            PursuitUR = PursuitUR,
+            PursuitDistThresh = PursuitDistThresh,
+            Evade2OutrunSpeedThresh = Evade2OutrunSpeedThresh,
+            HighTimeLimit = HighTimeLimit.CloneSimple(),
+            LowTimeLimit = LowTimeLimit.CloneSimple(),
+            EvadeTimeLimit = EvadeTimeLimit.CloneSimple(),
+            NormalTimeLimit = NormalTimeLimit.CloneSimple(),
+            OutrunTimeLimit = OutrunTimeLimit.CloneSimple(),
+            SafeTimeLimit = SafeTimeLimit.CloneSimple(),
+            UnsafeTimeLimit = UnsafeTimeLimit.CloneSimple(),
+            StartupDelay = StartupDelay,
+            PctMaxVel_Low = PctMaxVel_Low,
+            MinTimeLost = MinTimeLost,
+            MinTimeLastCrashed = MinTimeLastCrashed,
+            PctMaxVel_High = PctMaxVel_High,
+            MaxPursuitDist = MaxPursuitDist,
+            MinCopCohesion = MinCopCohesion,
+        };
     }
 }

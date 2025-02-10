@@ -16,4 +16,9 @@ public struct PerformanceWeight : IComplexType
         PerformanceType = (ePerformanceType)BinaryPrimitives.ReverseEndianness((uint)PerformanceType);
         Percentage = Percentage.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

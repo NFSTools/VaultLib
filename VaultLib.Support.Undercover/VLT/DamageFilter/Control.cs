@@ -24,4 +24,9 @@ public class Control: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(Reject);
         bw.Write(MaxCausalityTime);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

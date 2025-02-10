@@ -22,4 +22,9 @@ public class EndTransition: VltBaseType<Core.DataInterfaces.Key32>
         bw.WriteEnum(TransitionType);
         bw.Write(TransitionSec);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

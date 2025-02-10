@@ -31,4 +31,9 @@ public class CarPaintSwatch: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(Blend);
         bw.WriteEnum(SpeechColour);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

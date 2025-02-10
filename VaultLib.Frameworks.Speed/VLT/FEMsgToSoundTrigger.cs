@@ -14,4 +14,9 @@ public struct FEMsgToSoundTrigger : IComplexType
         FEngMsg = BinaryPrimitives.ReverseEndianness(FEngMsg);
         SoundTrigger = (eMenuSoundTriggers)BinaryPrimitives.ReverseEndianness((uint)SoundTrigger);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -15,10 +15,14 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, IReferencesCollections<TKey> where TKey : struct, IKey<TKey>
+public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, IReferencesCollections<TKey>
+    where TKey : struct, IKey<TKey>
 {
+    private VltClassField<TKey> _field;
+
     public VltArrayType(VltClassField<TKey> field, Type itemType)
     {
+        _field = field;
         ItemAlignment = field.Alignment;
         ItemType = itemType;
         Items = new List<object>();
@@ -32,7 +36,8 @@ public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, I
 
     public IList<object> Items { get; set; }
 
-    public IEnumerable<CollectionReferenceInfo<TKey>> GetReferencedCollections(Database<TKey> database, Vault<TKey> vault)
+    public IEnumerable<CollectionReferenceInfo<TKey>> GetReferencedCollections(Database<TKey> database,
+        Vault<TKey> vault)
     {
         return Items.OfType<IReferencesCollections<TKey>>()
             .SelectMany(rc => rc.GetReferencedCollections(database, vault));
@@ -70,13 +75,15 @@ public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, I
         // return Items.OfType<string>().Concat(Items.OfType<IReferencesStrings>().SelectMany(r => r.GetStrings()));
     }
 
-    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryReader br)
     {
         foreach (var pointerObject in Items.OfType<IVltPointerObject<TKey>>())
             pointerObject.ReadPointerData(context, fieldContext, br);
     }
 
-    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         foreach (var pointerObject in Items.OfType<IVltPointerObject<TKey>>())
         {
@@ -159,6 +166,24 @@ public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, I
     public override string ToString()
     {
         return string.Join(" | ", Items);
+    }
+
+    public override object Clone()
+    {
+        if (typeof(IComplexType).IsAssignableFrom(this.ItemType))
+        {
+            return new VltArrayType<TKey>(_field, ItemType)
+            {
+                Capacity = Capacity,
+                Items = this.Items.Cast<IComplexType>().Select(c => c.Clone()).ToList(),
+            };
+        }
+
+        return new VltArrayType<TKey>(_field, ItemType)
+        {
+            Capacity = Capacity,
+            Items = new List<object>(this.Items)
+        };
     }
 
     /// <summary>

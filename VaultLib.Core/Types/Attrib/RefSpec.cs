@@ -52,8 +52,24 @@ public abstract class RefSpec<TKey> : BaseRefSpec<TKey> where TKey : struct, IKe
 
 public class RefSpec32 : RefSpec<Key32>
 {
+    public override object Clone()
+    {
+        return new RefSpec32
+        {
+            ClassKey = this.ClassKey,
+            CollectionKey = this.CollectionKey,
+        };
+    }
 }
 
 public class RefSpec64 : RefSpec<Key64>
 {
+    public override object Clone()
+    {
+        return new RefSpec64
+        {
+            ClassKey = this.ClassKey,
+            CollectionKey = this.CollectionKey,
+        };
+    }
 }

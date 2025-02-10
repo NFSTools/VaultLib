@@ -12,14 +12,15 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.NIS;
 
 [VltTypeInfo("NIS::NISCar")]
-public class NISCar: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class NISCar : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
 {
     public RefSpec32 PresetRide { get; set; } = new();
     public string PresetSkinName { get; set; } = string.Empty;
     public uint VehicleCategory { get; set; }
     public string ChannelName { get; set; } = string.Empty;
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         PresetRide.Read(context, fieldContext, br);
         PresetSkinName = context.ReadString(br);
@@ -27,7 +28,8 @@ public class NISCar: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<
         ChannelName = context.ReadString(br);
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         PresetRide.Write(context, fieldContext, bw);
         context.WriteString(PresetSkinName, fieldContext, bw);
@@ -35,20 +37,34 @@ public class NISCar: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<
         context.WriteString(ChannelName, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
     }
 
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
+    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
     {
     }
 
     public IEnumerable<string> GetStrings()
     {
         return new[] { PresetSkinName, ChannelName };
+    }
+
+    public override object Clone()
+    {
+        return new NISCar
+        {
+            ChannelName = ChannelName,
+            PresetRide = (RefSpec32)PresetRide.Clone(),
+            PresetSkinName = PresetSkinName,
+            VehicleCategory = VehicleCategory,
+        };
     }
 }

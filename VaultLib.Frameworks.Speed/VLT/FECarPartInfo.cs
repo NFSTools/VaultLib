@@ -15,4 +15,9 @@ public struct FECarPartInfo : IComplexType
         Level = (eFEPartUpgradeLevels)BinaryPrimitives.ReverseEndianness((uint)Level);
         Cost = Cost.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

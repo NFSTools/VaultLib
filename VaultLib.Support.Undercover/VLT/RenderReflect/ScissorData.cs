@@ -26,4 +26,9 @@ public class ScissorData: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(Width);
         bw.Write(Height);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

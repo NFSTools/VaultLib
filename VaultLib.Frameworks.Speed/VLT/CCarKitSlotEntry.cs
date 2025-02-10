@@ -46,4 +46,13 @@ public class CCarKitSlotEntry : VltBaseType<Key32>, IReferencesStrings<Key32>
     {
         return new[] { SlotName };
     }
+
+    public override object Clone()
+    {
+        return new CCarKitSlotEntry
+        {
+            Part = (RefSpec32)this.Part.Clone(),
+            SlotName = this.SlotName,
+        };
+    }
 }

@@ -52,4 +52,9 @@ public class KeyValuePair: VltBaseType<Core.DataInterfaces.Key32>, IReferencesSt
     {
         //
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

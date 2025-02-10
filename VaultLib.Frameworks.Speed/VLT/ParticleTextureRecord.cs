@@ -15,4 +15,9 @@ public struct ParticleTextureRecord : IComplexType
         mEnum = new BinKey32(BinaryPrimitives.ReverseEndianness(mEnum.Hash));
         mIndex = BinaryPrimitives.ReverseEndianness(mIndex);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

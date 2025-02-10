@@ -47,4 +47,9 @@ public class FEHintsData: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStr
     {
         return new[] { Picture };
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

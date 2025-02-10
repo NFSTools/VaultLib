@@ -52,4 +52,9 @@ public class PresetRideAutosculpt: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(SculptZone9);
         bw.Write(SculptZone10);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

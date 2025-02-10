@@ -29,4 +29,9 @@ public struct AirSupport : IComplexType
         Chance = BinaryPrimitives.ReverseEndianness(Chance);
         Duration = Duration.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -18,7 +18,8 @@ public class CCarSlotEntry : VltBaseType<Key32>, IReferencesStrings<Key32>
     public DynamicSizeArray<Key32, RefSpec32> Parts { get; set; } = new();
     public string SlotName { get; set; } = string.Empty;
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         Parts.Read(context, fieldContext, br);
         SlotName = context.ReadString(br);
@@ -31,7 +32,8 @@ public class CCarSlotEntry : VltBaseType<Key32>, IReferencesStrings<Key32>
         context.WriteString(SlotName, fieldContext, bw);
     }
 
-    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         Parts.ReadPointerData(context, fieldContext, br);
     }
@@ -50,5 +52,14 @@ public class CCarSlotEntry : VltBaseType<Key32>, IReferencesStrings<Key32>
     public IEnumerable<string> GetStrings()
     {
         return new[] { SlotName };
+    }
+
+    public override object Clone()
+    {
+        return new CCarSlotEntry
+        {
+            Parts = (DynamicSizeArray<Key32, RefSpec32>)this.Parts.Clone(),
+            SlotName = this.SlotName,
+        };
     }
 }

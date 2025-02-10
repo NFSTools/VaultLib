@@ -30,4 +30,9 @@ public class FEVinylGroupInfo: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(Value4);
         bw.Write(Value5);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

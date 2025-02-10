@@ -26,4 +26,9 @@ public struct CollisionReactionRecord : IComplexType
         StunSpeed = StunSpeed.EndianSwap();
         StunTime = StunTime.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

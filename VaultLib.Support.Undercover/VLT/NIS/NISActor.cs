@@ -58,4 +58,9 @@ public class NISActor: VltBaseType<Core.DataInterfaces.Key32>, IReferencesString
     {
         return new[] { ActorName, CarChannelName };
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

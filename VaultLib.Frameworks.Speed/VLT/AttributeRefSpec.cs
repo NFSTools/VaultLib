@@ -27,8 +27,24 @@ public abstract class AttributeRefSpec<TKey> : VltBaseType<TKey> where TKey : st
 
 public class AttributeRefSpec32 : AttributeRefSpec<Key32>
 {
+    public override object Clone()
+    {
+        return new AttributeRefSpec32
+        {
+            ClassKey = this.ClassKey,
+            DefinitionKey = this.DefinitionKey,
+        };
+    }
 }
 
 public class AttributeRefSpec64 : AttributeRefSpec<Key64>
 {
+    public override object Clone()
+    {
+        return new AttributeRefSpec64
+        {
+            ClassKey = this.ClassKey,
+            DefinitionKey = this.DefinitionKey,
+        };
+    }
 }

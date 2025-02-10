@@ -21,4 +21,9 @@ public class Blob<TKey> : BaseBlob<TKey> where TKey : struct, IKey<TKey>
     {
         bw.Write(Data);
     }
+
+    public override object Clone()
+    {
+        return new Blob<TKey> { Data = (byte[])Data.Clone() };
+    }
 }

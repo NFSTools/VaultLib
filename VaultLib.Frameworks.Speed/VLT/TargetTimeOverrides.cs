@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(TargetTimeOverrides))]
-public class TargetTimeOverrides: VltBaseType<Key32>, IReferencesStrings<Key32>
+public class TargetTimeOverrides : VltBaseType<Key32>, IReferencesStrings<Key32>
 {
     public RefSpec32 Car { get; set; } = new();
     public string Event { get; set; } = string.Empty;
@@ -21,7 +21,8 @@ public class TargetTimeOverrides: VltBaseType<Key32>, IReferencesStrings<Key32>
     public float MaxDelta { get; set; }
     public float Shift { get; set; }
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         Car.Read(context, fieldContext, br);
         Event = context.ReadString(br);
@@ -30,7 +31,8 @@ public class TargetTimeOverrides: VltBaseType<Key32>, IReferencesStrings<Key32>
         Shift = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw)
     {
         Car.Write(context, fieldContext, bw);
         context.WriteString(Event, fieldContext, bw);
@@ -39,11 +41,13 @@ public class TargetTimeOverrides: VltBaseType<Key32>, IReferencesStrings<Key32>
         bw.Write(Shift);
     }
 
-    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
     }
 
-    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw)
     {
     }
 
@@ -54,5 +58,17 @@ public class TargetTimeOverrides: VltBaseType<Key32>, IReferencesStrings<Key32>
     public IEnumerable<string> GetStrings()
     {
         return new[] { Event };
+    }
+
+    public override object Clone()
+    {
+        return new TargetTimeOverrides
+        {
+            Car = (RefSpec32)this.Car.Clone(),
+            Event = this.Event,
+            MinDelta = this.MinDelta,
+            MaxDelta = this.MaxDelta,
+            Shift = this.Shift,
+        };
     }
 }

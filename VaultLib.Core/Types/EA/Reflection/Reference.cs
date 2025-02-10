@@ -16,5 +16,10 @@ namespace VaultLib.Core.Types.EA.Reflection
         {
             throw new System.NotImplementedException();
         }
+
+        public override object Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

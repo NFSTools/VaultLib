@@ -18,4 +18,9 @@ public struct FEDefaultUnlockable : IComplexType
         UnlockLevel = BinaryPrimitives.ReverseEndianness(UnlockLevel);
         UnlockTier = BinaryPrimitives.ReverseEndianness(UnlockTier);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

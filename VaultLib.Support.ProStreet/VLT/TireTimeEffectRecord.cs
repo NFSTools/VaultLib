@@ -8,7 +8,7 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo(nameof(TireTimeEffectRecord))]
-public class TireTimeEffectRecord: VltBaseType<Core.DataInterfaces.Key32>
+public class TireTimeEffectRecord : VltBaseType<Core.DataInterfaces.Key32>
 {
     public TireCondition mTireCondition { get; set; }
     public RefSpec32 mEmitter { get; set; } = new();
@@ -16,7 +16,8 @@ public class TireTimeEffectRecord: VltBaseType<Core.DataInterfaces.Key32>
     public float mMinTime { get; set; }
     public float mMaxTime { get; set; }
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         mTireCondition = br.ReadEnum<TireCondition>();
         mEmitter.Read(context, fieldContext, br);
@@ -25,12 +26,25 @@ public class TireTimeEffectRecord: VltBaseType<Core.DataInterfaces.Key32>
         mMaxTime = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
         bw.WriteEnum(mTireCondition);
         mEmitter.Write(context, fieldContext, bw);
         mEmitterLowLod.Write(context, fieldContext, bw);
         bw.Write(mMinTime);
         bw.Write(mMaxTime);
+    }
+
+    public override object Clone()
+    {
+        return new TireTimeEffectRecord
+        {
+            mTireCondition = mTireCondition,
+            mEmitter = (RefSpec32)mEmitter.Clone(),
+            mEmitterLowLod = (RefSpec32)mEmitterLowLod.Clone(),
+            mMinTime = mMinTime,
+            mMaxTime = mMaxTime
+        };
     }
 }

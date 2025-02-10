@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
@@ -76,5 +77,15 @@ public class Alias : VltBaseType<Key32>,
         FieldReadWriteContext<Key32> fieldContext)
     {
         context.AddPointer(_srcSlidersPtr, _dstSlidersPtr, false);
+    }
+
+    public override object Clone()
+    {
+        return new Alias
+        {
+            Kit = Kit,
+            Region = Region,
+            Sliders = Sliders.Select(s => (Slider)s.Clone()).ToList(),
+        };
     }
 }

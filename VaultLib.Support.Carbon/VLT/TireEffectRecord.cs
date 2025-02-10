@@ -28,4 +28,14 @@ public class TireEffectRecord : VltBaseType<Key32>
         bw.Write(mMinSpeed);
         bw.Write(mMaxSpeed);
     }
+
+    public override object Clone()
+    {
+        return new TireEffectRecord
+        {
+            mEmitter = (RefSpec32)mEmitter.Clone(),
+            mMinSpeed = mMinSpeed,
+            mMaxSpeed = mMaxSpeed,
+        };
+    }
 }

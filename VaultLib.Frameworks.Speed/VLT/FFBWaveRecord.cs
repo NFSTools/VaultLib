@@ -30,4 +30,9 @@ public struct FFBWaveRecord : IComplexType
         Offset_B = Offset_B.EndianSwap();
         Threshold_B = Threshold_B.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

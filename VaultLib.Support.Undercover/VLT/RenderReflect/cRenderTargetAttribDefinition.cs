@@ -52,4 +52,9 @@ public class cRenderTargetAttribDefinition: VltBaseType<Core.DataInterfaces.Key3
         bw.WriteEnum(TargetDepthStencilFormat);
         bw.WriteEnum(MultiSampleMode);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

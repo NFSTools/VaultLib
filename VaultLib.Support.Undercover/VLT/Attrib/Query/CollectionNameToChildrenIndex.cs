@@ -21,4 +21,9 @@ public class CollectionNameToChildrenIndex : BaseCollectionNameIndex
                 g.OrderBy(c => c.GetRawValue<string>("CollectionName")).Select(c => c.Key).ToList()))
             .ToList();
     }
+
+    public override object Clone()
+    {
+        throw new System.NotImplementedException();
+    }
 }

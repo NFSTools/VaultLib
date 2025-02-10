@@ -29,4 +29,9 @@ public class BinarySequence: VltBaseType<Core.DataInterfaces.Key32>
         bw.AlignWriter(4);
         bw.Write(Duration);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -51,4 +51,9 @@ public class IntegratedKitWheelOffset: VltBaseType<Core.DataInterfaces.Key32>, I
     {
         //
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

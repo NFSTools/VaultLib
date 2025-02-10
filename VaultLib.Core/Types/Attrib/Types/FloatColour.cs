@@ -26,4 +26,9 @@ public struct FloatColour : IComplexType
         BinaryExtensions.EndianSwap(ref B);
         BinaryExtensions.EndianSwap(ref A);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

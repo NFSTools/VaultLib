@@ -24,4 +24,9 @@ public class Slider: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(Region);
         bw.Write(Zone);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

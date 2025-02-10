@@ -11,7 +11,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo(nameof(Curve))]
-public class Curve: VltBaseType<Key32>, IVltPointerObject<Key32>
+public class Curve : VltBaseType<Key32>, IVltPointerObject<Key32>
 {
     public float MinX { get; set; }
     public float MaxX { get; set; }
@@ -26,7 +26,8 @@ public class Curve: VltBaseType<Key32>, IVltPointerObject<Key32>
     private VariableArray<Key32> _yArray = new();
     private VariableArray<Key32> _y2Array = new();
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         MinX = br.ReadSingle();
         MaxX = br.ReadSingle();
@@ -39,12 +40,13 @@ public class Curve: VltBaseType<Key32>, IVltPointerObject<Key32>
         //Debug.Assert(br.ReadUInt32()==0);
     }
 
-    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw)
     {
         _xArray.Data = XValues;
         _yArray.Data = YValues;
-        _y2Array.Data = Y2Values; 
-            
+        _y2Array.Data = Y2Values;
+
         bw.Write(MinX);
         bw.Write(MaxX);
         bw.Write(MinY);
@@ -57,7 +59,8 @@ public class Curve: VltBaseType<Key32>, IVltPointerObject<Key32>
         bw.Write(0); // AllocatedMemory (bool1 + 3 align bytes)
     }
 
-    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
         _xArray.ReadPointerData(context, br);
         _yArray.ReadPointerData(context, br);
@@ -68,7 +71,8 @@ public class Curve: VltBaseType<Key32>, IVltPointerObject<Key32>
         Y2Values = _y2Array.Data;
     }
 
-    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryWriter bw)
     {
         _xArray.WritePointerData(context, bw);
         _yArray.WritePointerData(context, bw);
@@ -80,5 +84,19 @@ public class Curve: VltBaseType<Key32>, IVltPointerObject<Key32>
         _xArray.AddPointers(context);
         _yArray.AddPointers(context);
         _y2Array.AddPointers(context);
+    }
+
+    public override object Clone()
+    {
+        return new Curve
+        {
+            MinX = MinX,
+            MaxX = MaxX,
+            MinY = MinY,
+            MaxY = MaxY,
+            XValues = (float[])XValues.Clone(),
+            YValues = (float[])YValues.Clone(),
+            Y2Values = (float[])Y2Values.Clone(),
+        };
     }
 }

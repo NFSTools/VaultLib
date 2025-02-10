@@ -18,4 +18,9 @@ public struct DamageScaleRecord : IComplexType
         VisualScale = VisualScale.EndianSwap();
         HitPointScale = HitPointScale.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

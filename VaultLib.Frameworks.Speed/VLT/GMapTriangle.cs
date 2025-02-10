@@ -20,4 +20,9 @@ public struct GMapTriangle : IComplexType
         mPoint2 = BinaryPrimitives.ReverseEndianness(mPoint2);
         mPoint3 = BinaryPrimitives.ReverseEndianness(mPoint3);
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

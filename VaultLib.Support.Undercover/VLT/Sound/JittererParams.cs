@@ -28,4 +28,9 @@ public class JittererParams: VltBaseType<Core.DataInterfaces.Key32>
         bw.Write(Unknown3);
         bw.Write(Unknown4);
     }
+
+    public override object Clone()
+    {
+        return MemberwiseClone();
+    }
 }
