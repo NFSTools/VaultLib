@@ -6,6 +6,7 @@ using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Exports;
 using VaultLib.Core.Exports.Implementations;
+using VaultLib.Core.Types.Attrib;
 using VaultLib.Frameworks.Speed;
 using VaultLib.ModernBase;
 using VaultLib.ModernBase.Exports;

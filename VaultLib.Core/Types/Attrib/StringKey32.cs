@@ -4,13 +4,11 @@
 
 using System.Collections.Generic;
 using System.IO;
-using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Hashing;
-using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
-namespace VaultLib.ModernBase;
+namespace VaultLib.Core.Types.Attrib;
 
 public class StringKey32 : VltBaseType<Key32>, IReferencesStrings<Key32>, IStringValue
 {

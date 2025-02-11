@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
 using VaultLib.Core.Types;
+using VaultLib.Core.Types.Attrib;
 using VaultLib.Core.Utils;
 using VaultLib.LegacyBase;
 
