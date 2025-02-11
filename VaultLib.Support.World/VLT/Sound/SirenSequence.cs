@@ -7,7 +7,7 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.World.VLT.Sound;
 
 [VltTypeInfo("Sound::SirenSequence")]
-public struct SirenSequence
+public struct SirenSequence : IComplexType
 {
     public enum SirenMode
     {
@@ -23,4 +23,14 @@ public struct SirenSequence
 
     public SirenMode mMode;
     public float mDuration;
+
+    public void EndianSwap()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -7,10 +7,20 @@ using VaultLib.Core.Types;
 namespace VaultLib.Support.World.VLT.Sound;
 
 [VltTypeInfo("Sound::BattleMusicTuning")]
-public struct BattleMusicTuning
+public struct BattleMusicTuning : IComplexType
 {
-    public float TimeAhead_HiToMed { get; set; }
-    public float TimeAhead_MedToLo { get; set; }
-    public float TimeBehind_HiToFail { get; set; }
-    public float TimeAhead_FailToHi { get; set; }
+    public float TimeAhead_HiToMed;
+    public float TimeAhead_MedToLo;
+    public float TimeBehind_HiToFail;
+    public float TimeAhead_FailToHi;
+    
+    public void EndianSwap()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }
