@@ -18,4 +18,9 @@ public struct CameraSpeedReactionRecord : IComplexType
         SpeedMax = SpeedMax.EndianSwap();
         ValueMax = ValueMax.EndianSwap();
     }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }
