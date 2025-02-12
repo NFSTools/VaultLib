@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -13,21 +14,21 @@ namespace VaultLib.Support.Undercover.VLT;
 [VltTypeInfo(nameof(FEHintsData))]
 public class FEHintsData: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
 {
-    public uint SubjectHALId { get; set; }
-    public uint TextHALId { get; set; }
+    public BinKey32 SubjectHALId { get; set; }
+    public BinKey32 TextHALId { get; set; }
     public string Picture { get; set; } = string.Empty;
 
     public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
-        SubjectHALId = br.ReadUInt32();
-        TextHALId = br.ReadUInt32();
+        SubjectHALId = BinKey32.Read(br);
+        TextHALId = BinKey32.Read(br);
         Picture = context.ReadString(br);
     }
 
     public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
-        bw.Write(SubjectHALId);
-        bw.Write(TextHALId);
+        SubjectHALId.Write(bw);
+        TextHALId.Write(bw);
         context.WriteString(Picture, fieldContext, bw);
     }
 

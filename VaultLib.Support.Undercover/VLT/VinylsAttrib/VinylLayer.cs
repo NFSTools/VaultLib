@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
@@ -19,7 +20,7 @@ public class VinylLayer : VltBaseType<Core.DataInterfaces.Key32>
         }
     }
 
-    public uint PartNameHash { get; set; }
+    public BinKey32 PartNameHash { get; set; }
     public bool Mirrored { get; set; }
     public VinylTransform Transform { get; set; }
     public VinylColor[] Colors { get; set; }
@@ -27,7 +28,7 @@ public class VinylLayer : VltBaseType<Core.DataInterfaces.Key32>
     public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
         FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
-        PartNameHash = br.ReadUInt32();
+        PartNameHash = BinKey32.Read(br);
         Mirrored = br.ReadBoolean();
         br.AlignReader(2);
         Transform.Read(context, fieldContext, br);
@@ -41,7 +42,7 @@ public class VinylLayer : VltBaseType<Core.DataInterfaces.Key32>
     public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
         FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
-        bw.Write(PartNameHash);
+        PartNameHash.Write(bw);
         bw.Write(Mirrored);
         bw.AlignWriter(2);
         Transform.Write(context, fieldContext, bw);

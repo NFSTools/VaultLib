@@ -1,4 +1,5 @@
 ﻿using System.Buffers.Binary;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Frameworks.Speed.VLT;
@@ -7,34 +8,34 @@ namespace VaultLib.Frameworks.Speed.VLT;
 public struct FEPerfSliderTextures : IComplexType
 {
     public eFEPartUpgradeLevels Level;
-    public uint Name1;
-    public uint Name2;
-    public uint Name3;
-    public uint Logo1;
-    public uint Logo2;
-    public uint Logo3;
-    public uint Logo4;
-    public uint Logo5;
-    public uint Logo6;
-    public uint Logo7;
-    public uint Logo8;
-    public uint Logo9;
+    public BinKey32 Name1;
+    public BinKey32 Name2;
+    public BinKey32 Name3;
+    public BinKey32 Logo1;
+    public BinKey32 Logo2;
+    public BinKey32 Logo3;
+    public BinKey32 Logo4;
+    public BinKey32 Logo5;
+    public BinKey32 Logo6;
+    public BinKey32 Logo7;
+    public BinKey32 Logo8;
+    public BinKey32 Logo9;
 
     public void EndianSwap()
     {
         Level = (eFEPartUpgradeLevels)BinaryPrimitives.ReverseEndianness((uint)Level);
-        Name1 = BinaryPrimitives.ReverseEndianness((uint)Name1);
-        Name2 = BinaryPrimitives.ReverseEndianness((uint)Name2);
-        Name3 = BinaryPrimitives.ReverseEndianness((uint)Name3);
-        Logo1 = BinaryPrimitives.ReverseEndianness((uint)Logo1);
-        Logo2 = BinaryPrimitives.ReverseEndianness((uint)Logo2);
-        Logo3 = BinaryPrimitives.ReverseEndianness((uint)Logo3);
-        Logo4 = BinaryPrimitives.ReverseEndianness((uint)Logo4);
-        Logo5 = BinaryPrimitives.ReverseEndianness((uint)Logo5);
-        Logo6 = BinaryPrimitives.ReverseEndianness((uint)Logo6);
-        Logo7 = BinaryPrimitives.ReverseEndianness((uint)Logo7);
-        Logo8 = BinaryPrimitives.ReverseEndianness((uint)Logo8);
-        Logo9 = BinaryPrimitives.ReverseEndianness((uint)Logo9);
+        Name1 = new BinKey32(BinaryPrimitives.ReverseEndianness(Name1.Hash));
+        Name2 = new BinKey32(BinaryPrimitives.ReverseEndianness(Name2.Hash));
+        Name3 = new BinKey32(BinaryPrimitives.ReverseEndianness(Name3.Hash));
+        Logo1 = new BinKey32(BinaryPrimitives.ReverseEndianness(Logo1.Hash));
+        Logo2 = new BinKey32(BinaryPrimitives.ReverseEndianness(Logo2.Hash));
+        Logo3 = new BinKey32(BinaryPrimitives.ReverseEndianness(Logo3.Hash));
+        Logo4 = new BinKey32(BinaryPrimitives.ReverseEndianness(Logo4.Hash));
+        Logo5 = new BinKey32(BinaryPrimitives.ReverseEndianness(Logo5.Hash));
+        Logo6 = new BinKey32(BinaryPrimitives.ReverseEndianness(Logo6.Hash));
+        Logo7 = new BinKey32(BinaryPrimitives.ReverseEndianness(Logo7.Hash));
+        Logo8 = new BinKey32(BinaryPrimitives.ReverseEndianness(Logo8.Hash));
+        Logo9 = new BinKey32(BinaryPrimitives.ReverseEndianness(Logo9.Hash));
     }
 
     public object Clone()

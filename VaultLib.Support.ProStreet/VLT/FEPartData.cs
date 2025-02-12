@@ -15,16 +15,16 @@ namespace VaultLib.Support.ProStreet.VLT;
 [VltTypeInfo(nameof(FEPartData))]
 public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
 {
-    public uint HAL_ID { get; set; }
-    public uint CF_HAL_ID { get; set; }
+    public BinKey32 HAL_ID { get; set; }
+    public BinKey32 CF_HAL_ID { get; set; }
     public int Price { get; set; }
     public byte Unknown1 { get; set; }
     public byte Unknown2 { get; set; }
     public byte Unknown3 { get; set; }
     public byte Unknown4 { get; set; }
     public uint Unknown5 { get; set; }
-    public uint BrandHALId { get; set; }
-    public uint LogoTextureId { get; set; }
+    public BinKey32 BrandHALId { get; set; }
+    public BinKey32 LogoTextureId { get; set; }
 
     public List<Key32> AutoSculptCamera1 { get; set; }
     public List<Key32> AutoSculptCamera2 { get; set; }
@@ -40,16 +40,16 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
     public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryReader br)
     {
-        HAL_ID = br.ReadUInt32();
-        CF_HAL_ID = br.ReadUInt32();
+        HAL_ID = BinKey32.Read(br);
+        CF_HAL_ID = BinKey32.Read(br);
         Price = br.ReadInt32();
         Unknown1 = br.ReadByte();
         Unknown2 = br.ReadByte();
         Unknown3 = br.ReadByte();
         Unknown4 = br.ReadByte();
         Unknown5 = br.ReadUInt32();
-        BrandHALId = br.ReadUInt32();
-        LogoTextureId = br.ReadUInt32();
+        BrandHALId = BinKey32.Read(br);
+        LogoTextureId = BinKey32.Read(br);
 
         _autoSculptCamera1 = new VltListContainer<Key32, Key32>(br.ReadByte());
         _autoSculptCamera2 = new VltListContainer<Key32, Key32>(br.ReadByte());
@@ -78,16 +78,16 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
     public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryWriter bw)
     {
-        bw.Write(HAL_ID);
-        bw.Write(CF_HAL_ID);
+        HAL_ID.Write(bw);
+        CF_HAL_ID.Write(bw);
         bw.Write(Price);
         bw.Write(Unknown1);
         bw.Write(Unknown2);
         bw.Write(Unknown3);
         bw.Write(Unknown4);
         bw.Write(Unknown5);
-        bw.Write(BrandHALId);
-        bw.Write(LogoTextureId);
+        BrandHALId.Write(bw);
+        LogoTextureId.Write(bw);
         bw.Write((byte)AutoSculptCamera1.Count);
         bw.Write((byte)AutoSculptCamera2.Count);
         bw.Write((byte)AutoSculptCamera3.Count);

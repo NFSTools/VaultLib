@@ -30,6 +30,7 @@ public class ModuleDef : BaseGameModule<Key32>
             "traffic_engine", "IndexTable_CollectionName");
         typeRegistry.AddFieldOverride<CollectionNameToChildrenIndex>(
             "traffic_horn", "IndexTable_CollectionName");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "Localization");
     }
 
     public override ExportFactory<Key32> CreateExportFactory()

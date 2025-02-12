@@ -4,6 +4,7 @@
 
 using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.MostWanted.VLT;
@@ -11,23 +12,23 @@ namespace VaultLib.Support.MostWanted.VLT;
 [VltTypeInfo(nameof(JunkmanMod))]
 public class JunkmanMod : VltBaseType<Core.DataInterfaces.Key32>
 {
-    public uint ClassKey { get; set; }
-    public uint DefinitionKey { get; set; }
+    public Key32 ClassKey { get; set; }
+    public Key32 DefinitionKey { get; set; }
     public float ScaleF { get; set; }
 
     public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
         FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
-        ClassKey = br.ReadUInt32();
-        DefinitionKey = br.ReadUInt32();
+        ClassKey = Key32.Read(br);
+        DefinitionKey = Key32.Read(br);
         ScaleF = br.ReadSingle();
     }
 
     public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
         FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
-        bw.Write(ClassKey);
-        bw.Write(DefinitionKey);
+        ClassKey.Write(bw);
+        DefinitionKey.Write(bw);
         bw.Write(ScaleF);
     }
 

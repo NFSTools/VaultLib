@@ -1,27 +1,30 @@
 ﻿using System.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo(nameof(HelpBarButtonGroup))]
-public class HelpBarButtonGroup: VltBaseType<Core.DataInterfaces.Key32>
+public class HelpBarButtonGroup : VltBaseType<Core.DataInterfaces.Key32>
 {
-    public uint TextureHash { get; set; }
-    public uint LanguageHash { get; set; }
+    public BinKey32 TextureHash { get; set; }
+    public BinKey32 LanguageHash { get; set; }
     public float TextSizeX { get; set; }
 
-    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
-        TextureHash = br.ReadUInt32();
-        LanguageHash = br.ReadUInt32();
+        TextureHash = BinKey32.Read(br);
+        LanguageHash = BinKey32.Read(br);
         TextSizeX = br.ReadSingle();
     }
 
-    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<Core.DataInterfaces.Key32> context,
+        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
     {
-        bw.Write(TextureHash);
-        bw.Write(LanguageHash);
+        TextureHash.Write(bw);
+        LanguageHash.Write(bw);
         bw.Write(TextSizeX);
     }
 

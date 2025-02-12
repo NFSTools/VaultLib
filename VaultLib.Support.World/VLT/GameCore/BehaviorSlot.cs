@@ -2,6 +2,7 @@
 // 
 // Created: 10/07/2019 @ 3:31 PM.
 
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 
 namespace VaultLib.Support.World.VLT.GameCore;
@@ -15,7 +16,7 @@ public struct BehaviorSlot : IComplexType
         kBehavior_AutoActive
     }
 
-    public uint mBehaviorChannel;
+    public Key32 mBehaviorChannel;
     public uint mBehaviorType;
     public BehaviorFlag mFlags;
 

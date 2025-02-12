@@ -16,8 +16,8 @@ namespace VaultLib.Support.Undercover.VLT;
 [VltTypeInfo(nameof(FEPartData))]
 public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
 {
-    public uint HAL_ID { get; set; }
-    public uint CF_HAL_ID { get; set; }
+    public BinKey32 HAL_ID { get; set; }
+    public BinKey32 CF_HAL_ID { get; set; }
     public int Price { get; set; }
     public int ShowroomUnlock { get; set; }
     public int Tier1Price { get; set; }
@@ -29,17 +29,18 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
     public byte Tier2ShowroomUnlock { get; set; }
     public byte Tier3ShowroomUnlock { get; set; }
     public byte Tier4ShowroomUnlock { get; set; }
-    public uint BrandHALId { get; set; }
-    public uint LogoTextureId { get; set; }
+    public BinKey32 BrandHALId { get; set; }
+    public BinKey32 LogoTextureId { get; set; }
     public uint DetailHash { get; set; }
     public VltPointerContainer<Key32, FEPartDetail> PartDetails { get; set; }
     public string OfferID { get; set; } = string.Empty;
     public bool IsOnlineLockable { get; set; }
 
-    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
+    public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
+        BinaryReader br)
     {
-        HAL_ID = br.ReadUInt32();
-        CF_HAL_ID = br.ReadUInt32();
+        HAL_ID = BinKey32.Read(br);
+        CF_HAL_ID = BinKey32.Read(br);
         Price = br.ReadInt32();
         ShowroomUnlock = br.ReadInt32();
         Tier1Price = br.ReadInt32();
@@ -52,8 +53,8 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
         Tier3ShowroomUnlock = br.ReadByte();
         Tier4ShowroomUnlock = br.ReadByte();
         br.SafeAlignReader(4);
-        BrandHALId = br.ReadUInt32();
-        LogoTextureId = br.ReadUInt32();
+        BrandHALId = BinKey32.Read(br);
+        LogoTextureId = BinKey32.Read(br);
         DetailHash = br.ReadUInt32();
         PartDetails = new VltPointerContainer<Key32, FEPartDetail>();
         PartDetails.Read(context, fieldContext, br);
@@ -65,8 +66,8 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
     public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryWriter bw)
     {
-        bw.Write(HAL_ID);
-        bw.Write(CF_HAL_ID);
+        HAL_ID.Write(bw);
+        CF_HAL_ID.Write(bw);
         bw.Write(Price);
         bw.Write(ShowroomUnlock);
         bw.Write(Tier1Price);
@@ -79,8 +80,8 @@ public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
         bw.Write(Tier3ShowroomUnlock);
         bw.Write(Tier4ShowroomUnlock);
         bw.AlignWriter(4);
-        bw.Write(BrandHALId);
-        bw.Write(LogoTextureId);
+        BrandHALId.Write(bw);
+        LogoTextureId.Write(bw);
         bw.Write(DetailHash);
         PartDetails.Write(context, fieldContext, bw);
         context.WriteString(OfferID, fieldContext, bw);

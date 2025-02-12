@@ -17,21 +17,21 @@ namespace VaultLib.Frameworks.Speed.VLT;
 [VltTypeInfo("AICollisionReactionRecord")]
 public class AICollisionReactionRecord : VltBaseType<Key32>, IReferencesCollections<Key32>
 {
-    public uint Goal { get; set; }
+    public Key32 Goal { get; set; }
 
     public RefSpec32 Reaction { get; set; } = new();
 
     public override void Read(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryReader br)
     {
-        Goal = br.ReadUInt32();
+        Goal = Key32.Read(br);
         Reaction.Read(context, fieldContext, br);
     }
 
     public override void Write(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
         BinaryWriter bw)
     {
-        bw.Write(Goal);
+        Goal.Write(bw);
         Reaction.Write(context, fieldContext, bw);
     }
 
