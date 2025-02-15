@@ -102,11 +102,13 @@ public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, I
     {
         Capacity = br.ReadUInt16();
         var count = br.ReadUInt16();
-        Debug.Assert(count <= Capacity);
+        Debug.Assert(count <= Capacity, "count <= Capacity",
+            $"Array length ({count}) exceeds capacity ({Capacity})");
         Items = new List<object>();
         var fieldSize = br.ReadUInt16();
 
-        Debug.Assert(fieldSize == fieldContext.Field.Size, "fieldSize == fieldContext.Field.Size");
+        Debug.Assert(fieldSize == fieldContext.Field.Size, "fieldSize == fieldContext.Field.Size",
+            $"Array item size is {fieldSize}, but it should be {fieldContext.Field.Size}");
 
         var encodedTypePad = br.ReadUInt16();
         var pad = (encodedTypePad >> 12) & 8;
@@ -118,10 +120,14 @@ public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, I
         for (var i = 0; i < count; i++)
         {
             var start = br.BaseStream.Position;
-            Debug.Assert(start % fieldContext.Field.Alignment == 0, "start % Field.Alignment == 0");
+            var fieldAlignment = fieldContext.Field.Alignment;
+            Debug.Assert(start % fieldAlignment == 0, "start % fieldAlignment == 0",
+                $"Array reader @ 0x{start:X} (item {i}) is not 0x{fieldAlignment:X}-aligned");
             var item = databaseTypeRegistry.ReadTypeInstance(context, fieldContext, br);
             var end = br.BaseStream.Position;
-            Debug.Assert(end - start == fieldSize, "end - start == FieldSize");
+            var bytesRead = end - start;
+            Debug.Assert(bytesRead == fieldSize, "bytesRead == fieldSize",
+                $"Read {bytesRead} bytes for array item of type {ItemType} instead of expected {fieldSize}");
             Items.Add(item);
         }
 
@@ -146,19 +152,26 @@ public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, I
 
         bw.BaseStream.Position += alignmentOffset;
 
-        foreach (var t in Items)
+        var fieldAlignment = fieldContext.Field.Alignment;
+        for (var i = 0; i < Items.Count; i++)
         {
+            var t = Items[i];
             var start = bw.BaseStream.Position;
-            Debug.Assert(start % fieldContext.Field.Alignment == 0, "start % Field.Alignment == 0");
+
+            Debug.Assert(start % fieldAlignment == 0, "start % fieldAlignment == 0",
+                $"Array writer @ 0x{start:X} (item {i}) is not 0x{fieldAlignment:X}-aligned");
             context.Database.TypeRegistry.WriteTypeInstance(fieldContext.Field, t, context, fieldContext, bw);
             var end = bw.BaseStream.Position;
-            Debug.Assert(end - start == fieldSize, "end - start == fieldSize");
+            var bytesWritten = end - start;
+
+            Debug.Assert(bytesWritten == fieldSize, "bytesWritten == fieldSize",
+                $"Wrote {bytesWritten} bytes for array item of type {ItemType} instead of expected {fieldSize}");
         }
 
         for (var i = 0; i < Capacity - Items.Count; i++)
         {
             var start = bw.BaseStream.Position;
-            Debug.Assert(start % fieldContext.Field.Alignment == 0, "start % Field.Alignment == 0");
+            Debug.Assert(start % fieldAlignment == 0, "start % Field.Alignment == 0");
             bw.Write(new byte[fieldSize]);
         }
     }

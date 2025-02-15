@@ -20,7 +20,8 @@ public class VltAttribType<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> wh
     public uint Offset { get; set; } // pointer to bin stream
     public object Data { get; set; }
 
-    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryReader br)
+    public void ReadPointerData(VaultReadContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryReader br)
     {
         Debug.Assert(Offset != 0);
         Debug.Assert(Offset % fieldContext.Field.Alignment == 0);
@@ -29,11 +30,17 @@ public class VltAttribType<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> wh
         Data = context.Database.TypeRegistry.ReadFieldValue(context, fieldContext, br);
 
         if (Data is not VltArrayType<TKey>)
-            Debug.Assert(br.BaseStream.Position - Offset == fieldContext.Field.Size,
-                "br.BaseStream.Position - Offset == fieldContext.Field.Size");
+        {
+            var bytesRead = br.BaseStream.Position - Offset;
+            var type = context.Database.TypeRegistry.ResolveFieldType(fieldContext.Field);
+            Debug.Assert(bytesRead == fieldContext.Field.Size,
+                "bytesRead == fieldContext.Field.Size",
+                $"Read {bytesRead} bytes for attribute of type {type} instead of expected {fieldContext.Field.Size}");
+        }
     }
 
-    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
+    public void WritePointerData(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         var field = fieldContext.Field;
         var minAlignment = field.IsArray ? 2 : 1;
@@ -42,7 +49,18 @@ public class VltAttribType<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> wh
         bw.AlignWriter(actualAlignment);
 
         _offsetDst = bw.BaseStream.Position;
+        
+        var startPosition = bw.BaseStream.Position;
         context.Database.TypeRegistry.WriteFieldValue(Data, context, fieldContext, bw);
+
+        if (Data is not VltArrayType<TKey>)
+        {
+            var bytesWritten = bw.BaseStream.Position - startPosition;
+            var type = context.Database.TypeRegistry.ResolveFieldType(fieldContext.Field);
+            Debug.Assert(bytesWritten == fieldContext.Field.Size,
+                "bytesWritten == fieldContext.Field.Size",
+                $"Wrote {bytesWritten} bytes for attribute of type {type} instead of expected {fieldContext.Field.Size}");
+        }
     }
 
     public void AddPointers(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext)
@@ -62,7 +80,8 @@ public class VltAttribType<TKey> : VltBaseType<TKey>, IVltPointerObject<TKey> wh
         Offset = br.ReadPointer();
     }
 
-    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext, BinaryWriter bw)
+    public override void Write(VaultWriteContext<TKey> context, FieldReadWriteContext<TKey> fieldContext,
+        BinaryWriter bw)
     {
         _offsetSrc = bw.BaseStream.Position;
         bw.Write(0);

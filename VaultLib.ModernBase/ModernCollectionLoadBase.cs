@@ -52,11 +52,13 @@ public abstract class ModernCollectionLoadBase<TKey, TAttribEntry> : BaseCollect
                     context.Database.TypeRegistry.ReadFieldValue(context,
                         fieldContext, br);
                 var valueEndPos = br.BaseStream.Position;
-
                 var valueBytesRead = valueEndPos - valueStartPos;
 
-                Debug.Assert(valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos),
-                    "valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos)");
+                var expectedDataSize = GetExpectedDataSize(baseField, rawValue, valueStartPos);
+                var type = rawValue.GetType();
+                Debug.Assert(valueBytesRead == expectedDataSize,
+                    "valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos)",
+                    $"Read {valueBytesRead} bytes for type {type}, expected to read {expectedDataSize}");
 
                 Collection.SetRawValue(baseField.Key, rawValue);
             }

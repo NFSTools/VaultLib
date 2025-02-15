@@ -162,8 +162,11 @@ public class CollectionLoad32 : BaseCollectionLoad<Key32>
 
                 var valueBytesRead = valueEndPos - valueStartPos;
 
-                Debug.Assert(valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos),
-                    "valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos)");
+                var expectedDataSize = GetExpectedDataSize(baseField, rawValue, valueStartPos);
+                var type = rawValue.GetType();
+                Debug.Assert(valueBytesRead == expectedDataSize,
+                    "valueBytesRead == GetExpectedDataSize(baseField, rawValue, valueStartPos)",
+                    $"Read {valueBytesRead} bytes for type {type}, expected to read {expectedDataSize}");
 
                 Collection.SetRawValue(baseField.Key, rawValue);
             }
