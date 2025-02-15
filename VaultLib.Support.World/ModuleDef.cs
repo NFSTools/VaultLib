@@ -2,6 +2,7 @@
 // 
 // Created: 11/02/2019 @ 1:32 PM.
 
+using System;
 using System.Reflection;
 using VaultLib.Core;
 using VaultLib.Core.DataInterfaces;
@@ -30,7 +31,21 @@ public class ModuleDef : BaseGameModule<Key32>
             "traffic_engine", "IndexTable_CollectionName");
         typeRegistry.AddFieldOverride<CollectionNameToChildrenIndex>(
             "traffic_horn", "IndexTable_CollectionName");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "AmountAlternateLocalization");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "AmountLocalization");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "CategoryLocalization");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "DescriptionLocalization");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "EventCategoryLocalization");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "EventModeDescriptionLocalization");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "EventModeLocalization");
         typeRegistry.AddFieldOverride<BinKey32>("gameplay", "Localization");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "NameLocalization");
+        typeRegistry.AddFieldOverride<BinKey32>("gameplay", "RewardModeLocalization");
+
+        typeRegistry.RegisterPrimitive("DUMMY_DateTime", br => new DateTime(br.ReadInt64()),
+            (dt, w) => w.Write(dt.Ticks));
+        typeRegistry.AddFieldOverride<DateTime>("gameplay", "StartDateTime");
+        typeRegistry.AddFieldOverride<DateTime>("gameplay", "EndDateTime");
     }
 
     public override ExportFactory<Key32> CreateExportFactory()
