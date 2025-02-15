@@ -104,7 +104,7 @@ public class TypeRegistryBuilder<TKey> where TKey : struct, IKey<TKey>
         RegisterStruct(typeId, typeof(T));
     }
 
-    private void RegisterPrimitive<T>(string typeId, Func<BinaryReader, T> reader,
+    public void RegisterPrimitive<T>(string typeId, Func<BinaryReader, T> reader,
         Action<T, BinaryWriter> writer)
         where T : unmanaged
     {
@@ -214,7 +214,7 @@ public class TypeRegistryBuilder<TKey> where TKey : struct, IKey<TKey>
 
     private void RegisterStruct(string typeId, Type type)
     {
-        if (ByteOrder == ByteOrder.Big)
+        // if (ByteOrder == ByteOrder.Big)
         {
             if (!typeof(IComplexType).IsAssignableFrom(type))
             {
