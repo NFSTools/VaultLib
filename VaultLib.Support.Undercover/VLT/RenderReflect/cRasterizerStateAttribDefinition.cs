@@ -13,7 +13,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cRasterizerStateAttribDefinition")]
 public class cRasterizerStateAttribDefinition : VltBaseType<Core.DataInterfaces.Key32>,
-    IReferencesStrings<Core.DataInterfaces.Key32>
+    IReferencesStrings
 {
     public string DebugName { get; set; } = string.Empty;
     public State_RasterizerCullMode CullMode { get; set; }
@@ -75,21 +75,6 @@ public class cRasterizerStateAttribDefinition : VltBaseType<Core.DataInterfaces.
         bw.AlignWriter(4);
         bw.WriteEnum(ShadeMode);
         bw.WriteEnum(FrontFace);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

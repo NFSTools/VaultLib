@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(FEHintsData))]
-public class FEHintsData: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class FEHintsData: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
 {
     public BinKey32 SubjectHALId { get; set; }
     public BinKey32 TextHALId { get; set; }
@@ -30,18 +30,6 @@ public class FEHintsData: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStr
         SubjectHALId.Write(bw);
         TextHALId.Write(bw);
         context.WriteString(Picture, fieldContext, bw);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

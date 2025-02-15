@@ -13,7 +13,7 @@ namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(CCarDamageMarkerEntry))]
 public class CCarDamageMarkerEntry : VltBaseType<Core.DataInterfaces.Key32>,
-    IReferencesStrings<Core.DataInterfaces.Key32>
+    IReferencesStrings
 {
     public string MarkerName { get; set; } = string.Empty;
     public int PartID { get; set; }
@@ -42,21 +42,6 @@ public class CCarDamageMarkerEntry : VltBaseType<Core.DataInterfaces.Key32>,
         context.WriteString(AttachPart, fieldContext, bw);
         context.WriteString(SmackableCollisionName, fieldContext, bw);
         SmackableCollisionAttribute.Write(context, fieldContext, bw);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

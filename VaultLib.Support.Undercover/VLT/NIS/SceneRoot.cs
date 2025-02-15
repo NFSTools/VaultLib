@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.NIS;
 
 [VltTypeInfo("NIS::SceneRoot")]
-public class SceneRoot: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class SceneRoot: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
 {
     public enum eSceneRoot
     {
@@ -44,18 +44,6 @@ public class SceneRoot: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrin
     {
         bw.WriteEnum(SceneRootType);
         context.WriteString(MarkerName, fieldContext, bw);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

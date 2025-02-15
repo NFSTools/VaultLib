@@ -10,7 +10,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib;
 
-public class StringKey32 : VltBaseType<Key32>, IReferencesStrings<Key32>, IStringValue
+public class StringKey32 : VltBaseType<Key32>, IReferencesStrings, IStringValue
 {
     public string Value { get; set; } = string.Empty;
 
@@ -32,20 +32,6 @@ public class StringKey32 : VltBaseType<Key32>, IReferencesStrings<Key32>, IStrin
     public IEnumerable<string> GetStrings()
     {
         return new List<string>(new[] { Value });
-    }
-
-    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext)
-    {
     }
 
     public override string ToString()

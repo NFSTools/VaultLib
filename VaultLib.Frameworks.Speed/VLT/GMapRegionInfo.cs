@@ -11,7 +11,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(GMapRegionInfo))]
-public class GMapRegionInfo : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class GMapRegionInfo : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
 {
     public string Name { get; set; } = string.Empty;
     public ushort mCurveStart { get; set; }
@@ -37,21 +37,6 @@ public class GMapRegionInfo : VltBaseType<Core.DataInterfaces.Key32>, IReference
         bw.Write(mCurveCount);
         bw.Write(mTriangleStart);
         bw.Write(mTriangleCount);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

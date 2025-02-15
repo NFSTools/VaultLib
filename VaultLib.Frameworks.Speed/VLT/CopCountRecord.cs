@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(CopCountRecord))]
-public class CopCountRecord : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class CopCountRecord : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
 {
     public string CopType { get; set; } = string.Empty;
 
@@ -50,20 +50,5 @@ public class CopCountRecord : VltBaseType<Core.DataInterfaces.Key32>, IReference
     public IEnumerable<string> GetStrings()
     {
         return new[] { CopType };
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 }

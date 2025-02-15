@@ -13,7 +13,7 @@ using VaultLib.Frameworks.Speed.VLT;
 namespace VaultLib.Support.ProStreet.VLT;
 
 [VltTypeInfo(nameof(FEPartData))]
-public class FEPartData : VltBaseType<Key32>, IReferencesStrings<Key32>
+public class FEPartData : VltBaseType<Key32>, IReferencesStrings, IVltPointerObject<Key32>
 {
     public BinKey32 HAL_ID { get; set; }
     public BinKey32 CF_HAL_ID { get; set; }

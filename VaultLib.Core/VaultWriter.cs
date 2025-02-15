@@ -182,7 +182,7 @@ public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
                 case string stringValue:
                     yield return stringValue;
                     break;
-                case IReferencesStrings<TKey> referencesStrings:
+                case IReferencesStrings referencesStrings:
                 {
                     foreach (var s in referencesStrings.GetStrings())
                     {

@@ -17,7 +17,7 @@ namespace VaultLib.Support.MostWanted.VLT;
 
 [VltTypeInfo(nameof(ControllerDataRecord))]
 public class ControllerDataRecord : VltBaseType<Core.DataInterfaces.Key32>,
-    IReferencesStrings<Core.DataInterfaces.Key32>
+    IReferencesStrings
 {
     public string DeviceID { get; set; } = string.Empty;
     public InputUpdateType UpdateType { get; set; }
@@ -31,6 +31,7 @@ public class ControllerDataRecord : VltBaseType<Core.DataInterfaces.Key32>,
         FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
     {
         _deviceID.Read(context, fieldContext, br);
+        DeviceID = _deviceID.Value;
         UpdateType = br.ReadEnum<InputUpdateType>();
         LowerDZ = br.ReadSingle();
         UpperDZ = br.ReadSingle();
@@ -59,25 +60,6 @@ public class ControllerDataRecord : VltBaseType<Core.DataInterfaces.Key32>,
             UpdateType = UpdateType,
             UpperDZ = UpperDZ,
         };
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-        _deviceID.ReadPointerData(context, fieldContext, br);
-        DeviceID = _deviceID.Value;
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-        _deviceID.WritePointerData(context, fieldContext, bw);
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
-        _deviceID.AddPointers(context, fieldContext);
     }
 
     public IEnumerable<string> GetStrings()

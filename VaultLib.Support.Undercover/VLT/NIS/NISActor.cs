@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.NIS;
 
 [VltTypeInfo("NIS::NISActor")]
-public class NISActor: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class NISActor: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
 {
     public string ActorName { get; set; } = string.Empty;
     public string CarChannelName { get; set; } = string.Empty;
@@ -40,18 +40,6 @@ public class NISActor: VltBaseType<Core.DataInterfaces.Key32>, IReferencesString
         bw.Write(ExitAnimSec);
         bw.Write(IsFacePixelation);
         bw.AlignWriter(4);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

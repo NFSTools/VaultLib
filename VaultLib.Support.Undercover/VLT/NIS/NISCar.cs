@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.NIS;
 
 [VltTypeInfo("NIS::NISCar")]
-public class NISCar : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class NISCar : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
 {
     public RefSpec32 PresetRide { get; set; } = new();
     public string PresetSkinName { get; set; } = string.Empty;
@@ -35,21 +35,6 @@ public class NISCar : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
         context.WriteString(PresetSkinName, fieldContext, bw);
         bw.Write(VehicleCategory);
         context.WriteString(ChannelName, fieldContext, bw);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

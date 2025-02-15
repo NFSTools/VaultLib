@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(FEPartCamera))]
-public class FEPartCamera : VltBaseType<Key32>, IReferencesStrings<Key32>
+public class FEPartCamera : VltBaseType<Key32>, IReferencesStrings
 {
     public string SlotName { get; set; } = string.Empty;
     public RefSpec32 Camera { get; set; } = new();
@@ -33,20 +33,6 @@ public class FEPartCamera : VltBaseType<Key32>, IReferencesStrings<Key32>
         context.WriteString(SlotName, fieldContext, bw);
         Camera.Write(context, fieldContext, bw);
         Camera_4_3.Write(context, fieldContext, bw);
-    }
-
-    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

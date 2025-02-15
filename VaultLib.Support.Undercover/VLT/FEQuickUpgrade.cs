@@ -4,13 +4,15 @@ using System.IO;
 using System.Linq;
 using CoreLibraries.IO;
 using VaultLib.Core;
+using VaultLib.Core.DataInterfaces;
 using VaultLib.Core.Types;
 using VaultLib.Core.Utils;
 
 namespace VaultLib.Support.Undercover.VLT;
 
 [VltTypeInfo(nameof(FEQuickUpgrade))]
-public class FEQuickUpgrade : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class FEQuickUpgrade : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings,
+    IVltPointerObject<Key32>
 {
     public float Cost { get; set; }
     public float Tier1_Cost { get; set; }

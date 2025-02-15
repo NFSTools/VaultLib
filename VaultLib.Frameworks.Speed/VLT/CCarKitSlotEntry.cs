@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo("CCarKitSlotEntry")]
-public class CCarKitSlotEntry : VltBaseType<Key32>, IReferencesStrings<Key32>
+public class CCarKitSlotEntry : VltBaseType<Key32>, IReferencesStrings
 {
     public RefSpec32 Part { get; set; } = new();
     public string SlotName { get; set; } = string.Empty;
@@ -28,18 +28,6 @@ public class CCarKitSlotEntry : VltBaseType<Key32>, IReferencesStrings<Key32>
     {
         Part.Write(context, fieldContext, bw);
         context.WriteString(SlotName, fieldContext, bw);
-    }
-
-    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

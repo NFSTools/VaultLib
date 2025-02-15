@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.World.VLT;
 
 [VltTypeInfo(nameof(IntegratedKitWheelOffset))]
-public class IntegratedKitWheelOffset: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class IntegratedKitWheelOffset: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
 {
     public string KitName { get; set; } = string.Empty;
 
@@ -35,21 +35,6 @@ public class IntegratedKitWheelOffset: VltBaseType<Core.DataInterfaces.Key32>, I
     public IEnumerable<string> GetStrings()
     {
         return new[] { KitName };
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-        //
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-        //
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
-        //
     }
 
     public override object Clone()

@@ -9,7 +9,7 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types.Attrib;
 
-public class StringKey64 : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>,
+public class StringKey64 : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings,
     IStringValue
 {
     public string Value { get; set; } = string.Empty;
@@ -33,21 +33,6 @@ public class StringKey64 : VltBaseType<Core.DataInterfaces.Key32>, IReferencesSt
     public IEnumerable<string> GetStrings()
     {
         return new List<string>(new[] { Value });
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public override string ToString()

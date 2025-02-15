@@ -13,7 +13,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(TargetTimeOverrides))]
-public class TargetTimeOverrides : VltBaseType<Key32>, IReferencesStrings<Key32>
+public class TargetTimeOverrides : VltBaseType<Key32>, IReferencesStrings
 {
     public RefSpec32 Car { get; set; } = new();
     public string Event { get; set; } = string.Empty;
@@ -39,20 +39,6 @@ public class TargetTimeOverrides : VltBaseType<Key32>, IReferencesStrings<Key32>
         bw.Write(MinDelta);
         bw.Write(MaxDelta);
         bw.Write(Shift);
-    }
-
-    public void ReadPointerData(VaultReadContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext,
-        BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Key32> context, FieldReadWriteContext<Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

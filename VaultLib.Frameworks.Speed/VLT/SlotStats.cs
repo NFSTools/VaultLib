@@ -12,7 +12,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Frameworks.Speed.VLT;
 
 [VltTypeInfo(nameof(SlotStats))]
-public class SlotStats : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class SlotStats : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
 {
     public enum StatsModeFlag
     {
@@ -88,21 +88,6 @@ public class SlotStats : VltBaseType<Core.DataInterfaces.Key32>, IReferencesStri
         bw.Write(SlotDesc);
         bw.Write(TuningSliderListString);
         bw.WriteArray(Stats, bw.WriteEnum);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

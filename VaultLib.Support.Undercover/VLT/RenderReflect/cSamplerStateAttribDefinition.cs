@@ -7,7 +7,7 @@ using VaultLib.Core.Utils;
 namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cSamplerStateAttribDefinition")]
-public class cSamplerStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings<Core.DataInterfaces.Key32>
+public class cSamplerStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key32>, IReferencesStrings
 {
     public string Name { get; set; } = string.Empty;
     public uint Unknown1 { get; set; }
@@ -64,18 +64,6 @@ public class cSamplerStateAttribDefinition: VltBaseType<Core.DataInterfaces.Key3
         bw.Write(Unknown13);
         bw.Write(Unknown14);
         bw.Write(Unknown15);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context, FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

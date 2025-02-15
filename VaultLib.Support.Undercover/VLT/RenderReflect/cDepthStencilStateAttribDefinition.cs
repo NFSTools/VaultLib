@@ -13,7 +13,7 @@ namespace VaultLib.Support.Undercover.VLT.RenderReflect;
 
 [VltTypeInfo("RenderReflect::cDepthStencilStateAttribDefinition")]
 public class cDepthStencilStateAttribDefinition : VltBaseType<Core.DataInterfaces.Key32>,
-    IReferencesStrings<Core.DataInterfaces.Key32>
+    IReferencesStrings
 {
     public string DebugName { get; set; } = string.Empty;
 
@@ -99,21 +99,6 @@ public class cDepthStencilStateAttribDefinition : VltBaseType<Core.DataInterface
         bw.Write(HiStencilEnable);
         bw.Write(HiStencilWriteEnable);
         bw.AlignWriter(4);
-    }
-
-    public void ReadPointerData(VaultReadContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryReader br)
-    {
-    }
-
-    public void WritePointerData(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext, BinaryWriter bw)
-    {
-    }
-
-    public void AddPointers(VaultWriteContext<Core.DataInterfaces.Key32> context,
-        FieldReadWriteContext<Core.DataInterfaces.Key32> fieldContext)
-    {
     }
 
     public IEnumerable<string> GetStrings()

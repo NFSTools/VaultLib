@@ -15,7 +15,8 @@ using VaultLib.Core.Utils;
 
 namespace VaultLib.Core.Types;
 
-public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, IReferencesCollections<TKey>
+public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings, IVltPointerObject<TKey>,
+    IReferencesCollections<TKey>
     where TKey : struct, IKey<TKey>
 {
     private VltClassField<TKey> _field;
@@ -61,7 +62,7 @@ public class VltArrayType<TKey> : VltBaseType<TKey>, IReferencesStrings<TKey>, I
                 case string stringValue:
                     yield return stringValue;
                     break;
-                case IReferencesStrings<TKey> referencesStrings:
+                case IReferencesStrings referencesStrings:
                 {
                     foreach (var s in referencesStrings.GetStrings())
                     {
