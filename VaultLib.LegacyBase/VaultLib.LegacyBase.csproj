@@ -7,11 +7,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>VaultLib.LegacyBase</PackageId>
     <Product>VaultLib.LegacyBase</Product>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Version>3.0.0-dev</Version>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
-    <LangVersion>11</LangVersion>
+    <LangVersion>13</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
