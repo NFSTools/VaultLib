@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VaultLib.Core.Chunks;
 using VaultLib.Core.Data;
 using VaultLib.Core.DataInterfaces;
+using VaultLib.Core.Exports;
 using VaultLib.Core.IO;
 using VaultLib.Core.Utils;
 using VaultLib.Core.Writer;
@@ -32,6 +34,27 @@ public class VaultWriter<TKey> where TKey : struct, IKey<TKey>
 
         ExportManager = new VaultExportManager<TKey>(_writeContext);
         ExportManager.BuildVaultExports();
+
+#if DEBUG
+        var seenCollections = new HashSet<VltCollection<TKey>>();
+        foreach (var collectionExport in ExportManager.GetExports().OfType<BaseCollectionLoad<TKey>>())
+        {
+            var collection = collectionExport.Collection;
+            if (collection.Parent is { } parentCollection)
+            {
+                if (ReferenceEquals(parentCollection.Vault, vault) && !seenCollections.Contains(parentCollection))
+                {
+                    var collectionPath = $"{collection.Class.Key}/{collection.Key}";
+                    var parentCollectionPath = $"{parentCollection.Class.Key}/{parentCollection.Key}";
+                    
+                    throw new Exception(
+                        $"Collection {collectionPath} should not be written before parent {parentCollectionPath}!!!");
+                }
+            }
+
+            seenCollections.Add(collection);
+        }
+#endif
     }
 
     /// <summary>

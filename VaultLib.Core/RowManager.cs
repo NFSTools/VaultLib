@@ -137,7 +137,8 @@ public class RowManager<TKey> where TKey : struct, IKey<TKey>
 
         var collection = new VltCollection<TKey>(vault, _database.FindClass(classKey), key);
 
-        parentCollection?.AddChild(collection);
+        collection.SetParent(parentCollection);
+        // parentCollection?.AddChild(collection);
         Rows.Add(collection);
 
         return collection;

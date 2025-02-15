@@ -171,7 +171,7 @@ public class Database<TKey> where TKey : struct, IKey<TKey>
                     $"could not find parent collection for {vltCollection.Key}: {parentKey}");
             }
 
-            parentCollection.AddChild(vltCollection);
+            vltCollection.SetParent(parentCollection);
         }
 
         stopwatch.Stop();

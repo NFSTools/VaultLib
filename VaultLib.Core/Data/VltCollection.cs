@@ -53,27 +53,17 @@ public class VltCollection<TKey> where TKey : struct, IKey<TKey>
 
     #region API Members
 
-    /// <summary>
-    /// Makes the current collection the parent of another collection.
-    /// </summary>
-    /// <param name="collection">The collection that is being made a child.</param>
-    public void AddChild(VltCollection<TKey> collection)
+    public void SetParent(VltCollection<TKey>? parent)
     {
-        collection.Parent = this;
-    }
-
-    /// <summary>
-    /// Breaks the parent-child relationship between the current collection and another collection.
-    /// </summary>
-    /// <param name="collection">The collection to break the relationship with.</param>
-    public void RemoveChild(VltCollection<TKey> collection)
-    {
-        if (!ReferenceEquals(collection.Parent, this))
+        if (parent != null)
         {
-            throw new ArgumentException("Attempted to disassociate a non-related collection");
+            if (!ReferenceEquals(parent.Class, Class))
+            {
+                throw new ArgumentException("New parent collection belongs to a different class.");
+            }
         }
-
-        collection.Parent = null;
+        
+        Parent = parent;
     }
 
     /// <summary>
